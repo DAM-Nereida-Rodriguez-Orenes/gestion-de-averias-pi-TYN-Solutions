@@ -10,4 +10,45 @@ package modelo;
  */
 public class TipoAveria {
     
+    // Atributos
+    private int codigoTipoAveria;
+    private String descripcionTipoAv;
+    private float tiempoPromRepar;
+
+    // Constructor vacio
+    public TipoAveria() {
+    }
+
+    // Constructor completo
+    public TipoAveria(int codigoTipoAveria, String descripcionTipoAv, float tiempoPromRepar) {
+        this.codigoTipoAveria = codigoTipoAveria;
+        this.descripcionTipoAv = descripcionTipoAv;
+        this.tiempoPromRepar = tiempoPromRepar;
+    }
+
+    // Getters y setters
+    public int getCodigoTipoAveria() {
+        return codigoTipoAveria;
+    }
+
+    public void setCodigoTipoAveria(int codigoTipoAveria) {
+        this.codigoTipoAveria = codigoTipoAveria;
+    }
+
+    public String getDescripcionTipoAv() {
+        return descripcionTipoAv;
+    }
+
+    public void setDescripcionTipoAv(String descripcionTipoAv) {
+        this.descripcionTipoAv = descripcionTipoAv;
+    }
+
+    public float getTiempoPromRepar() {
+        return tiempoPromRepar;
+    }
+
+    public void setTiempoPromRepar(float tiempoPromRepar) {
+        this.tiempoPromRepar = tiempoPromRepar;
+    }
+    
 }
