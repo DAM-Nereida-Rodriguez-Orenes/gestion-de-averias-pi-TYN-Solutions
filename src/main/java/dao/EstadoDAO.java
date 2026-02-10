@@ -19,4 +19,5 @@ public interface EstadoDAO {
     void modificar(Estado e);
     void eliminar(Estado e);
     List<Estado> listarEstado();
+    boolean existeID(int id);
 }

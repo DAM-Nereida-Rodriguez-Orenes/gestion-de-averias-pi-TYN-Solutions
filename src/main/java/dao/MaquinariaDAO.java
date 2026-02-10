@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package dao;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import modelo.Maquinaria;
@@ -17,7 +18,11 @@ import modelo.Maquinaria;
 public interface MaquinariaDAO {
     void insertar(Maquinaria m);
     void modificar(Maquinaria m);
-    void eliminar(Maquinaria m);
+    void eliminar(int mID);
     List<Maquinaria> listarMaquinaria();
-    Optional<Maquinaria> filtrarMaquinaria(int maquinariaID, int tipoMaquinariaID, int estadoMaquinariaID);
+    List<Maquinaria> buscarPorFiltrosMaquinaria( Integer codigoEstadoFK,
+        Integer tipoMaquinariaFK,
+        LocalDate fechaAltaDesde,
+        LocalDate fechaAltaHasta,
+        Boolean soloActivas);
 }

@@ -19,5 +19,5 @@ public interface TipoMaquinariaDAO {
     void eliminar (TipoMaquinaria t);
     void modificar(TipoMaquinaria t);
     List<TipoMaquinaria> listarTipoMaquinaria();
-    
+    boolean existeID(int id);
 }
