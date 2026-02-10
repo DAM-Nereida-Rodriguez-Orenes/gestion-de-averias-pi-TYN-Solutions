@@ -1,1 +1,3 @@
 app\MainApp.class
+modelo\TipoAveria.class
+config\DataSourceFactory.class
