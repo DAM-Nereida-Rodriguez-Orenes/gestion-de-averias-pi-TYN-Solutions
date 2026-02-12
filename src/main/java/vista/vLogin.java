@@ -119,13 +119,45 @@ public class vLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        //Llama al método del controlador para comprobar si el usuario existe (Usuario u o null)
-        Usuario u = new Usuario();
-        if (u == null) {
-            JOptionPane.showMessageDialog(this, "Credenciales de usuario incorrectas. Revise su email y contraseña", "Credenciales incorrectas", JOptionPane.WARNING_MESSAGE);
+        //Llama al método del controlador para comprobar si el usuario existe
+         // Obtener datos introducidos
+        String email = txtEmail.getText().trim();
+        String password = new String(txtPassword.getPassword()).trim();
+
+        // Validacion basica de campos vacios
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe introducir email y contraseña",
+                    "Campos vacios",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Llamada al controlador
+        Usuario usuario = loginControlador.accederAplicacion(email, password);
+
+        if (usuario == null) {
+
+            // Login incorrecto
+            JOptionPane.showMessageDialog(this,
+                    "Credenciales incorrectas",
+                    "Error de autenticacion",
+                    JOptionPane.WARNING_MESSAGE);
+
         } else {
+
+            // Login correcto
+            JOptionPane.showMessageDialog(this,
+                    "Bienvenido " + usuario.getNombre(),
+                    "Acceso concedido",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // Abrir ventana principal
             vHome vHome = new vHome();
             vHome.setVisible(true);
+
+            // Cerrar login
+            this.dispose();
         }
 
     }//GEN-LAST:event_btnLoginActionPerformed
