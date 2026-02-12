@@ -22,4 +22,6 @@ public interface  UsuarioDao {
     List<Usuario> listarUsuarios();
 
     List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Integer codigoRolFK);
+    
+    Usuario buscarPorCredenciales(String email, String password);
 }

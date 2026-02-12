@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 import modelo.Usuario;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author Thanya
  */
-public class UsuarioDaoImpl implements UsuarioDao{
+public class UsuarioDaoImpl implements UsuarioDao {
 
     //Atributos
     private final DataSource dataSource;
@@ -31,7 +32,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
         this.dataSource = dataSource;
     }
 
-       @Override
+    @Override
     public void insertarUsuario(Usuario usuario) {
 
         final String sql = "INSERT INTO usuario (nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo) "
@@ -69,7 +70,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
         }
     }
 
-       @Override
+    @Override
     public void actualizarUsuario(Usuario usuario) {
 
         final String sql = "UPDATE usuario SET nombre = ?, apellido = ?, codigoRolFK = ?, telefono = ?, email = ?, password = ?, intentos = ?, ultimoAcceso = ?, activo = ? "
@@ -106,7 +107,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
         }
     }
 
-       @Override
+    @Override
     public void eliminarUsuario(int codigoUsuario) {
 
         final String sql = "DELETE FROM usuario WHERE codigoUsuario = ?";
@@ -126,7 +127,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
         }
     }
 
-       @Override
+    @Override
     public List<Usuario> listarUsuarios() {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
@@ -167,7 +168,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
         return listaUsuarios;
     }
 
-       @Override
+    @Override
     public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Integer codigoRolFK) {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
@@ -247,6 +248,77 @@ public class UsuarioDaoImpl implements UsuarioDao{
         }
 
         return listaUsuarios;
+    }
+
+    @Override
+    public Usuario buscarPorCredenciales(String email, String password) {
+
+        Usuario usuario = null;
+
+        String sql = "SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo "
+                + "FROM usuario "
+                + "WHERE email = ? AND password = ? AND activo = 1";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                usuario = new Usuario();
+
+                usuario.setCodigoUsuario(resultSet.getInt("codigoUsuario"));
+                usuario.setNombre(resultSet.getString("nombre"));
+                usuario.setApellido(resultSet.getString("apellido"));
+                usuario.setCodigoRolFK(resultSet.getInt("codigoRolFK"));
+                usuario.setTelefono(resultSet.getString("telefono"));
+                usuario.setEmail(resultSet.getString("email"));
+                usuario.setPassword(resultSet.getString("password"));
+                usuario.setIntentos(resultSet.getInt("intentos"));
+
+                // Aqui va la conversion de ultimoAcceso
+                Timestamp timestamp = resultSet.getTimestamp("ultimoAcceso");
+
+                if (timestamp != null) {
+                    usuario.setUltimoAcceso(timestamp.toLocalDateTime());
+                }
+
+                usuario.setActivo(resultSet.getBoolean("activo"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error en buscarPorCredenciales: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Error cerrando recursos: " + e.getMessage());
+            }
+        }
+
+        return usuario;
     }
 
 }
