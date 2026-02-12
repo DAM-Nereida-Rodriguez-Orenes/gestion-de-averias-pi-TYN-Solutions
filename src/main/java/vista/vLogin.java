@@ -4,6 +4,7 @@
  */
 package vista;
 
+import controlador.LoginControlador;
 import javax.swing.JOptionPane;
 import modelo.Usuario;
 
@@ -13,11 +14,14 @@ import modelo.Usuario;
  */
 public class vLogin extends javax.swing.JFrame {
 
+    private final LoginControlador loginControlador;
+
     /**
      * Creates new form vLogin
      */
-    public vLogin() {
+    public vLogin(LoginControlador loginControlador) {
         initComponents();
+         this.loginControlador = loginControlador;
     }
 
     /**
@@ -117,19 +121,18 @@ public class vLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Llama al método del controlador para comprobar si el usuario existe (Usuario u o null)
         Usuario u = new Usuario();
-        if (u == null){
-            JOptionPane.showMessageDialog(this, "Credenciales de usuario incorrectas. Revise su email y contraseña", "Credenciales incorrectas",JOptionPane.WARNING_MESSAGE);
-        }else{
+        if (u == null) {
+            JOptionPane.showMessageDialog(this, "Credenciales de usuario incorrectas. Revise su email y contraseña", "Credenciales incorrectas", JOptionPane.WARNING_MESSAGE);
+        } else {
             vHome vHome = new vHome();
             vHome.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
