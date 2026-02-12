@@ -7,6 +7,7 @@ package app;
 import config.DataSourceFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
+import vista.vLogin;
 
 /**
  *
@@ -38,6 +39,8 @@ public class MainApp {
              System.err.println("❌ ERROR DE CONFIGURACIÓN (Revisa application.properties):");
              e.printStackTrace();
         }
+        vLogin vLogin = new vLogin();
+        vLogin.setVisible(true);
     }
     
 }
