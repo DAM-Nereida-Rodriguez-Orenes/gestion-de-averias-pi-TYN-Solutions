@@ -153,8 +153,19 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Abrir ventana principal
-            vHome vHome = new vHome();
-            vHome.setVisible(true);
+            if (usuario.getCodigoRolFK() == 801){
+                vHomeAdmin vHome = new vHomeAdmin();
+                vHome.setVisible(true);
+            }else if(usuario.getCodigoRolFK()==802){
+                vHomeOper vHome = new vHomeOper();
+                vHome.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this,
+                    "Credenciales incorrectas",
+                    "Error de autenticacion",
+                    JOptionPane.WARNING_MESSAGE);
+            }
+            
 
             // Cerrar login
             this.dispose();
