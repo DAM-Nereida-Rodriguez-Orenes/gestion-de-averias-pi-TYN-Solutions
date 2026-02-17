@@ -5,6 +5,8 @@
 package vista;
 
 import controlador.LoginControlador;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Usuario;
 
@@ -23,6 +25,8 @@ public class vLogin extends javax.swing.JFrame {
         initComponents();
         this.loginControlador = loginControlador;
 
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
     }
 
     /**
@@ -34,8 +38,7 @@ public class vLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new PanelImgFondo("/recursos/fondo.png")
-        ;
+        jPanel1 = new PanelImgFondo("/recursos/fondo_con_logo.png");
         formulario = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
@@ -43,49 +46,76 @@ public class vLogin extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        btnRecuperar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setBackground(new java.awt.Color(204, 208, 217));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         formulario.setBackground(new java.awt.Color(255, 255, 255));
+        formulario.setPreferredSize(new java.awt.Dimension(400, 400));
         formulario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Bienvenido TYN");
-        formulario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 45, -1, -1));
-        formulario.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 107, 200, -1));
+        jLabel3.setText("Bienvenido ");
+        formulario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
+        formulario.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 310, -1));
 
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 14)); // NOI18N
         jLabel1.setText("Email: ");
-        formulario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 110, 37, -1));
-        formulario.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 156, 200, -1));
+        formulario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 60, -1));
+        formulario.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 310, -1));
 
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         jLabel2.setText("Contraseña: ");
-        formulario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 159, -1, -1));
+        formulario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 120, -1));
 
+        btnLogin.setBackground(new java.awt.Color(58, 181, 235));
+        btnLogin.setFont(new java.awt.Font("Microsoft JhengHei", 1, 18)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Entrar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        formulario.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 196, -1, -1));
+        formulario.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 90, -1));
 
-        jPanel1.add(formulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, 370, 260));
+        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jRadioButton1.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 10)); // NOI18N
+        jRadioButton1.setText("Recordar usuario ");
+        formulario.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
+
+        btnRecuperar.setBackground(new java.awt.Color(199, 234, 249));
+        btnRecuperar.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 12)); // NOI18N
+        btnRecuperar.setForeground(new java.awt.Color(39, 155, 230));
+        btnRecuperar.setText("¿Has olvidado tu contraseña?");
+        btnRecuperar.setBorderPainted(false);
+        btnRecuperar.setFocusPainted(false);
+        btnRecuperar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecuperarActionPerformed(evt);
+            }
+        });
+        formulario.add(btnRecuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, -1));
+
+        jPanel1.add(formulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 610, 250));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1212, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -93,7 +123,7 @@ public class vLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+
         //Llama al método del controlador para comprobar si el usuario existe
         // Obtener datos introducidos
         String email = txtEmail.getText().trim();
@@ -147,17 +177,23 @@ public class vLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRecuperarActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnRecuperar;
     private javax.swing.JPanel formulario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables

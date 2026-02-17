@@ -11,7 +11,9 @@ import daoImpl.UsuarioDaoImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import javax.swing.UIManager;
 import vista.vLogin;
+import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  *
@@ -24,7 +26,6 @@ public class MainApp {
         System.out.println("--- 1. Iniciando prueba de conexion con HikariCP ---");
 
         try {
-
             // 1) Obtener el DataSource (Hikari)
             DataSource dataSource = DataSourceFactory.getDataSource();
 
@@ -45,6 +46,9 @@ public class MainApp {
             // 4) Crear controlador
             LoginControlador loginControlador = new LoginControlador(usuarioDao);
 
+            //libreria Flat para el diseño de la interfaz 
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            
             // 5) Abrir vista login con el controlador
             vLogin vLogin = new vLogin(loginControlador);
             vLogin.setVisible(true);
@@ -57,6 +61,8 @@ public class MainApp {
         } catch (RuntimeException e) {
             System.err.println("Error de configuracion (revisa application.properties):");
             e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-    }
+    }//main
 }
