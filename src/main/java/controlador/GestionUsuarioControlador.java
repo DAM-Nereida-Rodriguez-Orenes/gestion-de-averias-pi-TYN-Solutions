@@ -11,21 +11,15 @@ import modelo.Usuario;
  *
  * @author Netri
  */
-public class LoginControlador {
+public class GestionUsuarioControlador {
 
     private final UsuarioDao usuarioDao;
 
-    public LoginControlador(UsuarioDao usuarioDao) {
+    public GestionUsuarioControlador(UsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
     }
 
-    public Usuario accederAplicacion(String email, String password) {
-        Usuario usuario = usuarioDao.buscarPorCredenciales(email, password);
-
-        if (usuario != null) {
-            return usuario;
-        }
-        return null;
+    public void eliminarUsuario(int codigoUsuario){
+        usuarioDao.eliminarUsuario(codigoUsuario);
     }
-
 }
