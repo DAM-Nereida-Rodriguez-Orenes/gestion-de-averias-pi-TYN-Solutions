@@ -21,7 +21,8 @@ public class vLogin extends javax.swing.JFrame {
      */
     public vLogin(LoginControlador loginControlador) {
         initComponents();
-         this.loginControlador = loginControlador;
+        this.loginControlador = loginControlador;
+
     }
 
     /**
@@ -33,21 +34,37 @@ public class vLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JPasswordField();
-        btnLogin = new javax.swing.JButton();
+        jPanel1 = new PanelImgFondo("/recursos/fondo.png")
+        ;
+        formulario = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
+        jLabel2 = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 153));
+        jPanel1.setBackground(new java.awt.Color(204, 208, 217));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        formulario.setBackground(new java.awt.Color(255, 255, 255));
+        formulario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Bienvenido TYN");
+        formulario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 45, -1, -1));
+        formulario.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 107, 200, -1));
 
         jLabel1.setText("Email: ");
+        formulario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 110, 37, -1));
+        formulario.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 156, 200, -1));
 
         jLabel2.setText("Contraseña: ");
+        formulario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 159, -1, -1));
 
         btnLogin.setText("Entrar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -55,63 +72,21 @@ public class vLogin extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
+        formulario.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 196, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("LOG IN");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(63, 63, 63)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel2)))
-                        .addGap(65, 65, 65)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnLogin)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                .addComponent(txtPassword))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel3)
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58)
-                .addComponent(btnLogin)
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
+        jPanel1.add(formulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, 370, 260));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1212, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -120,7 +95,7 @@ public class vLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         //Llama al método del controlador para comprobar si el usuario existe
-         // Obtener datos introducidos
+        // Obtener datos introducidos
         String email = txtEmail.getText().trim();
         String password = new String(txtPassword.getPassword()).trim();
 
@@ -153,19 +128,18 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Abrir ventana principal
-            if (usuario.getCodigoRolFK() == 801){
+            if (usuario.getCodigoRolFK() == 801) {
                 vHomeAdmin vHome = new vHomeAdmin();
                 vHome.setVisible(true);
-            }else if(usuario.getCodigoRolFK()==802){
+            } else if (usuario.getCodigoRolFK() == 802) {
                 vHomeOper vHome = new vHomeOper();
                 vHome.setVisible(true);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this,
-                    "Credenciales incorrectas",
-                    "Error de autenticacion",
-                    JOptionPane.WARNING_MESSAGE);
+                        "Credenciales incorrectas",
+                        "Error de autenticacion",
+                        JOptionPane.WARNING_MESSAGE);
             }
-            
 
             // Cerrar login
             this.dispose();
@@ -179,6 +153,7 @@ public class vLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JPanel formulario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
