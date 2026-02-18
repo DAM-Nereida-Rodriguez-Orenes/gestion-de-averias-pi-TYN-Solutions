@@ -17,9 +17,10 @@ import vista.admin.gusuario.GestionUsuario;
 public class vHomeAdmin extends javax.swing.JFrame {
 
     //private final UsuarioDao usuario;
-   // private final GestionUsuario gestionUsuario;
+    // private final GestionUsuario gestionUsuario;
     /**
      * Creates new form vHome
+     *
      * @param usuario
      * @param gestionUsuario
      */
@@ -115,14 +116,16 @@ public class vHomeAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miGUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGUsuarioActionPerformed
-        
-      
+        GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
+        GestionUsuario gestionUsuario = new GestionUsuario(gestionUsuarioControlador);
+        gestionUsuario.setLocationRelativeTo(null);
+        gestionUsuario.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miGUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

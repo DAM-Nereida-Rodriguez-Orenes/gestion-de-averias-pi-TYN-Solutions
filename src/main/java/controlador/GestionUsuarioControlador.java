@@ -4,7 +4,9 @@
  */
 package controlador;
 
+import config.DataSourceFactory;
 import dao.UsuarioDao;
+import daoImpl.UsuarioDaoImpl;
 import java.util.List;
 import modelo.Usuario;
 
@@ -14,17 +16,21 @@ import modelo.Usuario;
  */
 public class GestionUsuarioControlador {
 
-    private final UsuarioDao usuarioDao;
+    private UsuarioDaoImpl usuarioDaoImpl = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
 
-    public GestionUsuarioControlador(UsuarioDao usuarioDao) {
-        this.usuarioDao = usuarioDao;
+    public GestionUsuarioControlador() {
     }
 
     public List<Usuario> mostrarLista() {
-        return usuarioDao.listarUsuarios();
+        return usuarioDaoImpl.listarUsuarios();
+    }
+    
+    public boolean crearUsuario(){
+        
+        return true;
     }
 
     public void eliminarUsuario(int codigoUsuario) {
-        usuarioDao.eliminarUsuario(codigoUsuario);
+        usuarioDaoImpl.eliminarUsuario(codigoUsuario);
     }
 }
