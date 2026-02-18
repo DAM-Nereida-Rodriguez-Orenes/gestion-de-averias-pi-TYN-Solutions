@@ -158,10 +158,10 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Abrir ventana principal
-            if (usuario.getCodigoRolFK() == 801) {
+            if (usuario.getCodigoRolFK() == 701) {
                 vHomeAdmin vHome = new vHomeAdmin();
                 vHome.setVisible(true);
-            } else if (usuario.getCodigoRolFK() == 802) {
+            } else if (usuario.getCodigoRolFK() == 702) {
                 vHomeOper vHome = new vHomeOper();
                 vHome.setVisible(true);
             } else {
