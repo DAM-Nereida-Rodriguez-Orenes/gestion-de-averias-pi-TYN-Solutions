@@ -8,6 +8,7 @@ import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
 import modelo.Usuario;
+import vista.admin.gusuario.GestionUsuario;
 
 /**
  *
@@ -115,6 +116,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
     private void miGUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGUsuarioActionPerformed
         
+      
     }//GEN-LAST:event_miGUsuarioActionPerformed
 
     /**
