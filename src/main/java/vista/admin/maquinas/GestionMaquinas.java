@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista.admin;
+package vista.admin.maquinas;
 
 /**
  *
@@ -35,7 +35,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         cbbStatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnNuevaMaquina = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -46,7 +46,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         menuAverias = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
+        setTitle("Fixora");
 
         jPanel1.setBackground(new java.awt.Color(204, 208, 217));
 
@@ -54,9 +54,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de Máquinas");
 
-        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Abrasivo y acabado superficial", "Sin arranque de viruta", "Corte por separación", "Corte y arranque mecanizado", "Agujeros", "Específicos", "Tratamiento y acondicionamiento", "Unión y ensamblaje" }));
+        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arranque", "Agujeros", "Abrasivo", "Corte", "Sin viruta", "Unión", "Tratamiento", "Específicos" }));
 
-        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Averiada", "En mantenimiento", "Fuera de servicio", "Operativa" }));
+        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "Mantenimiento", "Fuera" }));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,7 +71,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Nueva");
+        btnNuevaMaquina.setText("Nueva");
+        btnNuevaMaquina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaMaquinaActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +119,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                             .addGap(50, 50, 50)
                             .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))))
+                            .addComponent(btnNuevaMaquina))))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -127,7 +132,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(btnNuevaMaquina)
                     .addComponent(jLabel2))
                 .addGap(53, 53, 53)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,6 +177,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    private void btnNuevaMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMaquinaActionPerformed
+        // TODO add your handling code here:
+        NuevaMaquina nm = new NuevaMaquina(this, true);
+        nm.setVisible(true);
+    }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -200,9 +211,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnNuevaMaquina;
     private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cbbTipo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
