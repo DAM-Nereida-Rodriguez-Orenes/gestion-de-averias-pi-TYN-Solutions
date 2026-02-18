@@ -33,57 +33,75 @@ public class AveriaDaoImpl implements AveriaDao {
 
     @Override
     public void insertar(Averia a) {
-        // 1. Definimos la SQL con placeholders (?) para todos los campos
-        // Nota: No incluimos 'codigoAveria' porque es AUTO_INCREMENT en la base de datos.
+        // --- 1. LÓGICA DE FECHAS AUTOMÁTICAS ---
+        LocalDateTime ahora = LocalDateTime.now();
+
+        // A. Fecha de reporte siempre es "AHORA"
+        a.setFechaInicioAver(ahora);
+
+        // B. Lógica del Técnico y Fecha de Asignación
+        // Si se asigna un técnico (no es nulo y es mayor que 0), asignamos fecha.
+        if (a.getUsuarioTecnicoFK() != null && a.getUsuarioTecnicoFK() > 0) {
+            a.setFechaAsigTecnico(ahora);
+        } else {
+            // Si no hay técnico, aseguramos que sea null
+            a.setUsuarioTecnicoFK(null);
+            a.setFechaAsigTecnico(null);
+        }
+
+        // --- 2. DEFINICIÓN SQL ---
         String sql = "INSERT INTO averia (" +
-                     "desc_inic_averia, " +
-                     "fecha_inicio_aver, " +
-                     "fecha_asig_tecnico, " +
-                     "fecha_acep_tecnico, " +
-                     "fecha_finaliz_tecnico, " +
-                     "proc_realizado_tecnico, " +
-                     "usuario_reporta_fk, " +
-                     "usuario_tecnico_fk, " +
-                     "maquinaria_fk, " +
-                     "tipo_averia_fk) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "descInicAveria, " +
+                     "fechaInicioAver, " +
+                     "fechaAsigTecnico, " +
+                     "usuarioReportaFK, " +
+                     "usuarioTecnicoFK, " +
+                     "maquinariaFK, " +
+                     "tipoAveriaFK) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (java.sql.Connection conn = dataSource.getConnection();
+             java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // 2. Rellenamos los datos (Bind parameters)
+            // --- 3. RELLENAR DATOS ---
 
-            // Texto simple
+            // 1. Descripción
             ps.setString(1, a.getDescInicAveria());
 
-            // Fechas (LocalDateTime) -> java.sql.Timestamp
-            // Usamos setObject para que sea compatible con null si la fecha no existe
-            ps.setObject(2, a.getFechaInicioAver()); 
-            ps.setObject(3, a.getFechaAsigTecnico());
-            ps.setObject(4, a.getFechaAcepTecnico());
-            ps.setObject(5, a.getFechaFinalizTecnico());
+            // 2. Fecha Inicio (Obligatoria, calculada arriba)
+            ps.setTimestamp(2, java.sql.Timestamp.valueOf(a.getFechaInicioAver()));
 
-            // Texto (puede ser null)
-            ps.setString(6, a.getProcRealizadoTecnico());
+            // 3. Fecha Asignación (Puede ser NULL)
+            if (a.getFechaAsigTecnico() != null) {
+                ps.setTimestamp(3, java.sql.Timestamp.valueOf(a.getFechaAsigTecnico()));
+            } else {
+                ps.setNull(3, java.sql.Types.TIMESTAMP);
+            }
 
-            // Enteros obligatorios (int primitivo)
-            ps.setInt(7, a.getUsuarioReportaFK());
+            // 4. Usuario Reporta (Obligatorio)
+            ps.setInt(4, a.getUsuarioReportaFK());
 
-            // Entero Opcional (Integer wrapper) - ¡CASO IMPORTANTE!
-            // Si usas setInt con un null, Java lanza error. 
-            // Usamos setObject indicando que es de tipo INTEGER para que acepte nulls.
-            ps.setObject(8, a.getUsuarioTecnicoFK(), java.sql.Types.INTEGER);
+            // 5. Usuario Técnico (Puede ser NULL)
+            if (a.getUsuarioTecnicoFK() != null) {
+                ps.setInt(5, a.getUsuarioTecnicoFK());
+            } else {
+                ps.setNull(5, java.sql.Types.INTEGER);
+            }
 
-            // Enteros obligatorios
-            ps.setInt(9, a.getMaquinariaFK());
-            ps.setInt(10, a.getTipoAveriaFK());
+            // 6. Maquinaria (Obligatorio)
+            ps.setInt(6, a.getMaquinariaFK());
 
-            // 3. Ejecutamos
+            // 7. Tipo Avería (Obligatorio)
+            ps.setInt(7, a.getTipoAveriaFK());
+
+            // --- 4. EJECUTAR ---
             ps.executeUpdate();
-            System.out.println("Avería insertada correctamente.");
+            // System.out.println("Avería insertada correctamente en fecha: " + ahora);
 
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al insertar la avería: " + a.getDescInicAveria(), ex);
+        } catch (java.sql.SQLException ex) {
+            // Ajusta el logger según tu import
+            java.util.logging.Logger.getLogger(AveriaDaoImpl.class.getName())
+                .log(java.util.logging.Level.SEVERE, "Error al insertar avería", ex);
         }
     }
 

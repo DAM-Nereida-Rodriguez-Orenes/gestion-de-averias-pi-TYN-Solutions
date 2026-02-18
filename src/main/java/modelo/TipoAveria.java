@@ -51,4 +51,8 @@ public class TipoAveria {
         this.tiempoPromRepar = tiempoPromRepar;
     }
     
+    @Override
+    public String toString() {
+        return this.descripcionTipoAv; 
+    }
 }
