@@ -38,7 +38,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+            
+            conn.setAutoCommit(true);
             // 1) nombre
             ps.setString(1, m.getNombre());
 
@@ -63,11 +64,11 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             ps.executeUpdate();
 
             // (Opcional pero muy útil) recuperar el ID autogenerado --> útil para refrescar vistas de listas
-            try (ResultSet rs = ps.getGeneratedKeys()) {
+           /* try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     m.setCodigoMaquinaria(rs.getInt(1));
                 }
-            }
+            }*/
 
         } catch (SQLException ex) {
             throw new RuntimeException("Error insertando maquinaria", ex);
