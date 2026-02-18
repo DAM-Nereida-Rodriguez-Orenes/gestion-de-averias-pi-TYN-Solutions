@@ -5,6 +5,7 @@
 package controlador;
 
 import dao.UsuarioDao;
+import java.util.List;
 import modelo.Usuario;
 
 /**
@@ -19,7 +20,11 @@ public class GestionUsuarioControlador {
         this.usuarioDao = usuarioDao;
     }
 
-    public void eliminarUsuario(int codigoUsuario){
+    public List<Usuario> mostrarLista() {
+        return usuarioDao.listarUsuarios();
+    }
+
+    public void eliminarUsuario(int codigoUsuario) {
         usuarioDao.eliminarUsuario(codigoUsuario);
     }
 }

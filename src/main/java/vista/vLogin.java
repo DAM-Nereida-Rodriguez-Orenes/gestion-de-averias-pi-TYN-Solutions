@@ -4,10 +4,13 @@
  */
 package vista;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import modelo.Usuario;
 
 /**
@@ -158,10 +161,10 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Abrir ventana principal
-            if (usuario.getCodigoRolFK() == 801) {
-                vHomeAdmin vHome = new vHomeAdmin();
+            if (usuario.getCodigoRolFK() == 701) {
+                vHomeAdmin vHome = new vHomeAdmin();                
                 vHome.setVisible(true);
-            } else if (usuario.getCodigoRolFK() == 802) {
+            } else if (usuario.getCodigoRolFK() == 702) {
                 vHomeOper vHome = new vHomeOper();
                 vHome.setVisible(true);
             } else {
@@ -174,11 +177,10 @@ public class vLogin extends javax.swing.JFrame {
             // Cerrar login
             this.dispose();
         }
-
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnRecuperarActionPerformed
 
     /**

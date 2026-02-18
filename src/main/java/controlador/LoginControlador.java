@@ -27,5 +27,4 @@ public class LoginControlador {
         }
         return null;
     }
-
 }

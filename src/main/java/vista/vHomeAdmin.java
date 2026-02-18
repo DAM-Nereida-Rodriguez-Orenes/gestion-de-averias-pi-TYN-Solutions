@@ -4,14 +4,23 @@
  */
 package vista;
 
+import controlador.GestionUsuarioControlador;
+import dao.UsuarioDao;
+import daoImpl.UsuarioDaoImpl;
+import modelo.Usuario;
+
 /**
  *
  * @author Asus
  */
 public class vHomeAdmin extends javax.swing.JFrame {
 
+    //private final UsuarioDao usuario;
+   // private final GestionUsuario gestionUsuario;
     /**
      * Creates new form vHome
+     * @param usuario
+     * @param gestionUsuario
      */
     public vHomeAdmin() {
         initComponents();
@@ -28,10 +37,19 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        mInicio = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        mGUsuario = new javax.swing.JMenu();
+        miGUsuario = new javax.swing.JMenuItem();
+        mGMaquina = new javax.swing.JMenu();
+        mgAveria = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 153));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -42,17 +60,44 @@ public class vHomeAdmin extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(104, 104, 104)
+                .addGap(483, 483, 483)
                 .addComponent(jLabel1)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(531, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(132, 132, 132)
+                .addGap(288, 288, 288)
                 .addComponent(jLabel1)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(464, Short.MAX_VALUE))
         );
+
+        mInicio.setText("Inicio");
+
+        jMenuItem1.setText("Menu principal");
+        mInicio.add(jMenuItem1);
+
+        jMenuBar1.add(mInicio);
+
+        mGUsuario.setText("Gestion de usuario");
+
+        miGUsuario.setText("Usuario");
+        miGUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGUsuarioActionPerformed(evt);
+            }
+        });
+        mGUsuario.add(miGUsuario);
+
+        jMenuBar1.add(mGUsuario);
+
+        mGMaquina.setText("Gestion de maquina");
+        jMenuBar1.add(mGMaquina);
+
+        mgAveria.setText("Gestion de averia");
+        jMenuBar1.add(mgAveria);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,11 +107,15 @@ public class vHomeAdmin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void miGUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGUsuarioActionPerformed
+        
+    }//GEN-LAST:event_miGUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -75,6 +124,13 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu mGMaquina;
+    private javax.swing.JMenu mGUsuario;
+    private javax.swing.JMenu mInicio;
+    private javax.swing.JMenu mgAveria;
+    private javax.swing.JMenuItem miGUsuario;
     // End of variables declaration//GEN-END:variables
 }

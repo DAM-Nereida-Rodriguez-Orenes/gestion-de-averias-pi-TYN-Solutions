@@ -8,8 +8,10 @@ import config.DataSourceFactory;
 import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
+import java.util.List;
 import javax.sql.DataSource;
 import javax.swing.table.DefaultTableModel;
+import modelo.Usuario;
 
 /**
  *
@@ -27,7 +29,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         initComponents();
         this.gestionUsuarioControlador = gestionUsuarioControlador;
         String[] columnas = {"Nombre", "Apellido", "Rol", "Telefono", "Email", "Estatus"};
-
+        
         DefaultTableModel modelo = new DefaultTableModel(null, columnas) {
             /**
              * Sobrescribimos isCellEditable para que el usuario no pueda
@@ -38,6 +40,18 @@ public class GestionUsuario extends javax.swing.JFrame {
                 return false;
             }
         };
+        List<Usuario> listaUsuarios = this.gestionUsuarioControlador.mostrarLista();
+        Object[] fila = new Object[6];
+        for(Usuario usuario: listaUsuarios){
+            fila[0] = usuario.getNombre();
+            fila[1] = usuario.getApellido();
+            fila[2] = usuario.getCodigoRolFK();
+            fila[3] = usuario.getTelefono();
+            fila[4] = usuario.getEmail();
+            fila[5] = usuario.isActivo();
+
+            modelo.addRow(fila);
+        }
         tbUsuarios.setModel(modelo);
     }
 
@@ -168,9 +182,9 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(117, Short.MAX_VALUE))
         );
 
@@ -223,7 +237,6 @@ public class GestionUsuario extends javax.swing.JFrame {
         int filaSelecionada = tbUsuarios.getSelectedRow();
         if (filaSelecionada != -1) {
             int codigoUsuario = (int) tbUsuarios.getValueAt(filaSelecionada, 0);
-            gestionUsuarioControlador.eliminarUsuario(codigoUsuario);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -253,9 +266,7 @@ public class GestionUsuario extends javax.swing.JFrame {
             DataSource dataSource = DataSourceFactory.getDataSource();
             UsuarioDao usuarioDao = new UsuarioDaoImpl(dataSource);
             GestionUsuarioControlador controlador = new GestionUsuarioControlador(usuarioDao);
-
-            GestionUsuario vista = new GestionUsuario(controlador);
-            vista.setVisible(true);
+            
         });
     }
 

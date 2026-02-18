@@ -125,4 +125,5 @@ public class Usuario {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+    
 }
