@@ -86,6 +86,11 @@ public class GestionMaquinasControlador {
         }
         //crear objeto modelo
         Maquinaria m = new Maquinaria(nombre, statusInt, fechaAltaLDate, null, tipoInt);
+        System.out.println("nombre=" + m.getNombre());
+        System.out.println("estadoFK=" + m.getCodigoEstadoFK());
+        System.out.println("tipoFK=" + m.getTipoMaquinariaFK());
+        System.out.println("fechaAlta=" + m.getFechaAlta());
+        System.out.println("fechaBaja=" + m.getFechaBaja());
         //llamar a la daoimpl;
         mDAOi.insertar(m);
         //comunicarse con la vista

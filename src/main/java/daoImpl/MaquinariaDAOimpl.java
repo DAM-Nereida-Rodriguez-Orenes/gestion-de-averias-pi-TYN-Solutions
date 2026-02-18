@@ -37,8 +37,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             """;
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            conn.setAutoCommit(false);
             // 1) nombre
             ps.setString(1, m.getNombre());
 
@@ -48,7 +48,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             // 3) fechaAlta (DATE)
             // Si en tu modelo es java.time.LocalDate:
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
-            // Si fuera java.util.Date, dímelo y te lo adapto.
+
 
             // 4) fechaBaja (DATE) puede ser NULL
             if (m.getFechaBaja() == null) {
