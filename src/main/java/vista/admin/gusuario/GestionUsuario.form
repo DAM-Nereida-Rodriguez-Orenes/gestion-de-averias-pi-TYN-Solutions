@@ -190,14 +190,26 @@
             <Property name="text" type="java.lang.String" value="Inicio"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="mGUsuario">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gestion de usuario"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="mGMaquina">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gestion de maquina"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="mGAveria">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gestion de averia"/>
+          </Properties>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1200, 800]"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>

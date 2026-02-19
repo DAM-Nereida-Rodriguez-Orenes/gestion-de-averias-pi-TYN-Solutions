@@ -98,6 +98,9 @@ public class GestionUsuario extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mInicio = new javax.swing.JMenu();
+        mGUsuario = new javax.swing.JMenu();
+        mGMaquina = new javax.swing.JMenu();
+        mGAveria = new javax.swing.JMenu();
 
         jdCrearUsuario.setModal(true);
 
@@ -207,7 +210,6 @@ public class GestionUsuario extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -316,6 +318,15 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         mInicio.setText("Inicio");
         jMenuBar1.add(mInicio);
+
+        mGUsuario.setText("Gestion de usuario");
+        jMenuBar1.add(mGUsuario);
+
+        mGMaquina.setText("Gestion de maquina");
+        jMenuBar1.add(mGMaquina);
+
+        mGAveria.setText("Gestion de averia");
+        jMenuBar1.add(mGAveria);
 
         setJMenuBar(jMenuBar1);
 
@@ -440,6 +451,9 @@ public class GestionUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JDialog jdCrearUsuario;
+    private javax.swing.JMenu mGAveria;
+    private javax.swing.JMenu mGMaquina;
+    private javax.swing.JMenu mGUsuario;
     private javax.swing.JMenu mInicio;
     private javax.swing.JTable tbUsuarios;
     private javax.swing.JTextField txtApellidos;

@@ -85,7 +85,7 @@ public class GestionUsuarioControlador {
             return false;
         }
         if (!emailValido(email)) {
-             System.out.println("el email esta a¡mal");
+             System.out.println("el email esta amal");
             return false;
         }
         if (!passwordValida(password)) {
