@@ -9,7 +9,7 @@ import modelo.Usuario;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public interface  UsuarioDao {
 

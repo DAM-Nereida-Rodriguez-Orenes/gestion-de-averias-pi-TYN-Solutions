@@ -29,11 +29,10 @@ public class Usuario {
     }
 
     // Constructor completo
-    public Usuario(int codigoUsuario, String nombre, String apellido, int codigoRolFK,
+    public Usuario( String nombre, String apellido, int codigoRolFK,
             String telefono, String email, String password, int intentos,
             LocalDateTime ultimoAcceso, boolean activo) {
 
-        this.codigoUsuario = codigoUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
         this.codigoRolFK = codigoRolFK;
@@ -125,4 +124,5 @@ public class Usuario {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+    
 }

@@ -20,14 +20,11 @@ public class LoginControlador {
     }
 
     public Usuario accederAplicacion(String email, String password) {
-
         Usuario usuario = usuarioDao.buscarPorCredenciales(email, password);
 
         if (usuario != null) {
             return usuario;
         }
-
         return null;
     }
-
 }
