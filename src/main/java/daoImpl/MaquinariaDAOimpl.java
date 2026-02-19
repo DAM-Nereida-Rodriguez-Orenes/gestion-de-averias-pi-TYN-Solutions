@@ -31,14 +31,16 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
     @Override
     public void insertar(Maquinaria m) {
-        final String sql = """
-            INSERT INTO maquinaria (nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK)
-            VALUES (?, ?, ?, ?, ?)
-            """;
+        /*
+        INSERT INTO maquinaria (nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK)
+        VALUES ("mp", 801, "2026-01-01", null, 305)
+        */
+        String sql = "INSERT INTO maquinaria (nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK)VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(true);
+            
             // 1) nombre
             ps.setString(1, m.getNombre());
 
@@ -46,7 +48,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             ps.setInt(2, m.getCodigoEstadoFK());
 
             // 3) fechaAlta (DATE)
-            // Si en tu modelo es java.time.LocalDate:
+            //modelo es java.time.LocalDate:
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
 
 
@@ -59,6 +61,10 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             // 5) FK tipo_maquinaria
             ps.setInt(5, m.getTipoMaquinariaFK());
+            
+            System.out.println("INSERT maquinaria: " + m.getNombre() + ", estado=" + m.getCodigoEstadoFK()
+            + ", alta=" + m.getFechaAlta() + ", baja=" + m.getFechaBaja()
+            + ", tipo=" + m.getTipoMaquinariaFK());
 
             ps.executeUpdate();
 
@@ -66,10 +72,13 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     m.setCodigoMaquinaria(rs.getInt(1));
+                    System.out.println("Código maquinaria: " + m.getCodigoMaquinaria());
                 }
             }
+            
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Error insertando maquinaria", ex);
         }
     }
@@ -89,26 +98,26 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // 1️⃣ nombre
+            //1. nombre
             ps.setString(1, m.getNombre());
 
-            // 2️⃣ estado (FK)
+            // 2. estado FK
             ps.setInt(2, m.getCodigoEstadoFK());
 
-            // 3️⃣ fechaAlta (DATE)
+            // 3️. Fecha Alta (Date)
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
 
-            // 4️⃣ fechaBaja (puede ser NULL)
+            // 4. fecha Baja (puede ser null)
             if (m.getFechaBaja() == null) {
                 ps.setNull(4, Types.DATE);
             } else {
                 ps.setDate(4, Date.valueOf(m.getFechaBaja()));
             }
 
-            // 5️⃣ tipo maquinaria (FK)
+            // 5️. tipo maquinaria (FK)
             ps.setInt(5, m.getTipoMaquinariaFK());
 
-            // 6️⃣ WHERE codigoMaquinaria
+            // 6️. where
             ps.setInt(6, m.getCodigoMaquinaria());
 
             ps.executeUpdate();
