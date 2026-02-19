@@ -37,10 +37,10 @@ public class GestionMaquinasControlador {
                 statusInt = 802;
                 break;
 
-            case "Mantenimiento":
+            case "En mantenimiento":
                 statusInt = 803;
                 break;
-            case "Fuera":
+            case "Fuera de servicio":
                 statusInt = 804;
                 break;
             default:
@@ -49,28 +49,28 @@ public class GestionMaquinasControlador {
         }
         //validar tipo
         switch (tipo){
-            case "Arranque":
+            case "cortes y arranque de material mecanizado":
                 tipoInt = 301;
                 break;
-            case "Agujeros":
+            case "perforación y operaciones de agujeros":
                 tipoInt = 302;
                 break;
-            case "Abrasivo":
+            case "abrasivo y acabado superficial":
                 tipoInt = 303;
                 break;
-            case "Corte":
+            case "corte por separacion":
                 tipoInt = 304;
                 break;
-            case "Sin viruta":
+            case "conformado y deformación sin arranque de viruta":
                 tipoInt = 305;
                 break;
-            case "Unión":
+            case "union y ensamblaje":
                 tipoInt = 306;
                 break;
-            case "Tratamiento":
+            case "tratamiento y acondicionamiento":
                 tipoInt = 307;
                 break;
-            case "Específicos":
+            case "procesos especificos":
                 tipoInt = 308;
                 break;
             default:

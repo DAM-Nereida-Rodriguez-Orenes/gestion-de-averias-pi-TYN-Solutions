@@ -150,14 +150,14 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="8">
-                <StringItem index="0" value="Arranque"/>
-                <StringItem index="1" value="Agujeros"/>
-                <StringItem index="2" value="Abrasivo"/>
-                <StringItem index="3" value="Corte"/>
-                <StringItem index="4" value="Sin viruta"/>
-                <StringItem index="5" value="Uni&#xf3;n"/>
-                <StringItem index="6" value="Tratamiento"/>
-                <StringItem index="7" value="Espec&#xed;ficos"/>
+                <StringItem index="0" value="cortes y arranque de material mecanizado"/>
+                <StringItem index="1" value="perforaci&#xf3;n y operaciones de agujeros"/>
+                <StringItem index="2" value="abrasivo y acabado superficial"/>
+                <StringItem index="3" value="corte por separacion"/>
+                <StringItem index="4" value="conformado y deformaci&#xf3;n sin arranque de viruta"/>
+                <StringItem index="5" value="union y ensamblaje"/>
+                <StringItem index="6" value="tratamiento y acondicionamiento"/>
+                <StringItem index="7" value="procesos especificos"/>
               </StringArray>
             </Property>
           </Properties>
@@ -171,8 +171,8 @@
               <StringArray count="4">
                 <StringItem index="0" value="Operativa"/>
                 <StringItem index="1" value="Averiada"/>
-                <StringItem index="2" value="Mantenimiento"/>
-                <StringItem index="3" value="Fuera"/>
+                <StringItem index="2" value="En mantenimiento"/>
+                <StringItem index="3" value="Fuera de servicio"/>
               </StringArray>
             </Property>
           </Properties>
@@ -227,6 +227,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>

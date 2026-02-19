@@ -54,9 +54,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de Máquinas");
 
-        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arranque", "Agujeros", "Abrasivo", "Corte", "Sin viruta", "Unión", "Tratamiento", "Específicos" }));
+        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cortes y arranque de material mecanizado", "perforación y operaciones de agujeros", "abrasivo y acabado superficial", "corte por separacion", "conformado y deformación sin arranque de viruta", "union y ensamblaje", "tratamiento y acondicionamiento", "procesos especificos" }));
 
-        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "Mantenimiento", "Fuera" }));
+        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "En mantenimiento", "Fuera de servicio" }));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -88,6 +88,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("ID: ");
 
@@ -182,6 +187,10 @@ public class GestionMaquinas extends javax.swing.JFrame {
         NuevaMaquina nm = new NuevaMaquina(this, true);
         nm.setVisible(true);
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments

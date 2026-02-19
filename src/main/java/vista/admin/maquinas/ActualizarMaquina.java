@@ -12,13 +12,13 @@ import javax.swing.JOptionPane;
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
-public class NuevaMaquina extends javax.swing.JDialog {
+public class ActualizarMaquina extends javax.swing.JDialog {
     private GestionMaquinasControlador contr = new GestionMaquinasControlador();
 
     /**
      * Creates new form NuevaMaquina
      */
-    public NuevaMaquina(java.awt.Frame parent, boolean modal) {
+    public ActualizarMaquina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -41,7 +41,9 @@ public class NuevaMaquina extends javax.swing.JDialog {
         spFechaAlta = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         cbbTipo = new javax.swing.JComboBox<>();
-        btnCrearMaquina = new javax.swing.JButton();
+        btnActualizarMaquina = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        spFechaBaja = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Fixora");
@@ -50,7 +52,7 @@ public class NuevaMaquina extends javax.swing.JDialog {
 
         jLabel1.setText("Nombre: ");
 
-        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "En mantenimiento", "Fuera de servicio" }));
+        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "Mantenimiento", "Fuera" }));
 
         jLabel2.setText("Estado: ");
 
@@ -63,20 +65,37 @@ public class NuevaMaquina extends javax.swing.JDialog {
 
         cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cortes y arranque de material mecanizado", "perforación y operaciones de agujeros", "abrasivo y acabado superficial", "corte por separacion", "conformado y deformación sin arranque de viruta", "union y ensamblaje", "tratamiento y acondicionamiento", "procesos especificos" }));
 
-        btnCrearMaquina.setText("Crear máquina");
-        btnCrearMaquina.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizarMaquina.setText("Actualizar máquina");
+        btnActualizarMaquina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearMaquinaActionPerformed(evt);
+                btnActualizarMaquinaActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("Fecha baja: ");
+
+        spFechaBaja.setModel(new javax.swing.SpinnerDateModel());
+        spFechaBaja.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(btnActualizarMaquina)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spFechaAlta)
+                            .addComponent(cbbTipo, 0, 287, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -85,20 +104,12 @@ public class NuevaMaquina extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 135, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spFechaAlta)
-                            .addComponent(cbbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel5)
+                        .addGap(12, 12, 12)
+                        .addComponent(spFechaBaja)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCrearMaquina)
-                .addGap(165, 165, 165))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,9 +130,13 @@ public class NuevaMaquina extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(64, 64, 64)
-                .addComponent(btnCrearMaquina)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(98, 98, 98)
+                .addComponent(btnActualizarMaquina)
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -138,32 +153,34 @@ public class NuevaMaquina extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCrearMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMaquinaActionPerformed
+    private void btnActualizarMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarMaquinaActionPerformed
         //Recoger datos vista
         String nomMaq = txtNombre.getText();
         String statusMaq = cbbStatus.getSelectedItem().toString();
         String tipoMaq = cbbTipo.getSelectedItem().toString();
         Date fechaAlta = (Date) spFechaAlta.getValue();
-        //Llamar a fx de controlador (valida, crea objeto máquina y llama a fx de DAOimpl) --> si devuelve true, un pane, si false, otro
+        //fechaBaja debe ser más actual que fechaAlta y solo estará enabled si statusMaq es "fuera de servicio"
         boolean flag = contr.crearMaquina(nomMaq, statusMaq, tipoMaq, fechaAlta);
         if (flag){
-            JOptionPane.showMessageDialog(this, "Nueva máquina registrada con éxito", "Inserción realizada",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Máquina actualizada con éxito", "Actualización realizada",JOptionPane.INFORMATION_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(this, "Revise los datos: alguno no es correcto o está en blanco", "Error de inserción",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Revise los datos: alguno no es correcto o está en blanco", "Error de actualización",JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnCrearMaquinaActionPerformed
+    }//GEN-LAST:event_btnActualizarMaquinaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCrearMaquina;
+    private javax.swing.JButton btnActualizarMaquina;
     private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cbbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSpinner spFechaAlta;
+    private javax.swing.JSpinner spFechaBaja;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
