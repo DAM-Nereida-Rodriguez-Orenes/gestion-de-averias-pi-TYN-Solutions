@@ -4,6 +4,8 @@
  */
 package vista.admin.maquinas;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -34,7 +36,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         cbbTipo = new javax.swing.JComboBox<>();
         cbbStatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbMaquinaria = new javax.swing.JTable();
         btnNuevaMaquina = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -58,7 +60,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "En mantenimiento", "Fuera de servicio" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbMaquinaria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -69,7 +71,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbMaquinaria);
 
         btnNuevaMaquina.setText("Nueva");
         btnNuevaMaquina.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +191,17 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        //conseguir id seleccionado
+        int fila = tbMaquinaria.getSelectedRow();
+        if(fila == -1){
+            JOptionPane.showMessageDialog(this, "Seleccione una máquina: toque una fila", "Error de selección",JOptionPane.WARNING_MESSAGE);
+        }else{
+            int valorID = (Integer) tbMaquinaria.getModel().getValueAt(fila, 0);
+            JOptionPane.showMessageDialog(this, "Seleccione una máquina: toque una fila", "Error de selección",JOptionPane.OK_CANCEL_OPTION);
+        }
+        //estás seguro?
+        //pasar id seleccionado a controlador
+        //que vuelva flag: true es que se ha eliminado, false es que no
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
@@ -228,11 +240,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JMenu menuAverias;
     private javax.swing.JMenu menuInicio;
     private javax.swing.JMenu menuMaquinas;
     private javax.swing.JMenu menuUsuario;
+    private javax.swing.JTable tbMaquinaria;
     private javax.swing.JTextField txtID;
     // End of variables declaration//GEN-END:variables
 }
