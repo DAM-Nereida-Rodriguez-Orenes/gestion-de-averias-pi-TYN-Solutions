@@ -40,15 +40,20 @@ public class vHomeAdmin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mInicio = new javax.swing.JMenu();
+        miInicio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        mGUsuario = new javax.swing.JMenu();
-        miGUsuario = new javax.swing.JMenuItem();
-        mGMaquina = new javax.swing.JMenu();
-        mgAveria = new javax.swing.JMenu();
+        miCerrarFixora = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        miAveria = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        miUsuario = new javax.swing.JMenuItem();
+        miMaquinaria = new javax.swing.JMenuItem();
+        miTipoMaquinaria = new javax.swing.JMenuItem();
+        miEstadoMaquinaria = new javax.swing.JMenuItem();
+        miTipoAveria = new javax.swing.JMenuItem();
+        miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 153));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
@@ -74,30 +79,53 @@ public class vHomeAdmin extends javax.swing.JFrame {
                 .addContainerGap(464, Short.MAX_VALUE))
         );
 
-        mInicio.setText("Inicio");
+        miInicio.setText("Inicio");
 
-        jMenuItem1.setText("Menu principal");
-        mInicio.add(jMenuItem1);
+        jMenuItem1.setText("Menú principal");
+        miInicio.add(jMenuItem1);
 
-        jMenuBar1.add(mInicio);
-
-        mGUsuario.setText("Gestion de usuario");
-
-        miGUsuario.setText("Usuario");
-        miGUsuario.addActionListener(new java.awt.event.ActionListener() {
+        miCerrarFixora.setText("Cerrar sesión");
+        miCerrarFixora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miGUsuarioActionPerformed(evt);
+                miCerrarFixoraActionPerformed(evt);
             }
         });
-        mGUsuario.add(miGUsuario);
+        miInicio.add(miCerrarFixora);
 
-        jMenuBar1.add(mGUsuario);
+        jMenuItem10.setText("Cerrar Fixora");
+        miInicio.add(jMenuItem10);
 
-        mGMaquina.setText("Gestion de maquina");
-        jMenuBar1.add(mGMaquina);
+        jMenuBar1.add(miInicio);
 
-        mgAveria.setText("Gestion de averia");
-        jMenuBar1.add(mgAveria);
+        miAveria.setText("Gestion");
+
+        jMenuItem4.setText("Avería");
+        miAveria.add(jMenuItem4);
+
+        miUsuario.setText("Usuario");
+        miUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miUsuarioActionPerformed(evt);
+            }
+        });
+        miAveria.add(miUsuario);
+
+        miMaquinaria.setText("Maquinaria");
+        miAveria.add(miMaquinaria);
+
+        miTipoMaquinaria.setText("Tipo de maquinaria");
+        miAveria.add(miTipoMaquinaria);
+
+        miEstadoMaquinaria.setText("Estado de maquinaria");
+        miAveria.add(miEstadoMaquinaria);
+
+        miTipoAveria.setText("Tipos de avería");
+        miAveria.add(miTipoAveria);
+
+        miRoles.setText("Roles");
+        miAveria.add(miRoles);
+
+        jMenuBar1.add(miAveria);
 
         setJMenuBar(jMenuBar1);
 
@@ -115,13 +143,18 @@ public class vHomeAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void miGUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGUsuarioActionPerformed
+    private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
         GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
         GestionUsuario gestionUsuario = new GestionUsuario(gestionUsuarioControlador);
         gestionUsuario.setLocationRelativeTo(null);
         gestionUsuario.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_miGUsuarioActionPerformed
+
+    }//GEN-LAST:event_miUsuarioActionPerformed
+
+    private void miCerrarFixoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarFixoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miCerrarFixoraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,11 +164,17 @@ public class vHomeAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JMenu mGMaquina;
-    private javax.swing.JMenu mGUsuario;
-    private javax.swing.JMenu mInicio;
-    private javax.swing.JMenu mgAveria;
-    private javax.swing.JMenuItem miGUsuario;
+    private javax.swing.JMenu miAveria;
+    private javax.swing.JMenuItem miCerrarFixora;
+    private javax.swing.JMenuItem miEstadoMaquinaria;
+    private javax.swing.JMenu miInicio;
+    private javax.swing.JMenuItem miMaquinaria;
+    private javax.swing.JMenuItem miRoles;
+    private javax.swing.JMenuItem miTipoAveria;
+    private javax.swing.JMenuItem miTipoMaquinaria;
+    private javax.swing.JMenuItem miUsuario;
     // End of variables declaration//GEN-END:variables
 }
