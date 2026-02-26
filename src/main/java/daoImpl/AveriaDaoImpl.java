@@ -277,32 +277,30 @@ public class AveriaDaoImpl implements AveriaDao {
     }
 
     @Override
-    public void eliminar(int id) {
-        // 1. La Query es simple: Borra de la tabla DONDE el id coincida
+    public boolean eliminar(int id) {
         String sql = "DELETE FROM averia WHERE codigoAveria = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // 2. Asignamos el ID al interrogante
             ps.setInt(1, id);
-
-            // 3. Ejecutamos
             int filasAfectadas = ps.executeUpdate();
 
             if (filasAfectadas > 0) {
                 System.out.println("Avería con ID " + id + " eliminada correctamente.");
+                return true; // <-- DEVOLVEMOS TRUE
             } else {
                 System.out.println("No se pudo eliminar: No existe ninguna avería con ID " + id);
+                return false; // <-- DEVOLVEMOS FALSE
             }
 
         } catch (SQLException ex) {
-            // OJO: Este error es muy común al borrar
             if (ex.getSQLState().startsWith("23")) { 
                 logger.log(Level.WARNING, "No se puede eliminar la avería ID " + id + " porque tiene datos relacionados.", ex);
             } else {
                 logger.log(Level.SEVERE, "Error crítico al eliminar la avería ID: " + id, ex);
             }
+            return false; // <-- DEVOLVEMOS FALSE SI HAY ERROR
         }
     }
 }

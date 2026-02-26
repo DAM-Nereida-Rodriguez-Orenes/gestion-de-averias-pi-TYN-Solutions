@@ -23,18 +23,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Aver&#xed;as"/>
           </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Nueva aver&#xed;a"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ver aver&#xed;as"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu4">
           <Properties>
@@ -74,10 +62,8 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtAveriaBuscar" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnAveriaFiltrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="tgbtnFiltros" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnAveriaNueva" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -107,9 +93,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtAveriaBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnAveriaFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnAveriaNueva" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tgbtnFiltros" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="570" max="-2" attributes="0"/>
@@ -186,11 +171,17 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Eliminar aver&#xed;a"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAveriaEliminarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAveriaActualizar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Actualizar aver&#xed;a"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAveriaActualizarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAveriaNueva">
       <Properties>
@@ -200,16 +191,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAveriaNuevaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Filtrar por:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnAveriaFiltrar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Filtros"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -218,6 +199,14 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de aver&#xed;as"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="tgbtnFiltros">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Filtros"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tgbtnFiltrosActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

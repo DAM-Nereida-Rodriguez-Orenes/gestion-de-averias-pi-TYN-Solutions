@@ -8,46 +8,56 @@ import controlador.AveriaControlador;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.util.logging.Level;
+
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
 
 /**
- *
+ * Ventana para la creación de una Nueva Avería.
  * @author yosnavmol
  */
 public class AveriaNueva extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AveriaNueva.class.getName());
     
-    // 1. Referencia al Controlador
-    private AveriaControlador controller;
-
-    // 2. Listas Maestras (Para guardar los datos originales y poder filtrar)
+    // --- Controlador y Listas Maestras ---
+    private final AveriaControlador controlador = new AveriaControlador();
     private List<Maquinaria> todasLasMaquinas;
     private List<Usuario> todosLosUsuarios;
+    private List<Usuario> todosLosTecnicos;
 
-    // 3. Modelos Visuales (Especificamos el TIPO de objeto, NO String)
+    // --- Modelos Visuales ---
     private DefaultListModel<Maquinaria> modelMaquinas;
     private DefaultListModel<Usuario> modelUsuarios;
     private DefaultListModel<Usuario> modelTecnicos;
     private DefaultComboBoxModel<TipoAveria> modelTipos;
 
     /**
-     * Creates new form vNuevaAveria
+     * Constructor
      */
     public AveriaNueva(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
-        // --- CONFIGURACIÓN DE LÓGICA ---
-        configurarListas(); // 1. Vincula los modelos a las JList
-        cargarDatos();      // 2. Trae los datos de BD
-        activarFiltros();   // 3. Activa la búsqueda por texto
+        // Centrar la ventana respecto al padre
+        this.setLocationRelativeTo(parent);
+        
+        // Configuración inicial
+        configurarListas(); 
+        cargarDatos();      
+        activarFiltros();   
     }
     
-        private void configurarListas() {
-        // 1. Inicializamos los modelos ESPECIFICANDO el tipo de objeto
+    // =========================================================================
+    // 1. CONFIGURACIÓN INICIAL Y CARGA DE DATOS
+    // =========================================================================
+
+    private void configurarListas() {
         modelMaquinas = new DefaultListModel<>();
         listaMaquinas.setModel(modelMaquinas);
 
@@ -62,26 +72,72 @@ public class AveriaNueva extends javax.swing.JDialog {
     }
 
     private void cargarDatos() {
-        System.out.println("--- INICIANDO CARGA DE DATOS ---");
-        
-        todasLasMaquinas = controlador.obtenerTodasLasMaquinas();
-        System.out.println("Máquinas encontradas: " + (todasLasMaquinas != null ? todasLasMaquinas.size() : "NULL"));
+        try {
+            // 1. Descargar datos de la BD
+            todasLasMaquinas = controlador.obtenerTodasLasMaquinas();
+            todosLosUsuarios = controlador.obtenerTodosLosUsuarios();
+            List<TipoAveria> tipos = controlador.obtenerTiposAveria();
 
-        todosLosUsuarios = controlador.obtenerTodosLosUsuarios();
-        System.out.println("Usuarios encontrados: " + (todosLosUsuarios != null ? todosLosUsuarios.size() : "NULL"));
+            // 2. Filtrar técnicos en memoria
+            todosLosTecnicos = controlador.obtenerSoloTecnicos(todosLosUsuarios);
 
-        List<TipoAveria> tipos = controller.obtenerTiposAveria();
-        
-        // Llenar modelos
-        if (todasLasMaquinas != null) modelMaquinas.addAll(todasLasMaquinas);
-        if (todosLosUsuarios != null) {
-            modelUsuarios.addAll(todosLosUsuarios);
-            modelTecnicos.addAll(todosLosUsuarios);
-        }
-        if (tipos != null) {
-            for (TipoAveria t : tipos) modelTipos.addElement(t);
+            // 3. Llenar los modelos visuales
+            if (todasLasMaquinas != null) modelMaquinas.addAll(todasLasMaquinas);
+            if (todosLosUsuarios != null) modelUsuarios.addAll(todosLosUsuarios);
+            if (todosLosTecnicos != null) modelTecnicos.addAll(todosLosTecnicos);
+            
+            if (tipos != null) {
+                for (TipoAveria t : tipos) {
+                    modelTipos.addElement(t);
+                }
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error al cargar los datos en AveriaNueva", e);
+            JOptionPane.showMessageDialog(this, 
+                "Error de conexión al cargar los datos iniciales.", 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }    
+    
+    // =========================================================================
+    // 2. LÓGICA DE FILTRADO (Buscadores en tiempo real)
+    // =========================================================================
+
+    private void activarFiltros() {
+        // Listener unificado que reacciona cada vez que se escribe o borra una letra
+        DocumentListener listenerUnificado = new DocumentListener() {
+            @Override public void insertUpdate(DocumentEvent e) { aplicarFiltros(); }
+            @Override public void removeUpdate(DocumentEvent e) { aplicarFiltros(); }
+            @Override public void changedUpdate(DocumentEvent e) { aplicarFiltros(); }
+        };
+
+        txtMaquinaBuscar.getDocument().addDocumentListener(listenerUnificado);
+        txtUsuarioBuscar.getDocument().addDocumentListener(listenerUnificado);
+        txtTecnicoBuscar.getDocument().addDocumentListener(listenerUnificado);
+        
+        // Aplicar el filtro inicial vacío para cargar las listas por primera vez
+        aplicarFiltros();
+    }
+    
+    private void aplicarFiltros() {
+        // --- Filtrar Máquinas ---
+        String textoMaq = txtMaquinaBuscar.getText();
+        List<Maquinaria> maqFiltrada = controlador.filtrarMaquinas(todasLasMaquinas, textoMaq);
+        modelMaquinas.clear();
+        if (maqFiltrada != null) modelMaquinas.addAll(maqFiltrada);
+
+        // --- Filtrar Usuarios (Quien reporta) ---
+        String textoUsu = txtUsuarioBuscar.getText();
+        List<Usuario> usuFiltrados = controlador.filtrarUsuarios(todosLosUsuarios, textoUsu);
+        modelUsuarios.clear();
+        if (usuFiltrados != null) modelUsuarios.addAll(usuFiltrados);
+
+        // --- Filtrar Técnicos ---
+        String textoTec = txtTecnicoBuscar.getText();
+        List<Usuario> tecFiltrados = controlador.filtrarUsuarios(todosLosTecnicos, textoTec);
+        modelTecnicos.clear();
+        if (tecFiltrados != null) modelTecnicos.addAll(tecFiltrados);
+    }
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,18 +178,21 @@ public class AveriaNueva extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Nueva Avería");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Descripción:");
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
         jScrollPane1.setViewportView(txtDescripcion);
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Técnico asingado (opcional):");
 
         jLabel4.setText("Buscar:");
 
         jScrollPane2.setViewportView(listaTecnicos);
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Máquina:");
 
         jLabel6.setText("Buscar:");
@@ -142,10 +201,12 @@ public class AveriaNueva extends javax.swing.JDialog {
 
         jScrollPane4.setViewportView(listaUsuarios);
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Usuario que informa:");
 
         jLabel8.setText("Buscar:");
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("Tipo de avería:");
 
         btnAveriaCrear.setText("Crear avería");
@@ -207,23 +268,23 @@ public class AveriaNueva extends javax.swing.JDialog {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel9)
+                    .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -244,71 +305,50 @@ public class AveriaNueva extends javax.swing.JDialog {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnAveriaCrear)
-                .addContainerGap(421, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // =========================================================================
+    // 3. ACCIÓN DE GUARDAR
+    // =========================================================================
+    
     private void btnAveriaCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaCrearActionPerformed
-        // TODO add your handling code here:
-        // 1. Recoger la descripción
-        String descripcion = txtDescripcion.getText();
+        try {
+            // 1. Recoger la descripción
+            String descripcion = txtDescripcion.getText();
 
-        // 2. Recoger los objetos seleccionados de las Listas y el ComboBox
-        // Nota: Si NetBeans te marca error aquí, mira la nota de abajo sobre "Casteo"
-        Maquinaria maquina = listaMaquinas.getSelectedValue();
-        Usuario usuarioReporta = listaUsuarios.getSelectedValue();
-        Usuario tecnico = listaTecnicos.getSelectedValue(); // Este puede ser null y no pasa nada
-        TipoAveria tipo = (TipoAveria) cbAveriaTipo.getSelectedItem();
+            // 2. Recoger los objetos seleccionados
+            Maquinaria maquina = listaMaquinas.getSelectedValue();
+            Usuario usuarioReporta = listaUsuarios.getSelectedValue();
+            Usuario tecnico = listaTecnicos.getSelectedValue(); // Puede ser null
+            TipoAveria tipo = (TipoAveria) cbAveriaTipo.getSelectedItem();
 
-        // 3. Llamar al controlador para que haga la magia
-        // El controlador valida, guarda y nos dice si todo salió bien (true)
-        boolean exito = controlador.registrarAveria(descripcion, maquina, usuarioReporta, tecnico, tipo);
+            // 3. Mandar al controlador
+            boolean exito = controlador.registrarAveria(descripcion, maquina, usuarioReporta, tecnico, tipo);
 
-        // 4. Si se guardó correctamente, cerramos la ventana
-        if (exito) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Avería registrada con éxito.");
-            this.dispose(); // Cierra el JDialog y devuelve el control a la ventana principal
+            // 4. Procesar resultado
+            if (exito) {
+                JOptionPane.showMessageDialog(this, 
+                    "Avería registrada con éxito.", 
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose(); // Cierra el JDialog y devuelve el control
+            }
+            // Nota: Si exito es false, el controlador ya se encarga de mostrar el JOptionPane específico.
+            
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error al extraer los datos del formulario", e);
+            JOptionPane.showMessageDialog(this, 
+                "Ocurrió un error al intentar leer los datos del formulario.", 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAveriaCrearActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                AveriaNueva dialog = new AveriaNueva(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    // =========================================================================
+    // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
+    // =========================================================================
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaCrear;

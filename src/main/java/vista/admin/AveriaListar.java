@@ -10,57 +10,61 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
+import javax.swing.JOptionPane;
 
 import controlador.AveriaControlador;
+import modelo.Averia;
 
 /**
- *
+ * Ventana principal para la gestión de Averías.
+ * Muestra el listado general y actúa como panel de control para CRUD y filtros.
  * @author yosue
  */
 public class AveriaListar extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AveriaListar.class.getName());
 
-    /// Referencia al controlador
-    private final AveriaControlador controller;
-    
+    // --- Controladores y Modelos ---
+    private final AveriaControlador controladorAveria;
     private DefaultTableModel modeloTabla;
     private TableRowSorter<DefaultTableModel> sorter;
+    
+    // --- Estados de Interfaz ---
+    private boolean filtrosAplicados = false;
     
     /**
      * Creates new form vAdminViewAverias
      */
     public AveriaListar() {
-        // Inicializamos el controlador
-        controller = new AveriaControlador();
+        controladorAveria = new AveriaControlador();
         
         initComponents();
+        
+        // Configuraciones iniciales
         inicializarTabla();
         cargarDatos();
         configurarBuscador();
+        
+        // Centrar la ventana al abrir
+        this.setLocationRelativeTo(null);
     }
 
+    // =========================================================================
+    // 1. CONFIGURACIÓN Y CARGA DE DATOS
+    // =========================================================================
+
     private void inicializarTabla() {
-        // Definimos las columnas
         String[] columnas = {
-            "Cód.", 
-            "Descripción", 
-            "Máquina", 
-            "Tipo Avería", 
-            "F. Inicio", 
-            "F. Asignación",
-            "F. Aceptación",
-            "F. Fin",         
-            "Estado",
-            "Reportado Por", 
-            "Técnico",
-            "Procedimiento"
+            "Cód.", "Descripción", "Máquina", "Tipo Avería", 
+            "F. Inicio", "F. Asignación", "F. Aceptación", "F. Fin",          
+            "Estado", "Reportado Por", "Técnico", "Procedimiento"
         };
 
+        // Modelo que impide la edición directa de celdas
         modeloTabla = new DefaultTableModel(null, columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; 
             }
         };
 
@@ -68,36 +72,51 @@ public class AveriaListar extends javax.swing.JFrame {
         sorter = new TableRowSorter<>(modeloTabla);
         tablaAveria.setRowSorter(sorter);
         
-        // Para hacer más pequeño el campo de código
+        // Ajuste visual de la columna ID
         javax.swing.table.TableColumnModel columnModel = tablaAveria.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(10);
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(0).setMaxWidth(60);
     }
 
+    /**
+     * Descarga todas las averías de la BD y refresca la tabla.
+     */
     private void cargarDatos() {
-        modeloTabla.setRowCount(0); // Limpiar tabla
-        
-        List<Object[]> datos = controller.listarAveriasParaVista();
-        
-        for (Object[] fila : datos) {
-            modeloTabla.addRow(fila);
+        List<Object[]> datos = controladorAveria.listarAveriasParaVista();
+        actualizarModeloTabla(datos);
+    }
+
+    /**
+     * Método auxiliar para rellenar la tabla evitando duplicar código.
+     */
+    private void actualizarModeloTabla(List<Object[]> datos) {
+        modeloTabla.setRowCount(0); // Limpia la tabla actual
+        if (datos != null) {
+            for (Object[] fila : datos) {
+                modeloTabla.addRow(fila);
+            }
         }
     }
 
+    // =========================================================================
+    // 2. LÓGICA DE FILTRADO LOCAL (Buscador Rápido)
+    // =========================================================================
+
     private void configurarBuscador() {
         txtAveriaBuscar.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) { filtrar(); }
-            @Override
-            public void removeUpdate(DocumentEvent e) { filtrar(); }
-            @Override
-            public void changedUpdate(DocumentEvent e) { filtrar(); }
+            @Override public void insertUpdate(DocumentEvent e) { filtrar(); }
+            @Override public void removeUpdate(DocumentEvent e) { filtrar(); }
+            @Override public void changedUpdate(DocumentEvent e) { filtrar(); }
         });
     }
 
     private void filtrar() {
         String texto = txtAveriaBuscar.getText();
-        if (texto.trim().length() == 0) sorter.setRowFilter(null);
-        else sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        if (texto.trim().isEmpty()) {
+            sorter.setRowFilter(null);
+        } else {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
     }
     
     /**
@@ -116,15 +135,12 @@ public class AveriaListar extends javax.swing.JFrame {
         btnAveriaEliminar = new javax.swing.JButton();
         btnAveriaActualizar = new javax.swing.JButton();
         btnAveriaNueva = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        btnAveriaFiltrar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        tgbtnFiltros = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -146,8 +162,18 @@ public class AveriaListar extends javax.swing.JFrame {
 
         btnAveriaEliminar.setBackground(new java.awt.Color(255, 153, 153));
         btnAveriaEliminar.setText("Eliminar avería");
+        btnAveriaEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAveriaEliminarActionPerformed(evt);
+            }
+        });
 
         btnAveriaActualizar.setText("Actualizar avería");
+        btnAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAveriaActualizarActionPerformed(evt);
+            }
+        });
 
         btnAveriaNueva.setText("Nueva avería");
         btnAveriaNueva.addActionListener(new java.awt.event.ActionListener() {
@@ -156,13 +182,16 @@ public class AveriaListar extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Filtrar por:");
-
-        btnAveriaFiltrar.setText("Filtros");
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Gestión de averías");
+
+        tgbtnFiltros.setText("Filtros");
+        tgbtnFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbtnFiltrosActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Inicio");
         jMenuBar1.add(jMenu1);
@@ -172,13 +201,6 @@ public class AveriaListar extends javax.swing.JFrame {
 
         jMenu3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jMenu3.setText("Averías");
-
-        jMenuItem1.setText("Nueva avería");
-        jMenu3.add(jMenuItem1);
-
-        jMenuItem2.setText("Ver averías");
-        jMenu3.add(jMenuItem2);
-
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Usuarios");
@@ -197,10 +219,8 @@ public class AveriaListar extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAveriaFiltrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(tgbtnFiltros)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAveriaNueva))
                     .addGroup(layout.createSequentialGroup()
@@ -223,9 +243,8 @@ public class AveriaListar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(btnAveriaFiltrar)
-                    .addComponent(btnAveriaNueva))
+                    .addComponent(btnAveriaNueva)
+                    .addComponent(tgbtnFiltros))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -238,8 +257,11 @@ public class AveriaListar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // =========================================================================
+    // 3. EVENTOS DE BOTONES (CRUD y Filtros Avanzados)
+    // =========================================================================
+    
     private void btnAveriaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaNuevaActionPerformed
-        // TODO add your handling code here:
         // 1. Crear la instancia del JDialog
         AveriaNueva ventanaNueva = new AveriaNueva(this, true);
         // 2. Centrar la ventana respecto a la pantalla o al padre
@@ -250,48 +272,168 @@ public class AveriaListar extends javax.swing.JFrame {
         cargarDatos();
     }//GEN-LAST:event_btnAveriaNuevaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnAveriaActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaActualizarActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            // 1. Obtener la fila seleccionada (getSelectedRow coge la primera si hay varias)
+            int filaVista = tablaAveria.getSelectedRow();
+
+            if (filaVista == -1) {
+                JOptionPane.showMessageDialog(this, 
+                    "Por favor, selecciona una avería de la tabla para actualizar.", 
+                    "Selección requerida", JOptionPane.WARNING_MESSAGE);
+                return; 
+            }
+
+            // 2. Convertir índice por si hay filtros aplicados
+            int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
+            int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
+
+            // 3. Buscar la avería en la BD
+            Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
+
+            if (averiaSeleccionada != null) {
+                AveriaActualizar ventanaActualizar = new AveriaActualizar(this, true, averiaSeleccionada);
+                ventanaActualizar.setLocationRelativeTo(this);
+                ventanaActualizar.setVisible(true); // Se pausa aquí
+
+                cargarDatos(); // Refrescar al volver
+            } else {
+                 JOptionPane.showMessageDialog(this, 
+                    "No se pudo cargar la información de la avería seleccionada.\nEs posible que haya sido eliminada por otro usuario.", 
+                    "Error de lectura", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al preparar la actualización", e);
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAveriaActualizarActionPerformed
+
+    private void tgbtnFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnFiltrosActionPerformed
+        // ESTADO 1: Si ya hay filtros aplicados, el botón actúa para ELIMINARLOS
+        if (filtrosAplicados) {
+            cargarDatos(); // Recarga todo desde la BD
+            tgbtnFiltros.setText("Filtros");
+            filtrosAplicados = false;
+        } 
+        
+        // ESTADO 2: Si NO hay filtros, el botón actúa para APLICARLOS (Abre el JDialog)
+        else {
+            AveriaFiltros ventanaFiltros = new AveriaFiltros(this, true);
+            ventanaFiltros.setLocationRelativeTo(this);
+            ventanaFiltros.setVisible(true); // El programa espera aquí
+
+            // Si el usuario le dio a "Aplicar filtros" en el JDialog...
+            if (ventanaFiltros.isAplicarFiltros()) {
+                
+                // 1. Extraemos los valores del JDialog
+                Integer id = ventanaFiltros.getFiltroId();
+                Integer idMaq = ventanaFiltros.getFiltroMaquina();
+                Integer idUsu = ventanaFiltros.getFiltroUsuario();
+                Integer idTec = ventanaFiltros.getFiltroTecnico();
+                Integer idTipo = ventanaFiltros.getFiltroTipo();
+                java.time.LocalDateTime fIni = ventanaFiltros.getFiltroFechaReporte();
+                java.time.LocalDateTime fFin = ventanaFiltros.getFiltroFechaFinal();
+                
+                // 2. Traemos los datos filtrados
+                List<Object[]> datosFiltrados = controladorAveria.obtenerAveriasFiltradas(
+                    id, null, fIni, fFin, idUsu, idTec, idMaq, idTipo
+                );
+                
+                // 3. COMPROBAMOS LOS RESULTADOS
+                if (datosFiltrados != null && !datosFiltrados.isEmpty()) {
+                    
+                    // Hay resultados: Vaciamos la tabla y los pintamos
+                    modeloTabla.setRowCount(0); 
+                    for (Object[] fila : datosFiltrados) {
+                        modeloTabla.addRow(fila);
+                    }
+                    
+                    // Convertimos el botón a "Eliminar filtros"
+                    tgbtnFiltros.setText("Eliminar filtros");
+                    filtrosAplicados = true;
+                    // El botón se queda hundido, que es lo que queremos.
+                    
+                } else {
+                    // NO HAY RESULTADOS
+                    javax.swing.JOptionPane.showMessageDialog(this, 
+                        "No se encontró ninguna avería con los filtros indicados.", 
+                        "Sin resultados", 
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        
+                    // Nos aseguramos de que la tabla muestra todo y el botón se reinicia
+                    cargarDatos(); 
+                    tgbtnFiltros.setText("Filtros");
+                    filtrosAplicados = false;
+                    tgbtnFiltros.setSelected(false);
+                }
+            } 
+            else { 
+                // El usuario cerró la ventana en la 'X' sin darle a "Aplicar filtros"
+                tgbtnFiltros.setSelected(false); 
+                
+                // Por si acaso, confirmamos el texto y el estado
+                tgbtnFiltros.setText("Filtros");
+                filtrosAplicados = false;
+            }
+        }
+    }//GEN-LAST:event_tgbtnFiltrosActionPerformed
+
+    private void btnAveriaEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaEliminarActionPerformed
+        try {
+            int filaVista = tablaAveria.getSelectedRow();
+
+            if (filaVista == -1) {
+                JOptionPane.showMessageDialog(this, 
+                    "Por favor, selecciona una avería de la tabla para eliminar.", 
+                    "Selección requerida", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
+            int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
+            String descripcion = (String) modeloTabla.getValueAt(filaModelo, 1);
+
+            int respuesta = JOptionPane.showConfirmDialog(this, 
+                "¿Estás seguro de que deseas eliminar permanentemente la avería #" + idAveria + ":\n\"" + descripcion + "\"?\n\nEsta acción no se puede deshacer.", 
+                "Confirmar eliminación", 
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+                boolean exito = controladorAveria.eliminarAveria(idAveria);
+
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Avería eliminada con éxito.");
+                    cargarDatos(); 
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "No se pudo eliminar la avería.\nEs posible que tenga datos asociados o ya no exista.", 
+                        "Error al eliminar", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al intentar eliminar", e);
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado al intentar eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_btnAveriaEliminarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AveriaListar().setVisible(true));
-    }
+    // =========================================================================
+    // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
+    // =========================================================================
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;
     private javax.swing.JButton btnAveriaEliminar;
-    private javax.swing.JButton btnAveriaFiltrar;
     private javax.swing.JButton btnAveriaNueva;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaAveria;
+    private javax.swing.JToggleButton tgbtnFiltros;
     private javax.swing.JTextField txtAveriaBuscar;
     // End of variables declaration//GEN-END:variables
 }
