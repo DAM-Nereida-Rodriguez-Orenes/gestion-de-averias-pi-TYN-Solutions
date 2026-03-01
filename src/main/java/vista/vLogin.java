@@ -192,9 +192,11 @@ public class vLogin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Se ha enviado tu solicitud de cambio de contraseña",
                         "Restablecimiento de contraseña",
                         JOptionPane.INFORMATION_MESSAGE);
-                /**
-                 * llamada al metodo para restablecer contraseña.
-                 */
+               loginControlador.restablecerPassword(emailSolicitud);
+            }else{
+                 JOptionPane.showMessageDialog(this, "Debe rellenar el campo",
+                        "Restablecimiento de contraseña",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
             // Pulso cancelar o cerro
         } else {

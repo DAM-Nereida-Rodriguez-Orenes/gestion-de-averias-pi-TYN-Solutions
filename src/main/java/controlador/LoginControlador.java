@@ -5,6 +5,7 @@
 package controlador;
 
 import dao.UsuarioDao;
+import daoImpl.UsuarioDaoImpl;
 import modelo.Usuario;
 
 /**
@@ -42,15 +43,20 @@ public class LoginControlador {
         return null;
     }
 
-    public void restablecerCOntraseña(String emailSolicitud) {
+    public void restablecerPassword(String emailSolicitud) {
 
-        //Primero debemso comprobar si es administrador para poder cambiar la contraseña 
-        int codigoRol = usuario.getCodigoRolFK().getCodigoRol();
+        //Primero debemos comprobar si es administrador para poder cambiar la contraseña 
+        int codigoRol = usuario.getCodigoRolFK().getCodigoRol();       
 
         if (codigoRol != 701) {
-            System.out.println("No tienes permisso de adminitrador");
-        } else {
-            usuarioDao.actualizarContraseña(emailSolicitud);
-        }
+            System.out.println("No tienes permisos de adminitrador");
+            return;
+        } 
+         String passwordActualizada = usuarioDao.actualizarPassword(emailSolicitud);
+         if(passwordActualizada != null && !passwordActualizada.isEmpty()){
+             System.out.println("Contrasena actualizada");
+         }else{
+              System.out.println("No existe un usuario con ese email");
+         }
     }
 }

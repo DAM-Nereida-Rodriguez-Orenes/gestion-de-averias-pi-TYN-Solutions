@@ -17,6 +17,7 @@ import java.util.List;
 import javax.sql.DataSource;
 import modelo.Usuario;
 import java.time.LocalDateTime;
+import java.util.Random;
 import modelo.Rol;
 
 /**
@@ -341,25 +342,73 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return usuario;
     }
 
+    /**
+     * Actualiza la contraseña del usuario cuyo email coincide. Si se actualiza
+     * 1 fila, devuelve true. Si no existe ese email, devuelve false.
+     *
+     * @param email
+     * @param password
+     * @return
+     */
     @Override
-    public boolean actualizarContraseña(String password) {
-        String nuevaContrasena = "";
-        String email = "";
+    public String actualizarPassword(String email) {
 
         final String sql = "UPDATE usuario SET password = ? WHERE email = ?";
 
+        String nuevaPassword = generarContrasena(8);
+
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, nuevaContrasena);
+            ps.setString(1, nuevaPassword);
             ps.setString(2, email);
 
             int filasAfectadas = ps.executeUpdate();
 
-            return filasAfectadas > 0;
+            if (filasAfectadas > 0) {
+                return nuevaPassword;
+            }
+
+            return null;
 
         } catch (SQLException e) {
             throw new RuntimeException("Error actualizando contrasena: " + e.getMessage(), e);
         }
+    }
+
+    private String generarContrasena(int longitud) {
+
+        String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String minusculas = "abcdefghijklmnopqrstuvwxyz";
+        String numeros = "0123456789";
+        String especiales = "!@#$%&*?";
+
+        // juntamos todo para rellenar el resto
+        String todos = mayusculas + minusculas + numeros + especiales;
+
+        Random random = new Random();
+
+        char[] password = new char[longitud];
+
+        // aseguramos reglas minimas
+        password[0] = mayusculas.charAt(random.nextInt(mayusculas.length()));
+        password[1] = minusculas.charAt(random.nextInt(minusculas.length()));
+        password[2] = numeros.charAt(random.nextInt(numeros.length()));
+        password[3] = especiales.charAt(random.nextInt(especiales.length()));
+
+        // rellenamos el resto con mezcla
+        for (int i = 4; i < longitud; i++) {
+            password[i] = todos.charAt(random.nextInt(todos.length()));
+        }
+
+        // mezclamos para que no siempre sea: mayus, minus, num, esp...
+        for (int i = password.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char aux = password[i];
+            password[i] = password[j];
+            password[j] = aux;
+        }
+
+        return new String(password);
     }
 
 }
