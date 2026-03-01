@@ -5,7 +5,19 @@
 package vista.admin.maquinas;
 
 import javax.swing.JOptionPane;
-
+import controlador.GestionMaquinasControlador;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableColumn;
+import modelo.Estado;
+import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -13,12 +25,18 @@ import javax.swing.JOptionPane;
 public class GestionMaquinas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionMaquinas.class.getName());
+    private final GestionMaquinasControlador contr = new GestionMaquinasControlador();
+    private DefaultTableModel modeloTabla;
+    private TableRowSorter<DefaultTableModel> sorter;
 
     /**
      * Creates new form GestionMaquinas
      */
     public GestionMaquinas() {
         initComponents();
+        inicializarTabla();
+        configurarOrdenacion();
+        cargarTablaMaquinaria();
     }
 
     /**
@@ -188,6 +206,10 @@ public class GestionMaquinas extends javax.swing.JFrame {
         // TODO add your handling code here:
         NuevaMaquina nm = new NuevaMaquina(this, true);
         nm.setVisible(true);
+        nm.setLocationRelativeTo(this);
+        nm.setVisible(true);
+
+        cargarTablaMaquinaria(); 
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -202,8 +224,97 @@ public class GestionMaquinas extends javax.swing.JFrame {
         //estás seguro?
         //pasar id seleccionado a controlador
         //que vuelva flag: true es que se ha eliminado, false es que no
+        //refrescar la lista
+        cargarTablaMaquinaria();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    //gestión de la tabla (read, ordenación)
+    private void inicializarTabla() {
+        /*
+        Crea un DefaultTableModel con nombres de columnas, 0 filas iniciales, celdas no editables, tipo de dato por columna (muy importante para ordenar bien)
+        */
+        modeloTabla = new DefaultTableModel(
+            new Object[]{"ID", "Nombre", "Estado", "Tipo", "Fecha alta", "Fecha baja"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            } //que el usuario NO edite datos desde aquí
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 0 -> Integer.class; // ID, primera columna: ordena como número
+                    default -> String.class; // resto: ordena comotexto
+                };
+            }
+        };
+
+        tbMaquinaria.setModel(modeloTabla);
+        tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+    private void configurarOrdenacion() {
+        sorter = new TableRowSorter<>(modeloTabla);
+        tbMaquinaria.setRowSorter(sorter);
+
+        //Orden inicial por ID ascendente
+        sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+    }
+    private void cargarTablaMaquinaria() {
+        // 1) Obtener maquinaria desde BDD
+        List<Maquinaria> lista = contr.listarMaquinaria();
+
+        // 2) Mapas FK -> descripción
+        Map<Integer, String> estados = mapEstados();
+        Map<Integer, String> tipos = mapTipos();
+
+        // 3) Pintar en la tabla
+        modeloTabla.setRowCount(0);
+
+        for (Maquinaria m : lista) {
+            String estadoDesc = estados.getOrDefault(m.getCodigoEstadoFK(), String.valueOf(m.getCodigoEstadoFK()));
+            String tipoDesc = tipos.getOrDefault(m.getTipoMaquinariaFK(), String.valueOf(m.getTipoMaquinariaFK()));
+
+            String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().toString() : "";
+            String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().toString() : "";
+
+            modeloTabla.addRow(new Object[]{
+                m.getCodigoMaquinaria(),
+                m.getNombre(),
+                estadoDesc,
+                tipoDesc,
+                fechaAlta,
+                fechaBaja
+            });
+        }
+    }
+    
+    private Map<Integer, String> mapEstados() {
+        Map<Integer, String> map = new HashMap<>();
+        for (Estado e : contr.listarEstado()) {
+            map.put(e.getCodigoEstado(), e.getDescripcionEstado());
+        }
+        return map;
+    }
+
+    private Map<Integer, String> mapTipos() {
+        Map<Integer, String> map = new HashMap<>();
+        for (TipoMaquinaria t : contr.listarTipoMaquinaria()) {
+            map.put(t.getCodigoTipoMaquinaria(), t.getDescripcionMaq());
+        }
+        return map;
+    }
+    
+    //conseguir la máquina real a pesar del orden
+    private int getIdSeleccionado() {
+        int filaVista = tbMaquinaria.getSelectedRow();
+        if (filaVista == -1) return -1;
+
+        int filaModelo = tbMaquinaria.convertRowIndexToModel(filaVista);
+        Object idObj = tbMaquinaria.getModel().getValueAt(filaModelo, 0);
+
+        return Integer.parseInt(String.valueOf(idObj));
+    }
     /**
      * @param args the command line arguments
      */

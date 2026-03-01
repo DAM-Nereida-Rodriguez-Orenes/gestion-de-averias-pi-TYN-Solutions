@@ -79,6 +79,9 @@ public class GestionMaquinasControlador {
     }
 
     //listar desde BDD para rellenar comboboxes y tareas similares
+    public List<Maquinaria> listarMaquinaria() {
+        return mDAOi.listarMaquinaria();
+    }
     public List<Estado> listarEstado() {
         return eDAO.listarEstado();
     }
