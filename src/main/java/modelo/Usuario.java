@@ -9,7 +9,7 @@ import modelo.Rol;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class Usuario {
 
@@ -17,13 +17,13 @@ public class Usuario {
     private int codigoUsuario;
     private String nombre;
     private String apellido;
-    private Rol codigoRolFK;
+    private Rol rol;
     private String telefono;
     private String email;
     private String password;
     private int intentos;
     private LocalDateTime ultimoAcceso;
-    private boolean activo;
+    private Boolean activo;
 
     // Constructor vacio
     public Usuario() {
@@ -36,7 +36,7 @@ public class Usuario {
 
         this.nombre = nombre;
         this.apellido = apellido;
-        this.codigoRolFK = codigoRolFK;
+        this.rol = codigoRolFK;
         this.telefono = telefono;
         this.email = email;
         this.password = password;
@@ -70,12 +70,12 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public Rol getCodigoRolFK() {
-        return codigoRolFK;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setCodigoRolFK(Rol rol) {
-        this.codigoRolFK = rol;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public String getTelefono() {

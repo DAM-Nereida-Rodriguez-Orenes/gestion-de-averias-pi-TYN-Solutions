@@ -204,7 +204,7 @@ public class CrearUsuario extends javax.swing.JDialog {
                 pwdPassword.setText("");
 
                 //Actualizo la tabla
-                gestionUsuario.mostrarTabla();
+                gestionUsuario.mostrarTabla(null);
                 //cierro el modal
                 this.dispose();
             } else {

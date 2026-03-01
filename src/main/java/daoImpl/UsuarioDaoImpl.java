@@ -44,7 +44,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getApellido());
-            ps.setInt(3, usuario.getCodigoRolFK().getCodigoRol());
+            ps.setInt(3, usuario.getRol().getCodigoRol());
             ps.setString(4, usuario.getTelefono());
             ps.setString(5, usuario.getEmail());
             ps.setString(6, usuario.getPassword());
@@ -82,7 +82,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getApellido());
-            ps.setInt(3, usuario.getCodigoRolFK().getCodigoRol());
+            ps.setInt(3, usuario.getRol().getCodigoRol());
             ps.setString(4, usuario.getTelefono());
             ps.setString(5, usuario.getEmail());
             ps.setString(6, usuario.getPassword());
@@ -135,7 +135,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
-        final String sql = "SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario";
+        final String sql = "SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario "
+                + "JOIN rol on codigoRolFK = codigoRol";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
@@ -147,8 +148,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
                 Rol rol = new Rol();
-                rol.setCodigoRol(rs.getInt("codigoRolFK"));
-                usuario.setCodigoRolFK(rol);
+                rol.setDescripcionRol(rs.getString("descripcionRol"));
+                usuario.setRol(rol);
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -174,13 +175,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     @Override
-    public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email) {
+    public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo) {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo ");
+        sql.append("SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo ");
         sql.append("FROM usuario ");
+        sql.append("JOIN rol on codigoRolFK = codigoRol ");
         sql.append("WHERE 1=1 ");
 
         List<Object> parametros = new ArrayList<>();
@@ -200,9 +202,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
             parametros.add("%" + apellido.trim() + "%");
         }
 
-        if (codigoRolFK != null) {
-            sql.append("AND codigoRolFK = ? ");
-            parametros.add(codigoRolFK);
+        if (rol != null) {
+            sql.append("AND descripcionRol = ? ");
+            parametros.add(rol.getDescripcionRol());
         }
 
         if (email != null) {
@@ -210,7 +212,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
             parametros.add(email);
         }
 
-        sql.append("ORDER BY codigoUsuario ASC");
+        if (activo != null) {
+            sql.append("AND activo = ? ");
+            parametros.add(activo);
+        }
+
+        sql.append("ORDER BY codigoUsuario ASC ");
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
@@ -221,6 +228,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
                 if (valor instanceof Integer) {
                     ps.setInt(posicion, (Integer) valor);
+                } else if (valor instanceof Boolean) {
+                    ps.setBoolean(posicion, (Boolean) valor);
                 } else {
                     ps.setString(posicion, (String) valor);
                 }
@@ -234,9 +243,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                     usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                     usuario.setNombre(rs.getString("nombre"));
                     usuario.setApellido(rs.getString("apellido"));
-                    Rol rol = new Rol();
-                    rol.setCodigoRol(rs.getInt("codigoRolFK"));
-                    usuario.setCodigoRolFK(rol);
+                    Rol rolRecuperado = new Rol();
+                    rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));
+                    usuario.setRol(rolRecuperado);
                     usuario.setTelefono(rs.getString("telefono"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));
@@ -301,7 +310,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setApellido(resultSet.getString("apellido"));
                 Rol rol = new Rol();
                 rol.setCodigoRol(resultSet.getInt("codigoRolFK"));
-                usuario.setCodigoRolFK(rol);
+                usuario.setRol(rol);
                 usuario.setTelefono(resultSet.getString("telefono"));
                 usuario.setEmail(resultSet.getString("email"));
                 usuario.setPassword(resultSet.getString("password"));
@@ -373,6 +382,70 @@ public class UsuarioDaoImpl implements UsuarioDao {
         } catch (SQLException e) {
             throw new RuntimeException("Error actualizando contrasena: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Busca el texto escrito en nombre, apellido o email con LIKE, y ya te
+     * devuelve el Rol con su descripcionRol (por el JOIN).
+     */
+    @Override
+    public List<Usuario> buscarPorTexto(String texto) {
+
+        List<Usuario> listaUsuarios = new ArrayList<>();
+
+        final String sql
+                = "SELECT u.codigoUsuario, u.nombre, u.apellido, u.telefono, u.email, u.password, "
+                + "u.intentos, u.ultimoAcceso, u.activo, u.codigoRolFK, r.descripcionRol "
+                + "FROM usuario u "
+                + "INNER JOIN rol r ON u.codigoRolFK = r.codigoRol "
+                + "WHERE u.nombre LIKE ? OR u.apellido LIKE ? OR u.email LIKE ? "
+                + "ORDER BY u.codigoUsuario ASC";
+
+        String patron = "%" + texto + "%";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, patron);
+            ps.setString(2, patron);
+            ps.setString(3, patron);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Usuario usuario = new Usuario();
+
+                    usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
+                    usuario.setNombre(rs.getString("nombre"));
+                    usuario.setApellido(rs.getString("apellido"));
+                    usuario.setTelefono(rs.getString("telefono"));
+                    usuario.setEmail(rs.getString("email"));
+                    usuario.setPassword(rs.getString("password"));
+                    usuario.setIntentos(rs.getInt("intentos"));
+
+                    Timestamp ultimoAcceso = rs.getTimestamp("ultimoAcceso");
+                    if (ultimoAcceso == null) {
+                        usuario.setUltimoAcceso(null);
+                    } else {
+                        usuario.setUltimoAcceso(ultimoAcceso.toLocalDateTime());
+                    }
+
+                    usuario.setActivo(rs.getBoolean("activo"));
+
+                    Rol rol = new Rol();
+                    rol.setCodigoRol(rs.getInt("codigoRolFK"));
+                    rol.setDescripcionRol(rs.getString("descripcionRol"));
+                    usuario.setRol(rol);
+
+                    listaUsuarios.add(usuario);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error buscando por texto: " + e.getMessage(), e);
+        }
+
+        return listaUsuarios;
     }
 
     private String generarContrasena(int longitud) {

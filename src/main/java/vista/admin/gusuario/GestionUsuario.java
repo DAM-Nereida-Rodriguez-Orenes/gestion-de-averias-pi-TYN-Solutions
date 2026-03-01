@@ -11,8 +11,10 @@ import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
 import java.util.List;
 import javax.sql.DataSource;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Rol;
 import modelo.Usuario;
 import vista.vHomeAdmin;
 
@@ -24,6 +26,7 @@ public class GestionUsuario extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionUsuario.class.getName());
     private final GestionUsuarioControlador gestionUsuarioControlador;
+    private final List<Rol> listaRoles;
 
     /**
      * Creates new form GestionUsuario
@@ -31,11 +34,25 @@ public class GestionUsuario extends javax.swing.JFrame {
     public GestionUsuario(GestionUsuarioControlador gestionUsuarioControlador) {
         initComponents();
         this.gestionUsuarioControlador = gestionUsuarioControlador;
-        mostrarTabla();
+        mostrarTabla(null);
+
+        /**
+         * Hemos recuperado los roles de la base de datos y relleno el cbb con
+         * esos valores y luego los obtengo como string para poder pasarselos a
+         * mi metopdo gestionUsuarioControlador.crearUsuario(nombre, apellido,
+         * rol, telefono, email, password);
+         */
+        listaRoles = gestionUsuarioControlador.recuperarListadoRoles();
+        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+        for (int i = 0; i < listaRoles.size(); i++) {
+            modelo.addElement(listaRoles.get(i).getDescripcionRol());
+        }
+        cbbRol.setModel(modelo);
     }
 
-    public void mostrarTabla() {
-        String[] columnas = {"ID","Nombre", "Apellido", "Rol", "Telefono", "Email", "Estatus"};
+    //Metodos auxiliares
+    public void mostrarTabla(List<Usuario> listaUsuarios) {
+        String[] columnas = {"ID", "Nombre", "Apellido", "Rol", "Telefono", "Email", "Estatus"};
 
         DefaultTableModel modelo = new DefaultTableModel(null, columnas) {
             /**
@@ -47,13 +64,17 @@ public class GestionUsuario extends javax.swing.JFrame {
                 return false;
             }
         };
-        List<Usuario> listaUsuarios = this.gestionUsuarioControlador.mostrarLista();
+
+        if (listaUsuarios == null) {
+            listaUsuarios = this.gestionUsuarioControlador.recuperarUsuarios();
+        }
+
         Object[] fila = new Object[7];
         for (Usuario usuario : listaUsuarios) {
             fila[0] = usuario.getCodigoUsuario();
             fila[1] = usuario.getNombre();
             fila[2] = usuario.getApellido();
-            fila[3] = usuario.getCodigoRolFK();
+            fila[3] = (usuario.getRol() != null && usuario.getRol().getDescripcionRol() != null) ? usuario.getRol().getDescripcionRol() : "";
             fila[4] = usuario.getTelefono();
             fila[5] = usuario.getEmail();
             fila[6] = usuario.isActivo();
@@ -61,6 +82,50 @@ public class GestionUsuario extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
         tbUsuarios.setModel(modelo);
+
+    }
+
+    /**
+     * este metodo lee lo escrito en la barra de busqueda permite buscar por
+     * nombre solo o por nombre + apellido (uno o mas apellidos) la primera
+     * palabra se usa como nombre y el resto como apellido
+     */
+    private List<Usuario> filtrarPorBarraBusqueda() {
+
+        String texto = txtBarraBusqueda.getText();
+
+        if (texto == null) {
+            texto = "";
+        }
+
+        texto = texto.trim();
+        texto = texto.replaceAll("\\s+", " ");
+
+        if (texto.isEmpty()) {
+            return gestionUsuarioControlador.buscarUsuario(null, null, null, null, null, null);
+            // o recuperarUsuarios() si lo tienes
+        }
+
+        String[] partes = texto.split(" ");
+
+        if (partes.length == 1) {
+            return gestionUsuarioControlador.buscarPorTexto(partes[0]);
+        }
+
+        String nombre = partes[0];
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 1; i < partes.length; i++) {
+            sb.append(partes[i]);
+
+            if (i < partes.length - 1) {
+                sb.append(" ");
+            }
+        }
+
+        String apellido = sb.toString();
+
+        return gestionUsuarioControlador.buscarUsuario(null, nombre, apellido, null, null, null);
     }
 
     /**
@@ -82,6 +147,8 @@ public class GestionUsuario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnAplicarFiltros = new javax.swing.JButton();
+        btnLimpiarFiltros = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -107,9 +174,12 @@ public class GestionUsuario extends javax.swing.JFrame {
             }
         });
 
-        cbbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "administrador", "operario", "mecanico" }));
-
-        cbbEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "activo", "inactivo" }));
+        cbbEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        cbbEstatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbEstatusActionPerformed(evt);
+            }
+        });
 
         btnAddUsuario.setText("Añadir Usuario");
         btnAddUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +221,20 @@ public class GestionUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnAplicarFiltros.setText("Aplicar filtros");
+        btnAplicarFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarFiltrosActionPerformed(evt);
+            }
+        });
+
+        btnLimpiarFiltros.setText("Limpiar filtros");
+        btnLimpiarFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarFiltrosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -178,6 +262,10 @@ public class GestionUsuario extends javax.swing.JFrame {
                         .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cbbEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAplicarFiltros)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiarFiltros)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAddUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(59, 59, 59))
@@ -193,7 +281,9 @@ public class GestionUsuario extends javax.swing.JFrame {
                     .addComponent(txtBarraBusqueda)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbbEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAddUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAddUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAplicarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLimpiarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -305,7 +395,7 @@ public class GestionUsuario extends javax.swing.JFrame {
             //filtramos por el email ya que tiene constraint unica 
             String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 4);
             //llamamos al metodo para que me filtre el email y me devulva el codigo del usuario 
-            usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(emailUsuario);
+            usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(null, null, null, null, emailUsuario, null);
             gestionUsuarioControlador.setUsuario(usuarioFiltrado.get(0));
 
             ActualizarUsuario au = new ActualizarUsuario(this, rootPaneCheckingEnabled, gestionUsuarioControlador, this);
@@ -313,8 +403,8 @@ public class GestionUsuario extends javax.swing.JFrame {
             au.setLocationRelativeTo(this);
             au.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this,"Debes selecionar un usuario","Actualizar usuario", JOptionPane.ERROR_MESSAGE);
-        }       
+            JOptionPane.showMessageDialog(this, "Debes selecionar un usuario", "Actualizar usuario", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -327,7 +417,7 @@ public class GestionUsuario extends javax.swing.JFrame {
             //filtramos por el email ya que tiene constraint unica 
             String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 4);
             //llamamos al metodo paraq ue me filtre el email y me devulva el codigo del usuario 
-            List<Usuario> usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(emailUsuario);
+            List<Usuario> usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(null, null, null, null, emailUsuario, null);
 
             //Lanzamos mensaje de confirmacion 
             int opcion;
@@ -380,6 +470,108 @@ public class GestionUsuario extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
+    private void btnAplicarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarFiltrosActionPerformed
+        List<Usuario> listaUsuario;
+
+    // 1) filtro estatus -> lo convertimos a Boolean
+    int selectedItemEstatus = cbbEstatus.getSelectedIndex();
+    String estatusSeleccionado = cbbEstatus.getItemAt(selectedItemEstatus);
+
+    Boolean activo = null;
+
+    if (estatusSeleccionado != null) {
+
+        if (estatusSeleccionado.equalsIgnoreCase("Activo")) {
+            activo = true;
+        } else if (estatusSeleccionado.equalsIgnoreCase("Inactivo")) {
+            activo = false;
+        } else {
+            activo = null; // para "Todos"
+        }
+    }
+
+    // 2) filtro rol -> buscamos el objeto rol en listaRoles
+    int selectedItemRol = cbbRol.getSelectedIndex();
+    String rolSeleccionado = cbbRol.getItemAt(selectedItemRol);
+
+    Rol rol = null;
+
+    if (rolSeleccionado != null && !rolSeleccionado.equalsIgnoreCase("Todos")) {
+
+        for (int i = 0; i < listaRoles.size(); i++) {
+
+            Rol rolAux = listaRoles.get(i);
+
+            if (rolAux.getDescripcionRol() != null && rolAux.getDescripcionRol().equalsIgnoreCase(rolSeleccionado)) {
+                rol = rolAux;
+                break;
+            }
+        }
+    }
+
+    // 3) filtro barra busqueda -> nombre y apellido
+    String texto = txtBarraBusqueda.getText();
+
+    if (texto == null) {
+        texto = "";
+    }
+
+    texto = texto.trim();
+    texto = texto.replaceAll("\\s+", " ");
+
+    String nombre = null;
+    String apellido = null;
+
+    if (!texto.isEmpty()) {
+
+        String[] partes = texto.split(" ");
+
+        nombre = partes[0];
+
+        if (partes.length > 1) {
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 1; i < partes.length; i++) {
+
+                sb.append(partes[i]);
+
+                if (i < partes.length - 1) {
+                    sb.append(" ");
+                }
+            }
+
+            apellido = sb.toString();
+        }
+    }
+
+    // 4) una sola llamada con los 3 filtros juntos
+    listaUsuario = gestionUsuarioControlador.buscarUsuario(null, nombre, apellido, rol, null, activo);
+
+    mostrarTabla(listaUsuario);
+
+    }//GEN-LAST:event_btnAplicarFiltrosActionPerformed
+
+    private void btnLimpiarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltrosActionPerformed
+
+        // reiniciamos combos
+        cbbEstatus.setSelectedIndex(0);
+        cbbRol.setSelectedIndex(0);
+
+        // limpiamos barra de busqueda
+        txtBarraBusqueda.setText("");
+
+        // recargamos todos los usuarios
+        mostrarTabla(null);
+    }//GEN-LAST:event_btnLimpiarFiltrosActionPerformed
+
+    /**
+     * FILTOS DE BUSQUEDA.
+     */
+    private void cbbEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbEstatusActionPerformed
+
+    }//GEN-LAST:event_cbbEstatusActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -409,7 +601,9 @@ public class GestionUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAddUsuario;
+    private javax.swing.JButton btnAplicarFiltros;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiarFiltros;
     private javax.swing.JComboBox<String> cbbEstatus;
     private javax.swing.JComboBox<String> cbbRol;
     private javax.swing.JLabel jLabel1;

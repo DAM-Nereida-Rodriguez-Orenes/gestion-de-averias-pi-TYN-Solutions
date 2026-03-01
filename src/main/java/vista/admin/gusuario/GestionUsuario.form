@@ -163,6 +163,10 @@
                           <Component id="cbbRol" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="cbbEstatus" min="-2" pref="120" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnAplicarFiltros" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnLimpiarFiltros" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnAddUsuario" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
@@ -183,6 +187,8 @@
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="cbbEstatus" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnAddUsuario" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnAplicarFiltros" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="btnLimpiarFiltros" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -209,11 +215,7 @@
         <Component class="javax.swing.JComboBox" name="cbbRol">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="administrador"/>
-                <StringItem index="1" value="operario"/>
-                <StringItem index="2" value="mecanico"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -224,11 +226,14 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
-                <StringItem index="0" value="activo"/>
-                <StringItem index="1" value="inactivo"/>
+                <StringItem index="0" value="Activo"/>
+                <StringItem index="1" value="Inactivo"/>
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbEstatusActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -293,6 +298,22 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAplicarFiltros">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Aplicar filtros"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAplicarFiltrosActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnLimpiarFiltros">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpiar filtros"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarFiltrosActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

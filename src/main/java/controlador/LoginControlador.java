@@ -46,7 +46,7 @@ public class LoginControlador {
     public void restablecerPassword(String emailSolicitud) {
 
         //Primero debemos comprobar si es administrador para poder cambiar la contraseña 
-        int codigoRol = usuario.getCodigoRolFK().getCodigoRol();       
+        int codigoRol = usuario.getRol().getCodigoRol();       
 
         if (codigoRol != 701) {
             System.out.println("No tienes permisos de adminitrador");

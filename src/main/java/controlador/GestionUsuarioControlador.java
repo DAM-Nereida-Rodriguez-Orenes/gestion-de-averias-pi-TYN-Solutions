@@ -5,6 +5,7 @@
 package controlador;
 
 import config.DataSourceFactory;
+import dao.RolDao;
 import dao.UsuarioDao;
 import daoImpl.RolDaoImpl;
 import daoImpl.UsuarioDaoImpl;
@@ -22,7 +23,7 @@ import modelo.Usuario;
 public class GestionUsuarioControlador {
 
     private UsuarioDaoImpl usuarioDaoImpl = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
-    private RolDaoImpl rolDaoImpl = new RolDaoImpl(DataSourceFactory.getDataSource());
+    private RolDao rolDaoImpl = new RolDaoImpl(DataSourceFactory.getDataSource());
     private Usuario usuario;
     private Rol rol;
 
@@ -43,7 +44,7 @@ public class GestionUsuarioControlador {
         this.rol = rol;
     }
 
-    //METODOS
+    //METODOS CRUD
     public boolean crearUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password) {
         // Variables
         int intentos = 0;
@@ -76,7 +77,7 @@ public class GestionUsuarioControlador {
     }
 
     public boolean actualizarDatosUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password) {
-            
+
         Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
         if (rol != null) {
             try {
@@ -96,6 +97,28 @@ public class GestionUsuarioControlador {
         }
     }
 
+    public void eliminarUsuario(int codigoUsuario) {
+        usuarioDaoImpl.eliminarUsuario(codigoUsuario);
+    }
+
+    /**
+     * este metod lo utilizo para rellenar los datos de la tabla sacandolos
+     * desde la base de datos
+     *
+     * @return
+     */
+    public List<Usuario> recuperarUsuarios() {
+        return usuarioDaoImpl.listarUsuarios();
+    }
+
+    public List<Usuario> buscarUsuario(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email, Boolean activo) {
+        return usuarioDaoImpl.buscarPorFiltros(codigoUsuario, nombre, apellido, codigoRolFK, email, activo);
+    }
+
+    /**
+     * METODOS AUXILIARES.
+     */
+    //Estos metodos se utilizan en el metodo crearUsuario()
     private boolean validarDatos(String telefono, String email, String password) {
         //validar el telefono: llamamos a la funcion para que se encrague de validarlo
         if (!telefonoValido(telefono)) {
@@ -153,25 +176,28 @@ public class GestionUsuarioControlador {
         return passwordLimpia.matches(regex);
     }
 
-    public void eliminarUsuario(int codigoUsuario) {
-        usuarioDaoImpl.eliminarUsuario(codigoUsuario);
-    }
-
-    public List<Usuario> buscarUsuario(String email) {
-        return usuarioDaoImpl.buscarPorFiltros(null, null, null, null, email);
-    }
-
     public List<Rol> recuperarListadoRoles() {
         return rolDaoImpl.listarRoles();
     }
 
-    /**
-     * este metod lo utilizo para rellanra los datos de la tabla sacandolos desde
-     * la base de datos
-     * @return 
-     */
-    public List<Usuario> mostrarLista() {
-        return usuarioDaoImpl.listarUsuarios();
+    public List<Usuario> filtrarUsuarioPorEstado(String estado) {
+
+        if (estado != null && !estado.isEmpty()) {
+
+            if (estado.equals("Activo")) {
+                return usuarioDaoImpl.buscarPorFiltros(null, null, null, null, null, Boolean.TRUE);
+            } else if (estado.equals("Inactivo")) {
+                return usuarioDaoImpl.buscarPorFiltros(null, null, null, null, null, Boolean.FALSE);
+            }
+
+        } else {
+            System.out.println("El estado esta vacio o es null");
+        }
+        return null;
     }
-   
+
+    public List<Usuario> buscarPorTexto(String texto) {
+        return usuarioDaoImpl.buscarPorTexto(texto);
+    }
+
 }

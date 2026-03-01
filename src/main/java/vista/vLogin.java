@@ -213,7 +213,7 @@ public class vLogin extends javax.swing.JFrame {
             guardarUsuarioRecordado();
 
             // Abrir ventana principal
-            int codigoRol = usuario.getCodigoRolFK().getCodigoRol();
+            int codigoRol = usuario.getRol().getCodigoRol();
 
             if (codigoRol == 701) {
                 vHomeAdmin vHome = new vHomeAdmin();

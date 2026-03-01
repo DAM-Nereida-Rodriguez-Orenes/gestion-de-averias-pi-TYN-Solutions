@@ -59,7 +59,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
          * enseñarlo
          */
         for (Rol rol : listaRoles) {
-            if (rol == gestionUsuarioControlador.getUsuario().getCodigoRolFK()) {
+            if (rol == gestionUsuarioControlador.getUsuario().getRol()) {
                 cbbRol.setSelectedItem(rol.getDescripcionRol());
                 break;
             }
@@ -230,7 +230,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Datos del usuario actualizado", "Actualización realizada", JOptionPane.INFORMATION_MESSAGE);
 
                 //Actualizo la tabla
-                gestionUsuario.mostrarTabla();
+                gestionUsuario.mostrarTabla(null);
                 //cierro el modal
                 this.dispose();
             }

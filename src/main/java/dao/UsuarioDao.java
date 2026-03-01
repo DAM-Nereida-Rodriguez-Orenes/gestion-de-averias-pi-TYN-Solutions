@@ -12,7 +12,7 @@ import modelo.Usuario;
  *
  * @author Thanya
  */
-public interface  UsuarioDao {
+public interface UsuarioDao {
 
     void insertarUsuario(Usuario usuario);
 
@@ -22,9 +22,11 @@ public interface  UsuarioDao {
 
     List<Usuario> listarUsuarios();
 
-    List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email);
-    
+    List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo);
+
     Usuario buscarPorCredenciales(String email, String password);
-    
+
     String actualizarPassword(String email);
+
+    List<Usuario> buscarPorTexto(String texto);
 }
