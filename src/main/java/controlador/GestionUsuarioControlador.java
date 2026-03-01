@@ -11,6 +11,8 @@ import daoImpl.UsuarioDaoImpl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import modelo.Rol;
 import modelo.Usuario;
 
 /**
@@ -22,58 +24,74 @@ public class GestionUsuarioControlador {
     private UsuarioDaoImpl usuarioDaoImpl = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
     private RolDaoImpl rolDaoImpl = new RolDaoImpl(DataSourceFactory.getDataSource());
     private Usuario usuario;
+    private Rol rol;
 
-    public List<Usuario> mostrarLista() {
-        return usuarioDaoImpl.listarUsuarios();
+    //GETTERS Y SETTERS
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public boolean crearUsuario(String nombre, String apellido, String codigoRol, String telefono, String email, String password) {
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    //METODOS
+    public boolean crearUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password) {
         // Variables
-        int codigoRolInt = 0;
         int intentos = 0;
         boolean activo = true;
 
-        //convertir el rol de texto int
-        System.out.println("El rol es" + codigoRol);
-        switch (codigoRol) {
-            case "Administrador":
-                codigoRolInt = 701;
-                break;
-            case "Operario":
-                codigoRolInt = 702;
-                break;
-            case "Mecánico":
-                codigoRolInt = 703;
-                break;
-            default:
-                return false;
-        }
-         System.out.println("El rol es" + codigoRolInt);
-         
-        // validar que el rol exista 
-        boolean rolExiste = rolDaoImpl.existeID(codigoRolInt);
-        if (!rolExiste) {
-             System.out.println("El rol no existe");
-            return false;
-        }
-         System.out.println("El rol existe y es " + codigoRol);
-         
         // llamamos al metodo validar datos telefono, email, password
         boolean datosValidos = validarDatos(telefono, email, password);
         if (!datosValidos) {
-             System.out.println("Algun dato esta mal");
+            System.out.println("Algun dato esta mal");
             return false;
         }
-         System.out.println("Los datos estan bien");
-         
-        // crear el usuario y guardarlo
-        try {
-            Usuario usuario = new Usuario(nombre, apellido, codigoRolInt, telefono, email, password, intentos, LocalDateTime.now(), activo);
-            usuarioDaoImpl.insertarUsuario(usuario);
-            return true;
+        System.out.println("Los datos estan bien");
 
-        } catch (RuntimeException e) {
-            System.out.println("Error insertando usuario: " + e.getMessage());
+        //estamos recuperandoe el rol de la base de datos
+        Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
+        if (rol != null) {
+            try {
+                Usuario usuario = new Usuario(nombre, apellido, rol, telefono, email, password, intentos, LocalDateTime.now(), activo);
+                usuarioDaoImpl.insertarUsuario(usuario);
+                return true;
+
+            } catch (RuntimeException e) {
+                System.out.println("Error insertando usuario: " + e.getMessage());
+                return false;
+            }
+        } else {
+            System.out.println("Error Rol no encontrado");
+            return false;
+        }
+    }
+
+    public boolean actualizarDatosUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password) {
+            
+        Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
+        if (rol != null) {
+            try {
+                //Ahora si le cambiamos sus datos por los que me vienen por parametro 
+                Usuario usuarioActualizado = new Usuario(nombre, apellido, rol, telefono, email, password, this.usuario.getIntentos(), LocalDateTime.now(), this.usuario.isActivo());
+                usuarioActualizado.setCodigoUsuario(usuario.getCodigoUsuario());
+                usuarioDaoImpl.actualizarUsuario(usuarioActualizado);
+                return true;
+
+            } catch (RuntimeException e) {
+                System.out.println("Error insertando usuario: " + e.getMessage());
+                return false;
+            }
+        } else {
+            System.out.println("Error Rol no encontrado");
             return false;
         }
     }
@@ -81,15 +99,15 @@ public class GestionUsuarioControlador {
     private boolean validarDatos(String telefono, String email, String password) {
         //validar el telefono: llamamos a la funcion para que se encrague de validarlo
         if (!telefonoValido(telefono)) {
-             System.out.println("el telefono esta mal");
+            System.out.println("el telefono esta mal");
             return false;
         }
         if (!emailValido(email)) {
-             System.out.println("el email esta amal");
+            System.out.println("el email esta amal");
             return false;
         }
         if (!passwordValida(password)) {
-             System.out.println("la password esta mal");
+            System.out.println("la password esta mal");
             return false;
         }
         return true;
@@ -103,6 +121,7 @@ public class GestionUsuarioControlador {
         // eliminar espacios, guiones y parentesis
         String telefonoLimpio = telefono.replaceAll("[\\s\\-()]", "");
         // expresion regular: + seguido de 8 a 15 digitos
+        //TENEMOS QUE PONERLE EL +34 O LO QUE SEA
         String regex = "^\\+\\d{8,15}$";
         return Pattern.matches(regex, telefonoLimpio);
     }
@@ -130,12 +149,29 @@ public class GestionUsuarioControlador {
 
         String passwordLimpia = password.trim();
 
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\\\d)(?=.*[^A-Za-z0-9]).{8,}$";
-
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$";
         return passwordLimpia.matches(regex);
     }
 
     public void eliminarUsuario(int codigoUsuario) {
         usuarioDaoImpl.eliminarUsuario(codigoUsuario);
     }
+
+    public List<Usuario> buscarUsuario(String email) {
+        return usuarioDaoImpl.buscarPorFiltros(null, null, null, null, email);
+    }
+
+    public List<Rol> recuperarListadoRoles() {
+        return rolDaoImpl.listarRoles();
+    }
+
+    /**
+     * este metod lo utilizo para rellanra los datos de la tabla sacandolos desde
+     * la base de datos
+     * @return 
+     */
+    public List<Usuario> mostrarLista() {
+        return usuarioDaoImpl.listarUsuarios();
+    }
+   
 }

@@ -5,18 +5,19 @@
 package modelo;
 
 import java.time.LocalDateTime;
+import modelo.Rol;
 
 /**
  *
  * @author Netri
  */
 public class Usuario {
-    
+
     // Atributos
     private int codigoUsuario;
     private String nombre;
     private String apellido;
-    private int codigoRolFK;
+    private Rol codigoRolFK;
     private String telefono;
     private String email;
     private String password;
@@ -29,7 +30,7 @@ public class Usuario {
     }
 
     // Constructor completo
-    public Usuario( String nombre, String apellido, int codigoRolFK,
+    public Usuario(String nombre, String apellido, Rol codigoRolFK,
             String telefono, String email, String password, int intentos,
             LocalDateTime ultimoAcceso, boolean activo) {
 
@@ -69,12 +70,12 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public int getCodigoRolFK() {
+    public Rol getCodigoRolFK() {
         return codigoRolFK;
     }
 
-    public void setCodigoRolFK(int codigoRolFK) {
-        this.codigoRolFK = codigoRolFK;
+    public void setCodigoRolFK(Rol rol) {
+        this.codigoRolFK = rol;
     }
 
     public String getTelefono() {
@@ -124,5 +125,5 @@ public class Usuario {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    
+
 }

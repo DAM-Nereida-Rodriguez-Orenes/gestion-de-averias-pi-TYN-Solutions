@@ -140,12 +140,10 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         // Llamada al controlador
         Usuario usuario = loginControlador.accederAplicacion(email, password);
 
         if (usuario == null) {
-
             // Login incorrecto
             JOptionPane.showMessageDialog(this,
                     "Credenciales incorrectas",
@@ -153,7 +151,6 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
 
         } else {
-
             // Login correcto
             JOptionPane.showMessageDialog(this,
                     "Bienvenido " + usuario.getNombre(),
@@ -161,10 +158,12 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Abrir ventana principal
-            if (usuario.getCodigoRolFK() == 701) {
-                vHomeAdmin vHome = new vHomeAdmin();                
+            int codigoRol = usuario.getCodigoRolFK().getCodigoRol();
+
+            if (codigoRol == 701) {
+                vHomeAdmin vHome = new vHomeAdmin();
                 vHome.setVisible(true);
-            } else if (usuario.getCodigoRolFK() == 702) {
+            } else if (codigoRol == 702) {
                 vHomeOper vHome = new vHomeOper();
                 vHome.setVisible(true);
             } else {
@@ -173,13 +172,36 @@ public class vLogin extends javax.swing.JFrame {
                         "Error de autenticacion",
                         JOptionPane.WARNING_MESSAGE);
             }
-
             // Cerrar login
             this.dispose();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed
+
+        String emailSolicitud;
+
+        //Solicitamos el dato
+        emailSolicitud = JOptionPane.showInputDialog(this, "Ingresa tu correo corporativo: ",
+                "Restablecimiento de contraseña",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (emailSolicitud != null) {
+            // Pulso aceptar
+            if (!emailSolicitud.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Se ha enviado tu solicitud de cambio de contraseña",
+                        "Restablecimiento de contraseña",
+                        JOptionPane.INFORMATION_MESSAGE);
+                /**
+                 * llamada al metodo para restablecer contraseña.
+                 */
+            }
+            // Pulso cancelar o cerro
+        } else {
+            JOptionPane.showMessageDialog(this, "Operación cancelada",
+                    "Restablecimiento de contraseña",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnRecuperarActionPerformed
 

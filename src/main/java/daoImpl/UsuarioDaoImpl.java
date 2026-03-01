@@ -17,6 +17,7 @@ import java.util.List;
 import javax.sql.DataSource;
 import modelo.Usuario;
 import java.time.LocalDateTime;
+import modelo.Rol;
 
 /**
  *
@@ -42,7 +43,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getApellido());
-            ps.setInt(3, usuario.getCodigoRolFK());
+            ps.setInt(3, usuario.getCodigoRolFK().getCodigoRol());
             ps.setString(4, usuario.getTelefono());
             ps.setString(5, usuario.getEmail());
             ps.setString(6, usuario.getPassword());
@@ -80,7 +81,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getApellido());
-            ps.setInt(3, usuario.getCodigoRolFK());
+            ps.setInt(3, usuario.getCodigoRolFK().getCodigoRol());
             ps.setString(4, usuario.getTelefono());
             ps.setString(5, usuario.getEmail());
             ps.setString(6, usuario.getPassword());
@@ -110,10 +111,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
     @Override
     public void eliminarUsuario(int codigoUsuario) {
 
-        final String sql = "DELETE FROM usuario WHERE codigoUsuario = ?";
+        final String sql = "UPDATE  usuario SET activo = 0 WHERE codigoUsuario = ?";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            /*El primer ? que encuentres le pone el valor del codigoUsuario*/
             ps.setInt(1, codigoUsuario);
 
             int filasAfectadas = ps.executeUpdate();
@@ -143,7 +145,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
-                usuario.setCodigoRolFK(rs.getInt("codigoRolFK"));
+                Rol rol = new Rol();
+                rol.setCodigoRol(rs.getInt("codigoRolFK"));
+                usuario.setCodigoRolFK(rol);
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -169,7 +173,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     @Override
-    public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Integer codigoRolFK) {
+    public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email) {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
@@ -200,6 +204,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
             parametros.add(codigoRolFK);
         }
 
+        if (email != null) {
+            sql.append("AND email = ? ");
+            parametros.add(email);
+        }
+
         sql.append("ORDER BY codigoUsuario ASC");
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
@@ -224,7 +233,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                     usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                     usuario.setNombre(rs.getString("nombre"));
                     usuario.setApellido(rs.getString("apellido"));
-                    usuario.setCodigoRolFK(rs.getInt("codigoRolFK"));
+                    Rol rol = new Rol();
+                    rol.setCodigoRol(rs.getInt("codigoRolFK"));
+                    usuario.setCodigoRolFK(rol);
                     usuario.setTelefono(rs.getString("telefono"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));
@@ -250,6 +261,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /**
+     * Este metodo me sirve para el login.
+     *
+     * @param email
+     * @param password
+     * @return
+     */
     @Override
     public Usuario buscarPorCredenciales(String email, String password) {
 
@@ -280,7 +298,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(resultSet.getInt("codigoUsuario"));
                 usuario.setNombre(resultSet.getString("nombre"));
                 usuario.setApellido(resultSet.getString("apellido"));
-                usuario.setCodigoRolFK(resultSet.getInt("codigoRolFK"));
+                Rol rol = new Rol();
+                rol.setCodigoRol(resultSet.getInt("codigoRolFK"));
+                usuario.setCodigoRolFK(rol);
                 usuario.setTelefono(resultSet.getString("telefono"));
                 usuario.setEmail(resultSet.getString("email"));
                 usuario.setPassword(resultSet.getString("password"));
@@ -319,6 +339,27 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
 
         return usuario;
+    }
+
+    @Override
+    public boolean actualizarContraseña(String password) {
+        String nuevaContrasena = "";
+        String email = "";
+
+        final String sql = "UPDATE usuario SET password = ? WHERE email = ?";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nuevaContrasena);
+            ps.setString(2, email);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            return filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error actualizando contrasena: " + e.getMessage(), e);
+        }
     }
 
 }

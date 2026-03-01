@@ -5,6 +5,7 @@
 package dao;
 
 import java.util.List;
+import modelo.Rol;
 import modelo.Usuario;
 
 /**
@@ -21,7 +22,9 @@ public interface  UsuarioDao {
 
     List<Usuario> listarUsuarios();
 
-    List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Integer codigoRolFK);
+    List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email);
     
     Usuario buscarPorCredenciales(String email, String password);
+    
+    boolean actualizarContraseña(String password);
 }

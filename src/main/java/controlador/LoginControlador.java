@@ -13,10 +13,24 @@ import modelo.Usuario;
  */
 public class LoginControlador {
 
+    //si quiero mostrar uin mensaje lo puedo hacer mediante una variable 
+    //que la puedo llamar desde la vista que me interese 
+    
     private final UsuarioDao usuarioDao;
+    private Usuario usuario;
 
+    //constructor
     public LoginControlador(UsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
+    }
+
+    //getter y setters
+    public UsuarioDao getUsuarioDao() {
+        return usuarioDao;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Usuario accederAplicacion(String email, String password) {
@@ -26,5 +40,17 @@ public class LoginControlador {
             return usuario;
         }
         return null;
+    }
+
+    public void restablecerCOntraseña(String emailSolicitud) {
+
+        //Primero debemso comprobar si es administrador para poder cambiar la contraseña 
+        int codigoRol = usuario.getCodigoRolFK().getCodigoRol();
+
+        if (codigoRol != 701) {
+            System.out.println("No tienes permisso de adminitrador");
+        } else {
+            usuarioDao.actualizarContraseña(emailSolicitud);
+        }
     }
 }
