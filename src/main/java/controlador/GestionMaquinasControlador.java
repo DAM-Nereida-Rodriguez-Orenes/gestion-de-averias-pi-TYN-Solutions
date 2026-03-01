@@ -10,86 +10,80 @@ import java.time.ZoneId;
 import java.util.Date;
 import modelo.Maquinaria;
 import config.DataSourceFactory;
+import daoImpl.EstadoDAOimpl;
+import daoImpl.TipoMaquinariaDAOimpl;
+import modelo.Estado;
+import modelo.TipoMaquinaria;
+import java.util.List;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class GestionMaquinasControlador {
+    //Instancias de los implements (la vista no sabe nada del DAO)
     private MaquinariaDAOimpl mDAOi = new MaquinariaDAOimpl(DataSourceFactory.getDataSource());
+    EstadoDAOimpl eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
+    TipoMaquinariaDAOimpl tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
 
     public GestionMaquinasControlador() {}
     
     //crear nueva máquina
-    public boolean crearMaquina(String nombre, String status, String tipo, Date fechaAlta){
-        boolean flag = true;
-        int statusInt;
-        int tipoInt;
+    public boolean crearMaquina(String nombre, int codigoEstadoFK, int tipoMaquinariaFK, Date fechaAlta) {
         LocalDate fechaAltaLDate;
-        //validar status
-        switch (status) {
-
-            case "Operativa":
-                statusInt = 801;
-                break;
-
-            case "Averiada":
-                statusInt = 802;
-                break;
-
-            case "En mantenimiento":
-                statusInt = 803;
-                break;
-            case "Fuera de servicio":
-                statusInt = 804;
-                break;
-            default:
-                flag = false;
-                return flag;
-        }
-        //validar tipo
-        switch (tipo){
-            case "cortes y arranque de material mecanizado":
-                tipoInt = 301;
-                break;
-            case "perforación y operaciones de agujeros":
-                tipoInt = 302;
-                break;
-            case "abrasivo y acabado superficial":
-                tipoInt = 303;
-                break;
-            case "corte por separacion":
-                tipoInt = 304;
-                break;
-            case "conformado y deformación sin arranque de viruta":
-                tipoInt = 305;
-                break;
-            case "union y ensamblaje":
-                tipoInt = 306;
-                break;
-            case "tratamiento y acondicionamiento":
-                tipoInt = 307;
-                break;
-            case "procesos especificos":
-                tipoInt = 308;
-                break;
-            default:
-                flag = false;
-                return flag;
-        }
-        
-        //validar fechaAlta
+        if (nombre == null || nombre.isBlank()) return false;
+        if (codigoEstadoFK <= 0) return false;
+        if (tipoMaquinariaFK <= 0) return false;
+        if (fechaAlta == null) return false;
         fechaAltaLDate = fechaAlta.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         if(fechaAltaLDate.isAfter(LocalDate.now())){
-            flag = false;
-            return flag;
+            return false;
         }
+        
         //crear objeto modelo
-        Maquinaria m = new Maquinaria(nombre, statusInt, fechaAltaLDate, null, tipoInt);
-      
+        Maquinaria m = new Maquinaria();
+        m.setNombre(nombre.trim());
+        m.setCodigoEstadoFK(codigoEstadoFK);
+        m.setTipoMaquinariaFK(tipoMaquinariaFK);
+        m.setFechaAlta(fechaAltaLDate);
+
         //llamar a la daoimpl;
         mDAOi.insertar(m);
         //comunicarse con la vista
-        return flag;
+        return true;
+    }
+    
+    //actualizar una máquina
+     public boolean actualizarMaquina(String nombre, int codigoEstadoFK, int tipoMaquinariaFK, Date fechaAlta) {
+        LocalDate fechaAltaLDate;
+        if (nombre == null || nombre.isBlank()) return false;
+        if (codigoEstadoFK <= 0) return false;
+        if (tipoMaquinariaFK <= 0) return false;
+        if (fechaAlta == null) return false;
+        fechaAltaLDate = fechaAlta.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(fechaAltaLDate.isAfter(LocalDate.now())){
+            return false;
+        }
+        
+        //crear objeto modelo
+        Maquinaria m = new Maquinaria();
+        m.setNombre(nombre.trim());
+        m.setCodigoEstadoFK(codigoEstadoFK);
+        m.setTipoMaquinariaFK(tipoMaquinariaFK);
+        m.setFechaAlta(fechaAltaLDate);
+
+        //llamar a la daoimpl;
+        mDAOi.modificar(m);
+        //comunicarse con la vista
+        return true;
+    }
+
+    //listar desde BDD para rellenar comboboxes y tareas similares
+    public List<Estado> listarEstado() {
+        return eDAO.listarEstado();
+    }
+
+    public List<TipoMaquinaria> listarTipoMaquinaria() {
+        return tDAO.listarTipoMaquinaria();
     }
 }

@@ -7,20 +7,28 @@ package vista.admin.maquinas;
 import controlador.GestionMaquinasControlador;
 import java.util.Date;
 import javax.swing.JOptionPane;
-
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
+import modelo.Estado;
+import modelo.TipoMaquinaria;
+import modelo.Maquinaria;
 /**
- *
+ *   REVISAR: primero muestra la lista!
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class ActualizarMaquina extends javax.swing.JDialog {
     private GestionMaquinasControlador contr = new GestionMaquinasControlador();
-
+    private final Map<String, Integer> estadoDescToId = new LinkedHashMap<>();
+    private final Map<String, Integer> tipoDescToId = new LinkedHashMap<>();
     /**
      * Creates new form NuevaMaquina
      */
     public ActualizarMaquina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        cargarCombosDesdeBD();
     }
 
     /**
@@ -156,11 +164,13 @@ public class ActualizarMaquina extends javax.swing.JDialog {
     private void btnActualizarMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarMaquinaActionPerformed
         //Recoger datos vista
         String nomMaq = txtNombre.getText();
-        String statusMaq = cbbStatus.getSelectedItem().toString();
-        String tipoMaq = cbbTipo.getSelectedItem().toString();
+        String estadoDesc = (String) cbbStatus.getSelectedItem();
+        String tipoDesc = (String) cbbTipo.getSelectedItem();
+        Integer estadoId = estadoDescToId.get(estadoDesc);
+        Integer tipoId = tipoDescToId.get(tipoDesc);
         Date fechaAlta = (Date) spFechaAlta.getValue();
         //fechaBaja debe ser más actual que fechaAlta y solo estará enabled si statusMaq es "fuera de servicio"
-        boolean flag = contr.crearMaquina(nomMaq, statusMaq, tipoMaq, fechaAlta);
+        boolean flag = contr.crearMaquina(nomMaq, estadoId, tipoId, fechaAlta);
         if (flag){
             JOptionPane.showMessageDialog(this, "Máquina actualizada con éxito", "Actualización realizada",JOptionPane.INFORMATION_MESSAGE);
         }else{
@@ -168,6 +178,36 @@ public class ActualizarMaquina extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnActualizarMaquinaActionPerformed
 
+    //comboboxes
+    private void cargarCombosDesdeBD() {
+        // --- ESTADOS ---
+        DefaultComboBoxModel<String> modelEstados = new DefaultComboBoxModel<>();
+        estadoDescToId.clear();
+
+        List<Estado> estados = contr.listarEstado();
+        for (Estado e : estados) {
+            String desc = e.getDescripcionEstado(); 
+            int id = e.getCodigoEstado();          
+
+            modelEstados.addElement(desc);
+            estadoDescToId.put(desc, id);
+        }
+        cbbStatus.setModel(modelEstados);
+
+        // --- TIPOS ---
+        DefaultComboBoxModel<String> modelTipos = new DefaultComboBoxModel<>();
+        tipoDescToId.clear();
+
+        List<TipoMaquinaria> tipos = contr.listarTipoMaquinaria();
+        for (TipoMaquinaria t : tipos) {
+            String desc = t.getDescripcionMaq();      
+            int id = t.getCodigoTipoMaquinaria();      
+
+            modelTipos.addElement(desc);
+            tipoDescToId.put(desc, id);
+        }
+        cbbTipo.setModel(modelTipos);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarMaquina;

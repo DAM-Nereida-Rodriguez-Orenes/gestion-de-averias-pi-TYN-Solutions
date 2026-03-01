@@ -86,26 +86,20 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // 1️⃣ nombre
             ps.setString(1, m.getNombre());
 
-            // 2️⃣ estado (FK)
             ps.setInt(2, m.getCodigoEstadoFK());
 
-            // 3️⃣ fechaAlta (DATE)
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
 
-            // 4️⃣ fechaBaja (puede ser NULL)
             if (m.getFechaBaja() == null) {
                 ps.setNull(4, Types.DATE);
             } else {
                 ps.setDate(4, Date.valueOf(m.getFechaBaja()));
-            }
+            };
 
-            // 5️⃣ tipo maquinaria (FK)
             ps.setInt(5, m.getTipoMaquinariaFK());
 
-            // 6️⃣ WHERE codigoMaquinaria
             ps.setInt(6, m.getCodigoMaquinaria());
 
             ps.executeUpdate();

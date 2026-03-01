@@ -6,14 +6,24 @@ package vista.admin.maquinas;
 
 import controlador.GestionMaquinasControlador;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import javax.swing.JOptionPane;
-
+import javax.swing.DefaultComboBoxModel;
+import java.util.List;
+import java.util.Map;
+import modelo.Estado;
+import modelo.TipoMaquinaria;
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class NuevaMaquina extends javax.swing.JDialog {
     private GestionMaquinasControlador contr = new GestionMaquinasControlador();
+    
+    //comboboxes
+    // Mapas: lo que se ve en el combo -> FK real
+    private final Map<String, Integer> estadoDescToId = new LinkedHashMap<>();
+    private final Map<String, Integer> tipoDescToId = new LinkedHashMap<>();
 
     /**
      * Creates new form NuevaMaquina
@@ -21,6 +31,7 @@ public class NuevaMaquina extends javax.swing.JDialog {
     public NuevaMaquina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        cargarCombosDesdeBD(); //preguntar a los chicos si se les ocurre alguna idea para optimizar esto
     }
 
     /**
@@ -141,11 +152,15 @@ public class NuevaMaquina extends javax.swing.JDialog {
     private void btnCrearMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMaquinaActionPerformed
         //Recoger datos vista
         String nomMaq = txtNombre.getText();
-        String statusMaq = cbbStatus.getSelectedItem().toString();
-        String tipoMaq = cbbTipo.getSelectedItem().toString();
+        String estadoDesc = (String) cbbStatus.getSelectedItem();
+        String tipoDesc = (String) cbbTipo.getSelectedItem();
+
+        Integer estadoId = estadoDescToId.get(estadoDesc);
+        Integer tipoId = tipoDescToId.get(tipoDesc);
+
         Date fechaAlta = (Date) spFechaAlta.getValue();
-        //Llamar a fx de controlador (valida, crea objeto máquina y llama a fx de DAOimpl) --> si devuelve true, un pane, si false, otro
-        boolean flag = contr.crearMaquina(nomMaq, statusMaq, tipoMaq, fechaAlta);
+        //Llamar a f(x) de controlador (valida, crea objeto máquina y llama a fx de DAOimpl) --> si devuelve true, un pane, si false, otro
+        boolean flag = contr.crearMaquina(nomMaq, estadoId, tipoId, fechaAlta);
         if (flag){
             JOptionPane.showMessageDialog(this, "Nueva máquina registrada con éxito", "Inserción realizada",JOptionPane.INFORMATION_MESSAGE);
         }else{
@@ -153,6 +168,34 @@ public class NuevaMaquina extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnCrearMaquinaActionPerformed
 
+    //llenar los comboboxes
+    private void cargarCombosDesdeBD() {
+        // --- ESTADOS ---
+        DefaultComboBoxModel<String> modelEstados = new DefaultComboBoxModel<>();
+        estadoDescToId.clear();
+
+        for (Estado e : contr.listarEstado()) {
+            String desc = e.getDescripcionEstado();    
+            int id = e.getCodigoEstado();               
+
+            modelEstados.addElement(desc);
+            estadoDescToId.put(desc, id);
+        }
+        cbbStatus.setModel(modelEstados);
+
+        // --- TIPOS ---
+        DefaultComboBoxModel<String> modelTipos = new DefaultComboBoxModel<>();
+        tipoDescToId.clear();
+
+        for (TipoMaquinaria t : contr.listarTipoMaquinaria()) {
+            String desc = t.getDescripcionMaq();     
+            int id = t.getCodigoTipoMaquinaria();     
+
+            modelTipos.addElement(desc);
+            tipoDescToId.put(desc, id);
+        }
+        cbbTipo.setModel(modelTipos);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearMaquina;
