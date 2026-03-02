@@ -85,6 +85,24 @@ public class GestionMaquinasControlador {
         //comunicarse con la vista
         return true;
     }
+    
+    //eliminar una máquina
+    public boolean eliminarMaquina(int id) {
+        if (id <= 0) return false;
+
+        //comprobar existencia
+        if (mDAOi.buscarMaquinariaPorId(id).isEmpty()) {
+            return false; // no existe
+        }
+
+        try {
+            mDAOi.eliminar(id);
+            return true;
+        } catch (RuntimeException ex) {
+            // Si hay incongruencias de FK u otros problemas, aquí cae
+            return false;
+        }
+    }
 
     //listar desde BDD para rellenar comboboxes y tareas similares
     public List<Maquinaria> listarMaquinaria() {

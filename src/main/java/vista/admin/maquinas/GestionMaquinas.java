@@ -230,21 +230,45 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         cargarTablaMaquinaria(); 
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
-
+    //elimnar máquina
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        //conseguir id seleccionado
-        int fila = tbMaquinaria.getSelectedRow();
-        if(fila == -1){
-            JOptionPane.showMessageDialog(this, "Seleccione una máquina: toque una fila", "Error de selección",JOptionPane.WARNING_MESSAGE);
-        }else{
-            int valorID = (Integer) tbMaquinaria.getModel().getValueAt(fila, 0);
-            JOptionPane.showMessageDialog(this, "Seleccione una máquina: toque una fila", "Error de selección",JOptionPane.OK_CANCEL_OPTION);
+        int id = getIdSeleccionado();
+        if (id == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione una máquina (pulse una fila).",
+                    "Selección requerida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        //estás seguro?
-        //pasar id seleccionado a controlador
-        //que vuelva flag: true es que se ha eliminado, false es que no
-        //refrescar la lista
-        cargarTablaMaquinaria();
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que quieres eliminar la máquina con ID " + id + "?\n"
+              + "Esta acción no se puede deshacer.",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return; // cancelado
+        }
+
+        boolean ok = contr.eliminarMaquina(id);
+
+        if (ok) {
+            JOptionPane.showMessageDialog(this,
+                    "Máquina eliminada con éxito.",
+                    "Eliminación realizada",
+                    JOptionPane.INFORMATION_MESSAGE);
+            cargarTablaMaquinaria(); // refrescar READ
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se ha podido eliminar.\n"
+                  + "Puede que no exista o que esté relacionada con otras tablas (restricción de base de datos).",
+                    "Error de eliminación",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     //gestión de la tabla (read, ordenación)
