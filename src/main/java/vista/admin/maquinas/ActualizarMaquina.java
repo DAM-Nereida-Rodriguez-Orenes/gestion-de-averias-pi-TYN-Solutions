@@ -14,14 +14,16 @@ import javax.swing.DefaultComboBoxModel;
 import modelo.Estado;
 import modelo.TipoMaquinaria;
 import modelo.Maquinaria;
+
 /**
- *   REVISAR: primero muestra la lista!
+ * REVISAR: primero muestra la lista!
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class ActualizarMaquina extends javax.swing.JDialog {
     private GestionMaquinasControlador contr = new GestionMaquinasControlador();
     private final Map<String, Integer> estadoDescToId = new LinkedHashMap<>();
     private final Map<String, Integer> tipoDescToId = new LinkedHashMap<>();
+    private Maquinaria maquinaActual; //la que estoy editando
     /**
      * Creates new form NuevaMaquina
      */
@@ -29,6 +31,8 @@ public class ActualizarMaquina extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         cargarCombosDesdeBD();
+        cbbStatus.addActionListener(e -> aplicarReglaFechaBaja()); //cada vez que cambie el estado
+        aplicarReglaFechaBaja(); //cuando se abra el diálogo
     }
 
     /**
@@ -162,19 +166,46 @@ public class ActualizarMaquina extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarMaquinaActionPerformed
-        //Recoger datos vista
+        if (maquinaActual == null) {
+            JOptionPane.showMessageDialog(this, "No hay máquina cargada para actualizar. Seleccione un máquina en la pantalla anterior.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String nomMaq = txtNombre.getText();
+
         String estadoDesc = (String) cbbStatus.getSelectedItem();
         String tipoDesc = (String) cbbTipo.getSelectedItem();
+
         Integer estadoId = estadoDescToId.get(estadoDesc);
         Integer tipoId = tipoDescToId.get(tipoDesc);
+
         Date fechaAlta = (Date) spFechaAlta.getValue();
-        //fechaBaja debe ser más actual que fechaAlta y solo estará enabled si statusMaq es "fuera de servicio"
-        boolean flag = contr.crearMaquina(nomMaq, estadoId, tipoId, fechaAlta);
-        if (flag){
-            JOptionPane.showMessageDialog(this, "Máquina actualizada con éxito", "Actualización realizada",JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(this, "Revise los datos: alguno no es correcto o está en blanco", "Error de actualización",JOptionPane.ERROR_MESSAGE);
+        Date fechaBaja = spFechaBaja.isEnabled() ? (Date) spFechaBaja.getValue() : null;
+
+        if (estadoId == null || tipoId == null) {
+            JOptionPane.showMessageDialog(this, "No se han podido obtener los IDs del estado o tipo de máquina.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean ok = contr.actualizarMaquina(
+                maquinaActual.getCodigoMaquinaria(),
+                nomMaq,
+                estadoId,
+                tipoId,
+                fechaAlta,
+                fechaBaja
+        );
+
+        if (ok) {
+            JOptionPane.showMessageDialog(this, "Máquina actualizada con éxito",
+                    "Actualización realizada", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Revise los datos: alguno no es correcto. ¿La fecha de baja es posterior a la de alta?",
+                    "Error de actualización", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnActualizarMaquinaActionPerformed
 
@@ -207,6 +238,44 @@ public class ActualizarMaquina extends javax.swing.JDialog {
             tipoDescToId.put(desc, id);
         }
         cbbTipo.setModel(modelTipos);
+    }
+    
+    //cargar máquina seleccionada en la vista anterior
+    public void setMaquina(Maquinaria m) {
+        this.maquinaActual = m;
+
+        txtNombre.setText(m.getNombre());
+
+        if (m.getFechaAlta() != null) {
+            spFechaAlta.setValue(java.sql.Date.valueOf(m.getFechaAlta()));
+        }
+
+        if (m.getFechaBaja() != null) {
+            spFechaBaja.setValue(java.sql.Date.valueOf(m.getFechaBaja()));
+        }
+
+        // seleccionar combos por FK -> descripción
+        String estadoDesc = buscarDescPorId(estadoDescToId, m.getCodigoEstadoFK());
+        if (estadoDesc != null) cbbStatus.setSelectedItem(estadoDesc);
+
+        String tipoDesc = buscarDescPorId(tipoDescToId, m.getTipoMaquinariaFK());
+        if (tipoDesc != null) cbbTipo.setSelectedItem(tipoDesc);
+
+        aplicarReglaFechaBaja();
+    }
+    private String buscarDescPorId(Map<String, Integer> map, int id) {
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            if (e.getValue() != null && e.getValue() == id) return e.getKey();
+        }
+        return null;
+    }
+    
+    //reglas de fechas -> solo va a estar habilitado el spinner de fecha de baja si la máquina está "fuera de servicio"
+    private void aplicarReglaFechaBaja() {
+        String estado = (String) cbbStatus.getSelectedItem();
+        boolean esFuera = estado != null && estado.toLowerCase().contains("fuera");
+
+        spFechaBaja.setEnabled(esFuera);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

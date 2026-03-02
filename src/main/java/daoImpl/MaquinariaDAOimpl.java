@@ -201,5 +201,40 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
         return resultado;
     }
-    
+    @Override
+    public Optional<Maquinaria> buscarMaquinariaPorId(int id){
+        final String sql = """
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE codigoMaquinaria = ?
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return Optional.empty();
+
+                Maquinaria m = new Maquinaria();
+                m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
+                m.setNombre(rs.getString("nombre"));
+                m.setCodigoEstadoFK(rs.getInt("codigoEstadoFK"));
+
+                Date alta = rs.getDate("fechaAlta");
+                if (alta != null) m.setFechaAlta(alta.toLocalDate());
+
+                Date baja = rs.getDate("fechaBaja");
+                if (baja != null) m.setFechaBaja(baja.toLocalDate());
+
+                m.setTipoMaquinariaFK(rs.getInt("tipoMaquinariaFK"));
+
+                return Optional.of(m);
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error buscarPorId maquinaria: " + id, ex);
+        }
+    }
 }

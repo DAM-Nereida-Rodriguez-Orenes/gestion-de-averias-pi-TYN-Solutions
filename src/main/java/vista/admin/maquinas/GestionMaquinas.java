@@ -199,7 +199,26 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        int id = getIdSeleccionado();
+        if (id == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una máquina (pulse una fila).",
+                    "Selección requerida", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        var opt = contr.buscarMaquinaPorID(id);
+        if (opt.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontró la máquina en la base de datos.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ActualizarMaquina dlg = new ActualizarMaquina(this, true);
+        dlg.setLocationRelativeTo(this);
+        dlg.setMaquina(opt.get());      // carga datos en el diálogo
+        dlg.setVisible(true);           // modal: bloquea hasta cerrar
+
+        cargarTablaMaquinaria();        //READ de nuevo para ver cambios
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnNuevaMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMaquinaActionPerformed
@@ -260,11 +279,20 @@ public class GestionMaquinas extends javax.swing.JFrame {
         //Orden inicial por ID ascendente
         sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
     }
+    /*
+    ¿POR QUÉ SE USAN MAPAS?
+    La tabla maquinaria guarda FKs (codigoEstadoFK, tipoMaquinariaFK).
+    El usuario no quiere ver 801 o 303, quiere ver averiada, etc.
+    
+    Si por cada máquina hiciéramos una query para buscar el estado/tipo, sería lento.
+    En cambio, es más rápido hacer 1 query para estados, 1 para tipos
+    y luego traducir en memoria con un Map
+    */
     private void cargarTablaMaquinaria() {
         // 1) Obtener maquinaria desde BDD
         List<Maquinaria> lista = contr.listarMaquinaria();
 
-        // 2) Mapas FK -> descripción
+        // 2) Mapas key:descripción
         Map<Integer, String> estados = mapEstados();
         Map<Integer, String> tipos = mapTipos();
 
@@ -305,7 +333,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         return map;
     }
     
-    //conseguir la máquina real a pesar del orden
+    //conseguir la máquina real a pesar del orden (el filtro solo es visual, no lógico)
     private int getIdSeleccionado() {
         int filaVista = tbMaquinaria.getSelectedRow();
         if (filaVista == -1) return -1;

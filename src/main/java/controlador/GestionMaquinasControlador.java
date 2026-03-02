@@ -15,6 +15,8 @@ import daoImpl.TipoMaquinariaDAOimpl;
 import modelo.Estado;
 import modelo.TipoMaquinaria;
 import java.util.List;
+import java.util.Optional;
+import modelo.Maquinaria;
 
 /**
  *
@@ -23,8 +25,8 @@ import java.util.List;
 public class GestionMaquinasControlador {
     //Instancias de los implements (la vista no sabe nada del DAO)
     private MaquinariaDAOimpl mDAOi = new MaquinariaDAOimpl(DataSourceFactory.getDataSource());
-    EstadoDAOimpl eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
-    TipoMaquinariaDAOimpl tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
+    private EstadoDAOimpl eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
+    private TipoMaquinariaDAOimpl tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
 
     public GestionMaquinasControlador() {}
     
@@ -54,26 +56,32 @@ public class GestionMaquinasControlador {
     }
     
     //actualizar una máquina
-     public boolean actualizarMaquina(String nombre, int codigoEstadoFK, int tipoMaquinariaFK, Date fechaAlta) {
-        LocalDate fechaAltaLDate;
+     public boolean actualizarMaquina(int codigoMaquinaria, String nombre, int codigoEstadoFK, int tipoMaquinariaFK, Date fechaAltaUtil, Date fechaBajaUtil) {
+        // Validaciones básicas
+        if (codigoMaquinaria <= 0) return false;
         if (nombre == null || nombre.isBlank()) return false;
         if (codigoEstadoFK <= 0) return false;
         if (tipoMaquinariaFK <= 0) return false;
-        if (fechaAlta == null) return false;
-        fechaAltaLDate = fechaAlta.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        if(fechaAltaLDate.isAfter(LocalDate.now())){
-            return false;
+        if (fechaAltaUtil == null) return false;
+
+        // Convertir Date (util) -> LocalDate
+        LocalDate fechaAlta = new java.sql.Date(fechaAltaUtil.getTime()).toLocalDate();
+        LocalDate fechaBaja = null;
+
+        if (fechaBajaUtil != null) {
+            fechaBaja = new java.sql.Date(fechaBajaUtil.getTime()).toLocalDate();
+            if (fechaBaja.isBefore(fechaAlta)) return false; // regla: baja >= alta
         }
-        
-        //crear objeto modelo
+
         Maquinaria m = new Maquinaria();
+        m.setCodigoMaquinaria(codigoMaquinaria);
         m.setNombre(nombre.trim());
         m.setCodigoEstadoFK(codigoEstadoFK);
         m.setTipoMaquinariaFK(tipoMaquinariaFK);
-        m.setFechaAlta(fechaAltaLDate);
-
-        //llamar a la daoimpl;
-        mDAOi.modificar(m);
+        m.setFechaAlta(fechaAlta);
+        m.setFechaBaja(fechaBaja);
+        //llamada a DAO implement
+        mDAOi.modificar(m); 
         //comunicarse con la vista
         return true;
     }
@@ -88,5 +96,10 @@ public class GestionMaquinasControlador {
 
     public List<TipoMaquinaria> listarTipoMaquinaria() {
         return tDAO.listarTipoMaquinaria();
+    }
+    
+    //buscar por id (para actualizar y eliminar)
+    public Optional<Maquinaria> buscarMaquinaPorID(int id){
+        return mDAOi.buscarMaquinariaPorId(id);
     }
 }
