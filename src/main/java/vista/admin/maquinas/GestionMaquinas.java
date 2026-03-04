@@ -2,8 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista.admin;
+package vista.admin.maquinas;
 
+import javax.swing.JOptionPane;
+import controlador.GestionMaquinasControlador;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableColumn;
+import modelo.Estado;
+import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -11,12 +25,18 @@ package vista.admin;
 public class GestionMaquinas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionMaquinas.class.getName());
+    private final GestionMaquinasControlador contr = new GestionMaquinasControlador();
+    private DefaultTableModel modeloTabla;
+    private TableRowSorter<DefaultTableModel> sorter;
 
     /**
      * Creates new form GestionMaquinas
      */
     public GestionMaquinas() {
         initComponents();
+        inicializarTabla();
+        configurarOrdenacion();
+        cargarTablaMaquinaria();
     }
 
     /**
@@ -34,8 +54,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
         cbbTipo = new javax.swing.JComboBox<>();
         cbbStatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        tbMaquinaria = new javax.swing.JTable();
+        btnNuevaMaquina = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -46,7 +66,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         menuAverias = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
+        setTitle("Fixora");
 
         jPanel1.setBackground(new java.awt.Color(204, 208, 217));
 
@@ -54,11 +74,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de Máquinas");
 
-        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Abrasivo y acabado superficial", "Sin arranque de viruta", "Corte por separación", "Corte y arranque mecanizado", "Agujeros", "Específicos", "Tratamiento y acondicionamiento", "Unión y ensamblaje" }));
+        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cortes y arranque de material mecanizado", "perforación y operaciones de agujeros", "abrasivo y acabado superficial", "corte por separacion", "conformado y deformación sin arranque de viruta", "union y ensamblaje", "tratamiento y acondicionamiento", "procesos especificos" }));
 
-        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Averiada", "En mantenimiento", "Fuera de servicio", "Operativa" }));
+        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "En mantenimiento", "Fuera de servicio" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbMaquinaria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -69,9 +89,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbMaquinaria);
 
-        jButton1.setText("Nueva");
+        btnNuevaMaquina.setText("Nueva");
+        btnNuevaMaquina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaMaquinaActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +108,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("ID: ");
 
@@ -114,7 +144,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                             .addGap(50, 50, 50)
                             .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))))
+                            .addComponent(btnNuevaMaquina))))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -127,7 +157,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(btnNuevaMaquina)
                     .addComponent(jLabel2))
                 .addGap(53, 53, 53)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,9 +199,174 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        int id = getIdSeleccionado();
+        if (id == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una máquina (pulse una fila).",
+                    "Selección requerida", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        var opt = contr.buscarMaquinaPorID(id);
+        if (opt.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontró la máquina en la base de datos.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ActualizarMaquina dlg = new ActualizarMaquina(this, true);
+        dlg.setLocationRelativeTo(this);
+        dlg.setMaquina(opt.get());      // carga datos en el diálogo
+        dlg.setVisible(true);           // modal: bloquea hasta cerrar
+
+        cargarTablaMaquinaria();        //READ de nuevo para ver cambios
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    private void btnNuevaMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMaquinaActionPerformed
+        // TODO add your handling code here:
+        NuevaMaquina nm = new NuevaMaquina(this, true);
+        nm.setVisible(true);
+        nm.setLocationRelativeTo(this);
+        nm.setVisible(true);
+
+        cargarTablaMaquinaria(); 
+    }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
+    //elimnar máquina
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int id = getIdSeleccionado();
+        if (id == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione una máquina (pulse una fila).",
+                    "Selección requerida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que quieres eliminar la máquina con ID " + id + "?\n"
+              + "Esta acción no se puede deshacer.",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return; // cancelado
+        }
+
+        boolean ok = contr.eliminarMaquina(id);
+
+        if (ok) {
+            JOptionPane.showMessageDialog(this,
+                    "Máquina eliminada con éxito.",
+                    "Eliminación realizada",
+                    JOptionPane.INFORMATION_MESSAGE);
+            cargarTablaMaquinaria(); // refrescar READ
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se ha podido eliminar.\n"
+                  + "Puede que no exista o que esté relacionada con otras tablas (restricción de base de datos).",
+                    "Error de eliminación",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    //gestión de la tabla (read, ordenación)
+    private void inicializarTabla() {
+        /*
+        Crea un DefaultTableModel con nombres de columnas, 0 filas iniciales, celdas no editables, tipo de dato por columna (muy importante para ordenar bien)
+        */
+        modeloTabla = new DefaultTableModel(
+            new Object[]{"ID", "Nombre", "Estado", "Tipo", "Fecha alta", "Fecha baja"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            } //que el usuario NO edite datos desde aquí
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 0 -> Integer.class; // ID, primera columna: ordena como número
+                    default -> String.class; // resto: ordena comotexto
+                };
+            }
+        };
+
+        tbMaquinaria.setModel(modeloTabla);
+        tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    }
+    private void configurarOrdenacion() {
+        sorter = new TableRowSorter<>(modeloTabla);
+        tbMaquinaria.setRowSorter(sorter);
+
+        //Orden inicial por ID ascendente
+        sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+    }
+    /*
+    ¿POR QUÉ SE USAN MAPAS?
+    La tabla maquinaria guarda FKs (codigoEstadoFK, tipoMaquinariaFK).
+    El usuario no quiere ver 801 o 303, quiere ver averiada, etc.
+    
+    Si por cada máquina hiciéramos una query para buscar el estado/tipo, sería lento.
+    En cambio, es más rápido hacer 1 query para estados, 1 para tipos
+    y luego traducir en memoria con un Map
+    */
+    private void cargarTablaMaquinaria() {
+        // 1) Obtener maquinaria desde BDD
+        List<Maquinaria> lista = contr.listarMaquinaria();
+
+        // 2) Mapas key:descripción
+        Map<Integer, String> estados = mapEstados();
+        Map<Integer, String> tipos = mapTipos();
+
+        // 3) Pintar en la tabla
+        modeloTabla.setRowCount(0);
+
+        for (Maquinaria m : lista) {
+            String estadoDesc = estados.getOrDefault(m.getCodigoEstadoFK(), String.valueOf(m.getCodigoEstadoFK()));
+            String tipoDesc = tipos.getOrDefault(m.getTipoMaquinariaFK(), String.valueOf(m.getTipoMaquinariaFK()));
+
+            String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().toString() : "";
+            String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().toString() : "";
+
+            modeloTabla.addRow(new Object[]{
+                m.getCodigoMaquinaria(),
+                m.getNombre(),
+                estadoDesc,
+                tipoDesc,
+                fechaAlta,
+                fechaBaja
+            });
+        }
+    }
+    
+    private Map<Integer, String> mapEstados() {
+        Map<Integer, String> map = new HashMap<>();
+        for (Estado e : contr.listarEstado()) {
+            map.put(e.getCodigoEstado(), e.getDescripcionEstado());
+        }
+        return map;
+    }
+
+    private Map<Integer, String> mapTipos() {
+        Map<Integer, String> map = new HashMap<>();
+        for (TipoMaquinaria t : contr.listarTipoMaquinaria()) {
+            map.put(t.getCodigoTipoMaquinaria(), t.getDescripcionMaq());
+        }
+        return map;
+    }
+    
+    //conseguir la máquina real a pesar del orden (el filtro solo es visual, no lógico)
+    private int getIdSeleccionado() {
+        int filaVista = tbMaquinaria.getSelectedRow();
+        if (filaVista == -1) return -1;
+
+        int filaModelo = tbMaquinaria.convertRowIndexToModel(filaVista);
+        Object idObj = tbMaquinaria.getModel().getValueAt(filaModelo, 0);
+
+        return Integer.parseInt(String.valueOf(idObj));
+    }
     /**
      * @param args the command line arguments
      */
@@ -200,19 +395,19 @@ public class GestionMaquinas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnNuevaMaquina;
     private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cbbTipo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JMenu menuAverias;
     private javax.swing.JMenu menuInicio;
     private javax.swing.JMenu menuMaquinas;
     private javax.swing.JMenu menuUsuario;
+    private javax.swing.JTable tbMaquinaria;
     private javax.swing.JTextField txtID;
     // End of variables declaration//GEN-END:variables
 }
