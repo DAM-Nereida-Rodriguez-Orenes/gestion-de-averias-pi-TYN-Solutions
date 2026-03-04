@@ -43,9 +43,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             ps.setInt(2, m.getCodigoEstadoFK());
 
             // 3) fechaAlta (DATE)
-            // Si en tu modelo es java.time.LocalDate:
+            //El modelo es java.time.LocalDate:
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
-            // Si fuera java.util.Date, dímelo y te lo adapto.
 
             // 4) fechaBaja (DATE) puede ser NULL
             if (m.getFechaBaja() == null) {
@@ -59,7 +58,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             ps.executeUpdate();
 
-            // (Opcional pero muy útil) recuperar el ID autogenerado --> útil para refrescar vistas de listas
+            // Recuperar el ID autogenerado --> útil para refrescar vistas de listas
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     m.setCodigoMaquinaria(rs.getInt(1));
