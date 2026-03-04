@@ -40,4 +40,9 @@ public class TipoMaquinaria {
     public void setDescripcionMaq(String descripcionMaq) {
         this.descripcionMaqu = descripcionMaq;
     }
+    
+    @Override
+    public String toString() {
+        return getDescripcionMaq();
+    }
 }

@@ -40,4 +40,8 @@ public class Estado {
     public void setDescripcionEstado(String descripcionEstado) {
         this.descripcionEstado = descripcionEstado;
     }
+    @Override
+    public String toString() {
+        return getDescripcionEstado();
+    }
 }
