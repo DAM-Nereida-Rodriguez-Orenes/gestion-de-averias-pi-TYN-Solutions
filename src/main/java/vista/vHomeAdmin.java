@@ -41,11 +41,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        miCerrarFixora = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        miAveria = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        miMenuPrincipal = new javax.swing.JMenuItem();
+        miCerrarSesion = new javax.swing.JMenuItem();
+        miSalirApp = new javax.swing.JMenuItem();
+        miGestion = new javax.swing.JMenu();
+        miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
         miMaquinaria = new javax.swing.JMenuItem();
         miTipoMaquinaria = new javax.swing.JMenuItem();
@@ -81,26 +81,31 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
         miInicio.setText("Inicio");
 
-        jMenuItem1.setText("Menú principal");
-        miInicio.add(jMenuItem1);
+        miMenuPrincipal.setText("Menú principal");
+        miInicio.add(miMenuPrincipal);
 
-        miCerrarFixora.setText("Cerrar sesión");
-        miCerrarFixora.addActionListener(new java.awt.event.ActionListener() {
+        miCerrarSesion.setText("Cerrar sesión");
+        miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miCerrarFixoraActionPerformed(evt);
+                miCerrarSesionActionPerformed(evt);
             }
         });
-        miInicio.add(miCerrarFixora);
+        miInicio.add(miCerrarSesion);
 
-        jMenuItem10.setText("Cerrar Fixora");
-        miInicio.add(jMenuItem10);
+        miSalirApp.setText("Cerrar Fixora");
+        miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
 
-        miAveria.setText("Gestion");
+        miGestion.setText("Gestion");
 
-        jMenuItem4.setText("Avería");
-        miAveria.add(jMenuItem4);
+        miAveria.setText("Avería");
+        miAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAveriaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miAveria);
 
         miUsuario.setText("Usuario");
         miUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -108,24 +113,29 @@ public class vHomeAdmin extends javax.swing.JFrame {
                 miUsuarioActionPerformed(evt);
             }
         });
-        miAveria.add(miUsuario);
+        miGestion.add(miUsuario);
 
         miMaquinaria.setText("Maquinaria");
-        miAveria.add(miMaquinaria);
+        miGestion.add(miMaquinaria);
 
         miTipoMaquinaria.setText("Tipo de maquinaria");
-        miAveria.add(miTipoMaquinaria);
+        miTipoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miTipoMaquinaria);
 
         miEstadoMaquinaria.setText("Estado de maquinaria");
-        miAveria.add(miEstadoMaquinaria);
+        miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
-        miAveria.add(miTipoAveria);
+        miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
-        miAveria.add(miRoles);
+        miGestion.add(miRoles);
 
-        jMenuBar1.add(miAveria);
+        jMenuBar1.add(miGestion);
 
         setJMenuBar(jMenuBar1);
 
@@ -152,9 +162,17 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_miUsuarioActionPerformed
 
-    private void miCerrarFixoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarFixoraActionPerformed
+    private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_miCerrarFixoraActionPerformed
+    }//GEN-LAST:event_miCerrarSesionActionPerformed
+
+    private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miAveriaActionPerformed
+
+    private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,16 +181,16 @@ public class vHomeAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JMenu miAveria;
-    private javax.swing.JMenuItem miCerrarFixora;
+    private javax.swing.JMenuItem miAveria;
+    private javax.swing.JMenuItem miCerrarSesion;
     private javax.swing.JMenuItem miEstadoMaquinaria;
+    private javax.swing.JMenu miGestion;
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
+    private javax.swing.JMenuItem miMenuPrincipal;
     private javax.swing.JMenuItem miRoles;
+    private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JMenuItem miTipoAveria;
     private javax.swing.JMenuItem miTipoMaquinaria;
     private javax.swing.JMenuItem miUsuario;
