@@ -138,11 +138,10 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
     }
 
     @Override
-    public void eliminar(int id) {
-        // Primero verificamos si existe
+    public boolean eliminar(int id) {
         if (!existeId(id)) {
             System.err.println("No se puede eliminar: El ID " + id + " no existe.");
-            return;
+            return false; // <-- Falla porque no existe
         }
 
         String sql = "DELETE FROM tipo_averia WHERE codigoTipoAveria = ?";
@@ -153,16 +152,15 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             ps.setInt(1, id);
             ps.executeUpdate();
             System.out.println("Tipo de avería eliminado correctamente (ID: " + id + ")");
+            return true; // <-- ÉXITO
 
         } catch (SQLException ex) {
-            // CÓDIGO 23xxx: Error de integridad (Foreign Key Constraint)
             if (ex.getSQLState().startsWith("23")) {
-                // Es un aviso: El usuario intenta borrar algo que está en uso
                 logger.log(Level.WARNING, "Intento fallido de eliminar el tipo ID " + id + " (tiene registros vinculados).", ex);
             } else {
-                // Es un error técnico real
                 logger.log(Level.SEVERE, "Error crítico al eliminar el tipo de avería ID: " + id, ex);
             }
+            return false; // <-- Falla por tener datos asociados u otro error
         }
     }
     
