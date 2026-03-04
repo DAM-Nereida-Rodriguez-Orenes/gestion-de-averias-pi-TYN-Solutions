@@ -22,7 +22,7 @@ import modelo.Usuario;
  */
 public class GestionUsuarioControlador {
 
-    private UsuarioDaoImpl usuarioDaoImpl = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
+    private UsuarioDao usuarioDaoImpl = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
     private RolDao rolDaoImpl = new RolDaoImpl(DataSourceFactory.getDataSource());
     private Usuario usuario;
     private Rol rol;
@@ -112,7 +112,7 @@ public class GestionUsuarioControlador {
     }
 
     public List<Usuario> buscarUsuario(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email, Boolean activo) {
-        return usuarioDaoImpl.buscarPorFiltros(codigoUsuario, nombre, apellido, codigoRolFK, email, activo);
+        return usuarioDaoImpl.buscarPorFiltrosUsuario(codigoUsuario, nombre, apellido, codigoRolFK, email, activo);
     }
 
     /**
@@ -185,9 +185,9 @@ public class GestionUsuarioControlador {
         if (estado != null && !estado.isEmpty()) {
 
             if (estado.equals("Activo")) {
-                return usuarioDaoImpl.buscarPorFiltros(null, null, null, null, null, Boolean.TRUE);
+                return usuarioDaoImpl.buscarPorFiltrosUsuario(null, null, null, null, null, Boolean.TRUE);
             } else if (estado.equals("Inactivo")) {
-                return usuarioDaoImpl.buscarPorFiltros(null, null, null, null, null, Boolean.FALSE);
+                return usuarioDaoImpl.buscarPorFiltrosUsuario(null, null, null, null, null, Boolean.FALSE);
             }
 
         } else {

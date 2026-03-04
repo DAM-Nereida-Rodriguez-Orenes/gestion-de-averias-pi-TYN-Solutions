@@ -175,7 +175,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     @Override
-    public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo) {
+    public List<Usuario> buscarPorFiltrosUsuario(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo) {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
@@ -448,6 +448,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /**
+     * 
+     * Genera una contraseña automáticamente  para los usuarios 
+     * @param longitud
+     * @return String
+     */
+    
     private String generarContrasena(int longitud) {
 
         String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

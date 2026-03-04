@@ -22,7 +22,7 @@ public interface UsuarioDao {
 
     List<Usuario> listarUsuarios();
 
-    List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo);
+    List<Usuario> buscarPorFiltrosUsuario(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo);
 
     Usuario buscarPorCredenciales(String email, String password);
 

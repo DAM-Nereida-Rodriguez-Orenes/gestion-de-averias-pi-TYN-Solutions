@@ -39,6 +39,7 @@ public class vLogin extends javax.swing.JFrame {
 
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
+        setLocationRelativeTo(null); // Centra el JFrame al centro de la pantalla 
     }
 
     /**
