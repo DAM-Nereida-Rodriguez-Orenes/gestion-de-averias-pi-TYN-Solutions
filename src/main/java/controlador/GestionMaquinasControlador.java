@@ -120,4 +120,20 @@ public class GestionMaquinasControlador {
     public Optional<Maquinaria> buscarMaquinaPorID(int id){
         return mDAOi.buscarMaquinariaPorId(id);
     }
+    
+    /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
+    /*ID*/
+    private void filtrarPorId(){}
+    /*nombre*/
+    private void filtrarPorNombre(){}
+    /*fechaAlta*/
+    private void filtrarPorFechaAlta(){}
+    /*fechaBaja*/
+    private void filtrarPorFechaBaja(){}
+    /*estado*/
+    private void filtrarPorStatus(){}
+    /*tipo*/
+    private void filtrarPorTipo(){}
+    /*llamar a la función de filtrar del DAO*/
+    private void filtrar(){}
 }

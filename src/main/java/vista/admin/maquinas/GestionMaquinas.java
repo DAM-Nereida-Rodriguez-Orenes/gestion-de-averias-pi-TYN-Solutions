@@ -50,6 +50,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
         cbbTipo = new javax.swing.JComboBox<>();
         cbbStatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -67,7 +68,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         spFechaAlta = new javax.swing.JSpinner();
         spFechaBaja = new javax.swing.JSpinner();
-        spID = new javax.swing.JSpinner();
+        chbxHFechaAlta = new javax.swing.JCheckBox();
+        chbxHFechaBaja = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuInicio = new javax.swing.JMenu();
         menuUsuario = new javax.swing.JMenu();
@@ -139,10 +141,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel7.setText("Fecha de Baja:");
 
         spFechaAlta.setModel(new javax.swing.SpinnerDateModel());
+        spFechaAlta.setEnabled(false);
 
         spFechaBaja.setModel(new javax.swing.SpinnerDateModel());
+        spFechaBaja.setEnabled(false);
 
-        spID.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        chbxHFechaAlta.setText("Habilitar");
+
+        chbxHFechaBaja.setText("Habilitar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,8 +175,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spID, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtNameFilter))
@@ -192,10 +198,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(chbxHFechaAlta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNuevaMaquina))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(chbxHFechaBaja)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFiltrar)))
                 .addGap(73, 73, 73))
@@ -207,27 +217,25 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNuevaMaquina)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chbxHFechaAlta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnFiltrar)
-                            .addComponent(jLabel7))
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFiltrar)
+                    .addComponent(jLabel7)
+                    .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chbxHFechaBaja))
+                .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -435,6 +443,21 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         return Integer.parseInt(String.valueOf(idObj));
     }
+    /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
+    /*ID*/
+    private void filtrarPorId(){}
+    /*nombre*/
+    private void filtrarPorNombre(){}
+    /*fechaAlta*/
+    private void filtrarPorFechaAlta(){}
+    /*fechaBaja*/
+    private void filtrarPorFechaBaja(){}
+    /*estado*/
+    private void filtrarPorStatus(){}
+    /*tipo*/
+    private void filtrarPorTipo(){}
+    /*habilitar fechas con checkboxes*/
+    private void habilitarFecha(){}
     /**
      * @param args the command line arguments
      */
@@ -467,6 +490,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private javax.swing.JButton btnNuevaMaquina;
     private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cbbTipo;
+    private javax.swing.JCheckBox chbxHFechaAlta;
+    private javax.swing.JCheckBox chbxHFechaBaja;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -483,8 +508,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private javax.swing.JMenu menuUsuario;
     private javax.swing.JSpinner spFechaAlta;
     private javax.swing.JSpinner spFechaBaja;
-    private javax.swing.JSpinner spID;
     private javax.swing.JTable tbMaquinaria;
+    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNameFilter;
     // End of variables declaration//GEN-END:variables
 }
