@@ -11,15 +11,17 @@ import modelo.Rol;
  *
  * @author Thanya
  */
-public interface  RolDao {
-    
+public interface RolDao {
+
     void insertarRol(Rol rol);
 
     void actualizarRol(Rol rol);
 
     void eliminarRol(int codigoRol);
 
+    boolean existeID(int codigoRol);
+
     List<Rol> listarRoles();
 
-    boolean existeID(int codigoRol);
+    Rol recuperarRolPorCodigo(String descripcionRol);
 }
