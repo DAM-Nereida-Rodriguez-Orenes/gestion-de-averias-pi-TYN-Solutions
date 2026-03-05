@@ -99,7 +99,7 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Nuevo tipo de avería");
 
-        jLabel1.setText("ID (debe empezar por 7):");
+        jLabel1.setText("ID (debe empezar por 4):");
 
         jLabel4.setText("Descripción:");
 
@@ -385,8 +385,17 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
     }//GEN-LAST:event_btnTipoAveriaNuevoActionPerformed
 
     private void btnTipoAveriaCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoAveriaCrearActionPerformed
-        // TODO add your handling code here:
         try {
+            String textoId = txtIdNuevo.getText().trim();
+            
+            // Validación paraque el ID empiece por 4
+            if (!textoId.startsWith("4")) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "El ID del nuevo tipo de avería debe empezar obligatoriamente por el número 4.", 
+                    "ID Inválido", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+            
             int id = Integer.parseInt(txtIdNuevo.getText().trim());
             float tiempo = Float.parseFloat(txtTiempoNuevo.getText().trim());
             String desc = taDescripcionNuevo.getText().trim();

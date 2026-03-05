@@ -203,7 +203,7 @@ public class AveriaControlador {
     }
 
     // =========================================================================
-    // 3. MÉTODOS TRANSACCIONALES (Insertar, Actualizar, Eliminar)
+    // 3. MÉTODOS TRANSACCIONALES (Insertar, Actualizar)
     // =========================================================================
 
     public boolean registrarAveria(String descripcion, Maquinaria maq, Usuario usuReporta, Usuario usuTecnico, TipoAveria tipo) {
@@ -268,14 +268,6 @@ public class AveriaControlador {
             return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error actualizando en BD: " + e.getMessage());
-            return false;
-        }
-    }
-    
-    public boolean eliminarAveria(int id) {
-        try {
-            return averiaDao.eliminar(id); 
-        } catch (Exception e) {
             return false;
         }
     }

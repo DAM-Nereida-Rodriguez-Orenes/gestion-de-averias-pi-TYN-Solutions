@@ -38,6 +38,10 @@ public class AveriaListar extends javax.swing.JFrame {
     public AveriaListar() {
         controladorAveria = new AveriaControlador();
         
+        setTitle("Mi JFrame Centrado");
+        setSize(1200, 900); // Darle un tamaño es obligatorio antes de centrar
+        setLocationRelativeTo(null);
+        
         initComponents();
         
         // Configuraciones iniciales
@@ -132,7 +136,6 @@ public class AveriaListar extends javax.swing.JFrame {
         tablaAveria = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         txtAveriaBuscar = new javax.swing.JTextField();
-        btnAveriaEliminar = new javax.swing.JButton();
         btnAveriaActualizar = new javax.swing.JButton();
         btnAveriaNueva = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -140,8 +143,14 @@ public class AveriaListar extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        miMaquinas = new javax.swing.JMenuItem();
+        miTiposMaquinas = new javax.swing.JMenuItem();
+        miAverias = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        miTiposAverias = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        miUsuarios = new javax.swing.JMenuItem();
+        miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,14 +168,6 @@ public class AveriaListar extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablaAveria);
 
         jLabel1.setText("Buscar avería:");
-
-        btnAveriaEliminar.setBackground(new java.awt.Color(255, 153, 153));
-        btnAveriaEliminar.setText("Eliminar avería");
-        btnAveriaEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAveriaEliminarActionPerformed(evt);
-            }
-        });
 
         btnAveriaActualizar.setText("Actualizar avería");
         btnAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -197,13 +198,39 @@ public class AveriaListar extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Máquinas");
+
+        miMaquinas.setText("Gestionar máquinas");
+        jMenu2.add(miMaquinas);
+
+        miTiposMaquinas.setText("Gestionar tipos de máquinas");
+        jMenu2.add(miTiposMaquinas);
+
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jMenu3.setText("Averías");
-        jMenuBar1.add(jMenu3);
+        miAverias.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        miAverias.setText("Averías");
+
+        jMenuItem1.setText("Gestionar averías");
+        miAverias.add(jMenuItem1);
+
+        miTiposAverias.setText("Gestionar tipos de averias");
+        miTiposAverias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTiposAveriasActionPerformed(evt);
+            }
+        });
+        miAverias.add(miTiposAverias);
+
+        jMenuBar1.add(miAverias);
 
         jMenu4.setText("Usuarios");
+
+        miUsuarios.setText("Gestionar usuarios");
+        jMenu4.add(miUsuarios);
+
+        miRoles.setText("Gestionar roles");
+        jMenu4.add(miRoles);
+
         jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
@@ -212,8 +239,12 @@ public class AveriaListar extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAveriaActualizar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel1)
@@ -225,14 +256,8 @@ public class AveriaListar extends javax.swing.JFrame {
                         .addComponent(btnAveriaNueva))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(20, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAveriaActualizar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAveriaEliminar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,10 +273,8 @@ public class AveriaListar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAveriaEliminar)
-                    .addComponent(btnAveriaActualizar))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addComponent(btnAveriaActualizar)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -378,60 +401,60 @@ public class AveriaListar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tgbtnFiltrosActionPerformed
 
-    private void btnAveriaEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaEliminarActionPerformed
-        try {
-            int filaVista = tablaAveria.getSelectedRow();
-
-            if (filaVista == -1) {
-                JOptionPane.showMessageDialog(this, 
-                    "Por favor, selecciona una avería de la tabla para eliminar.", 
-                    "Selección requerida", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
-            int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
-            String descripcion = (String) modeloTabla.getValueAt(filaModelo, 1);
-
-            int respuesta = JOptionPane.showConfirmDialog(this, 
-                "¿Estás seguro de que deseas eliminar permanentemente la avería #" + idAveria + ":\n\"" + descripcion + "\"?\n\nEsta acción no se puede deshacer.", 
-                "Confirmar eliminación", 
-                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-
-            if (respuesta == JOptionPane.YES_OPTION) {
-                boolean exito = controladorAveria.eliminarAveria(idAveria);
-
-                if (exito) {
-                    JOptionPane.showMessageDialog(this, "Avería eliminada con éxito.");
-                    cargarDatos(); 
-                } else {
-                    JOptionPane.showMessageDialog(this, 
-                        "No se pudo eliminar la avería.\nEs posible que tenga datos asociados o ya no exista.", 
-                        "Error al eliminar", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (Exception e) {
-            logger.log(java.util.logging.Level.SEVERE, "Error al intentar eliminar", e);
-            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado al intentar eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnAveriaEliminarActionPerformed
+    private void miTiposAveriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTiposAveriasActionPerformed
+        // 1. Crear la instancia del JDialog
+        TipoAveriaCRUD ventanaNueva = new TipoAveriaCRUD(this, true);
+        // 2. Centrar la ventana respecto a la pantalla o al padre
+        ventanaNueva.setLocationRelativeTo(this);
+        // 3. Mostrar la ventana
+        ventanaNueva.setVisible(true);
+        // 4. Refrescar la tabla al volver
+        cargarDatos();
+    }//GEN-LAST:event_miTiposAveriasActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
     // =========================================================================
 
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new AveriaListar().setVisible(true));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;
-    private javax.swing.JButton btnAveriaEliminar;
     private javax.swing.JButton btnAveriaNueva;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenu miAverias;
+    private javax.swing.JMenuItem miMaquinas;
+    private javax.swing.JMenuItem miRoles;
+    private javax.swing.JMenuItem miTiposAverias;
+    private javax.swing.JMenuItem miTiposMaquinas;
+    private javax.swing.JMenuItem miUsuarios;
     private javax.swing.JTable tablaAveria;
     private javax.swing.JToggleButton tgbtnFiltros;
     private javax.swing.JTextField txtAveriaBuscar;

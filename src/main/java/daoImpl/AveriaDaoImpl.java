@@ -276,6 +276,7 @@ public class AveriaDaoImpl implements AveriaDao {
         return buscarPorFiltros(null, null, null, null, null, null, null, null);
     }
 
+    // Método no usable
     @Override
     public boolean eliminar(int id) {
         String sql = "DELETE FROM averia WHERE codigoAveria = ?";
