@@ -223,6 +223,20 @@ public class AveriaActualizar extends javax.swing.JDialog {
                 spFechaFinal.setValue(convertirALocalDate(averiaSeleccionada.getFechaFinalizTecnico()));
             }
             
+            // BLOQUEAR FKs SI EL TÉCNICO YA HA ACEPTADO ---
+            if (averiaSeleccionada.getFechaAcepTecnico() != null) {
+                // Deshabilitamos las listas y el ComboBox para que no se puedan cambiar
+                listaMaquinas.setEnabled(false);
+                listaUsuarios.setEnabled(false);
+                listaTecnicos.setEnabled(false);
+                cbAveriaTipo.setEnabled(false);
+                
+                // Por buena experiencia de usuario, bloqueamos también sus buscadores
+                txtMaquinaBuscar.setEnabled(false);
+                txtUsuarioBuscar.setEnabled(false);
+                txtTecnicoBuscar.setEnabled(false);
+            }
+            
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error al rellenar el formulario de edición", e);
         }
@@ -337,6 +351,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
         jLabel11.setText("Código de avería:");
 
         txtAveriaId.setEditable(false);
+        txtAveriaId.setEnabled(false);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("Fecha de asignación:");
