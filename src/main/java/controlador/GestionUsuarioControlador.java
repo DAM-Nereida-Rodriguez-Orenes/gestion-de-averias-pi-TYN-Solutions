@@ -177,7 +177,16 @@ public class GestionUsuarioControlador {
     }
 
     public List<Rol> recuperarListadoRoles() {
-        return rolDaoImpl.listarRoles();
+
+        List<Rol> listaRoles = rolDaoImpl.listarRoles();
+
+        Rol rolInicial = new Rol();
+        rolInicial.setCodigoRol(0);
+        rolInicial.setDescripcionRol("Trabajador");
+
+        listaRoles.add(0, rolInicial);
+        
+        return listaRoles;
     }
 
     public List<Usuario> filtrarUsuarioPorEstado(String estado) {

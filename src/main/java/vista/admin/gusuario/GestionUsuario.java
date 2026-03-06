@@ -10,6 +10,7 @@ import config.DataSourceFactory;
 import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
+import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
 import java.util.List;
@@ -44,7 +45,7 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         /**
          * Hemos recuperado los roles de la base de datos y relleno el cbb con
-         * esos valores y luego los obtengo como string para poder pasarselos a
+         * esos valores. Luego los obtengo como string para poder pasarselos a
          * mi metopdo gestionUsuarioControlador.crearUsuario(nombre, apellido,
          * rol, telefono, email, password);
          */
@@ -88,6 +89,9 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         if (listaUsuarios == null) {
             listaUsuarios = this.gestionUsuarioControlador.recuperarUsuarios();
+            tbUsuarios.setRowHeight(36); // este valor aumenta el tamaño de las tuplas 
+            tbUsuarios.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla 
+            tbUsuarios.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header 
         }
 
         Object[] fila = new Object[7];
@@ -98,7 +102,7 @@ public class GestionUsuario extends javax.swing.JFrame {
             fila[3] = (usuario.getRol() != null && usuario.getRol().getDescripcionRol() != null) ? usuario.getRol().getDescripcionRol() : "";
             fila[4] = usuario.getTelefono();
             fila[5] = usuario.getEmail();
-            fila[6] = usuario.isActivo();
+            fila[6] = usuario.isActivo() == true ? "Activo" : "Inactivo";
 
             modelo.addRow(fila);
         }
@@ -172,6 +176,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         btnLimpiarFiltros = new javax.swing.JButton();
         jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
         jlLogo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -190,14 +195,40 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
-        txtBarraBusqueda.setText("Busqueda");
+        txtBarraBusqueda.setBackground(new java.awt.Color(234, 242, 251));
+        txtBarraBusqueda.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        txtBarraBusqueda.setForeground(new java.awt.Color(67, 113, 177));
+        txtBarraBusqueda.setText("Buscar");
+        txtBarraBusqueda.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(234, 242, 251)));
+        txtBarraBusqueda.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBarraBusquedaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBarraBusquedaFocusLost(evt);
+            }
+        });
         txtBarraBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBarraBusquedaActionPerformed(evt);
             }
         });
 
+        cbbRol.setBackground(new java.awt.Color(234, 242, 251));
+        cbbRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        cbbRol.setForeground(new java.awt.Color(67, 113, 177));
+        cbbRol.setBorder(null);
+        cbbRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbRolActionPerformed(evt);
+            }
+        });
+
+        cbbEstatus.setBackground(new java.awt.Color(234, 242, 251));
+        cbbEstatus.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        cbbEstatus.setForeground(new java.awt.Color(67, 113, 177));
         cbbEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estatus", "Activo", "Inactivo" }));
+        cbbEstatus.setBorder(null);
         cbbEstatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbEstatusActionPerformed(evt);
@@ -208,6 +239,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         btnAddUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnAddUsuario.setForeground(new java.awt.Color(255, 255, 255));
         btnAddUsuario.setText(" + Nuevo Usuario");
+        btnAddUsuario.setBorderPainted(false);
         btnAddUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUsuarioActionPerformed(evt);
@@ -228,10 +260,14 @@ public class GestionUsuario extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbUsuarios);
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setText("Gestión de Usuario");
 
-        btnActualizarUsuario.setText("Actualizar");
+        btnActualizarUsuario.setBackground(new java.awt.Color(234, 242, 251));
+        btnActualizarUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizarUsuario.setForeground(new java.awt.Color(67, 113, 177));
+        btnActualizarUsuario.setText("Editar");
+        btnActualizarUsuario.setBorderPainted(false);
         btnActualizarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarUsuarioActionPerformed(evt);
@@ -242,20 +278,29 @@ public class GestionUsuario extends javax.swing.JFrame {
         btnEliminarUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarUsuario.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarUsuario.setText("Eliminar");
+        btnEliminarUsuario.setBorderPainted(false);
         btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarUsuarioActionPerformed(evt);
             }
         });
 
+        btnAplicarFiltros.setBackground(new java.awt.Color(234, 242, 251));
+        btnAplicarFiltros.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnAplicarFiltros.setForeground(new java.awt.Color(67, 113, 177));
         btnAplicarFiltros.setText("Aplicar filtros");
+        btnAplicarFiltros.setBorderPainted(false);
         btnAplicarFiltros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAplicarFiltrosActionPerformed(evt);
             }
         });
 
+        btnLimpiarFiltros.setBackground(new java.awt.Color(234, 242, 251));
+        btnLimpiarFiltros.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnLimpiarFiltros.setForeground(new java.awt.Color(67, 113, 177));
         btnLimpiarFiltros.setText("Limpiar filtros");
+        btnLimpiarFiltros.setBorderPainted(false);
         btnLimpiarFiltros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarFiltrosActionPerformed(evt);
@@ -264,8 +309,11 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
-        jlLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/fixora_logo_140x70.png"))); // NOI18N
         jlLogo.setText("jLabel2");
+
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(67, 113, 177));
+        jLabel2.setText("Hola, Admin");
 
         javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
         jpCabecera.setLayout(jpCabeceraLayout);
@@ -274,13 +322,17 @@ public class GestionUsuario extends javax.swing.JFrame {
             .addGroup(jpCabeceraLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(86, 86, 86))
         );
         jpCabeceraLayout.setVerticalGroup(
             jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCabeceraLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jlLogo)
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLogo)
+                    .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -322,7 +374,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cbbRol)
                     .addComponent(txtBarraBusqueda)
@@ -438,7 +490,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         if (filaSelecionada != -1) {
 
             //filtramos por el email ya que tiene constraint unica 
-            String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 4);
+            String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 5);
             //llamamos al metodo para que me filtre el email y me devulva el codigo del usuario 
             usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(null, null, null, null, emailUsuario, null);
             gestionUsuarioControlador.setUsuario(usuarioFiltrado.get(0));
@@ -456,11 +508,11 @@ public class GestionUsuario extends javax.swing.JFrame {
         int filaSelecionada = tbUsuarios.getSelectedRow();
         //Nos aseguramos de que el usuario este dado de alta o de baja 
         boolean usuarioActivo = true;
-        usuarioActivo = (boolean) tbUsuarios.getValueAt(filaSelecionada, 5);
+        usuarioActivo = (boolean) tbUsuarios.getValueAt(filaSelecionada, 6);
         //Nos aseguramos de selecionar la fila, si se seleciona continuamos con el proceso 
         if (filaSelecionada != -1 && usuarioActivo == true) {
             //filtramos por el email ya que tiene constraint unica 
-            String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 4);
+            String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 5);
             //llamamos al metodo paraq ue me filtre el email y me devulva el codigo del usuario 
             List<Usuario> usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(null, null, null, null, emailUsuario, null);
 
@@ -541,7 +593,7 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         Rol rol = null;
 
-        if (rolSeleccionado != null && !rolSeleccionado.equalsIgnoreCase("Todos")) {
+        if (rolSeleccionado != null && !rolSeleccionado.equalsIgnoreCase("Trabajador")) {
 
             for (int i = 0; i < listaRoles.size(); i++) {
 
@@ -617,6 +669,30 @@ public class GestionUsuario extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cbbEstatusActionPerformed
 
+    private void cbbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbRolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbRolActionPerformed
+
+    // Metodo que se ejecuta cuando el usuario entra en la barra de busqueda
+    // Si el texto actual es "Buscar", lo borra para que el usuario pueda escribir
+    private void txtBarraBusquedaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusGained
+        /* String texto = txtBarraBusqueda.getText().trim();
+
+        if (texto.equalsIgnoreCase("Buscar")) {
+            txtBarraBusqueda.setText("");
+        }*/
+    }//GEN-LAST:event_txtBarraBusquedaFocusGained
+
+    // Metodo que se ejecuta cuando el usuario sale de la barra de busqueda
+    // Si el usuario no ha escrito nada, vuelve a colocar el texto "Buscar"
+    private void txtBarraBusquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusLost
+        /*String texto = txtBarraBusqueda.getText().trim();
+
+        if (texto.isEmpty()) {
+            txtBarraBusqueda.setText("Buscar");
+        }*/
+    }//GEN-LAST:event_txtBarraBusquedaFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -652,6 +728,7 @@ public class GestionUsuario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbbEstatus;
     private javax.swing.JComboBox<String> cbbRol;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

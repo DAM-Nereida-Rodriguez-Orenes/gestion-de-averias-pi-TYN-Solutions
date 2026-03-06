@@ -154,7 +154,7 @@
                   <Color blue="f9" green="ea" red="c7" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Microsoft JhengHei Light" size="12" style="0"/>
+                  <Font name="Microsoft JhengHei Light" size="12" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="e6" green="9b" red="27" type="rgb"/>
