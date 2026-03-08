@@ -18,7 +18,8 @@ public class Maquinaria {
     private int codigoEstadoFK;
     private LocalDate fechaAlta;
     private LocalDate fechaBaja;
-    private int tipoMaquinariaFK;
+    private TipoMaquinaria tipoMaquinaria;
+    private Estado estado;
 
     // Constructor vacio
     public Maquinaria() {
@@ -26,24 +27,25 @@ public class Maquinaria {
 
     // Constructor completo
     public Maquinaria(int codigoMaquinaria, String nombre, int codigoEstadoFK,
-            LocalDate fechaAlta, LocalDate fechaBaja, int tipoMaquinariaFK) {
+            LocalDate fechaAlta, LocalDate fechaBaja, TipoMaquinaria tipoMaquinaria, Estado estado) {
 
         this.codigoMaquinaria = codigoMaquinaria;
         this.nombre = nombre;
         this.codigoEstadoFK = codigoEstadoFK;
         this.fechaAlta = fechaAlta;
         this.fechaBaja = fechaBaja;
-        this.tipoMaquinariaFK = tipoMaquinariaFK;
+        this.tipoMaquinaria = tipoMaquinaria;
+        this.estado = estado;
     }
 
     // Constructor sin ID
     public Maquinaria(String nombre, int codigoEstadoFK,
-            LocalDate fechaAlta, LocalDate fechaBaja, int tipoMaquinariaFK) {
+            LocalDate fechaAlta, LocalDate fechaBaja, TipoMaquinaria tipoMaquinaria, Estado estado) {
         this.nombre = nombre;
-        this.codigoEstadoFK = codigoEstadoFK;
         this.fechaAlta = fechaAlta;
         this.fechaBaja = fechaBaja;
-        this.tipoMaquinariaFK = tipoMaquinariaFK;
+        this.tipoMaquinaria = tipoMaquinaria;
+        this.estado = estado;
     }
     // Getters y setters
     public int getCodigoMaquinaria() {
@@ -62,14 +64,6 @@ public class Maquinaria {
         this.nombre = nombre;
     }
 
-    public int getCodigoEstadoFK() {
-        return codigoEstadoFK;
-    }
-
-    public void setCodigoEstadoFK(int codigoEstadoFK) {
-        this.codigoEstadoFK = codigoEstadoFK;
-    }
-
     public LocalDate getFechaAlta() {
         return fechaAlta;
     }
@@ -86,11 +80,20 @@ public class Maquinaria {
         this.fechaBaja = fechaBaja;
     }
 
-    public int getTipoMaquinariaFK() {
-        return tipoMaquinariaFK;
+    public TipoMaquinaria getTipoMaquinaria() {
+        return tipoMaquinaria;
     }
 
-    public void setTipoMaquinariaFK(int tipoMaquinariaFK) {
-        this.tipoMaquinariaFK = tipoMaquinariaFK;
+    public void setTipoMaquinaria(TipoMaquinaria tipoMaquinaria) {
+        this.tipoMaquinaria = tipoMaquinaria;
     }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+    
 }

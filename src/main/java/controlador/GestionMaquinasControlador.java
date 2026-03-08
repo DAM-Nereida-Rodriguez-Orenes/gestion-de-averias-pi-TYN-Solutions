@@ -8,7 +8,6 @@ import daoImpl.MaquinariaDAOimpl;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import modelo.Maquinaria;
 import config.DataSourceFactory;
 import daoImpl.EstadoDAOimpl;
 import daoImpl.TipoMaquinariaDAOimpl;
@@ -37,16 +36,24 @@ public class GestionMaquinasControlador {
         if (codigoEstadoFK <= 0) return false;
         if (tipoMaquinariaFK <= 0) return false;
         if (fechaAlta == null) return false;
+        //Fechas
         fechaAltaLDate = fechaAlta.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         if(fechaAltaLDate.isAfter(LocalDate.now())){
             return false;
         }
+        //objetos
+        //Objetos
+        Estado estado = new Estado();
+        estado.setCodigoEstado(codigoEstadoFK);
+
+        TipoMaquinaria tipo = new TipoMaquinaria();
+        tipo.setCodigoTipoMaquinaria(tipoMaquinariaFK);
         
         //crear objeto modelo
         Maquinaria m = new Maquinaria();
         m.setNombre(nombre.trim());
-        m.setCodigoEstadoFK(codigoEstadoFK);
-        m.setTipoMaquinariaFK(tipoMaquinariaFK);
+        m.setTipoMaquinaria(tipo);
+        m.setEstado(estado);
         m.setFechaAlta(fechaAltaLDate);
 
         //llamar a la daoimpl;
@@ -72,12 +79,18 @@ public class GestionMaquinasControlador {
             fechaBaja = new java.sql.Date(fechaBajaUtil.getTime()).toLocalDate();
             if (fechaBaja.isBefore(fechaAlta)) return false; // regla: baja >= alta
         }
+        //Objetos
+        Estado estado = new Estado();
+        estado.setCodigoEstado(codigoEstadoFK);
+
+        TipoMaquinaria tipo = new TipoMaquinaria();
+        tipo.setCodigoTipoMaquinaria(tipoMaquinariaFK);
 
         Maquinaria m = new Maquinaria();
         m.setCodigoMaquinaria(codigoMaquinaria);
         m.setNombre(nombre.trim());
-        m.setCodigoEstadoFK(codigoEstadoFK);
-        m.setTipoMaquinariaFK(tipoMaquinariaFK);
+        m.setEstado(estado);
+        m.setTipoMaquinaria(tipo);
         m.setFechaAlta(fechaAlta);
         m.setFechaBaja(fechaBaja);
         //llamada a DAO implement
@@ -123,7 +136,11 @@ public class GestionMaquinasControlador {
     
     /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
     /*ID*/
-    private void filtrarPorId(){}
+    private void filtrarPorId(){
+        //si el string es "", pues se pasa a null
+        //si no, se parsea a int
+        //si no es "" o int, pasar un false
+    }
     /*nombre*/
     private void filtrarPorNombre(){}
     /*fechaAlta*/

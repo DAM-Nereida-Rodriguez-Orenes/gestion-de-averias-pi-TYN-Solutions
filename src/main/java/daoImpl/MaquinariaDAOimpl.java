@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+import modelo.Estado;
 import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -40,7 +42,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             ps.setString(1, m.getNombre());
 
             // 2) FK estado
-            ps.setInt(2, m.getCodigoEstadoFK());
+            ps.setInt(2, m.getEstado().getCodigoEstado());
 
             // 3) fechaAlta (DATE)
             //El modelo es java.time.LocalDate:
@@ -54,8 +56,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             }
 
             // 5) FK tipo_maquinaria
-            ps.setInt(5, m.getTipoMaquinariaFK());
-
+            ps.setInt(5, m.getTipoMaquinaria().getCodigoTipoMaquinaria());
+            
             ps.executeUpdate();
 
             // Recuperar el ID autogenerado --> útil para refrescar vistas de listas
@@ -87,7 +89,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             ps.setString(1, m.getNombre());
 
-            ps.setInt(2, m.getCodigoEstadoFK());
+            ps.setInt(2, m.getEstado().getCodigoEstado());
 
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
 
@@ -97,7 +99,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
                 ps.setDate(4, Date.valueOf(m.getFechaBaja()));
             };
 
-            ps.setInt(5, m.getTipoMaquinariaFK());
+            ps.setInt(5, m.getTipoMaquinaria().getCodigoTipoMaquinaria());
 
             ps.setInt(6, m.getCodigoMaquinaria());
 
@@ -180,7 +182,6 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
                     Maquinaria m = new Maquinaria();
                     m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
                     m.setNombre(rs.getString("nombre"));
-                    m.setCodigoEstadoFK(rs.getInt("codigoEstadoFK"));
 
                     java.sql.Date fa = rs.getDate("fechaAlta");
                     m.setFechaAlta(fa != null ? fa.toLocalDate() : null);
@@ -188,7 +189,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
                     java.sql.Date fb = rs.getDate("fechaBaja");
                     m.setFechaBaja(fb != null ? fb.toLocalDate() : null);
 
-                    m.setTipoMaquinariaFK(rs.getInt("tipoMaquinariaFK"));
+                   // m.setTipoMaquinaria(rs.get("tipoMaquinariaFK"));
 
                     resultado.add(m);
                 }
@@ -219,7 +220,6 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
                 Maquinaria m = new Maquinaria();
                 m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
                 m.setNombre(rs.getString("nombre"));
-                m.setCodigoEstadoFK(rs.getInt("codigoEstadoFK"));
 
                 Date alta = rs.getDate("fechaAlta");
                 if (alta != null) m.setFechaAlta(alta.toLocalDate());
@@ -227,7 +227,14 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
                 Date baja = rs.getDate("fechaBaja");
                 if (baja != null) m.setFechaBaja(baja.toLocalDate());
 
-                m.setTipoMaquinariaFK(rs.getInt("tipoMaquinariaFK"));
+                
+                Estado e = new Estado();
+                e.setCodigoEstado(rs.getInt("codigoEstadoFK"));
+                m.setEstado(e);
+
+                TipoMaquinaria t = new TipoMaquinaria();
+                t.setCodigoTipoMaquinaria(rs.getInt("tipoMaquinariaFK"));
+                m.setTipoMaquinaria(t);
 
                 return Optional.of(m);
             }
@@ -235,5 +242,10 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         } catch (SQLException ex) {
             throw new RuntimeException("Error buscarPorId maquinaria: " + id, ex);
         }
+    }
+    @Override
+    public Optional<Maquinaria> buscarMaquinariaPorTexto(String text){ 
+       Optional<Maquinaria> maq = null;
+       return maq;
     }
 }

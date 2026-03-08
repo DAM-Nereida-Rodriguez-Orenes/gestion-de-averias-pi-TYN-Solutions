@@ -147,8 +147,18 @@ public class GestionMaquinas extends javax.swing.JFrame {
         spFechaBaja.setEnabled(false);
 
         chbxHFechaAlta.setText("Habilitar");
+        chbxHFechaAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbxHFechaAltaActionPerformed(evt);
+            }
+        });
 
         chbxHFechaBaja.setText("Habilitar");
+        chbxHFechaBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbxHFechaBajaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -346,6 +356,22 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+    //Habilitar las fechas cuando esté chequeado
+    private void chbxHFechaAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxHFechaAltaActionPerformed
+        if (chbxHFechaAlta.isSelected()){
+            spFechaAlta.setEnabled(true);
+        }else{
+            spFechaAlta.setEnabled(false);
+        }
+    }//GEN-LAST:event_chbxHFechaAltaActionPerformed
+
+    private void chbxHFechaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxHFechaBajaActionPerformed
+        if (chbxHFechaBaja.isSelected()){
+            spFechaBaja.setEnabled(true);
+        }else{
+            spFechaBaja.setEnabled(false);
+        }
+    }//GEN-LAST:event_chbxHFechaBajaActionPerformed
 
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
@@ -389,19 +415,25 @@ public class GestionMaquinas extends javax.swing.JFrame {
     y luego traducir en memoria con un Map
     */
     private void cargarTablaMaquinaria() {
-        // 1) Obtener maquinaria desde BDD
         List<Maquinaria> lista = contr.listarMaquinaria();
 
-        // 2) Mapas key:descripción
         Map<Integer, String> estados = mapEstados();
         Map<Integer, String> tipos = mapTipos();
 
-        // 3) Pintar en la tabla
         modeloTabla.setRowCount(0);
 
         for (Maquinaria m : lista) {
-            String estadoDesc = estados.getOrDefault(m.getCodigoEstadoFK(), String.valueOf(m.getCodigoEstadoFK()));
-            String tipoDesc = tipos.getOrDefault(m.getTipoMaquinariaFK(), String.valueOf(m.getTipoMaquinariaFK()));
+            String estadoDesc = "";
+            if (m.getEstado() != null) {
+                int idEstado = m.getEstado().getCodigoEstado();
+                estadoDesc = estados.getOrDefault(idEstado, String.valueOf(idEstado));
+            }
+
+            String tipoDesc = "";
+            if (m.getTipoMaquinaria() != null) {
+                int idTipo = m.getTipoMaquinaria().getCodigoTipoMaquinaria();
+                tipoDesc = tipos.getOrDefault(idTipo, String.valueOf(idTipo));
+            }
 
             String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().toString() : "";
             String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().toString() : "";
@@ -445,7 +477,10 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }
     /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
     /*ID*/
-    private void filtrarPorId(){}
+    private void filtrarPorId(){
+        //que pase String
+        //si devuelve un false, advertir al usuario de que ponga un número entero -> JOptionPane
+    }
     /*nombre*/
     private void filtrarPorNombre(){}
     /*fechaAlta*/
@@ -457,7 +492,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
     /*tipo*/
     private void filtrarPorTipo(){}
     /*habilitar fechas con checkboxes*/
-    private void habilitarFecha(){}
+    private void habilitarFecha(){
+        //distinguir por checkbox y luego llamarlo en su... creo que esto es redundante y con el evento del checkbox propio ya vale
+    }
     /**
      * @param args the command line arguments
      */

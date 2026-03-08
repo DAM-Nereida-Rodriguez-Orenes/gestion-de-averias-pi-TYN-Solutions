@@ -342,11 +342,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Habilitar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chbxHFechaAltaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chbxHFechaBaja">
           <Properties>
             <Property name="text" type="java.lang.String" value="Habilitar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chbxHFechaBajaActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
