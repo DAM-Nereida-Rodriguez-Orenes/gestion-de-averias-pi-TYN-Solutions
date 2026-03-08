@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista.admin.gusuario;
+package vista.admin.usuario;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.StringUtils;
@@ -192,6 +192,8 @@ public class GestionUsuario extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestión de Usuario");
+        setPreferredSize(new java.awt.Dimension(1200, 825));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -479,7 +481,7 @@ public class GestionUsuario extends javax.swing.JFrame {
 
     private void btnAddUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUsuarioActionPerformed
         CrearUsuario cu = new CrearUsuario(this, rootPaneCheckingEnabled, gestionUsuarioControlador, this);
-        cu.setSize(500, 300);
+        cu.setSize(1000, 600);
         cu.setLocationRelativeTo(this);
         cu.setVisible(true);
     }//GEN-LAST:event_btnAddUsuarioActionPerformed
@@ -507,10 +509,9 @@ public class GestionUsuario extends javax.swing.JFrame {
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
         int filaSelecionada = tbUsuarios.getSelectedRow();
         //Nos aseguramos de que el usuario este dado de alta o de baja 
-        boolean usuarioActivo = true;
-        usuarioActivo = (boolean) tbUsuarios.getValueAt(filaSelecionada, 6);
+        String usuarioActivo =  (String) tbUsuarios.getValueAt(filaSelecionada, 6);
         //Nos aseguramos de selecionar la fila, si se seleciona continuamos con el proceso 
-        if (filaSelecionada != -1 && usuarioActivo == true) {
+        if (filaSelecionada != -1 && usuarioActivo.equals("Activo")) {
             //filtramos por el email ya que tiene constraint unica 
             String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 5);
             //llamamos al metodo paraq ue me filtre el email y me devulva el codigo del usuario 
@@ -529,7 +530,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                         "Eliminar usuario", JOptionPane.INFORMATION_MESSAGE);
             }
             //si no se ha selecionado nigun usuario de la tabla nos 
-        } else if (filaSelecionada != -1 && usuarioActivo == false) {
+        } else if (filaSelecionada != -1 && usuarioActivo.equals("Inactivo")) {
             JOptionPane.showMessageDialog(this, "Este usuario ya esta dado de baja",
                     "Eliminar usuario", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -676,48 +677,23 @@ public class GestionUsuario extends javax.swing.JFrame {
     // Metodo que se ejecuta cuando el usuario entra en la barra de busqueda
     // Si el texto actual es "Buscar", lo borra para que el usuario pueda escribir
     private void txtBarraBusquedaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusGained
-        /* String texto = txtBarraBusqueda.getText().trim();
+         String texto = txtBarraBusqueda.getText().trim();
 
         if (texto.equalsIgnoreCase("Buscar")) {
             txtBarraBusqueda.setText("");
-        }*/
+        }
     }//GEN-LAST:event_txtBarraBusquedaFocusGained
 
     // Metodo que se ejecuta cuando el usuario sale de la barra de busqueda
     // Si el usuario no ha escrito nada, vuelve a colocar el texto "Buscar"
     private void txtBarraBusquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusLost
-        /*String texto = txtBarraBusqueda.getText().trim();
+        String texto = txtBarraBusqueda.getText().trim();
 
         if (texto.isEmpty()) {
             txtBarraBusqueda.setText("Buscar");
-        }*/
+        }
     }//GEN-LAST:event_txtBarraBusquedaFocusLost
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {;
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarUsuario;

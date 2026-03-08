@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista.admin.gusuario;
+package vista.admin.usuario;
 
 import controlador.GestionUsuarioControlador;
 import vista.vHomeAdmin;
@@ -15,11 +15,13 @@ public class GestionRol extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionRol.class.getName());
 
-    /**
-     * Creates new form GestionRol
-     */
+    
     public GestionRol() {
         initComponents();
+        mostrarTabla();
+    }
+    public void mostrarTabla(){
+        
     }
 
     /**
@@ -53,7 +55,6 @@ public class GestionRol extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Gestion de Rol");
@@ -254,31 +255,6 @@ public class GestionRol extends javax.swing.JFrame {
     private void btnEliminarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRolActionPerformed
        
     }//GEN-LAST:event_btnEliminarRolActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GestionRol().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarRol;

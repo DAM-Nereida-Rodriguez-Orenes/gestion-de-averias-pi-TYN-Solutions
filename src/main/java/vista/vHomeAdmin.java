@@ -8,7 +8,7 @@ import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
 import modelo.Usuario;
-import vista.admin.gusuario.GestionUsuario;
+import vista.admin.usuario.GestionUsuario;
 
 /**
  *

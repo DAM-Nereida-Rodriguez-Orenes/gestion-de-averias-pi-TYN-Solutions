@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package vista.admin.gusuario;
+package vista.admin.usuario;
 
 import controlador.GestionUsuarioControlador;
 import java.util.List;
@@ -93,7 +93,6 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         btnReactivar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 400));
 
         jLabel8.setText("Contraseña:");
 
