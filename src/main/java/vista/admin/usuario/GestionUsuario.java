@@ -89,9 +89,9 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         if (listaUsuarios == null) {
             listaUsuarios = this.gestionUsuarioControlador.recuperarUsuarios();
-            tbUsuarios.setRowHeight(36); // este valor aumenta el tamaño de las tuplas 
-            tbUsuarios.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla 
-            tbUsuarios.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header 
+            tbUsuarios.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
+            tbUsuarios.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla
+            tbUsuarios.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header
         }
 
         Object[] fila = new Object[7];
@@ -491,14 +491,14 @@ public class GestionUsuario extends javax.swing.JFrame {
         int filaSelecionada = tbUsuarios.getSelectedRow();
         if (filaSelecionada != -1) {
 
-            //filtramos por el email ya que tiene constraint unica 
+            //filtramos por el email ya que tiene constraint unica
             String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 5);
-            //llamamos al metodo para que me filtre el email y me devulva el codigo del usuario 
+            //llamamos al metodo para que me filtre el email y me devulva el codigo del usuario
             usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(null, null, null, null, emailUsuario, null);
             gestionUsuarioControlador.setUsuario(usuarioFiltrado.get(0));
 
             ActualizarUsuario au = new ActualizarUsuario(this, rootPaneCheckingEnabled, gestionUsuarioControlador, this);
-            au.setSize(500, 400);
+            au.setSize(1000, 600);
             au.setLocationRelativeTo(this);
             au.setVisible(true);
         } else {
@@ -508,16 +508,16 @@ public class GestionUsuario extends javax.swing.JFrame {
 
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
         int filaSelecionada = tbUsuarios.getSelectedRow();
-        //Nos aseguramos de que el usuario este dado de alta o de baja 
+        //Nos aseguramos de que el usuario este dado de alta o de baja
         String usuarioActivo =  (String) tbUsuarios.getValueAt(filaSelecionada, 6);
-        //Nos aseguramos de selecionar la fila, si se seleciona continuamos con el proceso 
+        //Nos aseguramos de selecionar la fila, si se seleciona continuamos con el proceso
         if (filaSelecionada != -1 && usuarioActivo.equals("Activo")) {
-            //filtramos por el email ya que tiene constraint unica 
+            //filtramos por el email ya que tiene constraint unica
             String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 5);
-            //llamamos al metodo paraq ue me filtre el email y me devulva el codigo del usuario 
+            //llamamos al metodo paraq ue me filtre el email y me devulva el codigo del usuario
             List<Usuario> usuarioFiltrado = gestionUsuarioControlador.buscarUsuario(null, null, null, null, emailUsuario, null);
 
-            //Lanzamos mensaje de confirmacion 
+            //Lanzamos mensaje de confirmacion
             int opcion;
             opcion = JOptionPane.showConfirmDialog(this, "¿Estas seguro de que quieres dar de baja a este usuario?",
                     "Eliminar usuario", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -529,7 +529,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Proceso cancelado",
                         "Eliminar usuario", JOptionPane.INFORMATION_MESSAGE);
             }
-            //si no se ha selecionado nigun usuario de la tabla nos 
+            //si no se ha selecionado nigun usuario de la tabla nos
         } else if (filaSelecionada != -1 && usuarioActivo.equals("Inactivo")) {
             JOptionPane.showMessageDialog(this, "Este usuario ya esta dado de baja",
                     "Eliminar usuario", JOptionPane.INFORMATION_MESSAGE);

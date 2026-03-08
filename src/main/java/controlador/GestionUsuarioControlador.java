@@ -76,13 +76,13 @@ public class GestionUsuarioControlador {
         }
     }
 
-    public boolean actualizarDatosUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password) {
+    public boolean actualizarDatosUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password, Boolean activo) {
 
         Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
         if (rol != null) {
             try {
                 //Ahora si le cambiamos sus datos por los que me vienen por parametro 
-                Usuario usuarioActualizado = new Usuario(nombre, apellido, rol, telefono, email, password, this.usuario.getIntentos(), LocalDateTime.now(), this.usuario.isActivo());
+                Usuario usuarioActualizado = new Usuario(nombre, apellido, rol, telefono, email, password, this.usuario.getIntentos(), LocalDateTime.now(), activo);
                 usuarioActualizado.setCodigoUsuario(usuario.getCodigoUsuario());
                 usuarioDaoImpl.actualizarUsuario(usuarioActualizado);
                 return true;

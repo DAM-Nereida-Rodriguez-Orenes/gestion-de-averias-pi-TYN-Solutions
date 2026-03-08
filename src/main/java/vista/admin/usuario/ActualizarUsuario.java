@@ -4,11 +4,21 @@
  */
 package vista.admin.usuario;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionUsuarioControlador;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.Insets;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import modelo.Rol;
+import vista.PanelImgFondo;
 
 /**
  *
@@ -20,6 +30,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
     private final GestionUsuarioControlador gestionUsuarioControlador;
     private final GestionUsuario gestionUsuario;
     private final List<Rol> listaRoles;
+    private Boolean activo;
 
     /**
      * Creates new form ActualizarUsuario
@@ -29,6 +40,8 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         initComponents();
         this.gestionUsuarioControlador = gestionUsuarioControlador;
         this.gestionUsuario = gestionUsuario;
+        mostrarImagenes();
+        cargarEstadoUsuario();
         /**
          * Hemos recuperado los roles de la base de datos y relleno el cbb con
          * esos valores y luego los obtengo como string para poder pasarselos a
@@ -49,7 +62,23 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         txtNombre.setText(gestionUsuarioControlador.getUsuario().getNombre());
         txtApellidos.setText(gestionUsuarioControlador.getUsuario().getApellido());
         txtEmail.setText(gestionUsuarioControlador.getUsuario().getEmail());
-        txtTelefono.setText(gestionUsuarioControlador.getUsuario().getTelefono());
+        String telefono = gestionUsuarioControlador.getUsuario().getTelefono();
+        String prefijoEncontrado = "";
+        String numero = telefono;
+        // recorrer los prefijos del combobox
+        for (int i = 0; i < cbbPrefijosTelefonos.getItemCount(); i++) {
+
+            String prefijo = cbbPrefijosTelefonos.getItemAt(i);
+
+            if (telefono.startsWith(prefijo)) {
+                prefijoEncontrado = prefijo;
+                numero = telefono.substring(prefijo.length());
+                break;
+            }
+        }
+        // pintar en la interfaz
+        cbbPrefijosTelefonos.setSelectedItem(prefijoEncontrado);
+        txtTelefono.setText(numero);
         pwdPassword.setText(gestionUsuarioControlador.getUsuario().getPassword());
         /**
          * Como en el comboBox lo que necesito de la base de dato es la
@@ -66,6 +95,100 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         }
     }
 
+    public void mostrarImagenes() {
+        //icno de la app
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        setLocationRelativeTo(null);
+
+        //ICONOS LtextField
+        //Campo nombre y apeliido 
+        FlatSVGIcon iconoUsuario = new FlatSVGIcon("recursos/iconos/icnUsuario.svg", 16, 16);
+        txtNombre.putClientProperty("JTextField.leadingIcon", iconoUsuario);
+        txtNombre.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtNombre.putClientProperty("JTextField.placeholderText", "Nombre:");
+        txtApellidos.putClientProperty("JTextField.leadingIcon", iconoUsuario);
+        txtApellidos.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtApellidos.putClientProperty("JTextField.placeholderText", "Apellidos:");
+        //Telefono
+        FlatSVGIcon iconoTelefono = new FlatSVGIcon("recursos/iconos/icTelefono.svg", 16, 16);
+        txtTelefono.putClientProperty("JTextField.leadingIcon", iconoTelefono);
+        txtTelefono.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtTelefono.putClientProperty("JTextField.placeholderText", "Teléfono:");
+        // cbb Prefijos telefonos
+        cbbPrefijosTelefonos.setSelectedItem("+34");
+        cbbPrefijosTelefonos.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                    JList<?> lista,
+                    Object valor,
+                    int indice,
+                    boolean estaSeleccionado,
+                    boolean tieneFoco) {
+
+                JLabel etiqueta = (JLabel) super.getListCellRendererComponent(
+                        lista, valor, indice, estaSeleccionado, tieneFoco);
+
+                if (indice == -1) {
+                    etiqueta.setIcon(iconoTelefono);
+                } else {
+                    etiqueta.setIcon(null);
+                }
+
+                return etiqueta;
+            }
+        });
+        //Correo
+        FlatSVGIcon iconoEmail = new FlatSVGIcon("recursos/iconos/icnCorreo.svg", 16, 16);
+        txtEmail.putClientProperty("JTextField.leadingIcon", iconoEmail);
+        txtEmail.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtEmail.putClientProperty("JTextField.placeholderText", "Email:");
+        //contraseña
+        FlatSVGIcon iconoPassword = new FlatSVGIcon("recursos/iconos/icnPassword.svg", 16, 16);
+        pwdPassword.putClientProperty("JTextField.leadingIcon", iconoPassword);
+        pwdPassword.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        pwdPassword.putClientProperty("JTextField.placeholderText", "Contraseña:");
+        //cbb Tipo de trabajador
+        FlatSVGIcon iconoTipoTrabajador = new FlatSVGIcon("recursos/iconos/icnTpUsuario.svg", 16, 16);
+
+        cbbRol.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                    JList<?> lista,
+                    Object valor,
+                    int indice,
+                    boolean estaSeleccionado,
+                    boolean tieneFoco) {
+
+                JLabel etiqueta = (JLabel) super.getListCellRendererComponent(
+                        lista, valor, indice, estaSeleccionado, tieneFoco);
+
+                if (indice == -1) {
+                    etiqueta.setIcon(iconoTipoTrabajador);
+                } else {
+                    etiqueta.setIcon(null);
+                }
+                return etiqueta;
+            }
+        });
+    }
+
+    /**
+     * Este metodo me ayuda a pintar los estados del usuario en el formulario.
+     */
+    private void cargarEstadoUsuario() {
+        activo = gestionUsuarioControlador.getUsuario().isActivo();
+        tgbtnReactivar.setSelected(activo);
+
+        if (activo) {
+            estadoUsuario.setText("Activo - dado de alta");
+            estadoUsuario.setForeground(Color.GREEN);
+        } else {
+            estadoUsuario.setText("Inactivo - dado de baja");
+            estadoUsuario.setForeground(Color.RED);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,132 +198,179 @@ public class ActualizarUsuario extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtEmail = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        cbbRol = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        pwdPassword = new javax.swing.JPasswordField();
+        jPanel2 = new PanelImgFondo("/recursos/fondoFormularios.png");
+        jPanel1 = new javax.swing.JPanel();
+        Jlabel5 = new javax.swing.JLabel();
+        btnActualizarDatosUsuario = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtApellidos = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        cbbRol = new javax.swing.JComboBox<>();
+        txtEmail = new javax.swing.JTextField();
+        pwdPassword = new javax.swing.JPasswordField();
+        cbbPrefijosTelefonos = new javax.swing.JComboBox<>();
         txtTelefono = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        btnActualizarDatosUsuario = new javax.swing.JButton();
-        lblEstadoUsuario = new javax.swing.JLabel();
-        btnReactivar = new javax.swing.JButton();
+        btnCancelarNU = new javax.swing.JButton();
+        tgbtnReactivar = new javax.swing.JToggleButton();
+        estadoUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 600));
 
-        jLabel8.setText("Contraseña:");
+        jPanel2.setPreferredSize(new java.awt.Dimension(1000, 600));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setText("Nombre:");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(780, 500));
 
-        cbbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Operario", "Mecánico" }));
+        Jlabel5.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        Jlabel5.setForeground(new java.awt.Color(0, 102, 204));
+        Jlabel5.setText("Estado del usuario:");
 
-        jLabel4.setText("Apellidos: ");
-
-        jLabel5.setText("Tipo de usuario:");
-
-        jLabel6.setText("Telefono:");
-
-        jLabel7.setText("Email:");
-
-        jLabel1.setText("Actualizar datos");
-
-        btnActualizarDatosUsuario.setText("Actualizar");
+        btnActualizarDatosUsuario.setBackground(new java.awt.Color(58, 181, 235));
+        btnActualizarDatosUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizarDatosUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizarDatosUsuario.setText("Editar");
         btnActualizarDatosUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarDatosUsuarioActionPerformed(evt);
             }
         });
 
-        lblEstadoUsuario.setText("Estado del usuario: Activo - dado de alta");
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel2.setText("Editar Usuario");
 
-        btnReactivar.setText("Reactivar");
-        btnReactivar.addActionListener(new java.awt.event.ActionListener() {
+        txtNombre.setBackground(new java.awt.Color(237, 243, 251));
+
+        txtApellidos.setBackground(new java.awt.Color(237, 243, 251));
+
+        cbbRol.setBackground(new java.awt.Color(237, 243, 251));
+
+        txtEmail.setBackground(new java.awt.Color(237, 243, 251));
+
+        pwdPassword.setBackground(new java.awt.Color(237, 243, 251));
+
+        cbbPrefijosTelefonos.setBackground(new java.awt.Color(237, 243, 251));
+        cbbPrefijosTelefonos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+43", "+32", "+359", "+385", "+357", "+420", "+45", "+372", "+358", "+33", "+49", "+30", "+36", "+353", "+39", "+371", "+370", "+352", "+356", "+31", "+48", "+351", "+40", "+421", "+386", "+34", "+46", "+55", "+81", "+61" }));
+
+        txtTelefono.setBackground(new java.awt.Color(237, 243, 251));
+
+        btnCancelarNU.setBackground(new java.awt.Color(234, 242, 251));
+        btnCancelarNU.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnCancelarNU.setForeground(new java.awt.Color(67, 113, 177));
+        btnCancelarNU.setText("Cancelar");
+        btnCancelarNU.setBorderPainted(false);
+        btnCancelarNU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReactivarActionPerformed(evt);
+                btnCancelarNUActionPerformed(evt);
             }
         });
+
+        tgbtnReactivar.setBackground(new java.awt.Color(234, 242, 251));
+        tgbtnReactivar.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        tgbtnReactivar.setForeground(new java.awt.Color(67, 113, 177));
+        tgbtnReactivar.setText("Reactivar");
+        tgbtnReactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbtnReactivarActionPerformed(evt);
+            }
+        });
+
+        estadoUsuario.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        estadoUsuario.setForeground(new java.awt.Color(0, 102, 204));
+        estadoUsuario.setText("Activo - dado de alta");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(306, 306, 306)
+                .addComponent(jLabel2))
+            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(Jlabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(estadoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tgbtnReactivar)))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel2)
+                .addGap(14, 14, 14)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Jlabel5)
+                    .addComponent(tgbtnReactivar)
+                    .addComponent(estadoUsuario))
+                .addGap(18, 66, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(btnActualizarDatosUsuario))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblEstadoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(34, 34, 34)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTelefono)
-                                    .addComponent(txtEmail)
-                                    .addComponent(cbbRol, 0, 120, Short.MAX_VALUE)
-                                    .addComponent(pwdPassword))))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnReactivar)))
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblEstadoUsuario)
-                    .addComponent(btnReactivar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnActualizarDatosUsuario)
-                .addGap(17, 17, 17))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -223,7 +393,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Debes rellenar todos los campos del formulario", "Datos incompletos",
                     JOptionPane.WARNING_MESSAGE);
         } else {
-            boolean operacionExitosa = gestionUsuarioControlador.actualizarDatosUsuario(nombre, apellido, rol, telefono, email, password);
+            boolean operacionExitosa = gestionUsuarioControlador.actualizarDatosUsuario(nombre, apellido, rol, telefono, email, password, activo);
 
             if (operacionExitosa) {
                 JOptionPane.showMessageDialog(this, "Datos del usuario actualizado", "Actualización realizada", JOptionPane.INFORMATION_MESSAGE);
@@ -236,23 +406,68 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnActualizarDatosUsuarioActionPerformed
 
-    private void btnReactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReactivarActionPerformed
-        
-    }//GEN-LAST:event_btnReactivarActionPerformed
+    private void btnCancelarNUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNUActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarNUActionPerformed
+
+    private void tgbtnReactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnReactivarActionPerformed
+        boolean nuevoEstado = tgbtnReactivar.isSelected();
+        String mensaje;
+        String titulo;
+        int respuesta;
+
+        if (nuevoEstado) {
+            mensaje = "¿Estas segura de que quieres dar de alta a este usuario?";
+            titulo = "Reactivar usuario";
+        } else {
+            mensaje = "¿Estas segura de que quieres dar de baja a este usuario?";
+            titulo = "Dar de baja usuario";
+        }
+
+        respuesta = JOptionPane.showConfirmDialog(
+                this,
+                mensaje,
+                titulo,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            activo = nuevoEstado;
+
+            if (activo) {
+                estadoUsuario.setText("Activo - dado de alta");
+                estadoUsuario.setForeground(Color.GREEN);
+            } else {
+                estadoUsuario.setText("Inactivo - dado de baja");
+                estadoUsuario.setForeground(Color.RED);
+            }
+        } else {
+            tgbtnReactivar.setSelected(!nuevoEstado);
+
+            if (activo) {
+                estadoUsuario.setText("Activo - dado de alta");
+                estadoUsuario.setForeground(Color.GREEN);
+            } else {
+                estadoUsuario.setText("Inactivo - dado de baja");
+                estadoUsuario.setForeground(Color.RED);
+            }
+        }
+    }//GEN-LAST:event_tgbtnReactivarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Jlabel5;
     private javax.swing.JButton btnActualizarDatosUsuario;
-    private javax.swing.JButton btnReactivar;
+    private javax.swing.JButton btnCancelarNU;
+    private javax.swing.JComboBox<String> cbbPrefijosTelefonos;
     private javax.swing.JComboBox<String> cbbRol;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel lblEstadoUsuario;
+    private javax.swing.JLabel estadoUsuario;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPasswordField pwdPassword;
+    private javax.swing.JToggleButton tgbtnReactivar;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;

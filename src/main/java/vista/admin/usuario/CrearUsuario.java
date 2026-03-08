@@ -160,7 +160,7 @@ public class CrearUsuario extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(780, 500));
 
-        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 204));
         jLabel2.setText("Nuevo Usuario");
 
@@ -191,7 +191,7 @@ public class CrearUsuario extends javax.swing.JDialog {
         });
 
         btnCancelarNU.setBackground(new java.awt.Color(234, 242, 251));
-        btnCancelarNU.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        btnCancelarNU.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnCancelarNU.setForeground(new java.awt.Color(67, 113, 177));
         btnCancelarNU.setText("Cancelar");
         btnCancelarNU.setBorderPainted(false);
