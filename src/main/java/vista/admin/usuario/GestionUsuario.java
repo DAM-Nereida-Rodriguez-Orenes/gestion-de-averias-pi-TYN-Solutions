@@ -7,6 +7,7 @@ package vista.admin.usuario;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.StringUtils;
 import config.DataSourceFactory;
+import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
@@ -261,7 +262,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbUsuarios);
 
-        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setText("Gestión de Usuario");
 
@@ -347,7 +348,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addGap(27, 27, 27)
                         .addComponent(btnEliminarUsuario))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -453,6 +454,11 @@ public class GestionUsuario extends javax.swing.JFrame {
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
         miGestion.add(miRoles);
 
         jMenuBar1.add(miGestion);
@@ -509,7 +515,7 @@ public class GestionUsuario extends javax.swing.JFrame {
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
         int filaSelecionada = tbUsuarios.getSelectedRow();
         //Nos aseguramos de que el usuario este dado de alta o de baja
-        String usuarioActivo =  (String) tbUsuarios.getValueAt(filaSelecionada, 6);
+        String usuarioActivo = (String) tbUsuarios.getValueAt(filaSelecionada, 6);
         //Nos aseguramos de selecionar la fila, si se seleciona continuamos con el proceso
         if (filaSelecionada != -1 && usuarioActivo.equals("Activo")) {
             //filtramos por el email ya que tiene constraint unica
@@ -677,7 +683,7 @@ public class GestionUsuario extends javax.swing.JFrame {
     // Metodo que se ejecuta cuando el usuario entra en la barra de busqueda
     // Si el texto actual es "Buscar", lo borra para que el usuario pueda escribir
     private void txtBarraBusquedaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusGained
-         String texto = txtBarraBusqueda.getText().trim();
+        String texto = txtBarraBusqueda.getText().trim();
 
         if (texto.equalsIgnoreCase("Buscar")) {
             txtBarraBusqueda.setText("");
@@ -693,6 +699,14 @@ public class GestionUsuario extends javax.swing.JFrame {
             txtBarraBusqueda.setText("Buscar");
         }
     }//GEN-LAST:event_txtBarraBusquedaFocusLost
+
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

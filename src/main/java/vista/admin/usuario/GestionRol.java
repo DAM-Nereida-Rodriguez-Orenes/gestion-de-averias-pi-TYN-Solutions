@@ -4,24 +4,81 @@
  */
 package vista.admin.usuario;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import java.awt.Font;
+import java.awt.Image;
+import java.net.URL;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Rol;
+import vista.PanelImgFondo;
 import vista.vHomeAdmin;
 
 /**
  *
  * @author Netri
  */
-public class GestionRol extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionRol.class.getName());
 
-    
-    public GestionRol() {
+public class GestionRol extends javax.swing.JFrame {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionRol.class.getName());
+    private final GestionRolControlador gestionRolControlador;
+    private List<Rol> listaRoles;
+
+    public GestionRol(GestionRolControlador gestionRolControlador) {
         initComponents();
+        this.gestionRolControlador = gestionRolControlador;
         mostrarTabla();
+        mostrarImagenes();
     }
-    public void mostrarTabla(){
-        
+
+    public void mostrarTabla() {
+
+        String[] columnas = {"Codigo Rol", "Descripcion Rol"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas) {
+
+            // Evita que el usuario edite las celdas de la tabla
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        if (listaRoles == null) {
+            listaRoles = this.gestionRolControlador.recuperarRoles();
+
+            tbRoles.setRowHeight(36); // aumenta tamaño de las filas
+            tbRoles.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // tamaño texto tabla
+            tbRoles.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // tamaño header
+        }
+        Object[] fila = new Object[2];
+        for (Rol rol : listaRoles) {
+
+            fila[0] = rol.getCodigoRol();
+            fila[1] = rol.getDescripcionRol();
+
+            modelo.addRow(fila);
+        }
+
+        tbRoles.setModel(modelo);
+    }
+
+    public void mostrarImagenes() {
+        //Ajustes del deisño del JFrame
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        setLocationRelativeTo(null);
+
+        URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
+        System.out.println("urlLogo = " + urlLogo);
+
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 140, 70);
+        jlLogo.setIcon(iconop);
+        jlLogo.setText("");
+        jlLogo.setOpaque(false);
     }
 
     /**
@@ -33,13 +90,16 @@ public class GestionRol extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRoles = new javax.swing.JTable();
         btnAddRol = new javax.swing.JButton();
         btnActualizarRol = new javax.swing.JButton();
         btnEliminarRol = new javax.swing.JButton();
+        jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
+        jlLogo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -56,8 +116,7 @@ public class GestionRol extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setText("Gestion de Rol");
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
         tbRoles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,14 +131,22 @@ public class GestionRol extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbRoles);
 
-        btnAddRol.setText("Añadir Rol");
+        btnAddRol.setBackground(new java.awt.Color(58, 181, 235));
+        btnAddRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnAddRol.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddRol.setText("+ Nuevo Rol");
+        btnAddRol.setBorderPainted(false);
         btnAddRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddRolActionPerformed(evt);
             }
         });
 
-        btnActualizarRol.setText("Actualizar");
+        btnActualizarRol.setBackground(new java.awt.Color(234, 242, 251));
+        btnActualizarRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizarRol.setForeground(new java.awt.Color(67, 113, 177));
+        btnActualizarRol.setText("Editar");
+        btnActualizarRol.setBorderPainted(false);
         btnActualizarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarRolActionPerformed(evt);
@@ -87,55 +154,85 @@ public class GestionRol extends javax.swing.JFrame {
         });
 
         btnEliminarRol.setBackground(new java.awt.Color(204, 0, 0));
-        btnEliminarRol.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminarRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarRol.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarRol.setText("Eliminar");
+        btnEliminarRol.setBorderPainted(false);
         btnEliminarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarRolActionPerformed(evt);
             }
         });
 
+        jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
+        jlLogo.setText("jLabel2");
+
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(67, 113, 177));
+        jLabel2.setText("Hola, Admin");
+
+        javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
+        jpCabecera.setLayout(jpCabeceraLayout);
+        jpCabeceraLayout.setHorizontalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(86, 86, 86))
+        );
+        jpCabeceraLayout.setVerticalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLogo)
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel1.setText("Gestión de Roles");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(461, 461, 461)
-                .addComponent(jLabel1)
-                .addContainerGap(507, Short.MAX_VALUE))
+            .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnActualizarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
-                        .addComponent(btnEliminarRol))
-                    .addComponent(btnAddRol, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(78, 78, 78))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(75, 75, 75)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(75, Short.MAX_VALUE)))
+                .addContainerGap(85, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(441, 441, 441))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnActualizarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(btnEliminarRol))
+                            .addComponent(btnAddRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1046, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(69, 69, 69))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(btnAddRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 506, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(108, 108, 108))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(157, 157, 157)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(157, Short.MAX_VALUE)))
+                    .addComponent(btnEliminarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
 
         miInicio.setText("Inicio");
@@ -244,26 +341,96 @@ public class GestionRol extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
-    private void btnAddRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRolActionPerformed
-        
-    }//GEN-LAST:event_btnAddRolActionPerformed
+    /**
+     * Metodo asociado al boton "Eliminar Rol".
+     *
+     * Este metodo permite eliminar un rol seleccionado de la tabla tbRoles.
+     *
+     * Funcionamiento: 1. Primero comprobamos si el usuario ha seleccionado una
+     * fila en la tabla. 2. Si no hay ninguna fila seleccionada se muestra un
+     * mensaje de error. 3. Si hay una fila seleccionada obtenemos el codigo del
+     * rol desde la tabla. 4. Se muestra un JOptionPane de confirmacion para
+     * asegurar que el usuario desea eliminar el rol. 5. Si el usuario confirma
+     * la eliminacion se llama al metodo eliminarRol() del
+     * GestionRolControlador. 6. Si la eliminacion se realiza correctamente se
+     * muestra un mensaje de exito y se recarga la tabla. 7. Si ocurre un error
+     * (por ejemplo el rol esta asociado a usuarios) se captura la excepcion y
+     * se muestra el mensaje correspondiente.
+     */
+    private void btnEliminarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRolActionPerformed
+        int filaSeleccionada = tbRoles.getSelectedRow();
+
+        // Comprobamos si el usuario ha seleccionado una fila
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Debes seleccionar un rol para poder eliminarlo",
+                "Eliminar rol",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Recuperamos el codigo del rol seleccionado de la tabla
+        int codigoRol = (int) tbRoles.getValueAt(filaSeleccionada, 0);
+
+        // Lanzamos mensaje de confirmacion
+        int opcion;
+        opcion = JOptionPane.showConfirmDialog(this,
+            "¿Estas seguro de que quieres eliminar este rol?",
+            "Eliminar rol",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            try {
+                gestionRolControlador.eliminarRol(codigoRol);
+
+                JOptionPane.showMessageDialog(this,
+                    "El rol se ha eliminado con exito",
+                    "Eliminar rol",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+                mostrarTabla();
+
+            } catch (RuntimeException e) {
+                JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Eliminar rol",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else if (opcion == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(this,
+                "Proceso cancelado",
+                "Eliminar rol",
+                JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarRolActionPerformed
 
     private void btnActualizarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarRolActionPerformed
-       
+        ActualizarRol ar = new ActualizarRol(this, rootPaneCheckingEnabled, this, gestionRolControlador);
+        ar.setSize(1000, 600);
+        ar.setLocationRelativeTo(this);
+        ar.setVisible(true);
     }//GEN-LAST:event_btnActualizarRolActionPerformed
 
-    private void btnEliminarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRolActionPerformed
-       
-    }//GEN-LAST:event_btnEliminarRolActionPerformed
+    private void btnAddRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRolActionPerformed
+        CrearRol cr = new CrearRol(this, rootPaneCheckingEnabled, gestionRolControlador, this);
+        cr.setSize(1000, 600);
+        cr.setLocationRelativeTo(this);
+        cr.setVisible(true);
+    }//GEN-LAST:event_btnAddRolActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarRol;
     private javax.swing.JButton btnAddRol;
     private javax.swing.JButton btnEliminarRol;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlLogo;
+    private javax.swing.JPanel jpCabecera;
     private javax.swing.JMenuItem miAveria;
     private javax.swing.JMenuItem miCerrarSesion;
     private javax.swing.JMenuItem miEstadoMaquinaria;

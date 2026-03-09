@@ -4,10 +4,12 @@
  */
 package vista;
 
+import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
 import modelo.Usuario;
+import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 
 /**
@@ -133,6 +135,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
         miGestion.add(miRoles);
 
         jMenuBar1.add(miGestion);
@@ -173,6 +180,14 @@ public class vHomeAdmin extends javax.swing.JFrame {
     private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
+
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();        
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
 
     /**
      * @param args the command line arguments
