@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package vista.admin;
+package vista.admin.averia;
 
 import controlador.AveriaControlador;
 import java.util.List;
@@ -88,7 +88,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
             List<TipoAveria> tipos = controlador.obtenerTiposAveria();
 
             // Filtrar técnicos
-            todosLosTecnicos = controlador.obtenerSoloTecnicos(todosLosUsuarios);
+            todosLosTecnicos = controlador.obtenerSoloTecnicos();
 
             // Llenar modelos
             if (todasLasMaquinas != null) modelMaquinas.addAll(todasLasMaquinas);

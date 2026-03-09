@@ -195,11 +195,21 @@ public class AveriaControlador {
                 .collect(Collectors.toList());
     }
     
-    public List<Usuario> obtenerSoloTecnicos(List<Usuario> todosLosUsuarios) {
-        if (todosLosUsuarios == null) return new ArrayList<>();
-        return todosLosUsuarios.stream()
-                .filter(u -> u.getCodigoRolFK() == 703)
-                .collect(Collectors.toList());
+    public List<Usuario> obtenerSoloTecnicos() {
+        try {
+            // 1. Creamos un objeto Rol "fantasma" solo para la búsqueda
+            modelo.Rol rolTecnico = new modelo.Rol();
+            
+            // IMPORTANTE: Pon aquí el texto EXACTO que tengas en la base de datos para los técnicos
+            rolTecnico.setDescripcionRol("Mecanico"); // o "Tecnico", "Mecanico", etc.
+
+            // 2. Llamamos al método de filtrado del DAO pasándole solo el Rol, lo demás a null
+            return usuarioDao.buscarPorFiltrosUsuario(null, null, null, rolTecnico, null, null);
+            
+        } catch (Exception e) {
+            System.err.println("Error al obtener la lista de técnicos: " + e.getMessage());
+            return new ArrayList<>(); // Devolvemos lista vacía en caso de error
+        }
     }
 
     // =========================================================================
