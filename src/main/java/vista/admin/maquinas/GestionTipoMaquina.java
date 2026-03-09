@@ -4,17 +4,28 @@
  */
 package vista.admin.maquinas;
 
+import controlador.GestionTipoMaquinaControlador;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import modelo.TipoMaquinaria;
+
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class GestionTipoMaquina extends javax.swing.JFrame {
-
+    private final GestionTipoMaquinaControlador contr = new GestionTipoMaquinaControlador();
+    private DefaultTableModel modeloTabla;
     /**
      * Creates new form GestionTipoMaquina
      */
     public GestionTipoMaquina() {
         initComponents();
+        configurarTabla();
+        cargarTiposMaquinariaEnTabla();
     }
 
     /**
@@ -29,7 +40,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbTipoMaquina = new javax.swing.JTable();
         btnNuevoTipoMaq = new javax.swing.JButton();
         btnActualizarTipoMaq = new javax.swing.JButton();
         btnEliminarTipoMaq = new javax.swing.JButton();
@@ -42,7 +53,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de tipos de máquina");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbTipoMaquina.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -53,11 +64,21 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbTipoMaquina);
 
         btnNuevoTipoMaq.setText("Nuevo");
+        btnNuevoTipoMaq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoTipoMaqActionPerformed(evt);
+            }
+        });
 
         btnActualizarTipoMaq.setText("Actualizar");
+        btnActualizarTipoMaq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarTipoMaqActionPerformed(evt);
+            }
+        });
 
         btnEliminarTipoMaq.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminarTipoMaq.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,6 +137,19 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNuevoTipoMaqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoTipoMaqActionPerformed
+        // TODO add your handling code here:
+        NuevoTipoMaquina nm = new NuevoTipoMaquina(this, true);
+        nm.setLocationRelativeTo(this);
+        nm.setVisible(true);
+    }//GEN-LAST:event_btnNuevoTipoMaqActionPerformed
+
+    private void btnActualizarTipoMaqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTipoMaqActionPerformed
+        ActualizarTipoMaquina am = new ActualizarTipoMaquina(this, true);
+        am.setLocationRelativeTo(this);
+        am.setVisible(true);
+    }//GEN-LAST:event_btnActualizarTipoMaqActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -150,6 +184,79 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
             }
         });
     }
+    //crear y ordenar tabla
+    private void configurarTabla() {
+        modeloTabla = new DefaultTableModel(
+            new Object[]{"Código", "Descripción"},
+            0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+             @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return switch (columnIndex) {
+                    case 0 -> Integer.class; // ID, primera columna: ordena como número
+                    default -> String.class; // resto: ordena como texto
+                };
+            }
+        };
+
+        tbTipoMaquina.setModel(modeloTabla);
+
+        // Permitir ordenar tocando cabeceras
+        tbTipoMaquina.setAutoCreateRowSorter(true);
+
+        // Selección de una sola fila
+        tbTipoMaquina.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Opcional: impedir reordenar columnas arrastrando
+        tbTipoMaquina.getTableHeader().setReorderingAllowed(false);
+    }
+    private void cargarTiposMaquinariaEnTabla() {
+        try {
+            List<TipoMaquinaria> lista = contr.listarTiposMaquinaria();
+
+            modeloTabla.setRowCount(0); // limpia la tabla
+
+            for (TipoMaquinaria t : lista) {
+                modeloTabla.addRow(new Object[]{
+                    t.getCodigoTipoMaquinaria(),
+                    t.getDescripcionMaq()
+                });
+                
+            }
+
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Error al cargar los tipos de maquinaria: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    public TipoMaquinaria getTipoMaquinariaSeleccionado() {
+        int filaVista = tbTipoMaquina.getSelectedRow();
+
+        if (filaVista == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Seleccione un tipo de maquinaria de la tabla.",
+                "Selección requerida",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return null;
+        }
+
+        int filaModelo = tbTipoMaquina.convertRowIndexToModel(filaVista);
+
+        int codigo = (int) modeloTabla.getValueAt(filaModelo, 0);
+        String descripcion = (String) modeloTabla.getValueAt(filaModelo, 1);
+
+        return contr.obtenerTipoSeleccionado(codigo, descripcion);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTipoMaq;
@@ -158,6 +265,6 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbTipoMaquina;
     // End of variables declaration//GEN-END:variables
 }

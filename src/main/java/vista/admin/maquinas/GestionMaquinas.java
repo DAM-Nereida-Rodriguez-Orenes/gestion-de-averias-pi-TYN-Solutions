@@ -326,7 +326,6 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private void btnNuevaMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMaquinaActionPerformed
         // TODO add your handling code here:
         NuevaMaquina nm = new NuevaMaquina(this, true);
-        nm.setVisible(true);
         nm.setLocationRelativeTo(this);
         nm.setVisible(true);
 
@@ -466,7 +465,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 };
             }
         };
-
+        tbMaquinaria.getTableHeader().setReorderingAllowed(false);
         tbMaquinaria.setModel(modeloTabla);
         tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
