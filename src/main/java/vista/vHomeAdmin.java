@@ -9,6 +9,7 @@ import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
 import modelo.Usuario;
+import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 
@@ -28,6 +29,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
      */
     public vHomeAdmin() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -118,6 +120,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miGestion.add(miUsuario);
 
         miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miMaquinaria);
 
         miTipoMaquinaria.setText("Tipo de maquinaria");
@@ -182,12 +189,19 @@ public class vHomeAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
-        GestionRolControlador gestionRolControlador = new GestionRolControlador();        
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
         GestionRol gestionRol = new GestionRol(gestionRolControlador);
         gestionRol.setLocationRelativeTo(null);
         gestionRol.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miRolesActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
 
     /**
      * @param args the command line arguments

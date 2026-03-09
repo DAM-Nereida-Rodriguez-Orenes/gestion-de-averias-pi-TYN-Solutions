@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import modelo.Usuario;
 import vista.PanelImgFondo;
+import vista.admin.maquinas.GestionMaquinas;
 import vista.vHomeAdmin;
 
 /**
@@ -437,6 +438,11 @@ public class GestionUsuario extends javax.swing.JFrame {
         miGestion.add(miUsuario);
 
         miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miMaquinaria);
 
         miTipoMaquinaria.setText("Tipo de maquinaria");
@@ -707,6 +713,13 @@ public class GestionUsuario extends javax.swing.JFrame {
         gestionRol.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miRolesActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
