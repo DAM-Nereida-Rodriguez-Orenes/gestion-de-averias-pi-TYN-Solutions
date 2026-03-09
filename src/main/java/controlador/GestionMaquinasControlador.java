@@ -130,27 +130,51 @@ public class GestionMaquinasControlador {
     }
     
     //buscar por id (para actualizar y eliminar)
-    public Optional<Maquinaria> buscarMaquinaPorID(int id){
-        return mDAOi.buscarMaquinariaPorId(id);
+    public Optional<Maquinaria> buscarMaquinaPorID(String id){
+        int idInt = 0; //así devuelve lista vacía porque no hay id = 0;
+        try{
+            idInt = Integer.parseInt(id);
+        }catch(NumberFormatException e){
+            e.getMessage();
+            idInt = 0;
+        }
+        return mDAOi.buscarMaquinariaPorId(idInt);
     }
     
     /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
-    /*ID*/
-    private void filtrarPorId(){
-        //si el string es "", pues se pasa a null
-        //si no, se parsea a int
-        //si no es "" o int, pasar un false
-    }
+    /*ID con buscarMaquinaPorID*/
     /*nombre*/
-    private void filtrarPorNombre(){}
-    /*fechaAlta*/
-    private void filtrarPorFechaAlta(){}
-    /*fechaBaja*/
-    private void filtrarPorFechaBaja(){}
+    public List<Maquinaria> filtrarPorNombre(String nombre){
+        return mDAOi.buscarMaquinariaPorTexto(nombre);
+    }
+    /*Buscar por fechas*/
+    public List<Maquinaria> filtrarPorFechas(Date fechaAltaUtil, boolean usarFechaAlta, Date fechaBajaUtil, boolean usarFechaBaja) {
+
+        LocalDate fechaAlta = null;
+        LocalDate fechaBaja = null;
+
+        if (usarFechaAlta && fechaAltaUtil != null) {
+            fechaAlta = fechaAltaUtil.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+        }
+
+        if (usarFechaBaja && fechaBajaUtil != null) {
+            fechaBaja = fechaBajaUtil.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+        }
+
+        return mDAOi.buscarMaquinariaPorFecha(fechaAlta, fechaBaja);
+    }
     /*estado*/
-    private void filtrarPorStatus(){}
+    public List<Maquinaria> filtrarPorStatus(Integer codigoEstadoFK) {
+        return mDAOi.buscarMaquinariaPorEstado(codigoEstadoFK);
+    }
     /*tipo*/
-    private void filtrarPorTipo(){}
+    public List<Maquinaria> filtrarPorTipo(Integer tipoMaquinariaFK) {
+        return mDAOi.buscarMaquinariaPorTipo(tipoMaquinariaFK);
+    }
     /*llamar a la función de filtrar del DAO*/
     private void filtrar(){}
 }

@@ -26,5 +26,8 @@ public interface MaquinariaDAO {
         LocalDate fechaAltaHasta,
         Boolean soloActivas);
     Optional<Maquinaria> buscarMaquinariaPorId(int id);
-    Optional<Maquinaria> buscarMaquinariaPorTexto(String text);
+    List<Maquinaria> buscarMaquinariaPorTexto(String text);
+    List<Maquinaria> buscarMaquinariaPorFecha(LocalDate fechaAlta, LocalDate fechaBaja);
+    List<Maquinaria> buscarMaquinariaPorEstado(Integer codigoEstadoFK);
+    List<Maquinaria> buscarMaquinariaPorTipo(Integer codigoTipoFK);
 }

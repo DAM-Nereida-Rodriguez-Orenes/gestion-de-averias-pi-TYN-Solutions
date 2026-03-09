@@ -6,7 +6,9 @@ package vista.admin.maquinas;
 
 import javax.swing.JOptionPane;
 import controlador.GestionMaquinasControlador;
+import java.util.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import javax.swing.table.TableColumn;
 import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
+
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -28,15 +31,22 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private final GestionMaquinasControlador contr = new GestionMaquinasControlador();
     private DefaultTableModel modeloTabla;
     private TableRowSorter<DefaultTableModel> sorter;
+    List<Maquinaria> listaTotal = contr.listarMaquinaria();
+    Map<Integer, String> estados = mapEstados();
+    Map<Integer, String> tipos = mapTipos();
+    private Map<String, Integer> estadoDescToId = new HashMap<>();
+    private Map<String, Integer> tipoDescToId = new HashMap<>();
 
     /**
      * Creates new form GestionMaquinas
      */
     public GestionMaquinas() {
         initComponents();
+        cargarComboEstados();
+        cargarComboTipos();
         inicializarTabla();
         configurarOrdenacion();
-        cargarTablaMaquinaria();
+        cargarTablaMaquinaria(listaTotal);
     }
 
     /**
@@ -135,6 +145,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel5.setText("Estado:");
 
         btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Fecha de Alta:");
 
@@ -185,8 +200,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtNameFilter))
@@ -286,13 +301,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         int id = getIdSeleccionado();
+        String idStr = String.valueOf(id);
         if (id == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione una máquina (pulse una fila).",
                     "Selección requerida", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        var opt = contr.buscarMaquinaPorID(id);
+        var opt = contr.buscarMaquinaPorID(idStr);
         if (opt.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se encontró la máquina en la base de datos.",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -304,7 +320,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         dlg.setMaquina(opt.get());      // carga datos en el diálogo
         dlg.setVisible(true);           // modal: bloquea hasta cerrar
 
-        cargarTablaMaquinaria();        //READ de nuevo para ver cambios
+        cargarTablaMaquinaria(listaTotal);        //READ de nuevo para ver cambios
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnNuevaMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMaquinaActionPerformed
@@ -314,9 +330,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
         nm.setLocationRelativeTo(this);
         nm.setVisible(true);
 
-        cargarTablaMaquinaria(); 
+        cargarTablaMaquinaria(listaTotal); 
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
-    //elimnar máquina
+    //eliminar máquina
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int id = getIdSeleccionado();
         if (id == -1) {
@@ -347,7 +363,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     "Máquina eliminada con éxito.",
                     "Eliminación realizada",
                     JOptionPane.INFORMATION_MESSAGE);
-            cargarTablaMaquinaria(); // refrescar READ
+            cargarTablaMaquinaria(listaTotal); // refrescar READ
         } else {
             JOptionPane.showMessageDialog(this,
                     "No se ha podido eliminar.\n"
@@ -373,6 +389,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chbxHFechaBajaActionPerformed
 
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        //sumatorio de listas en otra lista comparando objetos uno a uno con equalsTo()
+        filtrarPorTipo();
+
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
         /*
@@ -390,7 +412,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
             public Class<?> getColumnClass(int columnIndex) {
                 return switch (columnIndex) {
                     case 0 -> Integer.class; // ID, primera columna: ordena como número
-                    default -> String.class; // resto: ordena comotexto
+                    default -> String.class; // resto: ordena como texto
                 };
             }
         };
@@ -414,12 +436,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
     En cambio, es más rápido hacer 1 query para estados, 1 para tipos
     y luego traducir en memoria con un Map
     */
-    private void cargarTablaMaquinaria() {
-        List<Maquinaria> lista = contr.listarMaquinaria();
-
-        Map<Integer, String> estados = mapEstados();
-        Map<Integer, String> tipos = mapTipos();
-
+    private void cargarTablaMaquinaria(List<Maquinaria> lista) {
         modeloTabla.setRowCount(0);
 
         for (Maquinaria m : lista) {
@@ -475,25 +492,138 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         return Integer.parseInt(String.valueOf(idObj));
     }
+    //cargar comboboxes bien
+    private void cargarComboEstados() {
+        cbbStatus.removeAllItems();
+        estadoDescToId.clear();
+
+        cbbStatus.addItem("Todos");
+
+        for (Estado e : contr.listarEstado()) {
+            cbbStatus.addItem(e.getDescripcionEstado());
+            estadoDescToId.put(e.getDescripcionEstado(), e.getCodigoEstado());
+        }
+    }
+    private void cargarComboTipos() {
+        cbbTipo.removeAllItems();
+        tipoDescToId.clear();
+
+        cbbTipo.addItem("Todos");
+
+        for (TipoMaquinaria t : contr.listarTipoMaquinaria()) {
+            cbbTipo.addItem(t.getDescripcionMaq());
+            tipoDescToId.put(t.getDescripcionMaq(), t.getCodigoTipoMaquinaria());
+        }
+    }
     /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
     /*ID*/
     private void filtrarPorId(){
         //que pase String
-        //si devuelve un false, advertir al usuario de que ponga un número entero -> JOptionPane
+        String idStr = txtID.getText();
+        
+        if (contr.buscarMaquinaPorID(idStr).isEmpty()){
+            JOptionPane.showMessageDialog(this,
+                    "Puede que no exista una máquina con ese ID o que esté mal escrito",
+                    "Error filtrando por ID",
+                    JOptionPane.ERROR_MESSAGE);
+        }else{
+            List<Maquinaria> lista = new ArrayList<>();
+            lista.add(contr.buscarMaquinaPorID(idStr).get());
+            cargarTablaMaquinaria(lista);
+        };
     }
     /*nombre*/
-    private void filtrarPorNombre(){}
-    /*fechaAlta*/
-    private void filtrarPorFechaAlta(){}
-    /*fechaBaja*/
-    private void filtrarPorFechaBaja(){}
+    private void filtrarPorNombre(){
+        //que pase String
+        String nombre = txtNameFilter.getText();
+        
+        if (contr.filtrarPorNombre(nombre).isEmpty()){
+            JOptionPane.showMessageDialog(this,
+                    "Puede que no exista una máquina con ese nombre o que esté mal escrito",
+                    "Error filtrando por nombre",
+                    JOptionPane.ERROR_MESSAGE);
+        }else{
+            List<Maquinaria> lista = new ArrayList<>();
+            lista = contr.filtrarPorNombre(nombre);
+            cargarTablaMaquinaria(lista);
+        };
+    }
+    /*fechas*/
+    private void filtrarPorFechas() {
+        boolean usarFechaAlta = chbxHFechaAlta.isSelected();
+        boolean usarFechaBaja = chbxHFechaBaja.isSelected();
+
+        Date fechaAlta = null;
+        Date fechaBaja = null;
+
+        if (usarFechaAlta) {
+            fechaAlta = (Date) spFechaAlta.getValue();
+        }
+
+        if (usarFechaBaja) {
+            fechaBaja = (Date) spFechaBaja.getValue();
+        }
+
+        if (!usarFechaAlta && !usarFechaBaja) {
+            JOptionPane.showMessageDialog(this,
+                    "Debes habilitar al menos una fecha para filtrar.",
+                    "Filtro por fechas",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<Maquinaria> lista = contr.filtrarPorFechas(
+                fechaAlta, usarFechaAlta,
+                fechaBaja, usarFechaBaja
+        );
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay máquinas que coincidan con las fechas indicadas.",
+                    "Filtro por fechas",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
+    }
     /*estado*/
-    private void filtrarPorStatus(){}
+    private void filtrarPorStatus(){
+        String estadoDesc = (String) cbbStatus.getSelectedItem();
+
+        Integer estadoId = null;
+
+        if (estadoDesc != null && !estadoDesc.equals("Todos")) {
+            estadoId = estadoDescToId.get(estadoDesc);
+        }
+
+        List<Maquinaria> lista = contr.filtrarPorStatus(estadoId);
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay máquinas con ese estado.", "Filtro por estado", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
+    }
     /*tipo*/
-    private void filtrarPorTipo(){}
-    /*habilitar fechas con checkboxes*/
-    private void habilitarFecha(){
-        //distinguir por checkbox y luego llamarlo en su... creo que esto es redundante y con el evento del checkbox propio ya vale
+    private void filtrarPorTipo() {
+        String tipoDesc = (String) cbbTipo.getSelectedItem();
+
+        Integer tipoId = null;
+
+        if (tipoDesc != null && !tipoDesc.equals("Todos")) {
+            tipoId = tipoDescToId.get(tipoDesc);
+        }
+
+        List<Maquinaria> lista = contr.filtrarPorTipo(tipoId);
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay máquinas de ese tipo.",
+                    "Filtro por tipo",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
     }
     /**
      * @param args the command line arguments

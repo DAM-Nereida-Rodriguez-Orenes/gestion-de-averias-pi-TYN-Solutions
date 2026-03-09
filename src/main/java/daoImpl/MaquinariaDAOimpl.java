@@ -6,7 +6,7 @@ package daoImpl;
 
 import dao.MaquinariaDAO;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Date; //este, no el de util
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -129,7 +129,22 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
     @Override
     public List<Maquinaria> listarMaquinaria() {
-        return buscarPorFiltrosMaquinaria(null, null, null, null, null);
+        List<Maquinaria> lista = new ArrayList<>();
+        final String sql = "SELECT * FROM maquinaria";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearMaquinaria(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error listando maquinaria", e);
+        }
+
+        return lista;
     }
 
     @Override
@@ -203,6 +218,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
     }
     @Override
     public Optional<Maquinaria> buscarMaquinariaPorId(int id){
+        Optional<Maquinaria> maq = Optional.empty();//inicializado a vacío, NO a null
         final String sql = """
         SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
         FROM maquinaria
@@ -210,42 +226,176 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         """;
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) return Optional.empty();
 
-                Maquinaria m = new Maquinaria();
-                m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
-                m.setNombre(rs.getString("nombre"));
-
-                Date alta = rs.getDate("fechaAlta");
-                if (alta != null) m.setFechaAlta(alta.toLocalDate());
-
-                Date baja = rs.getDate("fechaBaja");
-                if (baja != null) m.setFechaBaja(baja.toLocalDate());
-
-                
-                Estado e = new Estado();
-                e.setCodigoEstado(rs.getInt("codigoEstadoFK"));
-                m.setEstado(e);
-
-                TipoMaquinaria t = new TipoMaquinaria();
-                t.setCodigoTipoMaquinaria(rs.getInt("tipoMaquinariaFK"));
-                m.setTipoMaquinaria(t);
-
-                return Optional.of(m);
+                return Optional.of(mapearMaquinaria(rs));
             }
 
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error buscarPorId maquinaria: " + id, ex);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return maq;
         }
     }
     @Override
-    public Optional<Maquinaria> buscarMaquinariaPorTexto(String text){ 
-       Optional<Maquinaria> maq = null;
-       return maq;
+    public List<Maquinaria> buscarMaquinariaPorTexto(String text){ 
+        List<Maquinaria> lista = new ArrayList<>();//inicializado a vacío, NO a null
+        final String sql = """
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE nombre LIKE ?
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setString(1, "%" + text + "%");
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                   lista.add(mapearMaquinaria(rs));
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return lista;
+    }
+    public List<Maquinaria> buscarMaquinariaPorFecha(LocalDate fechaAlta, LocalDate fechaBaja){
+        List<Maquinaria> lista = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE 1=1
+        """);
+
+        List<Object> params = new ArrayList<>();
+
+        if (fechaAlta != null) {
+            sql.append(" AND fechaAlta = ?");
+            params.add(Date.valueOf(fechaAlta));
+        }
+
+        if (fechaBaja != null) {
+            sql.append(" AND fechaBaja = ?");
+            params.add(Date.valueOf(fechaBaja));
+        }
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMaquinaria(rs));
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return lista;
+    }
+    @Override
+    public List<Maquinaria> buscarMaquinariaPorEstado(Integer codigoEstadoFK) {
+        List<Maquinaria> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+            FROM maquinaria
+            """;
+
+        if (codigoEstadoFK != null) {
+            sql += " WHERE codigoEstadoFK = ?";
+        }
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (codigoEstadoFK != null) {
+                ps.setInt(1, codigoEstadoFK);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMaquinaria(rs));
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return lista;
+    }
+    @Override
+    public List<Maquinaria> buscarMaquinariaPorTipo(Integer tipoMaquinariaFK) {
+        List<Maquinaria> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+            FROM maquinaria
+            """;
+
+        if (tipoMaquinariaFK != null) {
+            sql += " WHERE tipoMaquinariaFK = ?";
+        }
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (tipoMaquinariaFK != null) {
+                ps.setInt(1, tipoMaquinariaFK);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMaquinaria(rs));
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return lista;
+    }
+    
+    //Métodos auxiliares
+    private Maquinaria mapearMaquinaria(ResultSet rs) throws SQLException {
+        Maquinaria m = new Maquinaria();
+
+        m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
+        m.setNombre(rs.getString("nombre"));
+
+        Date alta = rs.getDate("fechaAlta");
+        if (alta != null) {
+            m.setFechaAlta(alta.toLocalDate());
+        }
+
+        Date baja = rs.getDate("fechaBaja");
+        if (baja != null) {
+            m.setFechaBaja(baja.toLocalDate());
+        }
+
+        Estado e = new Estado();
+        e.setCodigoEstado(rs.getInt("codigoEstadoFK"));
+        m.setEstado(e);
+
+        TipoMaquinaria t = new TipoMaquinaria();
+        t.setCodigoTipoMaquinaria(rs.getInt("tipoMaquinariaFK"));
+        m.setTipoMaquinaria(t);
+
+        return m;
     }
 }
