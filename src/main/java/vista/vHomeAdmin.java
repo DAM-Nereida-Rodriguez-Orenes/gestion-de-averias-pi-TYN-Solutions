@@ -66,6 +66,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
         jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
         jlLogo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnGesUsuario = new javax.swing.JButton();
+        btnGesMaquina = new javax.swing.JButton();
+        btnGesAveria = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -84,9 +87,10 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Log In correcto, Admin");
+        jLabel1.setText("¡Bienvenido Administrador!");
 
         jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
@@ -103,7 +107,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
             .addGroup(jpCabeceraLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 806, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(86, 86, 86))
         );
@@ -117,23 +121,46 @@ public class vHomeAdmin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnGesUsuario.setText("usuario");
+
+        btnGesMaquina.setText("maquinas");
+
+        btnGesAveria.setText("averias");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(483, 483, 483)
-                .addComponent(jLabel1)
-                .addContainerGap(531, Short.MAX_VALUE))
             .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(411, 411, 411))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnGesAveria)
+                            .addComponent(btnGesMaquina)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(387, 387, 387)
+                        .addComponent(btnGesUsuario)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(247, 247, 247)
+                .addGap(60, 60, 60)
                 .addComponent(jLabel1)
-                .addContainerGap(467, Short.MAX_VALUE))
+                .addGap(115, 115, 115)
+                .addComponent(btnGesUsuario)
+                .addGap(37, 37, 37)
+                .addComponent(btnGesMaquina)
+                .addGap(34, 34, 34)
+                .addComponent(btnGesAveria)
+                .addContainerGap(391, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
@@ -261,6 +288,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGesAveria;
+    private javax.swing.JButton btnGesMaquina;
+    private javax.swing.JButton btnGesUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
