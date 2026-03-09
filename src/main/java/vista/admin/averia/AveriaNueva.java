@@ -79,7 +79,7 @@ public class AveriaNueva extends javax.swing.JDialog {
             List<TipoAveria> tipos = controlador.obtenerTiposAveria();
 
             // 2. Filtrar técnicos en memoria
-            todosLosTecnicos = controlador.obtenerSoloTecnicos(todosLosUsuarios);
+            todosLosTecnicos = controlador.obtenerSoloTecnicos();
 
             // 3. Llenar los modelos visuales
             if (todasLasMaquinas != null) modelMaquinas.addAll(todasLasMaquinas);

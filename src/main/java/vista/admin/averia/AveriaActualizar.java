@@ -88,7 +88,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
             List<TipoAveria> tipos = controlador.obtenerTiposAveria();
 
             // Filtrar técnicos
-            todosLosTecnicos = controlador.obtenerSoloTecnicos(todosLosUsuarios);
+            todosLosTecnicos = controlador.obtenerSoloTecnicos();
 
             // Llenar modelos
             if (todasLasMaquinas != null) modelMaquinas.addAll(todasLasMaquinas);
