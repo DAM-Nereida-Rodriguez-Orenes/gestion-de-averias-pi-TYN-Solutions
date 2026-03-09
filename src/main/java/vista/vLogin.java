@@ -145,7 +145,7 @@ public class vLogin extends javax.swing.JFrame {
         formulario.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 90, -1));
 
         btnRecuperar.setBackground(new java.awt.Color(199, 234, 249));
-        btnRecuperar.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 12)); // NOI18N
+        btnRecuperar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 12)); // NOI18N
         btnRecuperar.setForeground(new java.awt.Color(39, 155, 230));
         btnRecuperar.setText("¿Has olvidado tu contraseña?");
         btnRecuperar.setBorderPainted(false);

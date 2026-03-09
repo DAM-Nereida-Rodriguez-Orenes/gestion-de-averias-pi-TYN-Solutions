@@ -4,11 +4,18 @@
  */
 package vista;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import modelo.Usuario;
-import vista.admin.gusuario.GestionUsuario;
+import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.usuario.GestionRol;
+import vista.admin.usuario.GestionUsuario;
 
 /**
  *
@@ -26,6 +33,23 @@ public class vHomeAdmin extends javax.swing.JFrame {
      */
     public vHomeAdmin() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        mostrarImagenes();
+    }
+
+    public void mostrarImagenes() {
+        //Ajustes del deisño del JFrame
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        setLocationRelativeTo(null);
+
+        URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
+        System.out.println("urlLogo = " + urlLogo);
+
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 140, 70);
+        jlLogo.setIcon(iconop);
+        jlLogo.setText("");
+        jlLogo.setOpaque(false);
     }
 
     /**
@@ -37,8 +61,14 @@ public class vHomeAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
         jLabel1 = new javax.swing.JLabel();
+        jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
+        jlLogo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnGesUsuario = new javax.swing.JButton();
+        btnGesMaquina = new javax.swing.JButton();
+        btnGesAveria = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -55,28 +85,82 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 153));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Log In correcto, Admin");
+        jLabel1.setText("¡Bienvenido Administrador!");
+
+        jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
+        jlLogo.setText("jLabel2");
+
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(67, 113, 177));
+        jLabel2.setText("Hola, Admin");
+
+        javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
+        jpCabecera.setLayout(jpCabeceraLayout);
+        jpCabeceraLayout.setHorizontalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 806, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(86, 86, 86))
+        );
+        jpCabeceraLayout.setVerticalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLogo)
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnGesUsuario.setText("usuario");
+
+        btnGesMaquina.setText("maquinas");
+
+        btnGesAveria.setText("averias");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(483, 483, 483)
+            .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(531, Short.MAX_VALUE))
+                .addGap(411, 411, 411))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnGesAveria)
+                            .addComponent(btnGesMaquina)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(387, 387, 387)
+                        .addComponent(btnGesUsuario)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(288, 288, 288)
+                .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
                 .addComponent(jLabel1)
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addGap(115, 115, 115)
+                .addComponent(btnGesUsuario)
+                .addGap(37, 37, 37)
+                .addComponent(btnGesMaquina)
+                .addGap(34, 34, 34)
+                .addComponent(btnGesAveria)
+                .addContainerGap(391, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
@@ -116,6 +200,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miGestion.add(miUsuario);
 
         miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miMaquinaria);
 
         miTipoMaquinaria.setText("Tipo de maquinaria");
@@ -133,6 +222,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
         miGestion.add(miRoles);
 
         jMenuBar1.add(miGestion);
@@ -174,14 +268,35 @@ public class vHomeAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGesAveria;
+    private javax.swing.JButton btnGesMaquina;
+    private javax.swing.JButton btnGesUsuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jlLogo;
+    private javax.swing.JPanel jpCabecera;
     private javax.swing.JMenuItem miAveria;
     private javax.swing.JMenuItem miCerrarSesion;
     private javax.swing.JMenuItem miEstadoMaquinaria;
