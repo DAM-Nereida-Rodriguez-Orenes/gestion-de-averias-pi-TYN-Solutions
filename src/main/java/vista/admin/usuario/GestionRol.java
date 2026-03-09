@@ -22,7 +22,6 @@ import vista.vHomeAdmin;
  *
  * @author Netri
  */
-
 public class GestionRol extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionRol.class.getName());
@@ -363,9 +362,9 @@ public class GestionRol extends javax.swing.JFrame {
         // Comprobamos si el usuario ha seleccionado una fila
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this,
-                "Debes seleccionar un rol para poder eliminarlo",
-                "Eliminar rol",
-                JOptionPane.ERROR_MESSAGE);
+                    "Debes seleccionar un rol para poder eliminarlo",
+                    "Eliminar rol",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -375,42 +374,60 @@ public class GestionRol extends javax.swing.JFrame {
         // Lanzamos mensaje de confirmacion
         int opcion;
         opcion = JOptionPane.showConfirmDialog(this,
-            "¿Estas seguro de que quieres eliminar este rol?",
-            "Eliminar rol",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.WARNING_MESSAGE);
+                "¿Estas seguro de que quieres eliminar este rol?",
+                "Eliminar rol",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE);
 
         if (opcion == JOptionPane.YES_OPTION) {
             try {
                 gestionRolControlador.eliminarRol(codigoRol);
 
                 JOptionPane.showMessageDialog(this,
-                    "El rol se ha eliminado con exito",
-                    "Eliminar rol",
-                    JOptionPane.INFORMATION_MESSAGE);
+                        "El rol se ha eliminado con exito",
+                        "Eliminar rol",
+                        JOptionPane.INFORMATION_MESSAGE);
 
                 mostrarTabla();
 
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this,
-                    e.getMessage(),
-                    "Eliminar rol",
-                    JOptionPane.ERROR_MESSAGE);
+                        e.getMessage(),
+                        "Eliminar rol",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
         } else if (opcion == JOptionPane.NO_OPTION) {
             JOptionPane.showMessageDialog(this,
-                "Proceso cancelado",
-                "Eliminar rol",
-                JOptionPane.INFORMATION_MESSAGE);
+                    "Proceso cancelado",
+                    "Eliminar rol",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarRolActionPerformed
 
     private void btnActualizarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarRolActionPerformed
-        ActualizarRol ar = new ActualizarRol(this, rootPaneCheckingEnabled, this, gestionRolControlador);
-        ar.setSize(1000, 600);
-        ar.setLocationRelativeTo(this);
-        ar.setVisible(true);
+        int filaSeleccionada = tbRoles.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+
+            // Obtenemos la descripcion del rol de la fila seleccionada
+            String descripcionRol = (String) tbRoles.getValueAt(filaSeleccionada, 1);
+
+            // Buscamos el rol
+            Rol rol = gestionRolControlador.buscarRol(descripcionRol);
+
+            // Guardamos el rol en el controlador
+            gestionRolControlador.setRol(rol);
+
+            // Abrimos la ventana de actualizar
+            ActualizarRol ar = new ActualizarRol(this, rootPaneCheckingEnabled, this, gestionRolControlador);
+            ar.setSize(1000, 600);
+            ar.setLocationRelativeTo(this);
+            ar.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(this,"Debes seleccionar un rol","Editar rol",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnActualizarRolActionPerformed
 
     private void btnAddRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRolActionPerformed

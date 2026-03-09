@@ -19,6 +19,14 @@ public class GestionRolControlador {
     private Rol rol = new Rol();
     private RolDao rolDaoImpl = new RolDaoImpl(DataSourceFactory.getDataSource());
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
     /**
      * Metodo que crea un nuevo rol en la base de datos. Recibe el codigo del
      * rol y su descripcion desde la vista, crea el objeto Rol y llama al DAO
@@ -50,6 +58,27 @@ public class GestionRolControlador {
         }
     }
 
+    public String actualizarRol(String codigoRol, String descripcionRol) {
+        try {
+            // Convertimos el codigo a entero
+            int codigoRolEntero = Integer.parseInt(codigoRol);
+
+            // Creamos el objeto Rol
+            Rol rol = new Rol();
+            rol.setCodigoRol(codigoRolEntero);
+            rol.setDescripcionRol(descripcionRol);
+
+            // Llamamos al DAO para insertar el rol
+            rolDaoImpl.actualizarRol(rol);
+            return null;
+
+        } catch (NumberFormatException e) {
+            return "El codigo de rol no tiene un formato valido.";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
+
     /**
      * Listar roles
      *
@@ -66,6 +95,10 @@ public class GestionRolControlador {
      */
     public void eliminarRol(int codigoRol) {
         rolDaoImpl.eliminarRol(codigoRol);
+    }
+
+    public Rol buscarRol(String descripcionRol) {
+        return rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
     }
 
 }

@@ -4,9 +4,14 @@
  */
 package vista.admin.usuario;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
 import java.awt.Image;
+import java.awt.Insets;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import vista.PanelImgFondo;
 
 /**
@@ -27,13 +32,70 @@ public class ActualizarRol extends javax.swing.JDialog {
         initComponents();
         this.gestionRol = gestionRol;
         this.gestionRolControlador = gestionRolControlador;
+        mostrarImagenes();
+        inicializarSpinnerNumeroRol();
+        mostrarDatos();
     }
-    
+
+    /**
+     * Metodo que muestra en la interfaz los datos del rol seleccionado. Carga
+     * la descripcion del rol en el campo de texto y ajusta el spinner para
+     * mostrar los dos ultimos digitos del codigo del rol.
+     */
+    private void mostrarDatos() {
+        // Nos traemos el codigo del rol seleccionado
+        int codigoRolCompleto = gestionRolControlador.getRol().getCodigoRol();
+
+        /**
+         * Obtenemos los dos ultimos digitos del codigo. Esto sirve para
+         * quedarse solo con los dos ultimos digitos, asi como el spinner ya
+         * esta configurado con formato "00", si le pasas 5, en pantalla se verá
+         * 05.
+         */
+        int numeroRol = codigoRolCompleto % 100;
+
+        // Mostramos los datos en la interfaz
+        spnNumeroRol.setValue(numeroRol);
+        txtDescripcionRol.setText(gestionRolControlador.getRol().getDescripcionRol());
+    }
+
     public void mostrarImagenes() {
-         //icno de la app
+        //icno de la app
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
         setLocationRelativeTo(null);
+
+        //ICONOS LtextField
+        //Campo Codigo rol 
+        FlatSVGIcon iconoCodigo = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
+        txtCodigoRol.putClientProperty("JTextField.leadingIcon", iconoCodigo);
+        txtCodigoRol.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtCodigoRol.putClientProperty("JTextField.placeholderText", "Código Rol:  7 ");
+        //Campo descripcion rol
+        FlatSVGIcon iconoDescripcion = new FlatSVGIcon("recursos/iconos/icnEtiqueta.svg", 16, 16);
+        txtDescripcionRol.putClientProperty("JTextField.leadingIcon", iconoDescripcion);
+        txtDescripcionRol.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtDescripcionRol.putClientProperty("JTextField.placeholderText", "Nombre del rol: ");
+    }
+
+    private void inicializarSpinnerNumeroRol() {
+        SpinnerNumberModel modeloNumeroRol = new SpinnerNumberModel(1, 1, 99, 1);
+        spnNumeroRol.setModel(modeloNumeroRol);
+
+        JSpinner.NumberEditor editorNumeroRol = new JSpinner.NumberEditor(spnNumeroRol, "00");
+        spnNumeroRol.setEditor(editorNumeroRol);
+    }
+
+    private String obtenerNumeroRolFormateado() {
+        int numeroRol = (int) spnNumeroRol.getValue();
+        String numeroRolFormateado = String.format("%02d", numeroRol);
+        return numeroRolFormateado;
+    }
+
+    private String obtenerCodigoRolCompleto() {
+        String numeroRolFormateado = obtenerNumeroRolFormateado();
+        String codigoRolCompleto = "7" + numeroRolFormateado;
+        return codigoRolCompleto;
     }
 
     /**
@@ -47,22 +109,18 @@ public class ActualizarRol extends javax.swing.JDialog {
 
         jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
         jPanel2 = new javax.swing.JPanel();
-        txtCodigoRol = new javax.swing.JTextField();
-        txtDescripcionRol = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         btnEditarRol = new javax.swing.JButton();
         btnCancelarNU = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        txtCodigoRol = new javax.swing.JTextField();
+        spnNumeroRol = new javax.swing.JSpinner();
+        txtDescripcionRol = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(780, 500));
-
-        txtCodigoRol.setBackground(new java.awt.Color(237, 243, 251));
-
-        txtDescripcionRol.setBackground(new java.awt.Color(237, 243, 251));
 
         btnEditarRol.setBackground(new java.awt.Color(58, 181, 235));
         btnEditarRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
@@ -88,7 +146,12 @@ public class ActualizarRol extends javax.swing.JDialog {
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 204));
-        jLabel2.setText("Nuevo Rol");
+        jLabel2.setText("Editar Rol");
+
+        txtCodigoRol.setEditable(false);
+        txtCodigoRol.setBackground(new java.awt.Color(237, 243, 251));
+
+        txtDescripcionRol.setBackground(new java.awt.Color(237, 243, 251));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -101,19 +164,23 @@ public class ActualizarRol extends javax.swing.JDialog {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEditarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtCodigoRol, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtDescripcionRol, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(220, 220, 220)
+                        .addComponent(btnEditarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(330, 330, 330))))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(132, 132, 132)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(txtCodigoRol, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(spnNumeroRol, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtDescripcionRol))
+                    .addContainerGap(133, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,15 +189,20 @@ public class ActualizarRol extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(112, 112, 112)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCodigoRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDescripcionRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(224, 224, 224)
+                .addGap(366, 366, 366)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(195, 195, 195)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCodigoRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spnNumeroRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(49, 49, 49)
+                    .addComponent(txtDescripcionRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(196, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -164,8 +236,37 @@ public class ActualizarRol extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metodo que actualiza los datos del rol seleccionado. Recoge el codigo y
+     * la descripcion desde la interfaz, valida que los campos esten completos y
+     * llama al controlador para realizar la actualizacion.
+     */
     private void btnEditarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarRolActionPerformed
+        // Numero del codigo
+        String numeroRolFormateado = obtenerNumeroRolFormateado();
+        String codigoRolCompleto = obtenerCodigoRolCompleto();
 
+        System.out.println("Numero del rol: " + numeroRolFormateado);
+        System.out.println("Codigo completo del rol: " + codigoRolCompleto);
+
+        // Descripcion
+        String descripcionRol = txtDescripcionRol.getText().trim();
+
+        if (codigoRolCompleto.isEmpty() || descripcionRol.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debes rellenar todos los campos del formulario", "Datos incompletos", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String mensajeError = gestionRolControlador.actualizarRol(codigoRolCompleto, descripcionRol);
+
+            if (mensajeError == null) {
+                JOptionPane.showMessageDialog(this, "Rol actualizado con exito", "Actualizacion realizada", JOptionPane.INFORMATION_MESSAGE);
+
+                // Actualizamos la tabla de la ventana principal
+                gestionRol.mostrarTabla();
+
+            } else {
+                JOptionPane.showMessageDialog(this, mensajeError, "Error al actualizar rol", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEditarRolActionPerformed
 
     private void btnCancelarNUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNUActionPerformed
@@ -180,6 +281,7 @@ public class ActualizarRol extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner spnNumeroRol;
     private javax.swing.JTextField txtCodigoRol;
     private javax.swing.JTextField txtDescripcionRol;
     // End of variables declaration//GEN-END:variables
