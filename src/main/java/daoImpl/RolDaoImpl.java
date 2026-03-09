@@ -105,18 +105,34 @@ public class RolDaoImpl implements RolDao {
     @Override
     public void eliminarRol(int codigoRol) {
 
-        // Comprobamos si existe antes de eliminar
+        // Comprobamos si existe el rol
         if (!existeID(codigoRol)) {
             throw new RuntimeException("No existe un rol con ese codigo.");
         }
 
-        final String sql = "DELETE FROM rol WHERE codigoRol = ?";
+        final String sqlComprobacion = "SELECT COUNT(*) FROM usuario WHERE codigoRol = ?";
+        final String sqlEliminar = "DELETE FROM rol WHERE codigoRol = ?";
 
-        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement psComprobacion = conn.prepareStatement(sqlComprobacion)) {
 
-            ps.setInt(1, codigoRol);
+            psComprobacion.setInt(1, codigoRol);
 
-            int filasAfectadas = ps.executeUpdate();
+            ResultSet rs = psComprobacion.executeQuery();
+
+            if (rs.next()) {
+                int totalUsuarios = rs.getInt(1);
+
+                // Si hay usuarios con ese rol no se puede eliminar
+                if (totalUsuarios > 0) {
+                    throw new RuntimeException("No se puede eliminar el rol porque esta asociado a usuarios.");
+                }
+            }
+
+            // Si no hay usuarios asociados se elimina el rol
+            PreparedStatement psEliminar = conn.prepareStatement(sqlEliminar);
+            psEliminar.setInt(1, codigoRol);
+
+            int filasAfectadas = psEliminar.executeUpdate();
 
             if (filasAfectadas == 0) {
                 throw new RuntimeException("No se pudo eliminar el rol.");
