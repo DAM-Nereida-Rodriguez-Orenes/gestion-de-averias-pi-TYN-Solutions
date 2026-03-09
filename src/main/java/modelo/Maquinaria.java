@@ -36,6 +36,15 @@ public class Maquinaria {
         this.tipoMaquinariaFK = tipoMaquinariaFK;
     }
 
+    // Constructor sin ID
+    public Maquinaria(String nombre, int codigoEstadoFK,
+            LocalDate fechaAlta, LocalDate fechaBaja, int tipoMaquinariaFK) {
+        this.nombre = nombre;
+        this.codigoEstadoFK = codigoEstadoFK;
+        this.fechaAlta = fechaAlta;
+        this.fechaBaja = fechaBaja;
+        this.tipoMaquinariaFK = tipoMaquinariaFK;
+    }
     // Getters y setters
     public int getCodigoMaquinaria() {
         return codigoMaquinaria;

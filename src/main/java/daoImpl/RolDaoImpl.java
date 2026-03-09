@@ -127,6 +127,14 @@ public class RolDaoImpl implements RolDao {
         }
     }
 
+    /**
+     * este metodo lo utilizo en gestionUsuarioControlador para rellena el
+     * ComboBox en Crear Usuario. que se lo paso mediante la instancia de la
+     * clase gestionUsuarioControlador
+     * (gestionUsuarioControlador.recuperarListadoRoles();)
+     *
+     * @return listaRoles
+     */
     @Override
     public List<Rol> listarRoles() {
 
@@ -153,4 +161,37 @@ public class RolDaoImpl implements RolDao {
         return listaRoles;
     }
 
+    /**
+     * este metodo recupera de la base de datos el rol. Luego se implementa en
+     * el metodo de crearusuario de GestionUsuarioControlador
+     *
+     * @param descripcionRol
+     * @return
+     */
+    @Override
+    public Rol recuperarRolPorCodigo(String descripcionRol) {
+        final String sql = "SELECT * FROM rol WHERE descripcionRol = ?";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, descripcionRol);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Rol rol = new Rol();
+
+                    rol.setCodigoRol(rs.getInt("codigoRol"));
+                    rol.setDescripcionRol(rs.getString("descripcionRol"));
+
+                    return rol;
+                }
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error comprobando si existe el rol: " + e.getMessage(), e);
+        }
+    }
 }
