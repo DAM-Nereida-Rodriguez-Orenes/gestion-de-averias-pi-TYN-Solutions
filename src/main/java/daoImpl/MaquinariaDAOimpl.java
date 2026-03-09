@@ -147,77 +147,9 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         return lista;
     }
 
+   
     @Override
-    public List<Maquinaria> buscarPorFiltrosMaquinaria( Integer codigoEstadoFK,
-        Integer tipoMaquinariaFK,
-        LocalDate fechaAltaDesde,
-        LocalDate fechaAltaHasta,
-        Boolean soloActivas) {
-        
-        StringBuilder sql = new StringBuilder("SELECT * FROM maquinaria WHERE 1=1");
-        List<Object> params = new ArrayList<>();
-
-        if (codigoEstadoFK != null) {
-            sql.append(" AND codigoEstadoFK = ?");
-            params.add(codigoEstadoFK);
-        }
-
-        if (tipoMaquinariaFK != null) {
-            sql.append(" AND tipoMaquinariaFK = ?");
-            params.add(tipoMaquinariaFK);
-        }
-
-        if (fechaAltaDesde != null) {
-            sql.append(" AND fechaAlta >= ?");
-            params.add(java.sql.Date.valueOf(fechaAltaDesde));
-        }
-
-        if (fechaAltaHasta != null) {
-            sql.append(" AND fechaAlta <= ?");
-            params.add(java.sql.Date.valueOf(fechaAltaHasta));
-        }
-
-        if (soloActivas != null && soloActivas) {
-            sql.append(" AND fechaBaja IS NULL");
-        }
-
-        sql.append(" ORDER BY codigoMaquinaria ASC");
-
-        List<Maquinaria> resultado = new ArrayList<>();
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
-
-            for (int i = 0; i < params.size(); i++) {
-                ps.setObject(i + 1, params.get(i));
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Maquinaria m = new Maquinaria();
-                    m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
-                    m.setNombre(rs.getString("nombre"));
-
-                    java.sql.Date fa = rs.getDate("fechaAlta");
-                    m.setFechaAlta(fa != null ? fa.toLocalDate() : null);
-
-                    java.sql.Date fb = rs.getDate("fechaBaja");
-                    m.setFechaBaja(fb != null ? fb.toLocalDate() : null);
-
-                   // m.setTipoMaquinaria(rs.get("tipoMaquinariaFK"));
-
-                    resultado.add(m);
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error filtrando maquinaria", e);
-        }
-
-        return resultado;
-    }
-    @Override
-    public Optional<Maquinaria> buscarMaquinariaPorId(int id){
+    public Optional<Maquinaria> buscarMaquinariaPorId(Integer id){
         Optional<Maquinaria> maq = Optional.empty();//inicializado a vacío, NO a null
         final String sql = """
         SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK

@@ -5,7 +5,7 @@
 package modelo;
 
 import java.time.LocalDate;
-
+import java.util.Objects;
 /**
  *
  * @author Netri
@@ -95,5 +95,20 @@ public class Maquinaria {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Maquinaria other = (Maquinaria) obj;
+        return this.codigoMaquinaria == other.codigoMaquinaria;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigoMaquinaria);
+    }
 }

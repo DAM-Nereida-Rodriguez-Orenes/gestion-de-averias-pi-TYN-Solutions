@@ -16,7 +16,9 @@ import modelo.TipoMaquinaria;
 import java.util.List;
 import java.util.Optional;
 import modelo.Maquinaria;
-
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -130,15 +132,12 @@ public class GestionMaquinasControlador {
     }
     
     //buscar por id (para actualizar y eliminar)
-    public Optional<Maquinaria> buscarMaquinaPorID(String id){
-        int idInt = 0; //así devuelve lista vacía porque no hay id = 0;
-        try{
-            idInt = Integer.parseInt(id);
-        }catch(NumberFormatException e){
-            e.getMessage();
-            idInt = 0;
+    public Optional<Maquinaria> buscarMaquinaPorID(Integer id) {
+        if (id == null || id <= 0) {
+            return Optional.empty();
         }
-        return mDAOi.buscarMaquinariaPorId(idInt);
+
+        return mDAOi.buscarMaquinariaPorId(id);
     }
     
     /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
@@ -150,31 +149,100 @@ public class GestionMaquinasControlador {
     /*Buscar por fechas*/
     public List<Maquinaria> filtrarPorFechas(Date fechaAltaUtil, boolean usarFechaAlta, Date fechaBajaUtil, boolean usarFechaBaja) {
 
-        LocalDate fechaAlta = null;
-        LocalDate fechaBaja = null;
+            LocalDate fechaAlta = null;
+            LocalDate fechaBaja = null;
 
-        if (usarFechaAlta && fechaAltaUtil != null) {
-            fechaAlta = fechaAltaUtil.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
+            if (usarFechaAlta && fechaAltaUtil != null) {
+                fechaAlta = fechaAltaUtil.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+            }
+
+            if (usarFechaBaja && fechaBajaUtil != null) {
+                fechaBaja = fechaBajaUtil.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+            }
+
+            return mDAOi.buscarMaquinariaPorFecha(fechaAlta, fechaBaja);
+        }
+        /*estado*/
+        public List<Maquinaria> filtrarPorStatus(Integer codigoEstadoFK) {
+            return mDAOi.buscarMaquinariaPorEstado(codigoEstadoFK);
+        }
+        /*tipo*/
+        public List<Maquinaria> filtrarPorTipo(Integer tipoMaquinariaFK) {
+            return mDAOi.buscarMaquinariaPorTipo(tipoMaquinariaFK);
+        }
+        /*llamar a todas las funciones de filtrar*/
+    public List<Maquinaria> filtrarMaquinaria(
+            Integer id,
+            String nombre,
+            Date fechaAltaUtil, boolean usarFechaAlta,
+            Date fechaBajaUtil, boolean usarFechaBaja,
+            Integer codigoEstadoFK,
+            Integer tipoMaquinariaFK) {
+
+        List<List<Maquinaria>> listasActivas = new ArrayList<>();
+
+        // Filtro por ID
+        if (id != null && id > 0) {
+            Optional<Maquinaria> maqOpt = buscarMaquinaPorID(id);
+            List<Maquinaria> listaId = new ArrayList<>();
+            maqOpt.ifPresent(listaId::add);
+            listasActivas.add(listaId);
         }
 
-        if (usarFechaBaja && fechaBajaUtil != null) {
-            fechaBaja = fechaBajaUtil.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
+        // Filtro por nombre
+        if (nombre != null && !nombre.isBlank()) {
+            listasActivas.add(filtrarPorNombre(nombre.trim()));
         }
 
-        return mDAOi.buscarMaquinariaPorFecha(fechaAlta, fechaBaja);
+        // Filtro por fechas
+        if ((usarFechaAlta && fechaAltaUtil != null) || (usarFechaBaja && fechaBajaUtil != null)) {
+            listasActivas.add(filtrarPorFechas(fechaAltaUtil, usarFechaAlta, fechaBajaUtil, usarFechaBaja));
+        }
+
+        // Filtro por estado
+        if (codigoEstadoFK != null && codigoEstadoFK > 0) {
+            listasActivas.add(filtrarPorStatus(codigoEstadoFK));
+        }
+
+        // Filtro por tipo
+        if (tipoMaquinariaFK != null && tipoMaquinariaFK > 0) {
+            listasActivas.add(filtrarPorTipo(tipoMaquinariaFK));
+        }
+
+        // Si no hay filtros, devolver todo
+        if (listasActivas.isEmpty()) {
+            return listarMaquinaria();
+        }
+
+        // Si hay filtros, hacer intersección
+        return intersectarListasPorId(listasActivas);
     }
-    /*estado*/
-    public List<Maquinaria> filtrarPorStatus(Integer codigoEstadoFK) {
-        return mDAOi.buscarMaquinariaPorEstado(codigoEstadoFK);
+    
+    //el filtro es un Y
+    private List<Maquinaria> intersectarListasPorId(List<List<Maquinaria>> listas) {
+        if (listas == null || listas.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Map<Integer, Maquinaria> mapaResultado = new LinkedHashMap<>();
+        for (Maquinaria m : listas.get(0)) {
+            mapaResultado.put(m.getCodigoMaquinaria(), m);
+        }
+
+        for (int i = 1; i < listas.size(); i++) {
+            Map<Integer, Maquinaria> mapaActual = new LinkedHashMap<>();
+
+            for (Maquinaria m : listas.get(i)) {
+                mapaActual.put(m.getCodigoMaquinaria(), m);
+            }
+
+            mapaResultado.keySet().retainAll(mapaActual.keySet());
+        }
+
+        return new ArrayList<>(mapaResultado.values());
     }
-    /*tipo*/
-    public List<Maquinaria> filtrarPorTipo(Integer tipoMaquinariaFK) {
-        return mDAOi.buscarMaquinariaPorTipo(tipoMaquinariaFK);
-    }
-    /*llamar a la función de filtrar del DAO*/
-    private void filtrar(){}
 }

@@ -300,19 +300,19 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        int id = getIdSeleccionado();
-        String idStr = String.valueOf(id);
+       int id = getIdSeleccionado();
         if (id == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione una máquina (pulse una fila).",
                     "Selección requerida", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        var opt = contr.buscarMaquinaPorID(idStr);
+        var opt = contr.buscarMaquinaPorID(id);
         if (opt.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se encontró la máquina en la base de datos.",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
+
         }
 
         ActualizarMaquina dlg = new ActualizarMaquina(this, true);
@@ -390,8 +390,58 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }//GEN-LAST:event_chbxHFechaBajaActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        //sumatorio de listas en otra lista comparando objetos uno a uno con equalsTo()
-        filtrarPorTipo();
+        Integer id = null;
+        String textoId = txtID.getText().trim();
+
+        if (!textoId.isBlank()) {
+            try {
+                id = Integer.valueOf(textoId);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this,
+                        "El ID debe ser un número entero.",
+                        "Filtro",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        String nombre = txtNameFilter.getText().trim();
+
+        boolean usarFechaAlta = chbxHFechaAlta.isSelected();
+        boolean usarFechaBaja = chbxHFechaBaja.isSelected();
+
+        Date fechaAlta = usarFechaAlta ? (Date) spFechaAlta.getValue() : null;
+        Date fechaBaja = usarFechaBaja ? (Date) spFechaBaja.getValue() : null;
+
+        Integer estadoId = null;
+        String estadoDesc = (String) cbbStatus.getSelectedItem();
+        if (estadoDesc != null && !estadoDesc.equals("Todos")) {
+            estadoId = estadoDescToId.get(estadoDesc);
+        }
+
+        Integer tipoId = null;
+        String tipoDesc = (String) cbbTipo.getSelectedItem();
+        if (tipoDesc != null && !tipoDesc.equals("Todos")) {
+            tipoId = tipoDescToId.get(tipoDesc);
+        }
+
+        List<Maquinaria> lista = contr.filtrarMaquinaria(
+                id,
+                nombre,
+                fechaAlta, usarFechaAlta,
+                fechaBaja, usarFechaBaja,
+                estadoId,
+                tipoId
+        );
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay máquinas que cumplan todos los filtros.",
+                    "Resultado del filtrado",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
 
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
@@ -517,20 +567,40 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }
     /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
     /*ID*/
-    private void filtrarPorId(){
-        //que pase String
-        String idStr = txtID.getText();
-        
-        if (contr.buscarMaquinaPorID(idStr).isEmpty()){
+    private void filtrarPorId() {
+        String texto = txtID.getText().trim();
+
+        if (texto.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Introduce un ID.",
+                    "Filtro por ID",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Integer id;
+        try {
+            id = Integer.valueOf(texto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser un número entero.",
+                    "Filtro por ID",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        var opt = contr.buscarMaquinaPorID(id);
+
+        if (opt.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Puede que no exista una máquina con ese ID o que esté mal escrito",
                     "Error filtrando por ID",
                     JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             List<Maquinaria> lista = new ArrayList<>();
-            lista.add(contr.buscarMaquinaPorID(idStr).get());
+            lista.add(opt.get());
             cargarTablaMaquinaria(lista);
-        };
+        }
     }
     /*nombre*/
     private void filtrarPorNombre(){
