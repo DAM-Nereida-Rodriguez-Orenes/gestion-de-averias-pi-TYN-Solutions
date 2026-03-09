@@ -5,38 +5,38 @@
 package modelo;
 
 import java.time.LocalDateTime;
+import modelo.Rol;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class Usuario {
-    
+
     // Atributos
     private int codigoUsuario;
     private String nombre;
     private String apellido;
-    private int codigoRolFK;
+    private Rol rol;
     private String telefono;
     private String email;
     private String password;
     private int intentos;
     private LocalDateTime ultimoAcceso;
-    private boolean activo;
+    private Boolean activo;
 
     // Constructor vacio
     public Usuario() {
     }
 
     // Constructor completo
-    public Usuario(int codigoUsuario, String nombre, String apellido, int codigoRolFK,
+    public Usuario(String nombre, String apellido, Rol codigoRolFK,
             String telefono, String email, String password, int intentos,
             LocalDateTime ultimoAcceso, boolean activo) {
 
-        this.codigoUsuario = codigoUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.codigoRolFK = codigoRolFK;
+        this.rol = codigoRolFK;
         this.telefono = telefono;
         this.email = email;
         this.password = password;
@@ -70,12 +70,12 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public int getCodigoRolFK() {
-        return codigoRolFK;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setCodigoRolFK(int codigoRolFK) {
-        this.codigoRolFK = codigoRolFK;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public String getTelefono() {

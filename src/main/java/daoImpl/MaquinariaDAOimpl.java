@@ -31,10 +31,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
     @Override
     public void insertar(Maquinaria m) {
-        final String sql = """
-            INSERT INTO maquinaria (nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK)
-            VALUES (?, ?, ?, ?, ?)
-            """;
+        String sql = "INSERT INTO maquinaria (nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -46,9 +43,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             ps.setInt(2, m.getCodigoEstadoFK());
 
             // 3) fechaAlta (DATE)
-            // Si en tu modelo es java.time.LocalDate:
+            //El modelo es java.time.LocalDate:
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
-            // Si fuera java.util.Date, dímelo y te lo adapto.
 
             // 4) fechaBaja (DATE) puede ser NULL
             if (m.getFechaBaja() == null) {
@@ -62,7 +58,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             ps.executeUpdate();
 
-            // (Opcional pero muy útil) recuperar el ID autogenerado --> útil para refrescar vistas de listas
+            // Recuperar el ID autogenerado --> útil para refrescar vistas de listas
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     m.setCodigoMaquinaria(rs.getInt(1));
@@ -89,26 +85,20 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // 1️⃣ nombre
             ps.setString(1, m.getNombre());
 
-            // 2️⃣ estado (FK)
             ps.setInt(2, m.getCodigoEstadoFK());
 
-            // 3️⃣ fechaAlta (DATE)
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
 
-            // 4️⃣ fechaBaja (puede ser NULL)
             if (m.getFechaBaja() == null) {
                 ps.setNull(4, Types.DATE);
             } else {
                 ps.setDate(4, Date.valueOf(m.getFechaBaja()));
-            }
+            };
 
-            // 5️⃣ tipo maquinaria (FK)
             ps.setInt(5, m.getTipoMaquinariaFK());
 
-            // 6️⃣ WHERE codigoMaquinaria
             ps.setInt(6, m.getCodigoMaquinaria());
 
             ps.executeUpdate();
@@ -210,5 +200,40 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
         return resultado;
     }
-    
+    @Override
+    public Optional<Maquinaria> buscarMaquinariaPorId(int id){
+        final String sql = """
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE codigoMaquinaria = ?
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return Optional.empty();
+
+                Maquinaria m = new Maquinaria();
+                m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
+                m.setNombre(rs.getString("nombre"));
+                m.setCodigoEstadoFK(rs.getInt("codigoEstadoFK"));
+
+                Date alta = rs.getDate("fechaAlta");
+                if (alta != null) m.setFechaAlta(alta.toLocalDate());
+
+                Date baja = rs.getDate("fechaBaja");
+                if (baja != null) m.setFechaBaja(baja.toLocalDate());
+
+                m.setTipoMaquinariaFK(rs.getInt("tipoMaquinariaFK"));
+
+                return Optional.of(m);
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error buscarPorId maquinaria: " + id, ex);
+        }
+    }
 }

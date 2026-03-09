@@ -17,6 +17,8 @@ import java.util.List;
 import javax.sql.DataSource;
 import modelo.Usuario;
 import java.time.LocalDateTime;
+import java.util.Random;
+import modelo.Rol;
 
 /**
  *
@@ -42,7 +44,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getApellido());
-            ps.setInt(3, usuario.getCodigoRolFK());
+            ps.setInt(3, usuario.getRol().getCodigoRol());
             ps.setString(4, usuario.getTelefono());
             ps.setString(5, usuario.getEmail());
             ps.setString(6, usuario.getPassword());
@@ -80,7 +82,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
             ps.setString(1, usuario.getNombre());
             ps.setString(2, usuario.getApellido());
-            ps.setInt(3, usuario.getCodigoRolFK());
+            ps.setInt(3, usuario.getRol().getCodigoRol());
             ps.setString(4, usuario.getTelefono());
             ps.setString(5, usuario.getEmail());
             ps.setString(6, usuario.getPassword());
@@ -110,10 +112,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
     @Override
     public void eliminarUsuario(int codigoUsuario) {
 
-        final String sql = "DELETE FROM usuario WHERE codigoUsuario = ?";
+        final String sql = "UPDATE  usuario SET activo = 0 WHERE codigoUsuario = ?";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            /*El primer ? que encuentres le pone el valor del codigoUsuario*/
             ps.setInt(1, codigoUsuario);
 
             int filasAfectadas = ps.executeUpdate();
@@ -132,7 +135,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
-        final String sql = "SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario";
+        final String sql = "SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario "
+                + "JOIN rol on codigoRolFK = codigoRol";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
@@ -143,7 +147,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
-                usuario.setCodigoRolFK(rs.getInt("codigoRolFK"));
+                Rol rol = new Rol();
+                rol.setDescripcionRol(rs.getString("descripcionRol"));
+                usuario.setRol(rol);
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -169,13 +175,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     @Override
-    public List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Integer codigoRolFK) {
+    public List<Usuario> buscarPorFiltrosUsuario(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo) {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo ");
+        sql.append("SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo ");
         sql.append("FROM usuario ");
+        sql.append("JOIN rol on codigoRolFK = codigoRol ");
         sql.append("WHERE 1=1 ");
 
         List<Object> parametros = new ArrayList<>();
@@ -195,12 +202,22 @@ public class UsuarioDaoImpl implements UsuarioDao {
             parametros.add("%" + apellido.trim() + "%");
         }
 
-        if (codigoRolFK != null) {
-            sql.append("AND codigoRolFK = ? ");
-            parametros.add(codigoRolFK);
+        if (rol != null) {
+            sql.append("AND descripcionRol = ? ");
+            parametros.add(rol.getDescripcionRol());
         }
 
-        sql.append("ORDER BY codigoUsuario ASC");
+        if (email != null) {
+            sql.append("AND email = ? ");
+            parametros.add(email);
+        }
+
+        if (activo != null) {
+            sql.append("AND activo = ? ");
+            parametros.add(activo);
+        }
+
+        sql.append("ORDER BY codigoUsuario ASC ");
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
@@ -211,6 +228,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
                 if (valor instanceof Integer) {
                     ps.setInt(posicion, (Integer) valor);
+                } else if (valor instanceof Boolean) {
+                    ps.setBoolean(posicion, (Boolean) valor);
                 } else {
                     ps.setString(posicion, (String) valor);
                 }
@@ -224,7 +243,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                     usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                     usuario.setNombre(rs.getString("nombre"));
                     usuario.setApellido(rs.getString("apellido"));
-                    usuario.setCodigoRolFK(rs.getInt("codigoRolFK"));
+                    Rol rolRecuperado = new Rol();
+                    rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));
+                    usuario.setRol(rolRecuperado);
                     usuario.setTelefono(rs.getString("telefono"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));
@@ -250,6 +271,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /**
+     * Este metodo me sirve para el login.
+     *
+     * @param email
+     * @param password
+     * @return
+     */
     @Override
     public Usuario buscarPorCredenciales(String email, String password) {
 
@@ -280,7 +308,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(resultSet.getInt("codigoUsuario"));
                 usuario.setNombre(resultSet.getString("nombre"));
                 usuario.setApellido(resultSet.getString("apellido"));
-                usuario.setCodigoRolFK(resultSet.getInt("codigoRolFK"));
+                Rol rol = new Rol();
+                rol.setCodigoRol(resultSet.getInt("codigoRolFK"));
+                usuario.setRol(rol);
                 usuario.setTelefono(resultSet.getString("telefono"));
                 usuario.setEmail(resultSet.getString("email"));
                 usuario.setPassword(resultSet.getString("password"));
@@ -319,6 +349,146 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
 
         return usuario;
+    }
+
+    /**
+     * Actualiza la contraseña del usuario cuyo email coincide. Si se actualiza
+     * 1 fila, devuelve true. Si no existe ese email, devuelve false.
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    @Override
+    public String actualizarPassword(String email) {
+
+        final String sql = "UPDATE usuario SET password = ? WHERE email = ?";
+
+        String nuevaPassword = generarContrasena(8);
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nuevaPassword);
+            ps.setString(2, email);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                return nuevaPassword;
+            }
+
+            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error actualizando contrasena: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Busca el texto escrito en nombre, apellido o email con LIKE, y ya te
+     * devuelve el Rol con su descripcionRol (por el JOIN).
+     */
+    @Override
+    public List<Usuario> buscarPorTexto(String texto) {
+
+        List<Usuario> listaUsuarios = new ArrayList<>();
+
+        final String sql
+                = "SELECT u.codigoUsuario, u.nombre, u.apellido, u.telefono, u.email, u.password, "
+                + "u.intentos, u.ultimoAcceso, u.activo, u.codigoRolFK, r.descripcionRol "
+                + "FROM usuario u "
+                + "INNER JOIN rol r ON u.codigoRolFK = r.codigoRol "
+                + "WHERE u.nombre LIKE ? OR u.apellido LIKE ? OR u.email LIKE ? "
+                + "ORDER BY u.codigoUsuario ASC";
+
+        String patron = "%" + texto + "%";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, patron);
+            ps.setString(2, patron);
+            ps.setString(3, patron);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Usuario usuario = new Usuario();
+
+                    usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
+                    usuario.setNombre(rs.getString("nombre"));
+                    usuario.setApellido(rs.getString("apellido"));
+                    usuario.setTelefono(rs.getString("telefono"));
+                    usuario.setEmail(rs.getString("email"));
+                    usuario.setPassword(rs.getString("password"));
+                    usuario.setIntentos(rs.getInt("intentos"));
+
+                    Timestamp ultimoAcceso = rs.getTimestamp("ultimoAcceso");
+                    if (ultimoAcceso == null) {
+                        usuario.setUltimoAcceso(null);
+                    } else {
+                        usuario.setUltimoAcceso(ultimoAcceso.toLocalDateTime());
+                    }
+
+                    usuario.setActivo(rs.getBoolean("activo"));
+
+                    Rol rol = new Rol();
+                    rol.setCodigoRol(rs.getInt("codigoRolFK"));
+                    rol.setDescripcionRol(rs.getString("descripcionRol"));
+                    usuario.setRol(rol);
+
+                    listaUsuarios.add(usuario);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error buscando por texto: " + e.getMessage(), e);
+        }
+
+        return listaUsuarios;
+    }
+
+    /**
+     * 
+     * Genera una contraseña automáticamente  para los usuarios 
+     * @param longitud
+     * @return String
+     */
+    
+    private String generarContrasena(int longitud) {
+
+        String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String minusculas = "abcdefghijklmnopqrstuvwxyz";
+        String numeros = "0123456789";
+        String especiales = "!@#$%&*?";
+
+        // juntamos todo para rellenar el resto
+        String todos = mayusculas + minusculas + numeros + especiales;
+
+        Random random = new Random();
+
+        char[] password = new char[longitud];
+
+        // aseguramos reglas minimas
+        password[0] = mayusculas.charAt(random.nextInt(mayusculas.length()));
+        password[1] = minusculas.charAt(random.nextInt(minusculas.length()));
+        password[2] = numeros.charAt(random.nextInt(numeros.length()));
+        password[3] = especiales.charAt(random.nextInt(especiales.length()));
+
+        // rellenamos el resto con mezcla
+        for (int i = 4; i < longitud; i++) {
+            password[i] = todos.charAt(random.nextInt(todos.length()));
+        }
+
+        // mezclamos para que no siempre sea: mayus, minus, num, esp...
+        for (int i = password.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char aux = password[i];
+            password[i] = password[j];
+            password[j] = aux;
+        }
+
+        return new String(password);
     }
 
 }

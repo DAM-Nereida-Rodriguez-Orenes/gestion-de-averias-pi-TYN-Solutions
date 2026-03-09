@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import javax.swing.UIManager;
 import vista.vLogin;
 import com.formdev.flatlaf.FlatLightLaf;
+import controlador.GestionUsuarioControlador;
 
 /**
  *
@@ -52,7 +53,7 @@ public class MainApp {
             // 5) Abrir vista login con el controlador
             vLogin vLogin = new vLogin(loginControlador);
             vLogin.setVisible(true);
-
+           
         } catch (SQLException e) {
             System.err.println("Error de conexion:");
             System.err.println("Mensaje: " + e.getMessage());
