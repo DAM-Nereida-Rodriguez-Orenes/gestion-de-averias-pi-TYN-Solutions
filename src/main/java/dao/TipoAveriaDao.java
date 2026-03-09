@@ -17,6 +17,6 @@ public interface TipoAveriaDao {
     void actualizar(TipoAveria a);
     boolean existeId(int id);
     List<TipoAveria> listar();
-    void eliminar(int id);
+    boolean eliminar(int id);
     
 }

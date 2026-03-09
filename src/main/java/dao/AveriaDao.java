@@ -25,6 +25,6 @@ public interface AveriaDao {
                                         Integer idMaquinaria, 
                                         Integer idTipoAveria);
     List<Averia> listar();
-    void eliminar(int id);
+    boolean eliminar(int id);
     
 }
