@@ -5,13 +5,14 @@
 package dao;
 
 import java.util.List;
+import modelo.Rol;
 import modelo.Usuario;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
-public interface  UsuarioDao {
+public interface UsuarioDao {
 
     void insertarUsuario(Usuario usuario);
 
@@ -21,7 +22,11 @@ public interface  UsuarioDao {
 
     List<Usuario> listarUsuarios();
 
-    List<Usuario> buscarPorFiltros(Integer codigoUsuario, String nombre, String apellido, Integer codigoRolFK);
-    
+    List<Usuario> buscarPorFiltrosUsuario(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo);
+
     Usuario buscarPorCredenciales(String email, String password);
+
+    String actualizarPassword(String email);
+
+    List<Usuario> buscarPorTexto(String texto);
 }

@@ -4,11 +4,15 @@
  */
 package vista;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import modelo.Usuario;
+import java.util.prefs.Preferences;
 
 /**
  *
@@ -16,7 +20,12 @@ import modelo.Usuario;
  */
 public class vLogin extends javax.swing.JFrame {
 
+    //Atributos de la clase
     private final LoginControlador loginControlador;
+    //variables para el metodo de recordar email del usuario que se loguea 
+    private static final String PREF_NODE = "TYN_Solutions_Login";
+    private static final String KEY_EMAIL = "email_recordado";
+    private static final String KEY_RECORDAR = "recordar_usuario";
 
     /**
      * Creates new form vLogin
@@ -25,8 +34,58 @@ public class vLogin extends javax.swing.JFrame {
         initComponents();
         this.loginControlador = loginControlador;
 
+        //Metodo para recordar el email del usuario 
+        cargarUsuarioRecordado();
+
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
+        setLocationRelativeTo(null); // Centra el JFrame al centro de la pantalla 
+    }
+
+    /**
+     * El metodo cargarUsuarioRecordado() se ejecuta cuando se abre la ventana
+     * de login. Comprueba si anteriormente el usuario marco la opcion recordar
+     * usuario. Si es asi, carga automaticamente el email en el campo de texto y
+     * marca el checkbox. Si no hay nada guardado no hace nada
+     */
+    private void cargarUsuarioRecordado() {
+        Preferences prefs = Preferences.userRoot().node(PREF_NODE);
+
+        boolean recordar = prefs.getBoolean(KEY_RECORDAR, false);
+        String email = prefs.get(KEY_EMAIL, "");
+
+        if (recordar && email != null && !email.isEmpty()) {
+            txtEmail.setText(email);
+            chkRecordarUsuario.setSelected(true);
+        } else {
+            chkRecordarUsuario.setSelected(false);
+        }
+    }
+
+    /**
+     * Este metodo se ejecuta despues de un login correcto. Si el checkbox esta
+     * marcado, guarda el email en el sistema para que aparezca la proxima vez.
+     * Si no esta marcado, elimina el email guardado
+     *
+     * esto es pocible porque utilizmao la clase Preferences ya que nos permite
+     * guardar pequeños datos de configuracion en el sistema operativo del
+     * usuario sin necesidad de crear una base de datos ni un fichero
+     * manualmente
+     */
+    private void guardarUsuarioRecordado() {
+
+        Preferences prefs = Preferences.userRoot().node(PREF_NODE);
+
+        boolean recordar = chkRecordarUsuario.isSelected();
+        String email = txtEmail.getText();
+
+        if (recordar) {
+            prefs.putBoolean(KEY_RECORDAR, true);
+            prefs.put(KEY_EMAIL, email);
+        } else {
+            prefs.putBoolean(KEY_RECORDAR, false);
+            prefs.remove(KEY_EMAIL);
+        }
     }
 
     /**
@@ -46,11 +105,10 @@ public class vLogin extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
         btnRecuperar = new javax.swing.JButton();
+        chkRecordarUsuario = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setBackground(new java.awt.Color(204, 208, 217));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
@@ -86,13 +144,8 @@ public class vLogin extends javax.swing.JFrame {
         });
         formulario.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 90, -1));
 
-        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jRadioButton1.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 10)); // NOI18N
-        jRadioButton1.setText("Recordar usuario ");
-        formulario.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
-
         btnRecuperar.setBackground(new java.awt.Color(199, 234, 249));
-        btnRecuperar.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 12)); // NOI18N
+        btnRecuperar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 12)); // NOI18N
         btnRecuperar.setForeground(new java.awt.Color(39, 155, 230));
         btnRecuperar.setText("¿Has olvidado tu contraseña?");
         btnRecuperar.setBorderPainted(false);
@@ -103,6 +156,9 @@ public class vLogin extends javax.swing.JFrame {
             }
         });
         formulario.add(btnRecuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, -1));
+
+        chkRecordarUsuario.setText("Recordar usuario ");
+        formulario.add(chkRecordarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
 
         jPanel1.add(formulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 610, 250));
 
@@ -137,12 +193,10 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         // Llamada al controlador
         Usuario usuario = loginControlador.accederAplicacion(email, password);
 
         if (usuario == null) {
-
             // Login incorrecto
             JOptionPane.showMessageDialog(this,
                     "Credenciales incorrectas",
@@ -150,18 +204,22 @@ public class vLogin extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
 
         } else {
-
             // Login correcto
             JOptionPane.showMessageDialog(this,
                     "Bienvenido " + usuario.getNombre(),
                     "Acceso concedido",
                     JOptionPane.INFORMATION_MESSAGE);
 
+            //Llamamos al metodo para que recuerde el email del usuario que se ha accedido 
+            guardarUsuarioRecordado();
+
             // Abrir ventana principal
-            if (usuario.getCodigoRolFK() == 801) {
+            int codigoRol = usuario.getRol().getCodigoRol();
+
+            if (codigoRol == 701) {
                 vHomeAdmin vHome = new vHomeAdmin();
                 vHome.setVisible(true);
-            } else if (usuario.getCodigoRolFK() == 802) {
+            } else if (codigoRol == 702) {
                 vHomeOper vHome = new vHomeOper();
                 vHome.setVisible(true);
             } else {
@@ -170,15 +228,39 @@ public class vLogin extends javax.swing.JFrame {
                         "Error de autenticacion",
                         JOptionPane.WARNING_MESSAGE);
             }
-
             // Cerrar login
             this.dispose();
         }
-
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed
-        // TODO add your handling code here:
+
+        String emailSolicitud;
+
+        //Solicitamos el dato
+        emailSolicitud = JOptionPane.showInputDialog(this, "Ingresa tu correo corporativo: ",
+                "Restablecimiento de contraseña",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (emailSolicitud != null) {
+            // Pulso aceptar
+            if (!emailSolicitud.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Se ha enviado tu solicitud de cambio de contraseña",
+                        "Restablecimiento de contraseña",
+                        JOptionPane.INFORMATION_MESSAGE);
+                loginControlador.restablecerPassword(emailSolicitud);
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe rellenar el campo",
+                        "Restablecimiento de contraseña",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            // Pulso cancelar o cerro
+        } else {
+            JOptionPane.showMessageDialog(this, "Operación cancelada",
+                    "Restablecimiento de contraseña",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnRecuperarActionPerformed
 
     /**
@@ -188,12 +270,12 @@ public class vLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRecuperar;
+    private javax.swing.JCheckBox chkRecordarUsuario;
     private javax.swing.JPanel formulario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables

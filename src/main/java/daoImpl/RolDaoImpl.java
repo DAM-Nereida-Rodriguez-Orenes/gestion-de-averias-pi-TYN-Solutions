@@ -105,18 +105,34 @@ public class RolDaoImpl implements RolDao {
     @Override
     public void eliminarRol(int codigoRol) {
 
-        // Comprobamos si existe antes de eliminar
+        // Comprobamos si existe el rol
         if (!existeID(codigoRol)) {
             throw new RuntimeException("No existe un rol con ese codigo.");
         }
 
-        final String sql = "DELETE FROM rol WHERE codigoRol = ?";
+        final String sqlComprobacion = "SELECT COUNT(*) FROM usuario WHERE codigoRol = ?";
+        final String sqlEliminar = "DELETE FROM rol WHERE codigoRol = ?";
 
-        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement psComprobacion = conn.prepareStatement(sqlComprobacion)) {
 
-            ps.setInt(1, codigoRol);
+            psComprobacion.setInt(1, codigoRol);
 
-            int filasAfectadas = ps.executeUpdate();
+            ResultSet rs = psComprobacion.executeQuery();
+
+            if (rs.next()) {
+                int totalUsuarios = rs.getInt(1);
+
+                // Si hay usuarios con ese rol no se puede eliminar
+                if (totalUsuarios > 0) {
+                    throw new RuntimeException("No se puede eliminar el rol porque esta asociado a usuarios.");
+                }
+            }
+
+            // Si no hay usuarios asociados se elimina el rol
+            PreparedStatement psEliminar = conn.prepareStatement(sqlEliminar);
+            psEliminar.setInt(1, codigoRol);
+
+            int filasAfectadas = psEliminar.executeUpdate();
 
             if (filasAfectadas == 0) {
                 throw new RuntimeException("No se pudo eliminar el rol.");
@@ -127,6 +143,14 @@ public class RolDaoImpl implements RolDao {
         }
     }
 
+    /**
+     * este metodo lo utilizo en gestionUsuarioControlador para rellena el
+     * ComboBox en Crear Usuario. que se lo paso mediante la instancia de la
+     * clase gestionUsuarioControlador
+     * (gestionUsuarioControlador.recuperarListadoRoles();)
+     *
+     * @return listaRoles
+     */
     @Override
     public List<Rol> listarRoles() {
 
@@ -153,4 +177,37 @@ public class RolDaoImpl implements RolDao {
         return listaRoles;
     }
 
+    /**
+     * este metodo recupera de la base de datos el rol. Luego se implementa en
+     * el metodo de crearusuario de GestionUsuarioControlador
+     *
+     * @param descripcionRol
+     * @return
+     */
+    @Override
+    public Rol recuperarRolPorCodigo(String descripcionRol) {
+        final String sql = "SELECT * FROM rol WHERE descripcionRol = ?";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, descripcionRol);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Rol rol = new Rol();
+
+                    rol.setCodigoRol(rs.getInt("codigoRol"));
+                    rol.setDescripcionRol(rs.getString("descripcionRol"));
+
+                    return rol;
+                }
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error comprobando si existe el rol: " + e.getMessage(), e);
+        }
+    }
 }

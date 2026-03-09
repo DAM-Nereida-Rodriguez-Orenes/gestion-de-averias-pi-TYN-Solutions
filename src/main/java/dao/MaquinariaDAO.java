@@ -25,4 +25,5 @@ public interface MaquinariaDAO {
         LocalDate fechaAltaDesde,
         LocalDate fechaAltaHasta,
         Boolean soloActivas);
+    Optional<Maquinaria> buscarMaquinariaPorId(int id);
 }
