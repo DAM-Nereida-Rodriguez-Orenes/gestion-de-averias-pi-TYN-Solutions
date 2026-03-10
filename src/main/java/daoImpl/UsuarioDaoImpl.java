@@ -135,7 +135,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
-        final String sql = "SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario "
+        final String sql = "SELECT codigoUsuario, nombre, apellido, rol.codigoRol, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario "
                 + "JOIN rol on codigoRolFK = codigoRol";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -147,9 +147,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
+                
                 Rol rol = new Rol();
+                rol.setCodigoRol(rs.getInt("codigoRol"));
                 rol.setDescripcionRol(rs.getString("descripcionRol"));
                 usuario.setRol(rol);
+                
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -180,7 +183,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
         List<Usuario> listaUsuarios = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo ");
+        sql.append("SELECT codigoUsuario, nombre, apellido, rol.codigoRol, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo ");
         sql.append("FROM usuario ");
         sql.append("JOIN rol on codigoRolFK = codigoRol ");
         sql.append("WHERE 1=1 ");
@@ -194,12 +197,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         if (nombre != null && !nombre.trim().isEmpty()) {
             sql.append("AND nombre LIKE ? ");
-            parametros.add("%" + nombre.trim() + "%");
+            parametros.add(nombre.trim() + "%");
+            //"%" + nombre.trim() + "%" <- de esta forma filtra los nombres que contengan x letra, no que empiecen con x letra 
         }
 
         if (apellido != null && !apellido.trim().isEmpty()) {
             sql.append("AND apellido LIKE ? ");
-            parametros.add("%" + apellido.trim() + "%");
+            parametros.add(apellido.trim() + "%");
+            //"%" + apellido.trim() + "%"<- de esta forma filtra los apellidos que contengan x letra, no que empiecen con x letra 
         }
 
         if (rol != null) {
@@ -243,9 +248,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
                     usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                     usuario.setNombre(rs.getString("nombre"));
                     usuario.setApellido(rs.getString("apellido"));
+                    
                     Rol rolRecuperado = new Rol();
-                    rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));
+                    rolRecuperado.setCodigoRol(rs.getInt("codigoRol"));
+                    rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));                   
                     usuario.setRol(rolRecuperado);
+                    
                     usuario.setTelefono(rs.getString("telefono"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));

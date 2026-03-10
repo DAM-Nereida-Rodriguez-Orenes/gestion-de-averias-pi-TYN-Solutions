@@ -9,11 +9,6 @@
             <Property name="text" type="java.lang.String" value="Inicio"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="miMenuPrincipal">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Men&#xfa; principal"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miCerrarSesion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cerrar sesi&#xf3;n"/>
@@ -104,10 +99,8 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="176" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="btnGesMaquina" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="btnGesAveria" alignment="3" min="-2" pref="150" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="btnGesMaquina" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="btnGesAveria" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="btnGesUsuario" min="-2" pref="150" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="320" max="32767" attributes="0"/>

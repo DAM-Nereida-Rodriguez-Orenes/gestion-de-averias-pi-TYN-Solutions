@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import modelo.Usuario;
@@ -72,6 +73,14 @@ public class GestionUsuario extends javax.swing.JFrame {
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
+        
+         //icono de usuario 
+        FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
+        jLabel2.setIcon(iconUsuarioAdmin);
+        jLabel2.setText("Hola, Admin");
+        jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
+        jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
+        jLabel2.setIconTextGap(8);
     }
 
     //Metodos auxiliares
@@ -136,10 +145,11 @@ public class GestionUsuario extends javax.swing.JFrame {
         String[] partes = texto.split(" ");
 
         if (partes.length == 1) {
-            return gestionUsuarioControlador.buscarPorTexto(partes[0]);
+            String filtro = partes[0] + "%"; // Solo los que empiezan por esa letra
+            return gestionUsuarioControlador.buscarPorTexto(filtro);
         }
 
-        String nombre = partes[0];
+        String nombre = partes[0] + "%";
         StringBuilder sb = new StringBuilder();
 
         for (int i = 1; i < partes.length; i++) {
@@ -151,7 +161,6 @@ public class GestionUsuario extends javax.swing.JFrame {
         }
 
         String apellido = sb.toString();
-
         return gestionUsuarioControlador.buscarUsuario(null, nombre, apellido, null, null, null);
     }
 
@@ -195,7 +204,6 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Usuario");
-        setPreferredSize(new java.awt.Dimension(1200, 825));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -384,7 +392,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                     .addComponent(txtBarraBusqueda)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbbEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAplicarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAplicarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnLimpiarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnAddUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(36, 36, 36)
@@ -475,11 +483,14 @@ public class GestionUsuario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );

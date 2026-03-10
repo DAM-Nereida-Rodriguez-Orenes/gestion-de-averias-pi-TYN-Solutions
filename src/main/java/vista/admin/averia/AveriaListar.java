@@ -4,6 +4,7 @@
  */
 package vista.admin.averia;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.List;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,7 +14,18 @@ import javax.swing.RowFilter;
 import javax.swing.JOptionPane;
 
 import controlador.AveriaControlador;
+import controlador.GestionRolControlador;
+import controlador.GestionUsuarioControlador;
+import java.awt.Font;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 import modelo.Averia;
+import vista.PanelImgFondo;
+import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.usuario.GestionRol;
+import vista.admin.usuario.GestionUsuario;
 
 /**
  * Ventana principal para la gestión de Averías.
@@ -51,12 +63,34 @@ public class AveriaListar extends javax.swing.JFrame {
         
         // Centrar la ventana al abrir
         this.setLocationRelativeTo(null);
+        mostrarImagenes();
     }
 
+     public void mostrarImagenes() {
+        //Ajustes del deisño del JFrame
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        setLocationRelativeTo(null);
+
+        URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
+        System.out.println("urlLogo = " + urlLogo);
+
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 140, 70);
+        jlLogo.setIcon(iconop);
+        jlLogo.setText("");
+        jlLogo.setOpaque(false);
+        
+         //icono de usuario 
+        FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
+        jLabel3.setIcon(iconUsuarioAdmin);
+        jLabel3.setText("Hola, Admin");
+        jLabel3.setHorizontalTextPosition(SwingConstants.LEFT);
+        jLabel3.setVerticalTextPosition(SwingConstants.CENTER);
+        jLabel3.setIconTextGap(8);
+    }
     // =========================================================================
     // 1. CONFIGURACIÓN Y CARGA DE DATOS
     // =========================================================================
-
     private void inicializarTabla() {
         String[] columnas = {
             "Cód.", "Descripción", "Máquina", "Tipo Avería", 
@@ -99,6 +133,9 @@ public class AveriaListar extends javax.swing.JFrame {
             for (Object[] fila : datos) {
                 modeloTabla.addRow(fila);
             }
+            tablaAveria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
+            tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla
+            tablaAveria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header
         }
     }
 
@@ -132,40 +169,102 @@ public class AveriaListar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaAveria = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
+        jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
+        jlLogo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btnAveriaNueva = new javax.swing.JButton();
+        tgbtnFiltros = new javax.swing.JToggleButton();
         txtAveriaBuscar = new javax.swing.JTextField();
         btnAveriaActualizar = new javax.swing.JButton();
-        btnAveriaNueva = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        tgbtnFiltros = new javax.swing.JToggleButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaAveria = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        miMaquinas = new javax.swing.JMenuItem();
-        miTiposMaquinas = new javax.swing.JMenuItem();
-        miAverias = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        miTiposAverias = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        miUsuarios = new javax.swing.JMenuItem();
+        miGestion = new javax.swing.JMenu();
+        miAveria = new javax.swing.JMenuItem();
+        miUsuario = new javax.swing.JMenuItem();
+        miMaquinaria = new javax.swing.JMenuItem();
+        miTipoMaquinaria = new javax.swing.JMenuItem();
+        miEstadoMaquinaria = new javax.swing.JMenuItem();
+        miTipoAveria = new javax.swing.JMenuItem();
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
+
+        jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
+        jlLogo.setText("jLabel2");
+
+        jLabel3.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(67, 113, 177));
+        jLabel3.setText("Hola, Admin");
+
+        javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
+        jpCabecera.setLayout(jpCabeceraLayout);
+        jpCabeceraLayout.setHorizontalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(86, 86, 86))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 816, Short.MAX_VALUE)
+        jpCabeceraLayout.setVerticalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLogo)
+                    .addComponent(jLabel3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel4.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel4.setText("Gestión de Avería");
+
+        btnAveriaNueva.setBackground(new java.awt.Color(58, 181, 235));
+        btnAveriaNueva.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnAveriaNueva.setForeground(new java.awt.Color(255, 255, 255));
+        btnAveriaNueva.setText("+ Nueva avería");
+        btnAveriaNueva.setBorderPainted(false);
+        btnAveriaNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAveriaNuevaActionPerformed(evt);
+            }
+        });
+
+        tgbtnFiltros.setBackground(new java.awt.Color(234, 242, 251));
+        tgbtnFiltros.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        tgbtnFiltros.setForeground(new java.awt.Color(67, 113, 177));
+        tgbtnFiltros.setText("Aplicar filtros");
+        tgbtnFiltros.setBorderPainted(false);
+        tgbtnFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbtnFiltrosActionPerformed(evt);
+            }
+        });
+
+        txtAveriaBuscar.setBackground(new java.awt.Color(234, 242, 251));
+        txtAveriaBuscar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        txtAveriaBuscar.setForeground(new java.awt.Color(67, 113, 177));
+        txtAveriaBuscar.setBorder(null);
+
+        btnAveriaActualizar.setBackground(new java.awt.Color(234, 242, 251));
+        btnAveriaActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnAveriaActualizar.setForeground(new java.awt.Color(67, 113, 177));
+        btnAveriaActualizar.setText("Actualizar avería");
+        btnAveriaActualizar.setBorderPainted(false);
+        btnAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAveriaActualizarActionPerformed(evt);
+            }
+        });
 
         tablaAveria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -180,71 +279,99 @@ public class AveriaListar extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaAveria);
 
-        jLabel1.setText("Buscar avería:");
-
-        btnAveriaActualizar.setText("Actualizar avería");
-        btnAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAveriaActualizarActionPerformed(evt);
-            }
-        });
-
-        btnAveriaNueva.setText("Nueva avería");
-        btnAveriaNueva.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAveriaNuevaActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Gestión de averías");
-
-        tgbtnFiltros.setText("Filtros");
-        tgbtnFiltros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tgbtnFiltrosActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(428, 428, 428)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAveriaActualizar)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(tgbtnFiltros)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAveriaNueva))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1044, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 67, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAveriaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tgbtnFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAveriaActualizar)
+                .addGap(133, 133, 133))
+        );
 
         jMenu1.setText("Inicio");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Máquinas");
+        miGestion.setText("Gestión");
 
-        miMaquinas.setText("Gestionar máquinas");
-        jMenu2.add(miMaquinas);
-
-        miTiposMaquinas.setText("Gestionar tipos de máquinas");
-        jMenu2.add(miTiposMaquinas);
-
-        jMenuBar1.add(jMenu2);
-
-        miAverias.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        miAverias.setText("Averías");
-
-        jMenuItem1.setText("Gestionar averías");
-        miAverias.add(jMenuItem1);
-
-        miTiposAverias.setText("Gestionar tipos de averias");
-        miTiposAverias.addActionListener(new java.awt.event.ActionListener() {
+        miAveria.setText("Avería");
+        miAveria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miTiposAveriasActionPerformed(evt);
+                miAveriaActionPerformed(evt);
             }
         });
-        miAverias.add(miTiposAverias);
+        miGestion.add(miAveria);
 
-        jMenuBar1.add(miAverias);
+        miUsuario.setText("Usuario");
+        miUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miUsuarioActionPerformed(evt);
+            }
+        });
+        miGestion.add(miUsuario);
 
-        jMenu4.setText("Usuarios");
+        miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miMaquinaria);
 
-        miUsuarios.setText("Gestionar usuarios");
-        jMenu4.add(miUsuarios);
+        miTipoMaquinaria.setText("Tipo de maquinaria");
+        miTipoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miTipoMaquinaria);
 
-        miRoles.setText("Gestionar roles");
-        jMenu4.add(miRoles);
+        miEstadoMaquinaria.setText("Estado de maquinaria");
+        miGestion.add(miEstadoMaquinaria);
 
-        jMenuBar1.add(jMenu4);
+        miTipoAveria.setText("Tipos de avería");
+        miGestion.add(miTipoAveria);
+
+        miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
+        miGestion.add(miRoles);
+
+        jMenuBar1.add(miGestion);
 
         setJMenuBar(jMenuBar1);
 
@@ -252,44 +379,11 @@ public class AveriaListar extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAveriaActualizar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tgbtnFiltros)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAveriaNueva))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(20, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1195, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAveriaNueva)
-                    .addComponent(tgbtnFiltros))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAveriaActualizar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
         );
 
         pack();
@@ -416,16 +510,36 @@ public class AveriaListar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tgbtnFiltrosActionPerformed
 
-    private void miTiposAveriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTiposAveriasActionPerformed
-        // 1. Crear la instancia del JDialog
-        TipoAveriaCRUD ventanaNueva = new TipoAveriaCRUD(this, true);
-        // 2. Centrar la ventana respecto a la pantalla o al padre
-        ventanaNueva.setLocationRelativeTo(this);
-        // 3. Mostrar la ventana
-        ventanaNueva.setVisible(true);
-        // 4. Refrescar la tabla al volver
-        cargarDatos();
-    }//GEN-LAST:event_miTiposAveriasActionPerformed
+    private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miAveriaActionPerformed
+
+    private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
+        GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
+        GestionUsuario gestionUsuario = new GestionUsuario(gestionUsuarioControlador);
+        gestionUsuario.setLocationRelativeTo(null);
+        gestionUsuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miUsuarioActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
+
+    private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miTipoMaquinariaActionPerformed
+
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
@@ -456,21 +570,22 @@ public class AveriaListar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;
     private javax.swing.JButton btnAveriaNueva;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenu miAverias;
-    private javax.swing.JMenuItem miMaquinas;
+    private javax.swing.JLabel jlLogo;
+    private javax.swing.JPanel jpCabecera;
+    private javax.swing.JMenuItem miAveria;
+    private javax.swing.JMenuItem miEstadoMaquinaria;
+    private javax.swing.JMenu miGestion;
+    private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miRoles;
-    private javax.swing.JMenuItem miTiposAverias;
-    private javax.swing.JMenuItem miTiposMaquinas;
-    private javax.swing.JMenuItem miUsuarios;
+    private javax.swing.JMenuItem miTipoAveria;
+    private javax.swing.JMenuItem miTipoMaquinaria;
+    private javax.swing.JMenuItem miUsuario;
     private javax.swing.JTable tablaAveria;
     private javax.swing.JToggleButton tgbtnFiltros;
     private javax.swing.JTextField txtAveriaBuscar;

@@ -110,7 +110,7 @@ public class RolDaoImpl implements RolDao {
             throw new RuntimeException("No existe un rol con ese codigo.");
         }
 
-        final String sqlComprobacion = "SELECT COUNT(*) FROM usuario WHERE codigoRol = ?";
+        final String sqlComprobacion = "SELECT COUNT(*) FROM rol WHERE codigoRol = ?";
         final String sqlEliminar = "DELETE FROM rol WHERE codigoRol = ?";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement psComprobacion = conn.prepareStatement(sqlComprobacion)) {

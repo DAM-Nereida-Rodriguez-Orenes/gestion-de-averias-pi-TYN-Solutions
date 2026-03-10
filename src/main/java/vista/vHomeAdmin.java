@@ -73,8 +73,8 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnGesMaquina.setHorizontalTextPosition(SwingConstants.CENTER);
         btnGesMaquina.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnGesMaquina.setIconTextGap(10);
-        btnGesUsuario.setForeground(new Color(67, 113, 177));
-        btnGesUsuario.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
+        btnGesMaquina.setForeground(new Color(67, 113, 177));
+        btnGesMaquina.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
         //boton averia
         FlatSVGIcon iconAveria = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 100, 100);
         btnGesAveria.setIcon(iconAveria);
@@ -82,8 +82,8 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnGesAveria.setHorizontalTextPosition(SwingConstants.CENTER);
         btnGesAveria.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnGesAveria.setIconTextGap(10);
-        btnGesUsuario.setForeground(new Color(67, 113, 177));
-        btnGesUsuario.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
+        btnGesAveria.setForeground(new Color(67, 113, 177));
+        btnGesAveria.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
 
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
@@ -114,7 +114,6 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnGesAveria = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
-        miMenuPrincipal = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
 
@@ -212,17 +211,13 @@ public class vHomeAdmin extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(176, 176, 176)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnGesMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGesMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGesUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(320, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
-
-        miMenuPrincipal.setText("Menú principal");
-        miInicio.add(miMenuPrincipal);
 
         miCerrarSesion.setText("Cerrar sesión");
         miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -296,7 +291,6 @@ public class vHomeAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jpCabecera;
     private javax.swing.JMenuItem miCerrarSesion;
     private javax.swing.JMenu miInicio;
-    private javax.swing.JMenuItem miMenuPrincipal;
     private javax.swing.JMenuItem miSalirApp;
     // End of variables declaration//GEN-END:variables
 }

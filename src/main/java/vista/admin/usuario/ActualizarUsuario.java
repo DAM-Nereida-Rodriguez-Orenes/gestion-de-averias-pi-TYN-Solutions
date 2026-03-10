@@ -80,18 +80,25 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         cbbPrefijosTelefonos.setSelectedItem(prefijoEncontrado);
         txtTelefono.setText(numero);
         pwdPassword.setText(gestionUsuarioControlador.getUsuario().getPassword());
+
+        // Seleccionar el rol del usuario en el combobox
+        if (gestionUsuarioControlador.getUsuario().getRol() != null) {
+            cbbRol.setSelectedItem(gestionUsuarioControlador.getUsuario().getRol().getDescripcionRol());
+        }
         /**
-         * Como en el comboBox lo que necesito de la base de dato es la
-         * descripcion del codigoRol lo que hago es recorrer la lista que ya la
-         * tengo declara como atributo de la clase y segun los resultados de esa
-         * busqedad lso voy a comprar con los que tiene mi usuario para poder
-         * enseñarlo
+         * Recuperamos el estado actual del usuario desde el controlador. Si el
+         * usuario esta activo marcamos el toggle y el boton mostrara la accion
+         * que se puede realizar sobre el usuario. - Si esta activo, el boton
+         * indicara "Dar de baja". - Si esta inactivo, el boton indicara "Dar de
+         * alta".
          */
-        for (Rol rol : listaRoles) {
-            if (rol == gestionUsuarioControlador.getUsuario().getRol()) {
-                cbbRol.setSelectedItem(rol.getDescripcionRol());
-                break;
-            }
+        activo = gestionUsuarioControlador.getUsuario().isActivo();
+        tgbtnReactivar.setSelected(activo);
+
+        if (activo) {
+            tgbtnReactivar.setText("Dar de baja");
+        } else {
+            tgbtnReactivar.setText("Dar de alta");
         }
     }
 
@@ -216,7 +223,6 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         estadoUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 600));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -271,7 +277,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         tgbtnReactivar.setBackground(new java.awt.Color(234, 242, 251));
         tgbtnReactivar.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         tgbtnReactivar.setForeground(new java.awt.Color(67, 113, 177));
-        tgbtnReactivar.setText("Reactivar");
+        tgbtnReactivar.setText("Dar de alta");
         tgbtnReactivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tgbtnReactivarActionPerformed(evt);
@@ -438,9 +444,11 @@ public class ActualizarUsuario extends javax.swing.JDialog {
             if (activo) {
                 estadoUsuario.setText("Activo - dado de alta");
                 estadoUsuario.setForeground(Color.GREEN);
+                tgbtnReactivar.setText("Dar de baja");   //Si esta activo, cambiamos la etiqueta del boton a "Dar de baja"
             } else {
                 estadoUsuario.setText("Inactivo - dado de baja");
                 estadoUsuario.setForeground(Color.RED);
+                tgbtnReactivar.setText("Dar de alta"); //Si esta inactivo, cambiamos la etiqueta del boton a "Dar de alta"
             }
         } else {
             tgbtnReactivar.setSelected(!nuevoEstado);
@@ -448,9 +456,11 @@ public class ActualizarUsuario extends javax.swing.JDialog {
             if (activo) {
                 estadoUsuario.setText("Activo - dado de alta");
                 estadoUsuario.setForeground(Color.GREEN);
+                tgbtnReactivar.setText("Dar de baja");
             } else {
                 estadoUsuario.setText("Inactivo - dado de baja");
                 estadoUsuario.setForeground(Color.RED);
+                tgbtnReactivar.setText("Dar de alta");
             }
         }
     }//GEN-LAST:event_tgbtnReactivarActionPerformed

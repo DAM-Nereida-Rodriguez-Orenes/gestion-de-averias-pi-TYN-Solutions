@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import vista.PanelImgFondo;
@@ -78,6 +79,14 @@ public class GestionRol extends javax.swing.JFrame {
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
+        
+         //icono de usuario 
+        FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
+        jLabel2.setIcon(iconUsuarioAdmin);
+        jLabel2.setText("Hola, Admin");
+        jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
+        jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
+        jLabel2.setIconTextGap(8);
     }
 
     /**
