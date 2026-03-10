@@ -179,13 +179,13 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         final String sql = """
         SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
         FROM maquinaria
-        WHERE nombre LIKE ?
+        WHERE LOWER(nombre) LIKE LOWER(?)
         """;
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                ps.setString(1, "%" + text + "%");
+                ps.setString(1, text + "%");
 
                 try (ResultSet rs = ps.executeQuery()) {
 

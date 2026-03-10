@@ -80,6 +80,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         spFechaBaja = new javax.swing.JSpinner();
         chbxHFechaAlta = new javax.swing.JCheckBox();
         chbxHFechaBaja = new javax.swing.JCheckBox();
+        btnLimpiar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuInicio = new javax.swing.JMenu();
         menuUsuario = new javax.swing.JMenu();
@@ -174,6 +175,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
         });
 
+        btnLimpiar.setText("Limpiar filtros");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -186,7 +194,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -224,17 +232,22 @@ public class GestionMaquinas extends javax.swing.JFrame {
                                 .addComponent(chbxHFechaBaja)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNuevaMaquina, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnFiltrar, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(73, 73, 73))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                                .addComponent(btnLimpiar)
+                                .addGap(235, 235, 235))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(315, 315, 315)
+                                .addComponent(btnNuevaMaquina)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(450, 450, 450)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnEliminar)
-                            .addComponent(btnActualizar))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnActualizar)
+                            .addComponent(btnFiltrar))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,7 +280,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addComponent(btnFiltrar)
                     .addComponent(jLabel7)
                     .addComponent(chbxHFechaBaja)
-                    .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
@@ -447,6 +461,35 @@ public class GestionMaquinas extends javax.swing.JFrame {
         cargarTablaMaquinaria(lista);
 
     }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // Limpiar campos de texto
+        txtID.setText("");
+        txtNameFilter.setText("");
+
+        // Resetear combos
+        cbbTipo.setSelectedItem("Todos");
+        cbbStatus.setSelectedItem("Todos");
+
+        // Desmarcar checks y deshabilitar fechas
+        chbxHFechaAlta.setSelected(false);
+        chbxHFechaBaja.setSelected(false);
+        spFechaAlta.setEnabled(false);
+        spFechaBaja.setEnabled(false);
+
+        // Reiniciar valor de fechas
+        spFechaAlta.setValue(new Date());
+        spFechaBaja.setValue(new Date());
+
+        // Recargar lista completa desde BD
+        listaTotal = contr.listarMaquinaria();
+        cargarTablaMaquinaria(listaTotal);
+
+        // Mantener orden por ID ascendente
+        if (sorter != null) {
+            sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        }
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
@@ -727,6 +770,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNuevaMaquina;
     private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cbbTipo;
