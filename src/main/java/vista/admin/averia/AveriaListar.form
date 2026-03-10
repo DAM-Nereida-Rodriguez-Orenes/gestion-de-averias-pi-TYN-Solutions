@@ -78,6 +78,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tipos de aver&#xed;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miTipoAveriaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miRoles">
               <Properties>
@@ -147,18 +150,16 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="btnAveriaActualizar" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" min="-2" pref="1050" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="txtAveriaBuscar" min="-2" pref="300" max="-2" attributes="0"/>
-                              <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                              <Component id="tgbtnFiltros" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="473" max="-2" attributes="0"/>
-                              <Component id="btnAveriaNueva" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="btnAveriaActualizar" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="txtAveriaBuscar" min="-2" pref="300" max="-2" attributes="0"/>
+                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                          <Component id="tgbtnFiltros" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="473" max="-2" attributes="0"/>
+                          <Component id="btnAveriaNueva" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="62" max="32767" attributes="0"/>
               </Group>
@@ -189,8 +190,8 @@
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="460" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="btnAveriaActualizar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="23" max="32767" attributes="0"/>
+                  <Component id="btnAveriaActualizar" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace pref="20" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

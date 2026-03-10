@@ -130,7 +130,6 @@ public class AveriaNueva extends javax.swing.JDialog {
                     txtDescripcion.setForeground(Color.BLACK);
                 }
             }
-
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (txtDescripcion.getText().trim().isEmpty()) {
@@ -292,10 +291,8 @@ public class AveriaNueva extends javax.swing.JDialog {
         jScrollPane4.setViewportView(listaUsuarios);
 
         cbAveriaTipo.setBackground(new java.awt.Color(237, 243, 251));
-        cbAveriaTipo.setBorder(null);
 
         txtTecnicoBuscar.setBackground(new java.awt.Color(237, 243, 251));
-        txtTecnicoBuscar.setBorder(null);
 
         jScrollPane2.setViewportView(listaTecnicos);
 
@@ -317,7 +314,6 @@ public class AveriaNueva extends javax.swing.JDialog {
         jLabel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         txtMaquinaBuscar.setBackground(new java.awt.Color(237, 243, 251));
-        txtMaquinaBuscar.setBorder(null);
 
         jScrollPane3.setViewportView(listaMaquinas);
 
@@ -326,7 +322,6 @@ public class AveriaNueva extends javax.swing.JDialog {
         jScrollPane1.setViewportView(txtDescripcion);
 
         txtUsuarioBuscar.setBackground(new java.awt.Color(237, 243, 251));
-        txtUsuarioBuscar.setBorder(null);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

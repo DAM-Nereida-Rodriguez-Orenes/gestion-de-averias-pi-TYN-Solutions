@@ -120,7 +120,7 @@ public class AveriaListar extends javax.swing.JFrame {
         //columnModel.getColumn(0).setPreferredWidth(40);
         //columnModel.getColumn(0).setMaxWidth(60);
 
-        //Ajustes al diseño visual de la tabla 
+        //Ajustes al diseño de la tabla 
         tablaAveria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
         tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente 
         tablaAveria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header y cambia la fuente       
@@ -323,16 +323,15 @@ public class AveriaListar extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(88, 88, 88)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAveriaActualizar)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(tgbtnFiltros)
-                            .addGap(473, 473, 473)
-                            .addComponent(btnAveriaNueva))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tgbtnFiltros)
+                        .addGap(473, 473, 473)
+                        .addComponent(btnAveriaNueva))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(0, 62, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -355,8 +354,8 @@ public class AveriaListar extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
-                .addComponent(btnAveriaActualizar)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
@@ -420,6 +419,11 @@ public class AveriaListar extends javax.swing.JFrame {
         miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
+        miTipoAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoAveriaActionPerformed(evt);
+            }
+        });
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
@@ -624,6 +628,12 @@ public class AveriaListar extends javax.swing.JFrame {
             txtAveriaBuscar.setText("Buscar descripción");
         }
     }//GEN-LAST:event_txtAveriaBuscarFocusLost
+
+    private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
+       TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
+        tipoAveria.setLocationRelativeTo(null);
+        tipoAveria.setVisible(true);
+    }//GEN-LAST:event_miTipoAveriaActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)

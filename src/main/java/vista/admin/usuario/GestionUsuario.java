@@ -25,6 +25,7 @@ import modelo.Rol;
 import modelo.Usuario;
 import vista.PanelImgFondo;
 import vista.admin.averia.AveriaListar;
+import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.vHomeAdmin;
 
@@ -61,8 +62,21 @@ public class GestionUsuario extends javax.swing.JFrame {
         cbbRol.setModel(modelo);
     }
 
+    /**
+     * mostrarImagenes(). Metodo encargado de aplicar los ajustes visuales de la
+     * ventana.
+     *
+     * En este metodo se configuran los elementos graficos comunes de la
+     * interfaz, como el icono del JFrame, el tamaño fijo de la ventana, su
+     * posicion en pantalla y la desactivacion del redimensionado.
+     *
+     * Tambien se cargan y asignan los iconos SVG utilizados en la interfaz,
+     * como el logo de la aplicacion o los iconos de usuario. Ademas se ajustan
+     * propiedades visuales de los componentes Swing (labels, textfields, etc.)
+     * para mantener un diseño uniforme en todas las pantallas de la aplicacion.
+     */
     public void mostrarImagenes() {
-          //Ajustes del deisño del JFrame/Layout
+        //Ajustes del deisño del JFrame/Layout
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
         // Tamaño fijo de todas las ventanas
@@ -79,8 +93,8 @@ public class GestionUsuario extends javax.swing.JFrame {
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
-        
-         //icono de usuario 
+
+        //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
         jLabel2.setIcon(iconUsuarioAdmin);
         jLabel2.setText("Hola, Admin");
@@ -362,11 +376,11 @@ public class GestionUsuario extends javax.swing.JFrame {
             .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(920, 920, 920)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnEliminarUsuario))
+                        .addGap(29, 29, 29)
+                        .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,9 +423,9 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         miInicio.setText("Inicio");
@@ -475,6 +489,11 @@ public class GestionUsuario extends javax.swing.JFrame {
         miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
+        miTipoAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoAveriaActionPerformed(evt);
+            }
+        });
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
@@ -739,6 +758,12 @@ public class GestionUsuario extends javax.swing.JFrame {
         gestionMaquina.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miMaquinariaActionPerformed
+
+    private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
+        TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
+        tipoAveria.setLocationRelativeTo(null);
+        tipoAveria.setVisible(true);
+    }//GEN-LAST:event_miTipoAveriaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

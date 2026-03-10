@@ -87,11 +87,11 @@ public class GestionRol extends javax.swing.JFrame {
         
          //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
-        jLabel2.setIcon(iconUsuarioAdmin);
-        jLabel2.setText("Hola, Admin");
-        jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
-        jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
-        jLabel2.setIconTextGap(8);
+        jlSaldoIcono.setIcon(iconUsuarioAdmin);
+        jlSaldoIcono.setText("Hola, Admin");
+        jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
+        jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
+        jlSaldoIcono.setIconTextGap(8);
     }
 
     /**
@@ -111,7 +111,7 @@ public class GestionRol extends javax.swing.JFrame {
         btnEliminarRol = new javax.swing.JButton();
         jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
         jlLogo = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jlSaldoIcono = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
@@ -181,9 +181,9 @@ public class GestionRol extends javax.swing.JFrame {
 
         jlLogo.setText("jLabel2");
 
-        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(67, 113, 177));
-        jLabel2.setText("Hola, Admin");
+        jlSaldoIcono.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jlSaldoIcono.setForeground(new java.awt.Color(67, 113, 177));
+        jlSaldoIcono.setText("Hola, Admin");
 
         javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
         jpCabecera.setLayout(jpCabeceraLayout);
@@ -193,7 +193,7 @@ public class GestionRol extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addComponent(jlSaldoIcono)
                 .addGap(86, 86, 86))
         );
         jpCabeceraLayout.setVerticalGroup(
@@ -202,13 +202,15 @@ public class GestionRol extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlLogo)
-                    .addComponent(jLabel2))
+                    .addComponent(jlSaldoIcono))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de Roles");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,19 +219,15 @@ public class GestionRol extends javax.swing.JFrame {
             .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(85, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(441, 441, 441))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnActualizarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnEliminarRol))
-                            .addComponent(btnAddRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1046, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(69, 69, 69))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnActualizarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnEliminarRol))
+                    .addComponent(btnAddRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1046, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(69, 69, 69))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -456,11 +454,11 @@ public class GestionRol extends javax.swing.JFrame {
     private javax.swing.JButton btnAddRol;
     private javax.swing.JButton btnEliminarRol;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlLogo;
+    private javax.swing.JLabel jlSaldoIcono;
     private javax.swing.JPanel jpCabecera;
     private javax.swing.JMenuItem miAveria;
     private javax.swing.JMenuItem miCerrarSesion;
