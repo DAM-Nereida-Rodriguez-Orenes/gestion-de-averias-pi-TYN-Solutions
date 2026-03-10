@@ -70,7 +70,12 @@ public class GestionRol extends javax.swing.JFrame {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
-        setLocationRelativeTo(null);
+        // Tamaño fijo de todas las ventanas
+        this.setSize(1200, 800);
+        // Centrar ventana en pantalla
+        this.setLocationRelativeTo(null);
+        // Evitar que el usuario cambie el tamaño
+        this.setResizable(false);
 
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);

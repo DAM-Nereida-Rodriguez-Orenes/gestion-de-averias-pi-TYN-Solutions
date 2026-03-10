@@ -63,7 +63,7 @@ public class ActualizarRol extends javax.swing.JDialog {
         //icno de la app
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
-        setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
 
         //ICONOS LtextField
         //Campo Codigo rol 
