@@ -4,12 +4,16 @@
  */
 package vista.admin.maquinas;
 
+import controlador.GestionTipoMaquinaControlador;
+import modelo.TipoMaquinaria;
+
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class ActualizarTipoMaquina extends javax.swing.JDialog {
-
+    private final GestionTipoMaquinaControlador contr = new GestionTipoMaquinaControlador();
+    private TipoMaquinaria tipoMaquinaActual; //la que estoy editando
     /**
      * Creates new form ActualizarTipoMaquina
      */
@@ -32,6 +36,8 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         txtDescTM = new javax.swing.JTextField();
         btnActualizarTM = new javax.swing.JButton();
+        txtIDDisab = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -45,6 +51,16 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
 
         btnActualizarTM.setText("Actualizar");
         btnActualizarTM.setToolTipText("");
+        btnActualizarTM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarTMActionPerformed(evt);
+            }
+        });
+
+        txtIDDisab.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtIDDisab.setEnabled(false);
+
+        jLabel3.setText("ID:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -55,26 +71,34 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
                 .addComponent(btnActualizarTM)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(54, 85, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(90, 90, 90))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(txtDescTM, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addGap(51, 51, 51)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtDescTM, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(txtIDDisab))
+                .addGap(37, 37, 37))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIDDisab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtDescTM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
                 .addComponent(btnActualizarTM)
                 .addGap(72, 72, 72))
         );
@@ -93,13 +117,44 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
+    private void btnActualizarTMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTMActionPerformed
+        String id = txtIDDisab.getText().trim();
+        String desc = txtDescTM.getText();
+
+        boolean ok = contr.modificarTipoMaquinaria(id, desc);
+
+        if (ok) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Tipo de maquinaria actualizado correctamente.",
+                    "Actualización realizada",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+            dispose();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "No se pudo actualizar el tipo de maquinaria.\nRevise que la descripción no esté vacía.",
+                    "Error de actualización",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btnActualizarTMActionPerformed
+
+   public void setTipoMaquinaria(TipoMaquinaria t) {
+    this.tipoMaquinaActual = t;
+
+    txtIDDisab.setText(String.valueOf(t.getCodigoTipoMaquinaria()));
+    txtDescTM.setText(t.getDescripcionMaq());
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTM;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtDescTM;
+    private javax.swing.JTextField txtIDDisab;
     // End of variables declaration//GEN-END:variables
 }

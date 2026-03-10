@@ -6,6 +6,7 @@ package vista.admin.maquinas;
 
 import controlador.GestionTipoMaquinaControlador;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -83,6 +84,11 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         btnEliminarTipoMaq.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminarTipoMaq.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarTipoMaq.setText("Eliminar");
+        btnEliminarTipoMaq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarTipoMaqActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,13 +148,79 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         NuevoTipoMaquina nm = new NuevoTipoMaquina(this, true);
         nm.setLocationRelativeTo(this);
         nm.setVisible(true);
+        cargarTiposMaquinariaEnTabla();
     }//GEN-LAST:event_btnNuevoTipoMaqActionPerformed
 
     private void btnActualizarTipoMaqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarTipoMaqActionPerformed
+        TipoMaquinaria seleccionado = getTipoMaquinariaSeleccionado();
+        int id = seleccionado.getCodigoTipoMaquinaria();
+
+        Optional<TipoMaquinaria> opt = contr.buscarTipoMaquinariaPorID(id);
+
+        if (opt.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No se encontró el tipo de maquinaria en la base de datos.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
         ActualizarTipoMaquina am = new ActualizarTipoMaquina(this, true);
         am.setLocationRelativeTo(this);
+        am.setTipoMaquinaria(opt.get());
         am.setVisible(true);
+
+        cargarTiposMaquinariaEnTabla();
+        
     }//GEN-LAST:event_btnActualizarTipoMaqActionPerformed
+
+    private void btnEliminarTipoMaqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTipoMaqActionPerformed
+       //BORRADO -> ES FK EN TABLA MÁQUINAS, así que no debe borrarse si está en uso
+        TipoMaquinaria seleccionado = getTipoMaquinariaSeleccionado();
+
+        if (seleccionado == null) {
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Seguro que desea eliminar el tipo de maquinaria con código "
+                    + seleccionado.getCodigoTipoMaquinaria()
+                    + " y descripción \""
+                    + seleccionado.getDescripcionMaq()
+                    + "\"?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            contr.eliminarTipoMaquinaria(seleccionado);
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Tipo de maquinaria eliminado correctamente.",
+                "Eliminación correcta",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            cargarTiposMaquinariaEnTabla();
+
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "No se pudo eliminar el tipo de maquinaria, porque está en uso: " + e.getMessage(),
+                "Error al eliminar",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_btnEliminarTipoMaqActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,7 +283,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         // Selección de una sola fila
         tbTipoMaquina.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Opcional: impedir reordenar columnas arrastrando
+        // Impedir reordenar columnas arrastrando
         tbTipoMaquina.getTableHeader().setReorderingAllowed(false);
     }
     private void cargarTiposMaquinariaEnTabla() {
@@ -257,6 +329,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
 
         return contr.obtenerTipoSeleccionado(codigo, descripcion);
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTipoMaq;
