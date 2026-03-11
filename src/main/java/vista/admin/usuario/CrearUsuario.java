@@ -158,7 +158,7 @@ public class CrearUsuario extends javax.swing.JDialog {
         btnCancelarNU = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Crear Usuario");
+        setTitle("Nuevo usuario");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(780, 500));

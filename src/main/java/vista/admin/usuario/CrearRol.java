@@ -100,7 +100,7 @@ public class CrearRol extends javax.swing.JDialog {
         spnNumeroRol = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Nuevo Rol");
+        setTitle("Nuevo rol");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(780, 500));

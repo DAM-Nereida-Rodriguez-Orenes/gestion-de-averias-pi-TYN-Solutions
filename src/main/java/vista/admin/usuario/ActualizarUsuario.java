@@ -223,6 +223,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         estadoUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Editar usuario");
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 600));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
