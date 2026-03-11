@@ -96,7 +96,7 @@ public class CrearRol extends javax.swing.JDialog {
         txtDescripcionRol = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         btnCrearRol = new javax.swing.JButton();
-        btnCancelarNU = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         spnNumeroRol = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -125,14 +125,14 @@ public class CrearRol extends javax.swing.JDialog {
             }
         });
 
-        btnCancelarNU.setBackground(new java.awt.Color(234, 242, 251));
-        btnCancelarNU.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnCancelarNU.setForeground(new java.awt.Color(67, 113, 177));
-        btnCancelarNU.setText("Cancelar");
-        btnCancelarNU.setBorderPainted(false);
-        btnCancelarNU.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setBackground(new java.awt.Color(234, 242, 251));
+        btnCancelar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(67, 113, 177));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarNUActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -151,7 +151,7 @@ public class CrearRol extends javax.swing.JDialog {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(220, 220, 220)
                         .addComponent(btnCrearRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -177,7 +177,7 @@ public class CrearRol extends javax.swing.JDialog {
                 .addGap(165, 165, 165)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -234,7 +234,7 @@ public class CrearRol extends javax.swing.JDialog {
             String mensajeError = gestionRolControlador.crearRol(codigoRolCompleto, descripcionRol);
 
             if (mensajeError == null) {
-                JOptionPane.showMessageDialog(this,"Nuevo rol registrado con exito","Insercion realizada",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nuevo rol registrado con exito", "Insercion realizada", JOptionPane.INFORMATION_MESSAGE);
 
                 // Limpiamos los campos
                 txtDescripcionRol.setText("");
@@ -244,18 +244,21 @@ public class CrearRol extends javax.swing.JDialog {
                 gestionRol.mostrarTabla();
 
             } else {
-                JOptionPane.showMessageDialog(this,mensajeError,"Error al crear rol",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, mensajeError, "Error al crear rol", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnCrearRolActionPerformed
 
-    private void btnCancelarNUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNUActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarNUActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelarNU;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrearRol;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

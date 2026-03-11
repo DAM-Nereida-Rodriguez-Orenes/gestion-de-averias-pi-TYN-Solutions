@@ -11,6 +11,7 @@ import daoImpl.RolDaoImpl;
 import daoImpl.UsuarioDaoImpl;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import modelo.Rol;
@@ -185,7 +186,7 @@ public class GestionUsuarioControlador {
         rolInicial.setDescripcionRol("Trabajador");
 
         listaRoles.add(0, rolInicial);
-        
+
         return listaRoles;
     }
 
@@ -207,6 +208,55 @@ public class GestionUsuarioControlador {
 
     public List<Usuario> buscarPorTexto(String texto) {
         return usuarioDaoImpl.buscarPorTexto(texto);
+    }
+
+    public String generarPasswordAleatoria() {
+
+        String minusculas = "abcdefghijklmnopqrstuvwxyz";
+        String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String numeros = "0123456789";
+        String especiales = ".@#$%&*!?_+-";
+        String todosCaracteres = minusculas + mayusculas + numeros + especiales;
+
+        Random random = new Random();
+        StringBuilder passwordGenerada = new StringBuilder();
+
+        // Anadimos al menos un caracter de cada tipo 
+        passwordGenerada.append(minusculas.charAt(random.nextInt(minusculas.length())));
+        passwordGenerada.append(mayusculas.charAt(random.nextInt(mayusculas.length())));
+        passwordGenerada.append(numeros.charAt(random.nextInt(numeros.length())));
+        passwordGenerada.append(especiales.charAt(random.nextInt(especiales.length())));
+
+        // Completamos hasta longitud 8 
+        while (passwordGenerada.length() < 8) {
+            passwordGenerada.append(todosCaracteres.charAt(random.nextInt(todosCaracteres.length())));
+        }
+
+        //Mezclamos los caracteres para que no siempre salgan en el mismo orden 
+        return mezclarCaracteres(passwordGenerada.toString());
+    }
+
+    /**
+     * Mezcla el orden de los caracteres de una cadena.
+     *
+     * @param texto cadena a mezclar
+     * @return cadena mezclada
+     */
+    private String mezclarCaracteres(String texto) {
+
+        Random random = new Random();
+        char[] arrayCaracteres = texto.toCharArray();
+
+        for (int i = 0; i < arrayCaracteres.length; i++) {
+
+            int indiceAleatorio = random.nextInt(arrayCaracteres.length);
+
+            char caracterAuxiliar = arrayCaracteres[i];
+            arrayCaracteres[i] = arrayCaracteres[indiceAleatorio];
+            arrayCaracteres[indiceAleatorio] = caracterAuxiliar;
+        }
+
+        return new String(arrayCaracteres);
     }
 
 }

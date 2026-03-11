@@ -155,7 +155,8 @@ public class CrearUsuario extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         cbbPrefijosTelefonos = new javax.swing.JComboBox<>();
         btnDarAlta = new javax.swing.JButton();
-        btnCancelarNU = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnGenerarPassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nuevo usuario");
@@ -194,14 +195,25 @@ public class CrearUsuario extends javax.swing.JDialog {
             }
         });
 
-        btnCancelarNU.setBackground(new java.awt.Color(234, 242, 251));
-        btnCancelarNU.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnCancelarNU.setForeground(new java.awt.Color(67, 113, 177));
-        btnCancelarNU.setText("Cancelar");
-        btnCancelarNU.setBorderPainted(false);
-        btnCancelarNU.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setBackground(new java.awt.Color(234, 242, 251));
+        btnCancelar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(67, 113, 177));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarNUActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnGenerarPassword.setBackground(new java.awt.Color(237, 243, 251));
+        btnGenerarPassword.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnGenerarPassword.setForeground(new java.awt.Color(67, 113, 177));
+        btnGenerarPassword.setText("Generar Contraseña");
+        btnGenerarPassword.setBorderPainted(false);
+        btnGenerarPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPasswordActionPerformed(evt);
             }
         });
 
@@ -216,7 +228,7 @@ public class CrearUsuario extends javax.swing.JDialog {
                         .addGap(109, 109, 109)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnDarAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -228,8 +240,11 @@ public class CrearUsuario extends javax.swing.JDialog {
                                 .addGap(80, 80, 80)
                                 .addComponent(txtApellidos))
                             .addComponent(cbbRol, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pwdPassword, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnGenerarPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -249,7 +264,9 @@ public class CrearUsuario extends javax.swing.JDialog {
                 .addGap(38, 38, 38)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,7 +274,7 @@ public class CrearUsuario extends javax.swing.JDialog {
                 .addGap(60, 60, 60)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDarAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -333,17 +350,32 @@ public class CrearUsuario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnDarAltaActionPerformed
 
-    private void btnCancelarNUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNUActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarNUActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    /**
+     * Genera una password aleatoria valida a traves del controlador y la
+     * muestra en el campo de password del formulario.
+     */
+    private void btnGenerarPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPasswordActionPerformed
+
+        String nuevaPassword = gestionUsuarioControlador.generarPasswordAleatoria();
+        pwdPassword.setText(nuevaPassword);
+    }//GEN-LAST:event_btnGenerarPasswordActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelarNU;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnDarAlta;
+    private javax.swing.JButton btnGenerarPassword;
     private javax.swing.JComboBox<String> cbbPrefijosTelefonos;
     private javax.swing.JComboBox<String> cbbRol;
     private javax.swing.JLabel jLabel2;

@@ -88,10 +88,7 @@
                       </Group>
                       <EmptySpace pref="74" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="250" max="-2" attributes="0"/>
-                              <Component id="btnAveriaCrear" min="-2" pref="150" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btnAveriaCrear" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="txtTecnicoBuscar" alignment="1" min="-2" pref="400" max="-2" attributes="0"/>
                           <Component id="jScrollPane2" alignment="1" min="-2" pref="400" max="-2" attributes="0"/>
                           <Component id="txtMaquinaBuscar" alignment="1" min="-2" pref="400" max="-2" attributes="0"/>

@@ -130,15 +130,14 @@ public class AveriaNueva extends javax.swing.JDialog {
         txtTecnicoBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtTecnicoBuscar.putClientProperty("JTextField.placeholderText", "Buscar técnico asingado (opcional): ");
         // Campo descripcion de averia
-        txtDescripcion.setText("Descripcion de la averia...");
+        txtDescripcion.setText("Descripcion de la averia");
         txtDescripcion.setForeground(Color.GRAY);
         txtDescripcion.setMargin(new Insets(5, 8, 5, 8));
-
         txtDescripcion.addFocusListener(new java.awt.event.FocusAdapter() {
 
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtDescripcion.getText().equals("Descripcion de la averia...")) {
+                if (txtDescripcion.getText().equals("Descripcion de la averia")) {
                     txtDescripcion.setText("");
                     txtDescripcion.setForeground(Color.BLACK);
                 }
@@ -147,13 +146,12 @@ public class AveriaNueva extends javax.swing.JDialog {
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (txtDescripcion.getText().trim().isEmpty()) {
-                    txtDescripcion.setText("Descripcion de la averia...");
+                    txtDescripcion.setText("Descripcion de la averia");
                     txtDescripcion.setForeground(Color.GRAY);
                 }
             }
 
         });
-
     }
 
     // =========================================================================
@@ -367,9 +365,7 @@ public class AveriaNueva extends javax.swing.JDialog {
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAveriaCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAveriaCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTecnicoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -472,7 +468,10 @@ public class AveriaNueva extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAveriaCrearActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // =========================================================================

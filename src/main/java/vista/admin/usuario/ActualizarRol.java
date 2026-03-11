@@ -111,7 +111,7 @@ public class ActualizarRol extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         btnEditarRol = new javax.swing.JButton();
-        btnCancelarNU = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtCodigoRol = new javax.swing.JTextField();
         spnNumeroRol = new javax.swing.JSpinner();
@@ -134,14 +134,14 @@ public class ActualizarRol extends javax.swing.JDialog {
             }
         });
 
-        btnCancelarNU.setBackground(new java.awt.Color(234, 242, 251));
-        btnCancelarNU.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnCancelarNU.setForeground(new java.awt.Color(67, 113, 177));
-        btnCancelarNU.setText("Cancelar");
-        btnCancelarNU.setBorderPainted(false);
-        btnCancelarNU.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setBackground(new java.awt.Color(234, 242, 251));
+        btnCancelar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(67, 113, 177));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarNUActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -165,7 +165,7 @@ public class ActualizarRol extends javax.swing.JDialog {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(220, 220, 220)
                         .addComponent(btnEditarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123))
@@ -193,7 +193,7 @@ public class ActualizarRol extends javax.swing.JDialog {
                 .addGap(366, 366, 366)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelarNU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -270,13 +270,16 @@ public class ActualizarRol extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnEditarRolActionPerformed
 
-    private void btnCancelarNUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNUActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarNUActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelarNU;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditarRol;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
