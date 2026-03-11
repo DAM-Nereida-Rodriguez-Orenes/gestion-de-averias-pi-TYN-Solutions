@@ -254,12 +254,19 @@ public class ActualizarMaquina extends javax.swing.JDialog {
             spFechaBaja.setValue(java.sql.Date.valueOf(m.getFechaBaja()));
         }
 
-        // seleccionar combos por FK -> descripción
-        String estadoDesc = buscarDescPorId(estadoDescToId, m.getCodigoEstadoFK());
-        if (estadoDesc != null) cbbStatus.setSelectedItem(estadoDesc);
+        if (m.getEstado() != null) {
+            String estadoDesc = buscarDescPorId(estadoDescToId, m.getEstado().getCodigoEstado());
+            if (estadoDesc != null) {
+                cbbStatus.setSelectedItem(estadoDesc);
+            }
+        }
 
-        String tipoDesc = buscarDescPorId(tipoDescToId, m.getTipoMaquinariaFK());
-        if (tipoDesc != null) cbbTipo.setSelectedItem(tipoDesc);
+        if (m.getTipoMaquinaria() != null) {
+            String tipoDesc = buscarDescPorId(tipoDescToId, m.getTipoMaquinaria().getCodigoTipoMaquinaria());
+            if (tipoDesc != null) {
+                cbbTipo.setSelectedItem(tipoDesc);
+            }
+        }
 
         aplicarReglaFechaBaja();
     }

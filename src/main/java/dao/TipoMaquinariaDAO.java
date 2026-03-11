@@ -4,6 +4,7 @@
  */
 package dao;
 import java.util.List;
+import java.util.Optional;
 import modelo.TipoMaquinaria;
 
 /**
@@ -20,4 +21,5 @@ public interface TipoMaquinariaDAO {
     void modificar(TipoMaquinaria t);
     List<TipoMaquinaria> listarTipoMaquinaria();
     boolean existeID(int id);
+    Optional<TipoMaquinaria> buscarPorID(int id);
 }

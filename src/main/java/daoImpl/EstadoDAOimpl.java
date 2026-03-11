@@ -10,8 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 import modelo.Estado;
+import modelo.TipoMaquinaria;
 
 /**
  *
@@ -24,30 +26,8 @@ public class EstadoDAOimpl implements EstadoDAO{
         this.dataSource = dataSource;
     }
 
-    /**
-     * Convierte IDs "cortos" (1..99) a IDs reales (801..899) sumando 800.
-     * Si ya viene un ID 800..899, lo deja tal cual.
-     * Si viene otro valor, lanza excepción para evitar datos inválidos.
-     */
-    private int normalizarId800(int id) {
-        if (id >= 1 && id <= 99) return 800 + id;     // 1..99 -> 801..899
-        if (id >= 800 && id <= 899) return id;        // ya válido
-        throw new IllegalArgumentException(
-                "El código de Estado debe ser 1..99 (se convertirá a 800+X) o 800..899. Recibido: " + id
-        );
-    }
-
     @Override
     public void insertar(Estado e) {
-        final int id = normalizarId800(e.getCodigoEstado());
-
-        // Si quieres que el objeto quede coherente con la BD:
-        e.setCodigoEstado(id);
-
-        // Comprobar existencia antes de insertar
-        if (existeID(id)) {
-            throw new RuntimeException("No se puede insertar: ya existe un Estado con ID " + id);
-        }
 
         final String sql = "INSERT INTO estado (codigoEstado, descripcionEstado) VALUES (?, ?)";
 
@@ -66,8 +46,6 @@ public class EstadoDAOimpl implements EstadoDAO{
 
     @Override
     public void modificar(Estado e) {
-        final int id = normalizarId800(e.getCodigoEstado());
-        e.setCodigoEstado(id);
 
         final String sql = "UPDATE estado SET descripcionEstado = ? WHERE codigoEstado = ?";
 
@@ -86,8 +64,6 @@ public class EstadoDAOimpl implements EstadoDAO{
 
     @Override
     public void eliminar(Estado e) {
-        final int id = normalizarId800(e.getCodigoEstado());
-        e.setCodigoEstado(id);
 
         final String sql = "DELETE FROM estado WHERE codigoEstado = ?";
 
@@ -127,13 +103,12 @@ public class EstadoDAOimpl implements EstadoDAO{
 
     @Override
     public boolean existeID(int id) {
-        final int normalizado = normalizarId800(id);
         final String sql = "SELECT 1 FROM estado WHERE codigoEstado = ? LIMIT 1";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, normalizado);
+            ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
@@ -142,5 +117,38 @@ public class EstadoDAOimpl implements EstadoDAO{
         } catch (SQLException ex) {
             throw new RuntimeException("Error comprobando existencia de ID en estado", ex);
         }
+    }
+    @Override
+    public Optional<Estado> buscarPorID(int id) {
+
+        final String sql = """
+            SELECT codigoEstado, descripcionEstado
+            FROM estado
+            WHERE codigoEstado = ?
+            """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Estado st = new Estado(
+                            rs.getInt("codigoEstado"),
+                            rs.getString("descripcionEstado")
+                    );
+
+                    return Optional.of(st);
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error buscando estado de maquinaria por ID", ex);
+        }
+
+        return Optional.empty();
     }
 }

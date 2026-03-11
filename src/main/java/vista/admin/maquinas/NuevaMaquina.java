@@ -150,21 +150,63 @@ public class NuevaMaquina extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMaquinaActionPerformed
-        //Recoger datos vista
+        // Recoger datos de la vista
         String nomMaq = txtNombre.getText();
         String estadoDesc = (String) cbbStatus.getSelectedItem();
         String tipoDesc = (String) cbbTipo.getSelectedItem();
+        Date fechaAlta = (Date) spFechaAlta.getValue();
 
+        // Obtener IDs desde los mapas
         Integer estadoId = estadoDescToId.get(estadoDesc);
         Integer tipoId = tipoDescToId.get(tipoDesc);
 
-        Date fechaAlta = (Date) spFechaAlta.getValue();
-        //Llamar a f(x) de controlador (valida, crea objeto máquina y llama a fx de DAOimpl) --> si devuelve true, un pane, si false, otro
+        // Validaciones antes de llamar al controlador
+        if (nomMaq == null || nomMaq.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "El nombre de la máquina no puede estar vacío.",
+                    "Error de inserción",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (estadoDesc == null || estadoId == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar un estado válido.",
+                    "Error de inserción",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (tipoDesc == null || tipoId == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe seleccionar un tipo de maquinaria válido.",
+                    "Error de inserción",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (fechaAlta == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe indicar una fecha de alta.",
+                    "Error de inserción",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Llamada al controlador
         boolean flag = contr.crearMaquina(nomMaq, estadoId, tipoId, fechaAlta);
-        if (flag){
-            JOptionPane.showMessageDialog(this, "Nueva máquina registrada con éxito", "Inserción realizada",JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(this, "Revise los datos: alguno no es correcto o está en blanco", "Error de inserción",JOptionPane.ERROR_MESSAGE);
+
+        if (flag) {
+            JOptionPane.showMessageDialog(this,
+                    "Nueva máquina registrada con éxito",
+                    "Inserción realizada",
+                    JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Revise los datos: alguno no es correcto o está en blanco.",
+                    "Error de inserción",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCrearMaquinaActionPerformed
 

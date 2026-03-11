@@ -6,7 +6,7 @@ package daoImpl;
 
 import dao.MaquinariaDAO;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.Date; //este, no el de util
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+import modelo.Estado;
 import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
@@ -40,7 +42,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             ps.setString(1, m.getNombre());
 
             // 2) FK estado
-            ps.setInt(2, m.getCodigoEstadoFK());
+            ps.setInt(2, m.getEstado().getCodigoEstado());
 
             // 3) fechaAlta (DATE)
             //El modelo es java.time.LocalDate:
@@ -54,8 +56,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             }
 
             // 5) FK tipo_maquinaria
-            ps.setInt(5, m.getTipoMaquinariaFK());
-
+            ps.setInt(5, m.getTipoMaquinaria().getCodigoTipoMaquinaria());
+            
             ps.executeUpdate();
 
             // Recuperar el ID autogenerado --> útil para refrescar vistas de listas
@@ -87,7 +89,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             ps.setString(1, m.getNombre());
 
-            ps.setInt(2, m.getCodigoEstadoFK());
+            ps.setInt(2, m.getEstado().getCodigoEstado());
 
             ps.setDate(3, Date.valueOf(m.getFechaAlta()));
 
@@ -97,7 +99,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
                 ps.setDate(4, Date.valueOf(m.getFechaBaja()));
             };
 
-            ps.setInt(5, m.getTipoMaquinariaFK());
+            ps.setInt(5, m.getTipoMaquinaria().getCodigoTipoMaquinaria());
 
             ps.setInt(6, m.getCodigoMaquinaria());
 
@@ -127,46 +129,96 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
     @Override
     public List<Maquinaria> listarMaquinaria() {
-        return buscarPorFiltrosMaquinaria(null, null, null, null, null);
+        List<Maquinaria> lista = new ArrayList<>();
+        final String sql = "SELECT * FROM maquinaria";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(mapearMaquinaria(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error listando maquinaria", e);
+        }
+
+        return lista;
     }
 
+   
     @Override
-    public List<Maquinaria> buscarPorFiltrosMaquinaria( Integer codigoEstadoFK,
-        Integer tipoMaquinariaFK,
-        LocalDate fechaAltaDesde,
-        LocalDate fechaAltaHasta,
-        Boolean soloActivas) {
-        
-        StringBuilder sql = new StringBuilder("SELECT * FROM maquinaria WHERE 1=1");
+    public Optional<Maquinaria> buscarMaquinariaPorId(Integer id){
+        Optional<Maquinaria> maq = Optional.empty();//inicializado a vacío, NO a null
+        final String sql = """
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE codigoMaquinaria = ?
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return Optional.empty();
+
+                return Optional.of(mapearMaquinaria(rs));
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return maq;
+        }
+    }
+    @Override
+    public List<Maquinaria> buscarMaquinariaPorTexto(String text){ 
+        List<Maquinaria> lista = new ArrayList<>();//inicializado a vacío, NO a null
+        final String sql = """
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE LOWER(nombre) LIKE LOWER(?)
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setString(1, text + "%");
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                   lista.add(mapearMaquinaria(rs));
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return lista;
+    }
+    public List<Maquinaria> buscarMaquinariaPorFecha(LocalDate fechaAlta, LocalDate fechaBaja){
+        List<Maquinaria> lista = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+        FROM maquinaria
+        WHERE 1=1
+        """);
+
         List<Object> params = new ArrayList<>();
 
-        if (codigoEstadoFK != null) {
-            sql.append(" AND codigoEstadoFK = ?");
-            params.add(codigoEstadoFK);
+        if (fechaAlta != null) {
+            sql.append(" AND fechaAlta = ?");
+            params.add(Date.valueOf(fechaAlta));
         }
 
-        if (tipoMaquinariaFK != null) {
-            sql.append(" AND tipoMaquinariaFK = ?");
-            params.add(tipoMaquinariaFK);
+        if (fechaBaja != null) {
+            sql.append(" AND fechaBaja = ?");
+            params.add(Date.valueOf(fechaBaja));
         }
-
-        if (fechaAltaDesde != null) {
-            sql.append(" AND fechaAlta >= ?");
-            params.add(java.sql.Date.valueOf(fechaAltaDesde));
-        }
-
-        if (fechaAltaHasta != null) {
-            sql.append(" AND fechaAlta <= ?");
-            params.add(java.sql.Date.valueOf(fechaAltaHasta));
-        }
-
-        if (soloActivas != null && soloActivas) {
-            sql.append(" AND fechaBaja IS NULL");
-        }
-
-        sql.append(" ORDER BY codigoMaquinaria ASC");
-
-        List<Maquinaria> resultado = new ArrayList<>();
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql.toString())) {
@@ -177,63 +229,105 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Maquinaria m = new Maquinaria();
-                    m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
-                    m.setNombre(rs.getString("nombre"));
-                    m.setCodigoEstadoFK(rs.getInt("codigoEstadoFK"));
-
-                    java.sql.Date fa = rs.getDate("fechaAlta");
-                    m.setFechaAlta(fa != null ? fa.toLocalDate() : null);
-
-                    java.sql.Date fb = rs.getDate("fechaBaja");
-                    m.setFechaBaja(fb != null ? fb.toLocalDate() : null);
-
-                    m.setTipoMaquinariaFK(rs.getInt("tipoMaquinariaFK"));
-
-                    resultado.add(m);
+                    lista.add(mapearMaquinaria(rs));
                 }
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error filtrando maquinaria", e);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-
-        return resultado;
+        return lista;
     }
     @Override
-    public Optional<Maquinaria> buscarMaquinariaPorId(int id){
-        final String sql = """
-        SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
-        FROM maquinaria
-        WHERE codigoMaquinaria = ?
-        """;
+    public List<Maquinaria> buscarMaquinariaPorEstado(Integer codigoEstadoFK) {
+        List<Maquinaria> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+            FROM maquinaria
+            """;
+
+        if (codigoEstadoFK != null) {
+            sql += " WHERE codigoEstadoFK = ?";
+        }
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            if (codigoEstadoFK != null) {
+                ps.setInt(1, codigoEstadoFK);
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return Optional.empty();
-
-                Maquinaria m = new Maquinaria();
-                m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
-                m.setNombre(rs.getString("nombre"));
-                m.setCodigoEstadoFK(rs.getInt("codigoEstadoFK"));
-
-                Date alta = rs.getDate("fechaAlta");
-                if (alta != null) m.setFechaAlta(alta.toLocalDate());
-
-                Date baja = rs.getDate("fechaBaja");
-                if (baja != null) m.setFechaBaja(baja.toLocalDate());
-
-                m.setTipoMaquinariaFK(rs.getInt("tipoMaquinariaFK"));
-
-                return Optional.of(m);
+                while (rs.next()) {
+                    lista.add(mapearMaquinaria(rs));
+                }
             }
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Error buscarPorId maquinaria: " + id, ex);
+            System.out.println(ex.getMessage());
         }
+
+        return lista;
+    }
+    @Override
+    public List<Maquinaria> buscarMaquinariaPorTipo(Integer tipoMaquinariaFK) {
+        List<Maquinaria> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
+            FROM maquinaria
+            """;
+
+        if (tipoMaquinariaFK != null) {
+            sql += " WHERE tipoMaquinariaFK = ?";
+        }
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (tipoMaquinariaFK != null) {
+                ps.setInt(1, tipoMaquinariaFK);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearMaquinaria(rs));
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return lista;
+    }
+    
+    //Métodos auxiliares
+    private Maquinaria mapearMaquinaria(ResultSet rs) throws SQLException {
+        Maquinaria m = new Maquinaria();
+
+        m.setCodigoMaquinaria(rs.getInt("codigoMaquinaria"));
+        m.setNombre(rs.getString("nombre"));
+
+        Date alta = rs.getDate("fechaAlta");
+        if (alta != null) {
+            m.setFechaAlta(alta.toLocalDate());
+        }
+
+        Date baja = rs.getDate("fechaBaja");
+        if (baja != null) {
+            m.setFechaBaja(baja.toLocalDate());
+        }
+
+        Estado e = new Estado();
+        e.setCodigoEstado(rs.getInt("codigoEstadoFK"));
+        m.setEstado(e);
+
+        TipoMaquinaria t = new TipoMaquinaria();
+        t.setCodigoTipoMaquinaria(rs.getInt("tipoMaquinariaFK"));
+        m.setTipoMaquinaria(t);
+
+        return m;
     }
 }
