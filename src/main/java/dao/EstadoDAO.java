@@ -4,6 +4,7 @@
  */
 package dao;
 import java.util.List;
+import java.util.Optional;
 import modelo.Estado;
 
 /**
@@ -20,4 +21,5 @@ public interface EstadoDAO {
     void eliminar(Estado e);
     List<Estado> listarEstado();
     boolean existeID(int id);
+    Optional<Estado> buscarPorID(int id);
 }
