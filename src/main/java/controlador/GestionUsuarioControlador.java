@@ -79,6 +79,14 @@ public class GestionUsuarioControlador {
 
     public boolean actualizarDatosUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password, Boolean activo) {
 
+        // llamamos al metodo validar datos telefono, email, password
+        boolean datosValidos = validarDatos(telefono, email, password);
+        if (!datosValidos) {
+            System.out.println("Algun dato esta mal");
+            return false;
+        }
+        System.out.println("Los datos estan bien");
+        
         Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
         if (rol != null) {
             try {
@@ -210,6 +218,9 @@ public class GestionUsuarioControlador {
         return usuarioDaoImpl.buscarPorTexto(texto);
     }
 
+    /**
+     * Metodo para generar contraseñas aleatorias
+     */
     public String generarPasswordAleatoria() {
 
         String minusculas = "abcdefghijklmnopqrstuvwxyz";

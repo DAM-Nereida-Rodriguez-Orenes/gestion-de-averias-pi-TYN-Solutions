@@ -52,7 +52,7 @@ public class LoginControlador {
             System.out.println("No tienes permisos de adminitrador");
             return;
         } 
-         String passwordActualizada = usuarioDao.actualizarPassword(emailSolicitud);
+         String passwordActualizada = usuarioDao.actualizarPassword(emailSolicitud, null);
          if(passwordActualizada != null && !passwordActualizada.isEmpty()){
              System.out.println("Contrasena actualizada");
          }else{

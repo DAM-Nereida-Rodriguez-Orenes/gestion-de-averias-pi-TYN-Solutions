@@ -26,7 +26,7 @@ public interface UsuarioDao {
 
     Usuario buscarPorCredenciales(String email, String password);
 
-    String actualizarPassword(String email);
+    String actualizarPassword(String email, String nuevaPassword);
 
     List<Usuario> buscarPorTexto(String texto);
 }

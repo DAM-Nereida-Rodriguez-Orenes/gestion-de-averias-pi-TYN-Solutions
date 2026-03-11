@@ -368,11 +368,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
      * @return
      */
     @Override
-    public String actualizarPassword(String email) {
+    public String actualizarPassword(String email, String nuevaPassword) {
 
         final String sql = "UPDATE usuario SET password = ? WHERE email = ?";
-
-        String nuevaPassword = generarContrasena(8);
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 

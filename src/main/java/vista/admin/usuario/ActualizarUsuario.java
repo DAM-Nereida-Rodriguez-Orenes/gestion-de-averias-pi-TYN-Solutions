@@ -221,6 +221,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         btnCancelar = new javax.swing.JButton();
         tgbtnReactivar = new javax.swing.JToggleButton();
         estadoUsuario = new javax.swing.JLabel();
+        btnGenerarPassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar usuario");
@@ -289,6 +290,17 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         estadoUsuario.setForeground(new java.awt.Color(0, 102, 204));
         estadoUsuario.setText("Activo - dado de alta");
 
+        btnGenerarPassword.setBackground(new java.awt.Color(237, 243, 251));
+        btnGenerarPassword.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        btnGenerarPassword.setForeground(new java.awt.Color(67, 113, 177));
+        btnGenerarPassword.setText("Generar Contraseña");
+        btnGenerarPassword.setBorderPainted(false);
+        btnGenerarPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -304,13 +316,9 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                 .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(109, 109, 109)
-                .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(110, 110, 110)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -330,7 +338,11 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                                 .addGap(23, 23, 23)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tgbtnReactivar)))))
+                            .addComponent(tgbtnReactivar)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(pwdPassword)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGenerarPassword))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,26 +357,30 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                     .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(34, 34, 34)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Jlabel5)
-                    .addComponent(tgbtnReactivar)
-                    .addComponent(estadoUsuario))
-                .addGap(18, 66, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenerarPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Jlabel5)
+                            .addComponent(tgbtnReactivar)
+                            .addComponent(estadoUsuario))
+                        .addGap(18, 66, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, 500));
@@ -386,7 +402,11 @@ public class ActualizarUsuario extends javax.swing.JDialog {
     private void btnActualizarDatosUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosUsuarioActionPerformed
         String nombre = txtNombre.getText().trim();
         String apellido = txtApellidos.getText().trim();
+        //obtenemso el valor del cbbox
+        int selectPrefijo = cbbPrefijosTelefonos.getSelectedIndex();
+        String prefijo = cbbPrefijosTelefonos.getItemAt(selectPrefijo);
         String telefono = txtTelefono.getText().trim();
+        telefono = prefijo + telefono;
         String email = txtEmail.getText().trim();
         // obtener password del JPasswordField
         char[] passwordArray = pwdPassword.getPassword();
@@ -469,10 +489,16 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tgbtnReactivarActionPerformed
 
+    private void btnGenerarPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPasswordActionPerformed
+        String nuevaPassword = gestionUsuarioControlador.generarPasswordAleatoria();
+        pwdPassword.setText(nuevaPassword);
+    }//GEN-LAST:event_btnGenerarPasswordActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Jlabel5;
     private javax.swing.JButton btnActualizarDatosUsuario;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGenerarPassword;
     private javax.swing.JComboBox<String> cbbPrefijosTelefonos;
     private javax.swing.JComboBox<String> cbbRol;
     private javax.swing.JLabel estadoUsuario;
