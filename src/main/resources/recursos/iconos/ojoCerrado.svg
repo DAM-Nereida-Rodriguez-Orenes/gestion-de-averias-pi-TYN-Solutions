@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <!-- Línea del ojo cerrado -->
+  <path d="M8 36 Q32 46 56 36"
+        stroke="#6aa6d6"
+        stroke-width="6"
+        fill="none"
+        stroke-linecap="round"/>
+
+  <!-- Pestaña izquierda -->
+  <line x1="20" y1="39" x2="16.5" y2="46.5"
+        stroke="#6aa6d6"
+        stroke-width="3"
+        stroke-linecap="round"/>
+
+  <!-- Pestaña central -->
+  <line x1="32" y1="40" x2="32" y2="49"
+        stroke="#6aa6d6"
+        stroke-width="3"
+        stroke-linecap="round"/>
+
+  <!-- Pestaña derecha -->
+  <line x1="44" y1="39" x2="47.5" y2="46.5"
+        stroke="#6aa6d6"
+        stroke-width="3"
+        stroke-linecap="round"/>
+
+</svg>

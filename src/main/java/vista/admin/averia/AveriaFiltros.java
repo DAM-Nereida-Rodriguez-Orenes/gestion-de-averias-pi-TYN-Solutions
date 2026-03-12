@@ -115,7 +115,7 @@ public class AveriaFiltros extends javax.swing.JDialog {
         txtAveriaId.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtAveriaId.putClientProperty("JTextField.placeholderText", "Código de avería: ");
         //Campo Maquina txtMaquinaBuscar
-        FlatSVGIcon iconoMaquina = new FlatSVGIcon("recursos/iconos/engranaje.svg", 16, 16);
+        FlatSVGIcon iconoMaquina = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
         txtMaquinaBuscar.putClientProperty("JTextField.leadingIcon", iconoMaquina);
         txtMaquinaBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtMaquinaBuscar.putClientProperty("JTextField.placeholderText", "Buscar máquina: ");

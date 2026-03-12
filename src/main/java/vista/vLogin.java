@@ -5,6 +5,7 @@
 package vista;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
 import java.awt.Image;
@@ -26,6 +27,8 @@ public class vLogin extends javax.swing.JFrame {
     private static final String PREF_NODE = "TYN_Solutions_Login";
     private static final String KEY_EMAIL = "email_recordado";
     private static final String KEY_RECORDAR = "recordar_usuario";
+    //Ver contraseña
+    private char echoCharOriginal;
 
     /**
      * Creates new form vLogin
@@ -37,9 +40,23 @@ public class vLogin extends javax.swing.JFrame {
         //Metodo para recordar el email del usuario 
         cargarUsuarioRecordado();
 
+        mostrarImagenes();
+
+        //Ver contraseña
+        echoCharOriginal = txtPassword.getEchoChar();
+    }
+
+    public void mostrarImagenes() {
+
+        // icno de la app
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
-        setLocationRelativeTo(null); // Centra el JFrame al centro de la pantalla 
+        this.setLocationRelativeTo(null);
+
+        // Icono inicial del boton ver password
+        FlatSVGIcon iconoOjoCerrado = new FlatSVGIcon("recursos/iconos/ojoCerrado.svg", 32, 32);
+        tgbtnVerPassword.setIcon(iconoOjoCerrado);
+        tgbtnVerPassword.setContentAreaFilled(false);
     }
 
     /**
@@ -107,6 +124,7 @@ public class vLogin extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         btnRecuperar = new javax.swing.JButton();
         chkRecordarUsuario = new javax.swing.JCheckBox();
+        tgbtnVerPassword = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fixora");
@@ -117,33 +135,27 @@ public class vLogin extends javax.swing.JFrame {
 
         formulario.setBackground(new java.awt.Color(255, 255, 255));
         formulario.setPreferredSize(new java.awt.Dimension(400, 400));
-        formulario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Bienvenido ");
-        formulario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
-        formulario.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 310, -1));
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 14)); // NOI18N
         jLabel1.setText("Email: ");
-        formulario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 60, -1));
-        formulario.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 310, -1));
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         jLabel2.setText("Contraseña: ");
-        formulario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 120, -1));
 
         btnLogin.setBackground(new java.awt.Color(58, 181, 235));
         btnLogin.setFont(new java.awt.Font("Microsoft JhengHei", 1, 18)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Entrar");
+        btnLogin.setBorderPainted(false);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
-        formulario.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 90, -1));
 
         btnRecuperar.setBackground(new java.awt.Color(199, 234, 249));
         btnRecuperar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 12)); // NOI18N
@@ -156,12 +168,74 @@ public class vLogin extends javax.swing.JFrame {
                 btnRecuperarActionPerformed(evt);
             }
         });
-        formulario.add(btnRecuperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, -1));
 
         chkRecordarUsuario.setText("Recordar usuario ");
-        formulario.add(chkRecordarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, -1));
 
-        jPanel1.add(formulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 610, 250));
+        tgbtnVerPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbtnVerPasswordActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout formularioLayout = new javax.swing.GroupLayout(formulario);
+        formulario.setLayout(formularioLayout);
+        formularioLayout.setHorizontalGroup(
+            formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formularioLayout.createSequentialGroup()
+                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(formularioLayout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(jLabel3))
+                    .addGroup(formularioLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(formularioLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(formularioLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(chkRecordarUsuario)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(formularioLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(txtEmail))
+                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(formularioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(tgbtnVerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addComponent(btnRecuperar)
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formularioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70))))
+        );
+        formularioLayout.setVerticalGroup(
+            formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formularioLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel3)
+                .addGap(7, 7, 7)
+                .addComponent(jLabel1)
+                .addGap(8, 8, 8)
+                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(10, 10, 10)
+                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRecuperar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tgbtnVerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addComponent(chkRecordarUsuario))
+        );
+
+        jPanel1.add(formulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 610, 260));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -262,6 +336,21 @@ public class vLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnRecuperarActionPerformed
 
+    private void tgbtnVerPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnVerPasswordActionPerformed
+
+        if (tgbtnVerPassword.isSelected()) {
+            txtPassword.setEchoChar((char) 0);
+            FlatSVGIcon iconoOjoAbierto = new FlatSVGIcon("recursos/iconos/ojoAbierto.svg", 32, 32);
+            tgbtnVerPassword.setIcon(iconoOjoAbierto);
+            tgbtnVerPassword.setContentAreaFilled(false);
+
+        } else {
+            txtPassword.setEchoChar(echoCharOriginal);
+            FlatSVGIcon iconoOjoCerrado = new FlatSVGIcon("recursos/iconos/ojoCerrado.svg", 32, 32);
+            tgbtnVerPassword.setIcon(iconoOjoCerrado);
+        }
+    }//GEN-LAST:event_tgbtnVerPasswordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -275,6 +364,7 @@ public class vLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JToggleButton tgbtnVerPassword;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables

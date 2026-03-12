@@ -23,7 +23,9 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import modelo.Averia;
 import vista.PanelImgFondo;
+import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.maquinas.GestionTipoMaquina;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
@@ -35,7 +37,7 @@ import vista.vHomeAdmin;
  * @author yosue
  */
 public class AveriaListar extends javax.swing.JFrame {
-
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AveriaListar.class.getName());
 
     // --- Controladores y Modelos ---
@@ -51,11 +53,11 @@ public class AveriaListar extends javax.swing.JFrame {
      */
     public AveriaListar() {
         controladorAveria = new AveriaControlador();
-
+        
         setTitle("Mi JFrame Centrado");
         setSize(1200, 800); // Darle un tamaño es obligatorio antes de centrar
         setLocationRelativeTo(null);
-
+        
         initComponents();
 
         // Configuraciones iniciales
@@ -64,7 +66,7 @@ public class AveriaListar extends javax.swing.JFrame {
         configurarBuscador();
         mostrarImagenes();
     }
-
+    
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame/Layout
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -75,10 +77,10 @@ public class AveriaListar extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         // Evitar que el usuario cambie el tamaño
         this.setResizable(false);
-
+        
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
-
+        
         FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
@@ -86,11 +88,11 @@ public class AveriaListar extends javax.swing.JFrame {
 
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
-        jLabel3.setIcon(iconUsuarioAdmin);
-        jLabel3.setText("Hola, Admin");
-        jLabel3.setHorizontalTextPosition(SwingConstants.LEFT);
-        jLabel3.setVerticalTextPosition(SwingConstants.CENTER);
-        jLabel3.setIconTextGap(8);
+        jlSaldoIcono.setIcon(iconUsuarioAdmin);
+        jlSaldoIcono.setText("Hola, Admin");
+        jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
+        jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
+        jlSaldoIcono.setIconTextGap(8);
     }
 
     // =========================================================================
@@ -110,7 +112,7 @@ public class AveriaListar extends javax.swing.JFrame {
                 return false;
             }
         };
-
+        
         tablaAveria.setModel(modeloTabla);
         sorter = new TableRowSorter<>(modeloTabla);
         tablaAveria.setRowSorter(sorter);
@@ -119,7 +121,6 @@ public class AveriaListar extends javax.swing.JFrame {
         //javax.swing.table.TableColumnModel columnModel = tablaAveria.getColumnModel();
         //columnModel.getColumn(0).setPreferredWidth(40);
         //columnModel.getColumn(0).setMaxWidth(60);
-
         //Ajustes al diseño de la tabla 
         tablaAveria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
         tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente 
@@ -158,19 +159,19 @@ public class AveriaListar extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 filtrar();
             }
-
+            
             @Override
             public void removeUpdate(DocumentEvent e) {
                 filtrar();
             }
-
+            
             @Override
             public void changedUpdate(DocumentEvent e) {
                 filtrar();
             }
         });
     }
-
+    
     private void filtrar() {
         String texto = txtAveriaBuscar.getText();
         if (texto.trim().isEmpty()) {
@@ -192,7 +193,7 @@ public class AveriaListar extends javax.swing.JFrame {
         jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
         jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
         jlLogo = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jlSaldoIcono = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnAveriaNueva = new javax.swing.JButton();
         tgbtnFiltros = new javax.swing.JToggleButton();
@@ -224,9 +225,9 @@ public class AveriaListar extends javax.swing.JFrame {
 
         jlLogo.setText("jLabel2");
 
-        jLabel3.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(67, 113, 177));
-        jLabel3.setText("Hola, Admin");
+        jlSaldoIcono.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jlSaldoIcono.setForeground(new java.awt.Color(67, 113, 177));
+        jlSaldoIcono.setText("Hola, Admin");
 
         javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
         jpCabecera.setLayout(jpCabeceraLayout);
@@ -236,7 +237,7 @@ public class AveriaListar extends javax.swing.JFrame {
                 .addGap(56, 56, 56)
                 .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(jlSaldoIcono)
                 .addGap(86, 86, 86))
         );
         jpCabeceraLayout.setVerticalGroup(
@@ -245,7 +246,7 @@ public class AveriaListar extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlLogo)
-                    .addComponent(jLabel3))
+                    .addComponent(jlSaldoIcono))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -416,6 +417,11 @@ public class AveriaListar extends javax.swing.JFrame {
         miGestion.add(miTipoMaquinaria);
 
         miEstadoMaquinaria.setText("Estado de maquinaria");
+        miEstadoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEstadoMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
@@ -471,7 +477,7 @@ public class AveriaListar extends javax.swing.JFrame {
         try {
             // 1. Obtener la fila seleccionada (getSelectedRow coge la primera si hay varias)
             int filaVista = tablaAveria.getSelectedRow();
-
+            
             if (filaVista == -1) {
                 JOptionPane.showMessageDialog(this,
                         "Por favor, selecciona una avería de la tabla para actualizar.",
@@ -485,13 +491,13 @@ public class AveriaListar extends javax.swing.JFrame {
 
             // 3. Buscar la avería en la BD
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
-
+            
             if (averiaSeleccionada != null) {
-                AveriaActualizar ventanaActualizar = new AveriaActualizar(this, true, averiaSeleccionada);
+                AveriaActualizar2 ventanaActualizar = new AveriaActualizar2(this, true, averiaSeleccionada);
                 ventanaActualizar.setLocationRelativeTo(this);
                 ventanaActualizar.setVisible(true); // Se pausa aquí
                 ventanaActualizar.setSize(1000, 600);
-
+                
                 cargarDatos(); // Refrescar al volver
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -591,7 +597,9 @@ public class AveriaListar extends javax.swing.JFrame {
     }//GEN-LAST:event_miMaquinariaActionPerformed
 
     private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
-        // TODO add your handling code here:
+        GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
+        gestionTipoMaquina.setLocationRelativeTo(null);
+        gestionTipoMaquina.setVisible(true);
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
@@ -615,7 +623,7 @@ public class AveriaListar extends javax.swing.JFrame {
 
     private void txtAveriaBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAveriaBuscarFocusGained
         String texto = txtAveriaBuscar.getText().trim();
-
+        
         if (texto.equalsIgnoreCase("Buscar descripción")) {
             txtAveriaBuscar.setText("");
         }
@@ -623,17 +631,23 @@ public class AveriaListar extends javax.swing.JFrame {
 
     private void txtAveriaBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAveriaBuscarFocusLost
         String texto = txtAveriaBuscar.getText().trim();
-
+        
         if (texto.isEmpty()) {
             txtAveriaBuscar.setText("Buscar descripción");
         }
     }//GEN-LAST:event_txtAveriaBuscarFocusLost
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
-       TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
+        TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
         tipoAveria.setLocationRelativeTo(null);
         tipoAveria.setVisible(true);
     }//GEN-LAST:event_miTipoAveriaActionPerformed
+
+    private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
+        GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
+        gestionEstadoMaquina.setLocationRelativeTo(null);
+        gestionEstadoMaquina.setVisible(true);
+    }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
@@ -663,12 +677,12 @@ public class AveriaListar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;
     private javax.swing.JButton btnAveriaNueva;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlLogo;
+    private javax.swing.JLabel jlSaldoIcono;
     private javax.swing.JPanel jpCabecera;
     private javax.swing.JMenuItem miAveria;
     private javax.swing.JMenuItem miCerrarSesion;

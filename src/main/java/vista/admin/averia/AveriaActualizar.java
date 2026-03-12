@@ -80,7 +80,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
         //ICONOS JtextField
         //cbb Tipo de avería 
         FlatSVGIcon iconoTipoAveria = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 16, 16);
-        cbAveriaTipo.setRenderer(new DefaultListCellRenderer() {
+        cbAveriaTipo2.setRenderer(new DefaultListCellRenderer() {
             public Component getListCellRendererComponent(
                     JList<?> lista,
                     Object valor,
@@ -108,69 +108,69 @@ public class AveriaActualizar extends javax.swing.JDialog {
         });
         //campo de ID txtAveriaId
         FlatSVGIcon iconoIdAveria = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
-        txtAveriaId.putClientProperty("JTextField.leadingIcon", iconoIdAveria);
-        txtAveriaId.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtAveriaId.putClientProperty("JTextField.placeholderText", "Código de avería: ");
+        txtAveriaId2.putClientProperty("JTextField.leadingIcon", iconoIdAveria);
+        txtAveriaId2.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtAveriaId2.putClientProperty("JTextField.placeholderText", "Código de avería: ");
         //Campo Maquina txtMaquinaBuscar
         FlatSVGIcon iconoMaquina = new FlatSVGIcon("recursos/iconos/engranaje.svg", 16, 16);
-        txtMaquinaBuscar.putClientProperty("JTextField.leadingIcon", iconoMaquina);
-        txtMaquinaBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtMaquinaBuscar.putClientProperty("JTextField.placeholderText", "Buscar máquina: ");
+        txtMaquinaBuscar2.putClientProperty("JTextField.leadingIcon", iconoMaquina);
+        txtMaquinaBuscar2.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtMaquinaBuscar2.putClientProperty("JTextField.placeholderText", "Buscar máquina: ");
         //Campo usuario que informa txtUsuarioBuscar
         FlatSVGIcon iconoUsuarioReporta = new FlatSVGIcon("recursos/iconos/icnUsuario.svg", 15, 15);
-        txtUsuarioBuscar.putClientProperty("JTextField.leadingIcon", iconoUsuarioReporta);
-        txtUsuarioBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtUsuarioBuscar.putClientProperty("JTextField.placeholderText", "Buscar usuario que informa: ");
+        txtUsuarioBuscar2.putClientProperty("JTextField.leadingIcon", iconoUsuarioReporta);
+        txtUsuarioBuscar2.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtUsuarioBuscar2.putClientProperty("JTextField.placeholderText", "Buscar usuario que informa: ");
         //Campo usuario que informa txtUsuarioBuscar
         FlatSVGIcon iconoUsuariotecnico = new FlatSVGIcon("recursos/iconos/icnUsuario.svg", 15, 15);
-        txtTecnicoBuscar.putClientProperty("JTextField.leadingIcon", iconoUsuariotecnico);
-        txtTecnicoBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtTecnicoBuscar.putClientProperty("JTextField.placeholderText", "Buscar técnico asingado (opcional): ");
+        txtTecnicoBuscar2.putClientProperty("JTextField.leadingIcon", iconoUsuariotecnico);
+        txtTecnicoBuscar2.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtTecnicoBuscar2.putClientProperty("JTextField.placeholderText", "Buscar técnico asingado (opcional): ");
 
         //PlaceHolder textArea
         //txtDescripcion
-        txtDescripcion.setText("Descripcion de la averia");
-        txtDescripcion.setForeground(Color.GRAY);
-        txtDescripcion.setMargin(new Insets(5, 8, 5, 8));
-        txtDescripcion.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtDescripcion2.setText("Descripcion de la averia");
+        txtDescripcion2.setForeground(Color.GRAY);
+        txtDescripcion2.setMargin(new Insets(5, 8, 5, 8));
+        txtDescripcion2.addFocusListener(new java.awt.event.FocusAdapter() {
 
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtDescripcion.getText().equals("Descripcion de la averia")) {
-                    txtDescripcion.setText("");
-                    txtDescripcion.setForeground(Color.BLACK);
+                if (txtDescripcion2.getText().equals("Descripcion de la averia")) {
+                    txtDescripcion2.setText("");
+                    txtDescripcion2.setForeground(Color.BLACK);
                 }
             }
 
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (txtDescripcion.getText().trim().isEmpty()) {
-                    txtDescripcion.setText("Descripcion de la averia");
-                    txtDescripcion.setForeground(Color.GRAY);
+                if (txtDescripcion2.getText().trim().isEmpty()) {
+                    txtDescripcion2.setText("Descripcion de la averia");
+                    txtDescripcion2.setForeground(Color.GRAY);
                 }
             }
 
         });
 
         //txtProcRealizado
-        txtProcRealizado.setText("Descripcion del procedimiento");
-        txtProcRealizado.setForeground(Color.GRAY);
-        txtProcRealizado.setMargin(new Insets(5, 8, 5, 8));
-        txtProcRealizado.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtProcRealizado2.setText("Descripcion del procedimiento");
+        txtProcRealizado2.setForeground(Color.GRAY);
+        txtProcRealizado2.setMargin(new Insets(5, 8, 5, 8));
+        txtProcRealizado2.addFocusListener(new java.awt.event.FocusAdapter() {
 
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtProcRealizado.getText().equals("Descripcion del procedimiento")) {
-                    txtProcRealizado.setText("");
-                    txtProcRealizado.setForeground(Color.BLACK);
+                if (txtProcRealizado2.getText().equals("Descripcion del procedimiento")) {
+                    txtProcRealizado2.setText("");
+                    txtProcRealizado2.setForeground(Color.BLACK);
                 }
             }
 
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                if (txtProcRealizado.getText().trim().isEmpty()) {
-                    txtProcRealizado.setText("Descripcion del procedimiento realizado");
-                    txtProcRealizado.setForeground(Color.GRAY);
+                if (txtProcRealizado2.getText().trim().isEmpty()) {
+                    txtProcRealizado2.setText("Descripcion del procedimiento realizado");
+                    txtProcRealizado2.setForeground(Color.GRAY);
                 }
             }
 
@@ -183,16 +183,16 @@ public class AveriaActualizar extends javax.swing.JDialog {
     // =========================================================================
     private void configurarListas() {
         modelMaquinas = new DefaultListModel<>();
-        listaMaquinas.setModel(modelMaquinas);
+        listaMaquinas2.setModel(modelMaquinas);
 
         modelUsuarios = new DefaultListModel<>();
-        listaUsuarios.setModel(modelUsuarios);
+        listaUsuarios2.setModel(modelUsuarios);
 
         modelTecnicos = new DefaultListModel<>();
-        listaTecnicos.setModel(modelTecnicos);
+        listaTecnicos2.setModel(modelTecnicos);
 
         modelTipos = new DefaultComboBoxModel<>();
-        cbAveriaTipo.setModel(modelTipos);
+        cbAveriaTipo2.setModel(modelTipos);
     }
 
     private void cargarDatos() {
@@ -249,30 +249,30 @@ public class AveriaActualizar extends javax.swing.JDialog {
             }
         };
 
-        txtMaquinaBuscar.getDocument().addDocumentListener(listenerUnificado);
-        txtUsuarioBuscar.getDocument().addDocumentListener(listenerUnificado);
-        txtTecnicoBuscar.getDocument().addDocumentListener(listenerUnificado);
+        txtMaquinaBuscar2.getDocument().addDocumentListener(listenerUnificado);
+        txtUsuarioBuscar2.getDocument().addDocumentListener(listenerUnificado);
+        txtTecnicoBuscar2.getDocument().addDocumentListener(listenerUnificado);
 
         // Aplicar el primer filtro para limpiar las vistas si fuera necesario
         aplicarFiltros();
     }
 
     private void aplicarFiltros() {
-        String textoMaq = txtMaquinaBuscar.getText();
+        String textoMaq = txtMaquinaBuscar2.getText();
         List<Maquinaria> maqFiltrada = controlador.filtrarMaquinas(todasLasMaquinas, textoMaq);
         modelMaquinas.clear();
         if (maqFiltrada != null) {
             modelMaquinas.addAll(maqFiltrada);
         }
 
-        String textoUsu = txtUsuarioBuscar.getText();
+        String textoUsu = txtUsuarioBuscar2.getText();
         List<Usuario> usuFiltrados = controlador.filtrarUsuarios(todosLosUsuarios, textoUsu);
         modelUsuarios.clear();
         if (usuFiltrados != null) {
             modelUsuarios.addAll(usuFiltrados);
         }
 
-        String textoTec = txtTecnicoBuscar.getText();
+        String textoTec = txtTecnicoBuscar2.getText();
         List<Usuario> tecFiltrados = controlador.filtrarUsuarios(todosLosTecnicos, textoTec);
         modelTecnicos.clear();
         if (tecFiltrados != null) {
@@ -284,9 +284,9 @@ public class AveriaActualizar extends javax.swing.JDialog {
     // 3. PREPARACIÓN DE LA EDICIÓN (Rellenar Formulario)
     // =========================================================================
     private void configurarEventosCheckBoxes() {
-        cbFechaAsig.addActionListener(e -> spFechaAsig.setEnabled(cbFechaAsig.isSelected()));
-        cbFechaAcep.addActionListener(e -> spFechaAcep.setEnabled(cbFechaAcep.isSelected()));
-        cbFechaFinal.addActionListener(e -> spFechaFinal.setEnabled(cbFechaFinal.isSelected()));
+        cbFechaAsig2.addActionListener(e -> spFechaAsig2.setEnabled(cbFechaAsig2.isSelected()));
+        cbFechaAcep2.addActionListener(e -> spFechaAcep2.setEnabled(cbFechaAcep2.isSelected()));
+        cbFechaFinal2.addActionListener(e -> spFechaFinal2.setEnabled(cbFechaFinal2.isSelected()));
     }
 
     private void prepararModoEdicion() {
@@ -296,15 +296,15 @@ public class AveriaActualizar extends javax.swing.JDialog {
 
         try {
             // Textos
-            txtAveriaId.setText(String.valueOf(averiaSeleccionada.getCodigoAveria()));
-            txtDescripcion.setText(averiaSeleccionada.getDescInicAveria());
-            txtProcRealizado.setText(averiaSeleccionada.getProcRealizadoTecnico());
+            txtAveriaId2.setText(String.valueOf(averiaSeleccionada.getCodigoAveria()));
+            txtDescripcion2.setText(averiaSeleccionada.getDescInicAveria());
+            txtProcRealizado2.setText(averiaSeleccionada.getProcRealizadoTecnico());
 
             // Seleccionar Máquina y hacer auto-scroll
             for (int i = 0; i < modelMaquinas.getSize(); i++) {
                 if (modelMaquinas.getElementAt(i).getCodigoMaquinaria() == averiaSeleccionada.getMaquinariaFK()) {
-                    listaMaquinas.setSelectedIndex(i);
-                    listaMaquinas.ensureIndexIsVisible(i);
+                    listaMaquinas2.setSelectedIndex(i);
+                    listaMaquinas2.ensureIndexIsVisible(i);
                     break;
                 }
             }
@@ -312,8 +312,8 @@ public class AveriaActualizar extends javax.swing.JDialog {
             // Seleccionar Usuario que reporta
             for (int i = 0; i < modelUsuarios.getSize(); i++) {
                 if (modelUsuarios.getElementAt(i).getCodigoUsuario() == averiaSeleccionada.getUsuarioReportaFK()) {
-                    listaUsuarios.setSelectedIndex(i);
-                    listaUsuarios.ensureIndexIsVisible(i);
+                    listaUsuarios2.setSelectedIndex(i);
+                    listaUsuarios2.ensureIndexIsVisible(i);
                     break;
                 }
             }
@@ -322,8 +322,8 @@ public class AveriaActualizar extends javax.swing.JDialog {
             if (averiaSeleccionada.getUsuarioTecnicoFK() != null && averiaSeleccionada.getUsuarioTecnicoFK() > 0) {
                 for (int i = 0; i < modelTecnicos.getSize(); i++) {
                     if (modelTecnicos.getElementAt(i).getCodigoUsuario() == averiaSeleccionada.getUsuarioTecnicoFK()) {
-                        listaTecnicos.setSelectedIndex(i);
-                        listaTecnicos.ensureIndexIsVisible(i);
+                        listaTecnicos2.setSelectedIndex(i);
+                        listaTecnicos2.ensureIndexIsVisible(i);
                         break;
                     }
                 }
@@ -332,46 +332,46 @@ public class AveriaActualizar extends javax.swing.JDialog {
             // Seleccionar Tipo
             for (int i = 0; i < modelTipos.getSize(); i++) {
                 if (modelTipos.getElementAt(i).getCodigoTipoAveria() == averiaSeleccionada.getTipoAveriaFK()) {
-                    cbAveriaTipo.setSelectedIndex(i);
+                    cbAveriaTipo2.setSelectedIndex(i);
                     break;
                 }
             }
 
             // Fechas y CheckBoxes
             if (averiaSeleccionada.getFechaInicioAver() != null) {
-                spFechaReporte.setValue(convertirALocalDate(averiaSeleccionada.getFechaInicioAver()));
+                spFechaReporte2.setValue(convertirALocalDate(averiaSeleccionada.getFechaInicioAver()));
             }
 
             if (averiaSeleccionada.getFechaAsigTecnico() != null) {
-                cbFechaAsig.setSelected(true);
-                spFechaAsig.setEnabled(true);
-                spFechaAsig.setValue(convertirALocalDate(averiaSeleccionada.getFechaAsigTecnico()));
+                cbFechaAsig2.setSelected(true);
+                spFechaAsig2.setEnabled(true);
+                spFechaAsig2.setValue(convertirALocalDate(averiaSeleccionada.getFechaAsigTecnico()));
             }
 
             if (averiaSeleccionada.getFechaAcepTecnico() != null) {
-                cbFechaAcep.setSelected(true);
-                spFechaAcep.setEnabled(true);
-                spFechaAcep.setValue(convertirALocalDate(averiaSeleccionada.getFechaAcepTecnico()));
+                cbFechaAcep2.setSelected(true);
+                spFechaAcep2.setEnabled(true);
+                spFechaAcep2.setValue(convertirALocalDate(averiaSeleccionada.getFechaAcepTecnico()));
             }
 
             if (averiaSeleccionada.getFechaFinalizTecnico() != null) {
-                cbFechaFinal.setSelected(true);
-                spFechaFinal.setEnabled(true);
-                spFechaFinal.setValue(convertirALocalDate(averiaSeleccionada.getFechaFinalizTecnico()));
+                cbFechaFinal2.setSelected(true);
+                spFechaFinal2.setEnabled(true);
+                spFechaFinal2.setValue(convertirALocalDate(averiaSeleccionada.getFechaFinalizTecnico()));
             }
 
             // BLOQUEAR FKs SI EL TÉCNICO YA HA ACEPTADO ---
             if (averiaSeleccionada.getFechaAcepTecnico() != null) {
                 // Deshabilitamos las listas y el ComboBox para que no se puedan cambiar
-                listaMaquinas.setEnabled(false);
-                listaUsuarios.setEnabled(false);
-                listaTecnicos.setEnabled(false);
-                cbAveriaTipo.setEnabled(false);
+                listaMaquinas2.setEnabled(false);
+                listaUsuarios2.setEnabled(false);
+                listaTecnicos2.setEnabled(false);
+                cbAveriaTipo2.setEnabled(false);
 
                 // Por buena experiencia de usuario, bloqueamos también sus buscadores
-                txtMaquinaBuscar.setEnabled(false);
-                txtUsuarioBuscar.setEnabled(false);
-                txtTecnicoBuscar.setEnabled(false);
+                txtMaquinaBuscar2.setEnabled(false);
+                txtUsuarioBuscar2.setEnabled(false);
+                txtTecnicoBuscar2.setEnabled(false);
             }
 
         } catch (Exception e) {
@@ -397,239 +397,232 @@ public class AveriaActualizar extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtAveriaId = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescripcion = new javax.swing.JTextArea();
-        cbAveriaTipo = new javax.swing.JComboBox<>();
-        txtMaquinaBuscar = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listaMaquinas = new javax.swing.JList<>();
-        txtUsuarioBuscar = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listaUsuarios = new javax.swing.JList<>();
-        txtTecnicoBuscar = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listaTecnicos = new javax.swing.JList<>();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        txtProcRealizado = new javax.swing.JTextArea();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        spFechaReporte = new javax.swing.JSpinner();
-        spFechaAsig = new javax.swing.JSpinner();
-        cbFechaAsig = new javax.swing.JCheckBox();
-        spFechaAcep = new javax.swing.JSpinner();
-        cbFechaAcep = new javax.swing.JCheckBox();
-        spFechaFinal = new javax.swing.JSpinner();
-        cbFechaFinal = new javax.swing.JCheckBox();
-        btnAveriaActualizar = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jPanel4 = new PanelImgFondo("/recursos/fondoFormularios.png");
+        jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtAveriaId2 = new javax.swing.JTextField();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        txtDescripcion2 = new javax.swing.JTextArea();
+        cbAveriaTipo2 = new javax.swing.JComboBox<>();
+        txtMaquinaBuscar2 = new javax.swing.JTextField();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        listaMaquinas2 = new javax.swing.JList<>();
+        txtUsuarioBuscar2 = new javax.swing.JTextField();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        listaUsuarios2 = new javax.swing.JList<>();
+        txtTecnicoBuscar2 = new javax.swing.JTextField();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        listaTecnicos2 = new javax.swing.JList<>();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        txtProcRealizado2 = new javax.swing.JTextArea();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        spFechaReporte2 = new javax.swing.JSpinner();
+        spFechaAsig2 = new javax.swing.JSpinner();
+        cbFechaAsig2 = new javax.swing.JCheckBox();
+        spFechaAcep2 = new javax.swing.JSpinner();
+        cbFechaAcep2 = new javax.swing.JCheckBox();
+        spFechaFinal2 = new javax.swing.JSpinner();
+        cbFechaFinal2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Actualizar Avería");
-        jLabel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        jLabel3.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Actualizar Avería");
+        jLabel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
-        txtAveriaId.setEditable(false);
-        txtAveriaId.setBackground(new java.awt.Color(237, 243, 251));
-        txtAveriaId.setEnabled(false);
+        txtAveriaId2.setEditable(false);
+        txtAveriaId2.setBackground(new java.awt.Color(237, 243, 251));
+        txtAveriaId2.setEnabled(false);
 
-        txtDescripcion.setColumns(20);
-        txtDescripcion.setRows(5);
-        jScrollPane1.setViewportView(txtDescripcion);
+        txtDescripcion2.setColumns(20);
+        txtDescripcion2.setRows(5);
+        jScrollPane12.setViewportView(txtDescripcion2);
 
-        cbAveriaTipo.setBackground(new java.awt.Color(237, 243, 251));
+        cbAveriaTipo2.setBackground(new java.awt.Color(237, 243, 251));
 
-        txtMaquinaBuscar.setBackground(new java.awt.Color(237, 243, 251));
+        txtMaquinaBuscar2.setBackground(new java.awt.Color(237, 243, 251));
 
-        jScrollPane3.setViewportView(listaMaquinas);
+        jScrollPane13.setViewportView(listaMaquinas2);
 
-        txtUsuarioBuscar.setBackground(new java.awt.Color(237, 243, 251));
+        txtUsuarioBuscar2.setBackground(new java.awt.Color(237, 243, 251));
 
-        jScrollPane4.setViewportView(listaUsuarios);
+        jScrollPane14.setViewportView(listaUsuarios2);
 
-        txtTecnicoBuscar.setBackground(new java.awt.Color(237, 243, 251));
+        txtTecnicoBuscar2.setBackground(new java.awt.Color(237, 243, 251));
 
-        jScrollPane2.setViewportView(listaTecnicos);
+        jScrollPane15.setViewportView(listaTecnicos2);
 
-        txtProcRealizado.setColumns(20);
-        txtProcRealizado.setRows(5);
-        jScrollPane5.setViewportView(txtProcRealizado);
+        txtProcRealizado2.setColumns(20);
+        txtProcRealizado2.setRows(5);
+        jScrollPane16.setViewportView(txtProcRealizado2);
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("Fecha de reporte:");
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel18.setText("Fecha de reporte:");
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel12.setText("Fecha de asignación:");
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel19.setText("Fecha de asignación:");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel13.setText("Fecha de aceptación:");
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel20.setText("Fecha de aceptación:");
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel14.setText("Fecha de resolución:");
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel21.setText("Fecha de resolución:");
 
-        spFechaReporte.setModel(new javax.swing.SpinnerDateModel());
+        spFechaReporte2.setModel(new javax.swing.SpinnerDateModel());
 
-        spFechaAsig.setModel(new javax.swing.SpinnerDateModel());
-        spFechaAsig.setEnabled(false);
+        spFechaAsig2.setModel(new javax.swing.SpinnerDateModel());
+        spFechaAsig2.setEnabled(false);
 
-        spFechaAcep.setModel(new javax.swing.SpinnerDateModel());
-        spFechaAcep.setEnabled(false);
+        spFechaAcep2.setModel(new javax.swing.SpinnerDateModel());
+        spFechaAcep2.setEnabled(false);
 
-        spFechaFinal.setModel(new javax.swing.SpinnerDateModel());
-        spFechaFinal.setEnabled(false);
+        spFechaFinal2.setModel(new javax.swing.SpinnerDateModel());
+        spFechaFinal2.setEnabled(false);
 
-        btnAveriaActualizar.setText("Actualizar Avería");
-        btnAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAveriaActualizarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane5)
-                    .addComponent(jScrollPane4)
-                    .addComponent(txtUsuarioBuscar)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtAveriaId, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane16)
+                    .addComponent(jScrollPane14)
+                    .addComponent(txtUsuarioBuscar2)
+                    .addComponent(jScrollPane12)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(txtAveriaId2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbAveriaTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(77, 77, 77)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                        .addComponent(txtMaquinaBuscar)
-                        .addComponent(txtTecnicoBuscar)
-                        .addComponent(jScrollPane2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                        .addComponent(txtMaquinaBuscar2)
+                        .addComponent(txtTecnicoBuscar2)
+                        .addComponent(jScrollPane15))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbFechaAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbFechaAsig2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spFechaAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(spFechaAsig2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(spFechaReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
+                        .addComponent(spFechaReporte2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbFechaAcep, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
+                                .addComponent(cbFechaAcep2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel21)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cbFechaFinal2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(spFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAveriaActualizar))
-                            .addComponent(spFechaAcep, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel10))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spFechaFinal2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spFechaAcep2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel18))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtAveriaId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtAveriaId2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbAveriaTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMaquinaBuscar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jScrollPane1))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane13)
+                    .addComponent(jScrollPane12))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUsuarioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTecnicoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtUsuarioBuscar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTecnicoBuscar2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(spFechaReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel18)
+                                    .addComponent(spFechaReporte2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel12)
-                                        .addComponent(cbFechaAsig))
-                                    .addComponent(spFechaAsig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel19)
+                                        .addComponent(cbFechaAsig2))
+                                    .addComponent(spFechaAsig2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel13)
-                                        .addComponent(cbFechaAcep))
-                                    .addComponent(spFechaAcep, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel20)
+                                        .addComponent(cbFechaAcep2))
+                                    .addComponent(spFechaAcep2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(spFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14)
-                                    .addComponent(btnAveriaActualizar)))
-                            .addComponent(cbFechaFinal, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(0, 16, Short.MAX_VALUE))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(spFechaFinal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel21)))
+                            .addComponent(cbFechaFinal2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(209, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(200, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
+
+        jScrollPane6.setViewportView(jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -643,21 +636,21 @@ public class AveriaActualizar extends javax.swing.JDialog {
     private void btnAveriaActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaActualizarActionPerformed
         try {
             int idAveria = averiaSeleccionada.getCodigoAveria();
-            String descripcion = txtDescripcion.getText();
-            String procedimiento = txtProcRealizado.getText();
+            String descripcion = txtDescripcion2.getText();
+            String procedimiento = txtProcRealizado2.getText();
 
-            Maquinaria maquinaSel = listaMaquinas.getSelectedValue();
-            Usuario usuarioRepSel = listaUsuarios.getSelectedValue();
-            Usuario tecnicoSel = listaTecnicos.getSelectedValue();
-            TipoAveria tipoSel = (TipoAveria) cbAveriaTipo.getSelectedItem();
+            Maquinaria maquinaSel = listaMaquinas2.getSelectedValue();
+            Usuario usuarioRepSel = listaUsuarios2.getSelectedValue();
+            Usuario tecnicoSel = listaTecnicos2.getSelectedValue();
+            TipoAveria tipoSel = (TipoAveria) cbAveriaTipo2.getSelectedItem();
 
             // La fecha de reporte siempre está activa
-            java.time.LocalDateTime fechaReporte = extraerFechaSpinner(spFechaReporte);
+            java.time.LocalDateTime fechaReporte = extraerFechaSpinner(spFechaReporte2);
 
             // Las otras 3 dependen del CheckBox
-            java.time.LocalDateTime fechaAsig = cbFechaAsig.isSelected() ? extraerFechaSpinner(spFechaAsig) : null;
-            java.time.LocalDateTime fechaAcep = cbFechaAcep.isSelected() ? extraerFechaSpinner(spFechaAcep) : null;
-            java.time.LocalDateTime fechaFinal = cbFechaFinal.isSelected() ? extraerFechaSpinner(spFechaFinal) : null;
+            java.time.LocalDateTime fechaAsig = cbFechaAsig2.isSelected() ? extraerFechaSpinner(spFechaAsig2) : null;
+            java.time.LocalDateTime fechaAcep = cbFechaAcep2.isSelected() ? extraerFechaSpinner(spFechaAcep2) : null;
+            java.time.LocalDateTime fechaFinal = cbFechaFinal2.isSelected() ? extraerFechaSpinner(spFechaFinal2) : null;
 
             boolean exito = controlador.actualizarAveria(
                     idAveria, descripcion, procedimiento,
@@ -685,35 +678,35 @@ public class AveriaActualizar extends javax.swing.JDialog {
     // =========================================================================
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAveriaActualizar;
-    private javax.swing.JComboBox<TipoAveria> cbAveriaTipo;
-    private javax.swing.JCheckBox cbFechaAcep;
-    private javax.swing.JCheckBox cbFechaAsig;
-    private javax.swing.JCheckBox cbFechaFinal;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JList<Maquinaria> listaMaquinas;
-    private javax.swing.JList<Usuario> listaTecnicos;
-    private javax.swing.JList<Usuario> listaUsuarios;
-    private javax.swing.JSpinner spFechaAcep;
-    private javax.swing.JSpinner spFechaAsig;
-    private javax.swing.JSpinner spFechaFinal;
-    private javax.swing.JSpinner spFechaReporte;
-    private javax.swing.JTextField txtAveriaId;
-    private javax.swing.JTextArea txtDescripcion;
-    private javax.swing.JTextField txtMaquinaBuscar;
-    private javax.swing.JTextArea txtProcRealizado;
-    private javax.swing.JTextField txtTecnicoBuscar;
-    private javax.swing.JTextField txtUsuarioBuscar;
+    private javax.swing.JComboBox<TipoAveria> cbAveriaTipo2;
+    private javax.swing.JCheckBox cbFechaAcep2;
+    private javax.swing.JCheckBox cbFechaAsig2;
+    private javax.swing.JCheckBox cbFechaFinal2;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JList<Maquinaria> listaMaquinas2;
+    private javax.swing.JList<Usuario> listaTecnicos2;
+    private javax.swing.JList<Usuario> listaUsuarios2;
+    private javax.swing.JSpinner spFechaAcep2;
+    private javax.swing.JSpinner spFechaAsig2;
+    private javax.swing.JSpinner spFechaFinal2;
+    private javax.swing.JSpinner spFechaReporte2;
+    private javax.swing.JTextField txtAveriaId2;
+    private javax.swing.JTextArea txtDescripcion2;
+    private javax.swing.JTextField txtMaquinaBuscar2;
+    private javax.swing.JTextArea txtProcRealizado2;
+    private javax.swing.JTextField txtTecnicoBuscar2;
+    private javax.swing.JTextField txtUsuarioBuscar2;
     // End of variables declaration//GEN-END:variables
 }

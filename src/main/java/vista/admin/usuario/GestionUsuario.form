@@ -151,11 +151,11 @@
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Component id="btnEliminarUsuario" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane1" alignment="0" min="-2" pref="1050" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Component id="jScrollPane1" min="-2" pref="1050" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
                                   <Component id="txtBarraBusqueda" min="-2" pref="300" max="-2" attributes="0"/>
                                   <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                                   <Component id="cbbRol" min="-2" pref="120" max="-2" attributes="0"/>

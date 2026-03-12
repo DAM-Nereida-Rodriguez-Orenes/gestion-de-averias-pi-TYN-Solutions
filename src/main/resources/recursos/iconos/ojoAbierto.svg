@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <!-- Forma del ojo simétrica -->
+  <path d="
+    M4 32
+    Q16 16 32 16
+    Q48 16 60 32
+    Q48 48 32 48
+    Q16 48 4 32
+    Z"
+    fill="#6aa6d6"/>
+
+  <!-- Iris -->
+  <circle cx="32" cy="32" r="12" fill="white"/>
+
+  <!-- Pupila -->
+  <circle cx="32" cy="32" r="7" fill="#6aa6d6"/>
+
+  <!-- Pestaña central -->
+  <rect x="30.5" y="6" width="3" height="10" rx="1.5" fill="#6aa6d6"/>
+
+  <!-- Pestaña izquierda -->
+  <rect x="16" y="9" width="3" height="8" rx="1.5"
+        transform="rotate(-35 17.5 13)"
+        fill="#6aa6d6"/>
+
+  <!-- Pestaña derecha -->
+  <rect x="45" y="9" width="3" height="8" rx="1.5"
+        transform="rotate(35 46.5 13)"
+        fill="#6aa6d6"/>
+
+</svg>
