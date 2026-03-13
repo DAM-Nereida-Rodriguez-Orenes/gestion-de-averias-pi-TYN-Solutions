@@ -133,11 +133,6 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel1">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="d9" green="d0" red="cc" type="rgb"/>
-        </Property>
-      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PanelImgFondo(&quot;/recursos/fondoFormularios.png&quot;)"/>
       </AuxValues>
@@ -146,61 +141,53 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jpCabecera" alignment="0" pref="1200" max="32767" attributes="0"/>
-              <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="623" max="-2" attributes="0"/>
-                          <Component id="jLabel7" min="-2" pref="80" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="chbxHFechaBaja" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="spFechaBaja" min="-2" pref="150" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="125" max="-2" attributes="0"/>
-                          <Component id="btnFiltrar" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="1200" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="92" pref="92" max="-2" attributes="0"/>
+                          <Component id="jLabel6" min="-2" pref="105" max="-2" attributes="0"/>
+                          <EmptySpace min="113" pref="113" max="-2" attributes="0"/>
+                          <Component id="jLabel7" min="-2" pref="110" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
+                          <EmptySpace min="101" pref="101" max="-2" attributes="0"/>
+                          <Component id="chbxHFechaAlta" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                          <Component id="spFechaAlta" min="-2" pref="150" max="-2" attributes="0"/>
+                          <EmptySpace min="45" pref="45" max="-2" attributes="0"/>
+                          <Component id="chbxHFechaBaja" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                          <Component id="spFechaBaja" min="-2" pref="150" max="-2" attributes="0"/>
+                          <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                          <Component id="cbbStatus" min="-2" pref="200" max="-2" attributes="0"/>
+                          <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
+                          <Component id="btnFiltrar" min="-2" pref="122" max="-2" attributes="0"/>
+                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                          <Component id="btnLimpiar" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jScrollPane1" alignment="0" min="-2" pref="1050" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="txtID" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                  <Component id="txtNameFilter" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                  <Component id="cbbTipo" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="240" max="-2" attributes="0"/>
+                                  <Component id="btnNuevaMaquina" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jScrollPane1" min="-2" pref="1050" max="-2" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="btnLimpiar" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="274" max="-2" attributes="0"/>
                                   <Component id="btnActualizar" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnEliminar" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                                          <Component id="chbxHFechaAlta" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="spFechaAlta" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="cbbTipo" min="-2" pref="200" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="cbbStatus" min="-2" pref="200" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="txtID" min="-2" pref="200" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="txtNameFilter" min="-2" pref="200" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="384" max="-2" attributes="0"/>
-                          <Component id="btnNuevaMaquina" min="-2" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <EmptySpace pref="80" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -208,41 +195,43 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Component id="jpCabecera" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="cbbTipo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="cbbStatus" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="txtID" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="txtNameFilter" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="txtID" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="txtNameFilter" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="cbbTipo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnNuevaMaquina" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="spFechaAlta" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="spFechaBaja" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="cbbStatus" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btnFiltrar" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btnLimpiar" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="chbxHFechaAlta" min="-2" max="-2" attributes="0"/>
+                              <Component id="chbxHFechaBaja" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="chbxHFechaAlta" min="-2" max="-2" attributes="0"/>
-                      <Component id="spFechaAlta" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="chbxHFechaBaja" min="-2" max="-2" attributes="0"/>
-                      <Component id="spFechaBaja" min="-2" pref="30" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                  <Component id="btnFiltrar" min="-2" pref="30" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                  <Component id="btnNuevaMaquina" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="186" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="408" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -267,7 +256,13 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fb" green="f3" red="ed" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="id"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                <MatteColorBorder>
+                  <Color PropertyName="color" blue="fb" green="f2" red="ea" type="rgb"/>
+                </MatteColorBorder>
+              </Border>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbbTipo">
@@ -356,7 +351,17 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnActualizar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="fb" green="f2" red="ea" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft JhengHei" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="b1" green="71" red="43" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Actualizar"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarActionPerformed"/>
@@ -367,10 +372,14 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="cc" type="rgb"/>
             </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft JhengHei" size="14" style="1"/>
+            </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
@@ -381,7 +390,13 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fb" green="f3" red="ed" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="name"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
+                <MatteColorBorder>
+                  <Color PropertyName="color" blue="fb" green="f2" red="ea" type="rgb"/>
+                </MatteColorBorder>
+              </Border>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnFiltrar">
@@ -395,7 +410,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b1" green="71" red="43" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Filtrar"/>
+            <Property name="text" type="java.lang.String" value="Aplicar filtro"/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -404,11 +419,23 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft JhengHei Light" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="66" red="0" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Fecha de Alta:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft JhengHei Light" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="66" red="0" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Fecha de Baja:"/>
           </Properties>
         </Component>
@@ -443,7 +470,17 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnLimpiar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="fb" green="f2" red="ea" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft JhengHei Light" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="b1" green="71" red="43" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Limpiar filtros"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarActionPerformed"/>

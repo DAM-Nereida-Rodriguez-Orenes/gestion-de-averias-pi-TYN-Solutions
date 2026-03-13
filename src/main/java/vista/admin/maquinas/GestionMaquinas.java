@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 import controlador.GestionMaquinasControlador;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import java.net.URL;
@@ -28,15 +30,18 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
 import vista.PanelImgFondo;
+import vista.admin.averia.AveriaListar;
 import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  *
@@ -95,18 +100,19 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jlSaldoIcono.setIconTextGap(8);
 
         //Campo ID maquina
-        FlatSVGIcon iconoIdMaquina = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
-        txtID.putClientProperty("JTextField.leadingIcon", iconoIdMaquina);
-        txtID.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        //FlatSVGIcon iconoIdMaquina = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
+        //txtID.putClientProperty("JTextField.leadingIcon", iconoIdMaquina);
+        //txtID.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtID.putClientProperty("JTextField.placeholderText", "Código máquina: ");
+
         //Campo maquina txtNameFilter
-        FlatSVGIcon iconoNombreMaquina = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
-        txtNameFilter.putClientProperty("JTextField.leadingIcon", iconoNombreMaquina);
-        txtNameFilter.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        //FlatSVGIcon iconoNombreMaquina = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
+        //txtNameFilter.putClientProperty("JTextField.leadingIcon", iconoNombreMaquina);
+        //txtNameFilter.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtNameFilter.putClientProperty("JTextField.placeholderText", "Buscar máquina: ");
 
         //Combobox Tipo maquinaria
-        FlatSVGIcon iconoTipoMaquinaria = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
+        /*FlatSVGIcon iconoTipoMaquinaria = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
         cbbTipo.setRenderer(new DefaultListCellRenderer() {
             public Component getListCellRendererComponent(
                     JList<?> lista,
@@ -126,9 +132,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 }
                 return etiqueta;
             }
-        });
+        });*/
         //cbbStatus tipo estado
-        FlatSVGIcon iconoEstadoMaquina = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 16, 16);
+        /*FlatSVGIcon iconoEstadoMaquina = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 16, 16);
         cbbStatus.setRenderer(new DefaultListCellRenderer() {
             public Component getListCellRendererComponent(
                     JList<?> lista,
@@ -148,7 +154,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 }
                 return etiqueta;
             }
-        });
+        });*/
     }
 
     /**
@@ -199,15 +205,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fixora");
 
-        jPanel1.setBackground(new java.awt.Color(204, 208, 217));
-
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de Máquinas");
 
         txtID.setBackground(new java.awt.Color(237, 243, 251));
-        txtID.setText("id");
+        txtID.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
 
         cbbTipo.setBackground(new java.awt.Color(234, 242, 251));
         cbbTipo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
@@ -240,7 +244,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
         });
 
+        btnActualizar.setBackground(new java.awt.Color(234, 242, 251));
+        btnActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(67, 113, 177));
         btnActualizar.setText("Actualizar");
+        btnActualizar.setBorderPainted(false);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -248,8 +256,10 @@ public class GestionMaquinas extends javax.swing.JFrame {
         });
 
         btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
+        btnEliminar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.setBorderPainted(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -257,12 +267,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
         });
 
         txtNameFilter.setBackground(new java.awt.Color(237, 243, 251));
-        txtNameFilter.setText("name");
+        txtNameFilter.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
 
         btnFiltrar.setBackground(new java.awt.Color(234, 242, 251));
         btnFiltrar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
         btnFiltrar.setForeground(new java.awt.Color(67, 113, 177));
-        btnFiltrar.setText("Filtrar");
+        btnFiltrar.setText("Aplicar filtro");
         btnFiltrar.setBorderPainted(false);
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,8 +280,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 204));
         jLabel6.setText("Fecha de Alta:");
 
+        jLabel7.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 102, 204));
         jLabel7.setText("Fecha de Baja:");
 
         spFechaAlta.setModel(new javax.swing.SpinnerDateModel());
@@ -293,7 +307,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
         });
 
+        btnLimpiar.setBackground(new java.awt.Color(234, 242, 251));
+        btnLimpiar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(67, 113, 177));
         btnLimpiar.setText("Limpiar filtros");
+        btnLimpiar.setBorderPainted(false);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -335,86 +353,82 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(623, 623, 623)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(92, 92, 92)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(chbxHFechaAlta)
+                        .addGap(12, 12, 12)
+                        .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
                         .addComponent(chbxHFechaBaja)
+                        .addGap(12, 12, 12)
+                        .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnLimpiar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
+                        .addGap(73, 73, 73)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnLimpiar)
-                                .addGap(274, 274, 274)
+                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(240, 240, 240)
+                                .addComponent(btnNuevaMaquina))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnActualizar)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnEliminar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(chbxHFechaAlta)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(384, 384, 384)
-                        .addComponent(btnNuevaMaquina)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                                .addComponent(btnEliminar)))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addGap(64, 64, 64)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel6))
-                    .addComponent(chbxHFechaAlta)
-                    .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(85, 85, 85)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(chbxHFechaBaja)
-                    .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(btnNuevaMaquina)
                 .addGap(45, 45, 45)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNuevaMaquina)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chbxHFechaAlta)
+                            .addComponent(chbxHFechaBaja))))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
                     .addComponent(btnActualizar)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnEliminar))
                 .addContainerGap())
         );
 
@@ -699,11 +713,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        // TODO add your handling code here:
+        AveriaListar gestionAveria = new AveriaListar();
+        gestionAveria.setLocationRelativeTo(null);
+        gestionAveria.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miAveriaActionPerformed
 
     private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
@@ -773,6 +790,16 @@ public class GestionMaquinas extends javax.swing.JFrame {
         tbMaquinaria.getTableHeader().setReorderingAllowed(false);
         tbMaquinaria.setModel(modeloTabla);
         tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbMaquinaria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
+        tbMaquinaria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
+        tbMaquinaria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header
+        // Crear el renderer alineado a la izquierda
+        DefaultTableCellRenderer renderIzquierda = new DefaultTableCellRenderer();
+        renderIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
+
+        // Aplicarlo a una columna concreta (por ejemplo la columna 2)
+        tbMaquinaria.getColumnModel().getColumn(0).setCellRenderer(renderIzquierda);
+
     }
 
     private void configurarOrdenacion() {
