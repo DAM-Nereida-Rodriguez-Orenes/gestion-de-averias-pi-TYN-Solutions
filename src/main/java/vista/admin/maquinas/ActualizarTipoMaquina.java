@@ -4,7 +4,11 @@
  */
 package vista.admin.maquinas;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionTipoMaquinaControlador;
+import java.awt.Image;
+import java.awt.Insets;
+import javax.swing.ImageIcon;
 import modelo.TipoMaquinaria;
 
 /**
@@ -12,14 +16,38 @@ import modelo.TipoMaquinaria;
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class ActualizarTipoMaquina extends javax.swing.JDialog {
+
     private final GestionTipoMaquinaControlador contr = new GestionTipoMaquinaControlador();
     private TipoMaquinaria tipoMaquinaActual; //la que estoy editando
+
     /**
      * Creates new form ActualizarTipoMaquina
      */
     public ActualizarTipoMaquina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public void mostrarImagenes() {
+        //icno de la app
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        // Centrar ventana en pantalla
+        setLocationRelativeTo(null);
+        // Evitar que el usuario cambie el tamaño
+        setResizable(false);
+
+        //ICONOS LtextField
+        //Campo nombre de la maquina
+        FlatSVGIcon iconoCodigo = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
+        txtIDDisab.putClientProperty("JTextField.leadingIcon", iconoCodigo);
+        txtIDDisab.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtIDDisab.putClientProperty("JTextField.placeholderText", "Código Tipo:  8");
+        // descripcion txtDescEstado
+        FlatSVGIcon iconoDescrpcion = new FlatSVGIcon("recursos/iconos/icnEtiqueta.svg", 16, 16);
+        txtDescTM.putClientProperty("JTextField.leadingIcon", iconoDescrpcion);
+        txtDescTM.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtDescTM.putClientProperty("JTextField.placeholderText", "Descripción del tipo: ");
     }
 
     /**
@@ -32,75 +60,86 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         txtDescTM = new javax.swing.JTextField();
         btnActualizarTM = new javax.swing.JButton();
         txtIDDisab = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Actualizar Tipo de Máquina");
 
-        jLabel2.setText("Descripción (corta):");
+        txtDescTM.setBackground(new java.awt.Color(237, 243, 251));
 
+        btnActualizarTM.setBackground(new java.awt.Color(58, 181, 235));
+        btnActualizarTM.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizarTM.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizarTM.setText("Actualizar");
         btnActualizarTM.setToolTipText("");
+        btnActualizarTM.setBorderPainted(false);
         btnActualizarTM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarTMActionPerformed(evt);
             }
         });
 
+        txtIDDisab.setBackground(new java.awt.Color(237, 243, 251));
         txtIDDisab.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtIDDisab.setEnabled(false);
 
-        jLabel3.setText("ID:");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnActualizarTM, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtIDDisab, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                        .addComponent(txtDescTM)))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(102, 102, 102)
+                .addComponent(txtIDDisab, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(txtDescTM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
+                .addComponent(btnActualizarTM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(160, 160, 160)
-                .addComponent(btnActualizarTM)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(54, 85, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(90, 90, 90))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtDescTM, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(txtIDDisab))
-                .addGap(37, 37, 37))
+                .addGap(102, 102, 102)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIDDisab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtDescTM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58)
-                .addComponent(btnActualizarTM)
-                .addGap(72, 72, 72))
+                .addGap(38, 38, 38)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -141,19 +180,19 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnActualizarTMActionPerformed
 
-   public void setTipoMaquinaria(TipoMaquinaria t) {
-    this.tipoMaquinaActual = t;
+    public void setTipoMaquinaria(TipoMaquinaria t) {
+        this.tipoMaquinaActual = t;
 
-    txtIDDisab.setText(String.valueOf(t.getCodigoTipoMaquinaria()));
-    txtDescTM.setText(t.getDescripcionMaq());
-}
+        txtIDDisab.setText(String.valueOf(t.getCodigoTipoMaquinaria()));
+        txtDescTM.setText(t.getDescripcionMaq());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTM;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField txtDescTM;
     private javax.swing.JTextField txtIDDisab;
     // End of variables declaration//GEN-END:variables

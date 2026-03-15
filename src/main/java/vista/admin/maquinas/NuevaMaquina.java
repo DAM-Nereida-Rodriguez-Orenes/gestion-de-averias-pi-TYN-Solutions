@@ -151,7 +151,7 @@ public class NuevaMaquina extends javax.swing.JDialog {
         btnCrearMaquina.setBackground(new java.awt.Color(58, 181, 235));
         btnCrearMaquina.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnCrearMaquina.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearMaquina.setText("Crear máquina");
+        btnCrearMaquina.setText("Nueva máquina");
         btnCrearMaquina.setBorderPainted(false);
         btnCrearMaquina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

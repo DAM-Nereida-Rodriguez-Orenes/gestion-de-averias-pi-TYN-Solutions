@@ -126,7 +126,7 @@ public class ActualizarRol extends javax.swing.JDialog {
         btnEditarRol.setBackground(new java.awt.Color(58, 181, 235));
         btnEditarRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEditarRol.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditarRol.setText("Editar");
+        btnEditarRol.setText("Modificar");
         btnEditarRol.setBorderPainted(false);
         btnEditarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,7 +148,7 @@ public class ActualizarRol extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 204));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Editar Rol");
+        jLabel2.setText("Modificar Rol");
 
         txtCodigoRol.setEditable(false);
         txtCodigoRol.setBackground(new java.awt.Color(237, 243, 251));
