@@ -4,17 +4,28 @@
  */
 package vista.admin.maquinas;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionEstadoMaquinaControlador;
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.Insets;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import vista.PanelImgFondo;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class NuevoEstadoMaquina extends javax.swing.JDialog {
+
     private final GestionEstadoMaquinaControlador contr = new GestionEstadoMaquinaControlador();
+
     /**
      * Creates new form NuevoTipoMaquina
      */
@@ -22,6 +33,29 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         inicializarSpinnerCodigoEstado();
+        mostrarImagenes();
+    }
+
+    public void mostrarImagenes() {
+        //icno de la app
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        // Centrar ventana en pantalla
+        setLocationRelativeTo(null);
+        // Evitar que el usuario cambie el tamaño
+        setResizable(false);
+
+        //ICONOS LtextField
+        //Campo nombre de la maquina
+        FlatSVGIcon iconoCodigo = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
+        txtPrefijo.putClientProperty("JTextField.leadingIcon", iconoCodigo);
+        txtPrefijo.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtPrefijo.putClientProperty("JTextField.placeholderText", "Código Estado:  8");
+        // descripcion txtDescEstado
+        FlatSVGIcon iconoDescrpcion = new FlatSVGIcon("recursos/iconos/lapiz2.svg", 16, 16);
+        txtDescEstado.putClientProperty("JTextField.leadingIcon", iconoDescrpcion);
+        txtDescEstado.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtDescEstado.putClientProperty("JTextField.placeholderText", "Descripción del estado: ");
     }
 
     /**
@@ -33,93 +67,108 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
+        jPanel2 = new javax.swing.JPanel();
+        spCodigo = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         txtDescEstado = new javax.swing.JTextField();
         btnCrearEstado = new javax.swing.JButton();
         txtPrefijo = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        spCodigo = new javax.swing.JSpinner();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Nuevo Estado de Máquina");
+        jLabel1.setText("Nuevo estado de máquina");
 
-        jLabel2.setText("Descripción (corta):");
+        txtDescEstado.setBackground(new java.awt.Color(237, 243, 251));
 
-        btnCrearEstado.setText("Crear");
+        btnCrearEstado.setBackground(new java.awt.Color(58, 181, 235));
+        btnCrearEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnCrearEstado.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearEstado.setText("Nuevo estado");
+        btnCrearEstado.setBorderPainted(false);
         btnCrearEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearEstadoActionPerformed(evt);
             }
         });
 
+        txtPrefijo.setBackground(new java.awt.Color(237, 243, 251));
         txtPrefijo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtPrefijo.setText("8");
         txtPrefijo.setEnabled(false);
 
-        jLabel3.setText("Código: ");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCrearEstado)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtDescEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(txtPrefijo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(36, 36, 36)
+                            .addComponent(spCodigo))))
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPrefijo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61)
+                .addComponent(txtDescEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
+                .addComponent(btnCrearEstado)
+                .addGap(87, 87, 87))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(btnCrearEstado))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(38, 38, 38)
-                                .addComponent(txtPrefijo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(spCodigo))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtDescEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(83, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(102, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(99, 99, 99))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrefijo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(spCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtDescEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(btnCrearEstado)
-                .addGap(72, 72, 72))
+                .addGap(39, 39, 39)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -131,10 +180,10 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
 
         if (desc.isEmpty()) {
             JOptionPane.showMessageDialog(
-                this,
-                "La descripción no puede estar vacía.",
-                "Error de validación",
-                JOptionPane.WARNING_MESSAGE
+                    this,
+                    "La descripción no puede estar vacía.",
+                    "Error de validación",
+                    JOptionPane.WARNING_MESSAGE
             );
             return;
         }
@@ -143,18 +192,18 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
 
         if (flag) {
             JOptionPane.showMessageDialog(
-                this,
-                "Estado nuevo creado con éxito.",
-                "Creación exitosa",
-                JOptionPane.INFORMATION_MESSAGE
+                    this,
+                    "Estado nuevo creado con éxito.",
+                    "Creación exitosa",
+                    JOptionPane.INFORMATION_MESSAGE
             );
-            
+
         } else {
             JOptionPane.showMessageDialog(
-                this,
-                "No se ha podido insertar el estado.\nComprueba que el ID no exista y que los datos sean válidos.",
-                "Error de inserción",
-                JOptionPane.ERROR_MESSAGE
+                    this,
+                    "No se ha podido insertar el estado.\nComprueba que el ID no exista y que los datos sean válidos.",
+                    "Error de inserción",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }//GEN-LAST:event_btnCrearEstadoActionPerformed
@@ -186,9 +235,9 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearEstado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner spCodigo;
     private javax.swing.JTextField txtDescEstado;
     private javax.swing.JTextField txtPrefijo;

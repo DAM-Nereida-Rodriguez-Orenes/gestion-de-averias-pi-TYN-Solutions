@@ -86,7 +86,7 @@
                               <Component id="btnCrearRol" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtCodigoRol" min="-2" pref="302" max="-2" attributes="0"/>
+                              <Component id="txtCodigoRol" min="-2" pref="300" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="spnNumeroRol" min="-2" pref="200" max="-2" attributes="0"/>
                           </Group>
