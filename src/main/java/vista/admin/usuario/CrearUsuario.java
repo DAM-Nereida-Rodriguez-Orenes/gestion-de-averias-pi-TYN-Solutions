@@ -111,7 +111,6 @@ public class CrearUsuario extends javax.swing.JDialog {
         pwdPassword.putClientProperty("JTextField.placeholderText", "Contraseña:");
         //cbb Tipo de trabajador
         FlatSVGIcon iconoTipoTrabajador = new FlatSVGIcon("recursos/iconos/icnTpUsuario.svg", 16, 16);
-
         cbbRol.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
