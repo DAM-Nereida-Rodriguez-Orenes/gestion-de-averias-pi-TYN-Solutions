@@ -790,13 +790,15 @@ public class GestionMaquinas extends javax.swing.JFrame {
         tbMaquinaria.getTableHeader().setReorderingAllowed(false);
         tbMaquinaria.setModel(modeloTabla);
         tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbMaquinaria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
-        tbMaquinaria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
-        tbMaquinaria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header
+        // este valor aumenta el tamaño de las tuplas
+        tbMaquinaria.setRowHeight(36); 
+        //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
+        tbMaquinaria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); 
+        // esto aumenta el tamaño de la fuente del header
+        tbMaquinaria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); 
         // Crear el renderer alineado a la izquierda
         DefaultTableCellRenderer renderIzquierda = new DefaultTableCellRenderer();
         renderIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
-
         // Aplicarlo a una columna concreta (por ejemplo la columna 2)
         tbMaquinaria.getColumnModel().getColumn(0).setCellRenderer(renderIzquierda);
 

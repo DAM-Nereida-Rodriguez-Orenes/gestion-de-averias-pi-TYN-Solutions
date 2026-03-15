@@ -4,22 +4,39 @@
  */
 package vista.admin.maquinas;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import controlador.GestionRolControlador;
 import controlador.GestionTipoMaquinaControlador;
+import controlador.GestionUsuarioControlador;
+import java.awt.Font;
+import java.awt.Image;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.TipoMaquinaria;
+import vista.PanelImgFondo;
+import vista.admin.averia.AveriaListar;
+import vista.admin.averia.TipoAveriaCRUD;
+import vista.admin.usuario.GestionRol;
+import vista.admin.usuario.GestionUsuario;
+import vista.vHomeAdmin;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class GestionTipoMaquina extends javax.swing.JFrame {
+
     private final GestionTipoMaquinaControlador contr = new GestionTipoMaquinaControlador();
     private DefaultTableModel modeloTabla;
+
     /**
      * Creates new form GestionTipoMaquina
      */
@@ -27,6 +44,35 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         initComponents();
         configurarTabla();
         cargarTiposMaquinariaEnTabla();
+        mostrarImagenes();
+    }
+    
+     public void mostrarImagenes() {
+        //Ajustes del deisño del JFrame/Layout
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        // Tamaño fijo de todas las ventanas
+        this.setSize(1200, 800);
+        // Centrar ventana en pantalla
+        this.setLocationRelativeTo(null);
+        // Evitar que el usuario cambie el tamaño
+        this.setResizable(false);
+
+        URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
+        System.out.println("urlLogo = " + urlLogo);
+
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
+        jlLogo.setIcon(iconop);
+        jlLogo.setText("");
+        jlLogo.setOpaque(false);
+
+        //icono de usuario 
+        FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
+        jlSaldoIcono.setIcon(iconUsuarioAdmin);
+        jlSaldoIcono.setText("Hola, Admin");
+        jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
+        jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
+        jlSaldoIcono.setIconTextGap(8);
     }
 
     /**
@@ -38,19 +84,34 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTipoMaquina = new javax.swing.JTable();
         btnNuevoTipoMaq = new javax.swing.JButton();
         btnActualizarTipoMaq = new javax.swing.JButton();
         btnEliminarTipoMaq = new javax.swing.JButton();
+        jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
+        jlLogo = new javax.swing.JLabel();
+        jlSaldoIcono = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        miInicio = new javax.swing.JMenu();
+        miMenuPrincipal = new javax.swing.JMenuItem();
+        miCerrarSesion = new javax.swing.JMenuItem();
+        miSalirApp = new javax.swing.JMenuItem();
+        miGestion = new javax.swing.JMenu();
+        miAveria = new javax.swing.JMenuItem();
+        miUsuario = new javax.swing.JMenuItem();
+        miMaquinaria = new javax.swing.JMenuItem();
+        miTipoMaquinaria = new javax.swing.JMenuItem();
+        miEstadoMaquinaria = new javax.swing.JMenuItem();
+        miTipoAveria = new javax.swing.JMenuItem();
+        miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de tipos de máquina");
 
@@ -67,14 +128,22 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbTipoMaquina);
 
-        btnNuevoTipoMaq.setText("Nuevo");
+        btnNuevoTipoMaq.setBackground(new java.awt.Color(58, 181, 235));
+        btnNuevoTipoMaq.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnNuevoTipoMaq.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevoTipoMaq.setText("+ Nuevo Tipo");
+        btnNuevoTipoMaq.setBorderPainted(false);
         btnNuevoTipoMaq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoTipoMaqActionPerformed(evt);
             }
         });
 
-        btnActualizarTipoMaq.setText("Actualizar");
+        btnActualizarTipoMaq.setBackground(new java.awt.Color(234, 242, 251));
+        btnActualizarTipoMaq.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizarTipoMaq.setForeground(new java.awt.Color(67, 113, 177));
+        btnActualizarTipoMaq.setText("Modificar ");
+        btnActualizarTipoMaq.setBorderPainted(false);
         btnActualizarTipoMaq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarTipoMaqActionPerformed(evt);
@@ -82,52 +151,167 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         });
 
         btnEliminarTipoMaq.setBackground(new java.awt.Color(204, 0, 0));
+        btnEliminarTipoMaq.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarTipoMaq.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarTipoMaq.setText("Eliminar");
+        btnEliminarTipoMaq.setBorderPainted(false);
         btnEliminarTipoMaq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarTipoMaqActionPerformed(evt);
             }
         });
 
+        jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        jpCabecera.setPreferredSize(new java.awt.Dimension(397, 50));
+
+        jlLogo.setText("jLabel2");
+
+        jlSaldoIcono.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jlSaldoIcono.setForeground(new java.awt.Color(67, 113, 177));
+        jlSaldoIcono.setText("Hola, Admin");
+
+        javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
+        jpCabecera.setLayout(jpCabeceraLayout);
+        jpCabeceraLayout.setHorizontalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlSaldoIcono)
+                .addGap(84, 84, 84))
+        );
+        jpCabeceraLayout.setVerticalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlLogo)
+                    .addComponent(jlSaldoIcono))
+                .addGap(0, 20, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(227, 227, 227)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(60, 60, 60)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnNuevoTipoMaq)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnActualizarTipoMaq)
-                                .addGap(31, 31, 31)
-                                .addComponent(btnEliminarTipoMaq)))))
-                .addContainerGap(60, Short.MAX_VALUE))
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnActualizarTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(29, 29, 29)
+                            .addComponent(btnEliminarTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(997, 997, 997)
+                            .addComponent(btnNuevoTipoMaq))))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addGap(33, 33, 33)
-                .addComponent(btnNuevoTipoMaq)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(btnNuevoTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizarTipoMaq)
-                    .addComponent(btnEliminarTipoMaq))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(btnEliminarTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
+
+        miInicio.setText("Inicio");
+
+        miMenuPrincipal.setText("Menú principal");
+        miMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMenuPrincipalActionPerformed(evt);
+            }
+        });
+        miInicio.add(miMenuPrincipal);
+
+        miCerrarSesion.setText("Cerrar sesión");
+        miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCerrarSesionActionPerformed(evt);
+            }
+        });
+        miInicio.add(miCerrarSesion);
+
+        miSalirApp.setText("Cerrar Fixora");
+        miInicio.add(miSalirApp);
+
+        jMenuBar1.add(miInicio);
+
+        miGestion.setText("Gestión");
+
+        miAveria.setText("Avería");
+        miAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAveriaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miAveria);
+
+        miUsuario.setText("Usuario");
+        miUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miUsuarioActionPerformed(evt);
+            }
+        });
+        miGestion.add(miUsuario);
+
+        miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miMaquinaria);
+
+        miTipoMaquinaria.setText("Tipo de maquinaria");
+        miTipoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miTipoMaquinaria);
+
+        miEstadoMaquinaria.setText("Estado de maquinaria");
+        miEstadoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEstadoMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miEstadoMaquinaria);
+
+        miTipoAveria.setText("Tipos de avería");
+        miTipoAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoAveriaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miTipoAveria);
+
+        miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
+        miGestion.add(miRoles);
+
+        jMenuBar1.add(miGestion);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,11 +357,11 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         am.setVisible(true);
 
         cargarTiposMaquinariaEnTabla();
-        
+
     }//GEN-LAST:event_btnActualizarTipoMaqActionPerformed
 
     private void btnEliminarTipoMaqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarTipoMaqActionPerformed
-       //BORRADO -> ES FK EN TABLA MÁQUINAS, así que no debe borrarse si está en uso
+        //BORRADO -> ES FK EN TABLA MÁQUINAS, así que no debe borrarse si está en uso
         TipoMaquinaria seleccionado = getTipoMaquinariaSeleccionado();
 
         if (seleccionado == null) {
@@ -185,15 +369,15 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         }
 
         int confirmacion = JOptionPane.showConfirmDialog(
-            this,
-            "¿Seguro que desea eliminar el tipo de maquinaria con código "
-                    + seleccionado.getCodigoTipoMaquinaria()
-                    + " y descripción \""
-                    + seleccionado.getDescripcionMaq()
-                    + "\"?",
-            "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
+                this,
+                "¿Seguro que desea eliminar el tipo de maquinaria con código "
+                + seleccionado.getCodigoTipoMaquinaria()
+                + " y descripción \""
+                + seleccionado.getDescripcionMaq()
+                + "\"?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
         );
 
         if (confirmacion != JOptionPane.YES_OPTION) {
@@ -204,23 +388,81 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
             contr.eliminarTipoMaquinaria(seleccionado);
 
             JOptionPane.showMessageDialog(
-                this,
-                "Tipo de maquinaria eliminado correctamente.",
-                "Eliminación correcta",
-                JOptionPane.INFORMATION_MESSAGE
+                    this,
+                    "Tipo de maquinaria eliminado correctamente.",
+                    "Eliminación correcta",
+                    JOptionPane.INFORMATION_MESSAGE
             );
 
             cargarTiposMaquinariaEnTabla();
 
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(
-                this,
-                "No se pudo eliminar el tipo de maquinaria, porque está en uso: " + e.getMessage(),
-                "Error al eliminar",
-                JOptionPane.ERROR_MESSAGE
+                    this,
+                    "No se pudo eliminar el tipo de maquinaria, porque está en uso: " + e.getMessage(),
+                    "Error al eliminar",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }//GEN-LAST:event_btnEliminarTipoMaqActionPerformed
+
+    private void miMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMenuPrincipalActionPerformed
+        vHomeAdmin homeAdmin = new vHomeAdmin();
+        homeAdmin.setLocationRelativeTo(null);
+        homeAdmin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMenuPrincipalActionPerformed
+
+    private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miCerrarSesionActionPerformed
+
+    private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
+        AveriaListar gestionAveria = new AveriaListar();
+        gestionAveria.setLocationRelativeTo(null);
+        gestionAveria.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miAveriaActionPerformed
+
+    private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
+        GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
+        GestionUsuario gestionUsuario = new GestionUsuario(gestionUsuarioControlador);
+        gestionUsuario.setLocationRelativeTo(null);
+        gestionUsuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miUsuarioActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
+
+    private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miTipoMaquinariaActionPerformed
+
+    private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
+        TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
+        tipoAveria.setLocationRelativeTo(null);
+        tipoAveria.setVisible(true);
+    }//GEN-LAST:event_miTipoAveriaActionPerformed
+
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
+
+    private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
+        GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
+        gestionEstadoMaquina.setLocationRelativeTo(null);
+        gestionEstadoMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,36 +498,49 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
             }
         });
     }
+
     //crear y ordenar tabla
     private void configurarTabla() {
         modeloTabla = new DefaultTableModel(
-            new Object[]{"Código", "Descripción"},
-            0
+                new Object[]{"Código", "Descripción"},
+                0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-             @Override
+
+            @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return switch (columnIndex) {
-                    case 0 -> Integer.class; // ID, primera columna: ordena como número
-                    default -> String.class; // resto: ordena como texto
+                    case 0 ->
+                        Integer.class; // ID, primera columna: ordena como número
+                    default ->
+                        String.class; // resto: ordena como texto
                 };
             }
         };
 
         tbTipoMaquina.setModel(modeloTabla);
-
         // Permitir ordenar tocando cabeceras
         tbTipoMaquina.setAutoCreateRowSorter(true);
-
         // Selección de una sola fila
         tbTipoMaquina.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
         // Impedir reordenar columnas arrastrando
         tbTipoMaquina.getTableHeader().setReorderingAllowed(false);
+        // este valor aumenta el tamaño de las tuplas
+        tbTipoMaquina.setRowHeight(36);
+        //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
+        tbTipoMaquina.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        // esto aumenta el tamaño de la fuente del header
+        tbTipoMaquina.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        // Crear el renderer alineado a la izquierda
+        DefaultTableCellRenderer renderIzquierda = new DefaultTableCellRenderer();
+        renderIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
+        // Aplicarlo a una columna concreta (por ejemplo la columna 2)
+        tbTipoMaquina.getColumnModel().getColumn(0).setCellRenderer(renderIzquierda);
     }
+
     private void cargarTiposMaquinariaEnTabla() {
         try {
             List<TipoMaquinaria> lista = contr.listarTiposMaquinaria();
@@ -297,27 +552,28 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
                     t.getCodigoTipoMaquinaria(),
                     t.getDescripcionMaq()
                 });
-                
+
             }
 
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(
-                this,
-                "Error al cargar los tipos de maquinaria: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                    this,
+                    "Error al cargar los tipos de maquinaria: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }
+
     public TipoMaquinaria getTipoMaquinariaSeleccionado() {
         int filaVista = tbTipoMaquina.getSelectedRow();
 
         if (filaVista == -1) {
             JOptionPane.showMessageDialog(
-                this,
-                "Seleccione un tipo de maquinaria de la tabla.",
-                "Selección requerida",
-                JOptionPane.WARNING_MESSAGE
+                    this,
+                    "Seleccione un tipo de maquinaria de la tabla.",
+                    "Selección requerida",
+                    JOptionPane.WARNING_MESSAGE
             );
             return null;
         }
@@ -329,15 +585,31 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
 
         return contr.obtenerTipoSeleccionado(codigo, descripcion);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarTipoMaq;
     private javax.swing.JButton btnEliminarTipoMaq;
     private javax.swing.JButton btnNuevoTipoMaq;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlLogo;
+    private javax.swing.JLabel jlSaldoIcono;
+    private javax.swing.JPanel jpCabecera;
+    private javax.swing.JMenuItem miAveria;
+    private javax.swing.JMenuItem miCerrarSesion;
+    private javax.swing.JMenuItem miEstadoMaquinaria;
+    private javax.swing.JMenu miGestion;
+    private javax.swing.JMenu miInicio;
+    private javax.swing.JMenuItem miMaquinaria;
+    private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miRoles;
+    private javax.swing.JMenuItem miSalirApp;
+    private javax.swing.JMenuItem miTipoAveria;
+    private javax.swing.JMenuItem miTipoMaquinaria;
+    private javax.swing.JMenuItem miUsuario;
     private javax.swing.JTable tbTipoMaquina;
     // End of variables declaration//GEN-END:variables
 }

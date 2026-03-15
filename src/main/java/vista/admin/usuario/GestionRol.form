@@ -138,16 +138,16 @@
                   <EmptySpace pref="85" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="btnActualizarRol" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnActualizarRol" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="btnEliminarRol" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnEliminarRol" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="btnAddRol" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="btnAddRol" min="-2" pref="120" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="1046" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
               </Group>
-              <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+              <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -156,7 +156,7 @@
                   <Component id="jpCabecera" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="41" max="-2" attributes="0"/>
-                  <EmptySpace pref="92" max="32767" attributes="0"/>
+                  <EmptySpace pref="80" max="32767" attributes="0"/>
                   <Component id="btnAddRol" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="463" max="-2" attributes="0"/>
@@ -221,7 +221,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b1" green="71" red="43" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Editar"/>
+            <Property name="text" type="java.lang.String" value="Modificar "/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -280,7 +280,7 @@
                           <Component id="jlLogo" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="jlSaldoIcono" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
