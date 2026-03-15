@@ -323,6 +323,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Gesti&#xf3;n de Tipos de Aver&#xed;as"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -368,9 +369,9 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="btnTipoAveriaActualizar" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnTipoAveriaActualizar" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="btnTipoAveriaEliminar" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnTipoAveriaEliminar" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" alignment="1" min="-2" pref="1050" max="-2" attributes="0"/>
                       <Component id="btnTipoAveriaNuevo" min="-2" max="-2" attributes="0"/>
@@ -409,7 +410,7 @@
               <Color blue="cc" green="66" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de tipos de aver&#xed;as"/>
+            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de Tipos de Aver&#xed;as"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -465,7 +466,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b1" green="71" red="43" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Actualizar"/>
+            <Property name="text" type="java.lang.String" value="Editar"/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>

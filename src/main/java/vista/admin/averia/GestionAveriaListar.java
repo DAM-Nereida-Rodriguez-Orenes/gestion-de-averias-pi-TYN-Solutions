@@ -36,9 +36,9 @@ import vista.vHomeAdmin;
  *
  * @author yosue
  */
-public class AveriaListar extends javax.swing.JFrame {
+public class GestionAveriaListar extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AveriaListar.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionAveriaListar.class.getName());
 
     // --- Controladores y Modelos ---
     private final AveriaControlador controladorAveria;
@@ -51,7 +51,7 @@ public class AveriaListar extends javax.swing.JFrame {
     /**
      * Creates new form vAdminViewAverias
      */
-    public AveriaListar() {
+    public GestionAveriaListar() {
         controladorAveria = new AveriaControlador();
         
         setTitle("Mi JFrame Centrado");
@@ -216,7 +216,7 @@ public class AveriaListar extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestión de avería");
+        setTitle("Gestión de Avería");
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -671,7 +671,7 @@ public class AveriaListar extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AveriaListar().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new GestionAveriaListar().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

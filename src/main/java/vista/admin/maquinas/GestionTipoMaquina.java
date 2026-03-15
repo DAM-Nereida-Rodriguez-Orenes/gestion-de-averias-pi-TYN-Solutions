@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.TipoMaquinaria;
 import vista.PanelImgFondo;
-import vista.admin.averia.AveriaListar;
+import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
@@ -109,11 +109,12 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestion de Tipo de Máquina");
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gestión de tipos de máquina");
+        jLabel1.setText("Gestión de Tipos de Máquina");
 
         tbTipoMaquina.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -142,7 +143,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         btnActualizarTipoMaq.setBackground(new java.awt.Color(234, 242, 251));
         btnActualizarTipoMaq.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarTipoMaq.setForeground(new java.awt.Color(67, 113, 177));
-        btnActualizarTipoMaq.setText("Modificar ");
+        btnActualizarTipoMaq.setText("Editar");
         btnActualizarTipoMaq.setBorderPainted(false);
         btnActualizarTipoMaq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -418,7 +419,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        AveriaListar gestionAveria = new AveriaListar();
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
         gestionAveria.setLocationRelativeTo(null);
         gestionAveria.setVisible(true);
         this.dispose();

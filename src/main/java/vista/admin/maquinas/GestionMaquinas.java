@@ -36,7 +36,7 @@ import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
 import vista.PanelImgFondo;
-import vista.admin.averia.AveriaListar;
+import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
@@ -203,7 +203,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Fixora");
+        setTitle("Gestión de Máquina");
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
@@ -247,7 +247,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         btnActualizar.setBackground(new java.awt.Color(234, 242, 251));
         btnActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(67, 113, 177));
-        btnActualizar.setText("Actualizar");
+        btnActualizar.setText("Editar");
         btnActualizar.setBorderPainted(false);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -389,9 +389,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
                                 .addComponent(btnNuevaMaquina))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnActualizar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEliminar)))))
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(53, 53, 53)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -406,7 +406,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnNuevaMaquina)))
+                        .addComponent(btnNuevaMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -427,8 +427,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -717,7 +717,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        AveriaListar gestionAveria = new AveriaListar();
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
         gestionAveria.setLocationRelativeTo(null);
         gestionAveria.setVisible(true);
         this.dispose();
@@ -742,18 +742,21 @@ public class GestionMaquinas extends javax.swing.JFrame {
         GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
         gestionTipoMaquina.setLocationRelativeTo(null);
         gestionTipoMaquina.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
         GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
         gestionEstadoMaquina.setLocationRelativeTo(null);
         gestionEstadoMaquina.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
         TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
         tipoAveria.setLocationRelativeTo(null);
         tipoAveria.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miTipoAveriaActionPerformed
 
     private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
@@ -791,11 +794,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         tbMaquinaria.setModel(modeloTabla);
         tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         // este valor aumenta el tamaño de las tuplas
-        tbMaquinaria.setRowHeight(36); 
+        tbMaquinaria.setRowHeight(36);
         //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
-        tbMaquinaria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); 
+        tbMaquinaria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
         // esto aumenta el tamaño de la fuente del header
-        tbMaquinaria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); 
+        tbMaquinaria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
         // Crear el renderer alineado a la izquierda
         DefaultTableCellRenderer renderIzquierda = new DefaultTableCellRenderer();
         renderIzquierda.setHorizontalAlignment(SwingConstants.LEFT);

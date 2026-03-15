@@ -107,6 +107,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
         //ICONOS LtextField
         //Campo nombre y apeliido 
@@ -226,11 +227,14 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar usuario");
 
+        jPanel2.setMaximumSize(new java.awt.Dimension(1000, 600));
+        jPanel2.setMinimumSize(new java.awt.Dimension(1000, 600));
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 600));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(780, 500));
+        jPanel1.setMaximumSize(new java.awt.Dimension(800, 515));
+        jPanel1.setMinimumSize(new java.awt.Dimension(800, 515));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 515));
 
         Jlabel5.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
         Jlabel5.setForeground(new java.awt.Color(0, 102, 204));
@@ -240,6 +244,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         btnActualizarDatosUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarDatosUsuario.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizarDatosUsuario.setText("Editar");
+        btnActualizarDatosUsuario.setBorderPainted(false);
         btnActualizarDatosUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarDatosUsuarioActionPerformed(evt);
@@ -249,7 +254,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 204));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Editar Usuario");
+        jLabel2.setText("Editar usuario");
 
         txtNombre.setBackground(new java.awt.Color(237, 243, 251));
 
@@ -324,9 +329,9 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                         .addGap(110, 110, 110)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(340, 340, 340)
+                                .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -339,12 +344,12 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                                         .addGap(23, 23, 23)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tgbtnReactivar)))
+                                    .addComponent(tgbtnReactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(pwdPassword)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnGenerarPassword)))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,35 +362,46 @@ public class ActualizarUsuario extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(25, 25, 25)
                 .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(25, 25, 25)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGenerarPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Jlabel5)
-                            .addComponent(tgbtnReactivar)
-                            .addComponent(estadoUsuario))
-                        .addGap(18, 66, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                    .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Jlabel5)
+                    .addComponent(tgbtnReactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(estadoUsuario))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizarDatosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, -1, 500));
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(101, 101, 101)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(99, 99, 99))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -401,46 +417,10 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnActualizarDatosUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosUsuarioActionPerformed
-        String nombre = txtNombre.getText().trim();
-        String apellido = txtApellidos.getText().trim();
-        //obtenemso el valor del cbbox
-        int selectPrefijo = cbbPrefijosTelefonos.getSelectedIndex();
-        String prefijo = cbbPrefijosTelefonos.getItemAt(selectPrefijo);
-        String telefono = txtTelefono.getText().trim();
-        telefono = prefijo + telefono;
-        String email = txtEmail.getText().trim();
-        // obtener password del JPasswordField
-        char[] passwordArray = pwdPassword.getPassword();
-        // convertir a String
-        String password = new String(passwordArray).trim();
-        //optenemos el rol del comobobox
-        int selectedItem = cbbRol.getSelectedIndex();
-        String rol = cbbRol.getItemAt(selectedItem);
-
-        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debes rellenar todos los campos del formulario", "Datos incompletos",
-                    JOptionPane.WARNING_MESSAGE);
-        } else {
-            boolean operacionExitosa = gestionUsuarioControlador.actualizarDatosUsuario(nombre, apellido, rol, telefono, email, password, activo);
-
-            if (operacionExitosa) {
-                JOptionPane.showMessageDialog(this, "Datos del usuario actualizado", "Actualización realizada", JOptionPane.INFORMATION_MESSAGE);
-
-                //Actualizo la tabla
-                gestionUsuario.mostrarTabla(null);
-                //cierro el modal
-                this.dispose();
-            }
-        }
-    }//GEN-LAST:event_btnActualizarDatosUsuarioActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if (respuesta == JOptionPane.YES_OPTION) {
-            dispose();
-        }
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    private void btnGenerarPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPasswordActionPerformed
+        String nuevaPassword = gestionUsuarioControlador.generarPasswordAleatoria();
+        pwdPassword.setText(nuevaPassword);
+    }//GEN-LAST:event_btnGenerarPasswordActionPerformed
 
     private void tgbtnReactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnReactivarActionPerformed
         boolean nuevoEstado = tgbtnReactivar.isSelected();
@@ -457,11 +437,11 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         }
 
         respuesta = JOptionPane.showConfirmDialog(
-                this,
-                mensaje,
-                titulo,
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
+            this,
+            mensaje,
+            titulo,
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
         );
 
         if (respuesta == JOptionPane.YES_OPTION) {
@@ -491,10 +471,46 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tgbtnReactivarActionPerformed
 
-    private void btnGenerarPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPasswordActionPerformed
-        String nuevaPassword = gestionUsuarioControlador.generarPasswordAleatoria();
-        pwdPassword.setText(nuevaPassword);
-    }//GEN-LAST:event_btnGenerarPasswordActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            dispose();
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnActualizarDatosUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarDatosUsuarioActionPerformed
+        String nombre = txtNombre.getText().trim();
+        String apellido = txtApellidos.getText().trim();
+        //obtenemso el valor del cbbox
+        int selectPrefijo = cbbPrefijosTelefonos.getSelectedIndex();
+        String prefijo = cbbPrefijosTelefonos.getItemAt(selectPrefijo);
+        String telefono = txtTelefono.getText().trim();
+        telefono = prefijo + telefono;
+        String email = txtEmail.getText().trim();
+        // obtener password del JPasswordField
+        char[] passwordArray = pwdPassword.getPassword();
+        // convertir a String
+        String password = new String(passwordArray).trim();
+        //optenemos el rol del comobobox
+        int selectedItem = cbbRol.getSelectedIndex();
+        String rol = cbbRol.getItemAt(selectedItem);
+
+        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debes rellenar todos los campos del formulario", "Datos incompletos",
+                JOptionPane.WARNING_MESSAGE);
+        } else {
+            boolean operacionExitosa = gestionUsuarioControlador.actualizarDatosUsuario(nombre, apellido, rol, telefono, email, password, activo);
+
+            if (operacionExitosa) {
+                JOptionPane.showMessageDialog(this, "Datos del usuario actualizado", "Actualización realizada", JOptionPane.INFORMATION_MESSAGE);
+
+                //Actualizo la tabla
+                gestionUsuario.mostrarTabla(null);
+                //cierro el modal
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_btnActualizarDatosUsuarioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Jlabel5;

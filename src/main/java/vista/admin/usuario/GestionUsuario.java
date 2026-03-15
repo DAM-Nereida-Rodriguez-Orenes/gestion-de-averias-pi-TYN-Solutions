@@ -24,9 +24,11 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import modelo.Usuario;
 import vista.PanelImgFondo;
-import vista.admin.averia.AveriaListar;
+import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.TipoAveriaCRUD;
+import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.maquinas.GestionTipoMaquina;
 import vista.vHomeAdmin;
 
 /**
@@ -226,7 +228,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestión de Usuario");
+        setTitle("Gestión de Usuarios");
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -297,7 +299,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gestión de Usuario");
+        jLabel1.setText("Gestión de Usuarios");
 
         btnActualizarUsuario.setBackground(new java.awt.Color(234, 242, 251));
         btnActualizarUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
@@ -411,10 +413,10 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(txtBarraBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtBarraBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(cbbEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -423,7 +425,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                         .addComponent(btnAplicarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(btnLimpiarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnLimpiarFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnAddUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -492,6 +494,11 @@ public class GestionUsuario extends javax.swing.JFrame {
         miGestion.add(miTipoMaquinaria);
 
         miEstadoMaquinaria.setText("Estado de maquinaria");
+        miEstadoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEstadoMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
@@ -534,7 +541,6 @@ public class GestionUsuario extends javax.swing.JFrame {
 
     private void btnAddUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUsuarioActionPerformed
         CrearUsuario cu = new CrearUsuario(this, rootPaneCheckingEnabled, gestionUsuarioControlador, this);
-        cu.setSize(1000, 600);
         cu.setLocationRelativeTo(this);
         cu.setVisible(true);
     }//GEN-LAST:event_btnAddUsuarioActionPerformed
@@ -595,7 +601,7 @@ public class GestionUsuario extends javax.swing.JFrame {
      * OPCIONES DEL MENU.
      */
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        AveriaListar gestionAveria = new AveriaListar();
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
         gestionAveria.setLocationRelativeTo(null);
         gestionAveria.setVisible(true);
         this.dispose();
@@ -610,7 +616,10 @@ public class GestionUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_miUsuarioActionPerformed
 
     private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
-        // TODO add your handling code here:
+        GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
+        gestionTipoMaquina.setLocationRelativeTo(null);
+        gestionTipoMaquina.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
@@ -769,7 +778,15 @@ public class GestionUsuario extends javax.swing.JFrame {
         TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
         tipoAveria.setLocationRelativeTo(null);
         tipoAveria.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miTipoAveriaActionPerformed
+
+    private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
+        GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
+        gestionEstadoMaquina.setLocationRelativeTo(null);
+        gestionEstadoMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

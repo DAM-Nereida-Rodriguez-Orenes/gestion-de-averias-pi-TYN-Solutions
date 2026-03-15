@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.Estado;
 import vista.PanelImgFondo;
-import vista.admin.averia.AveriaListar;
+import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
@@ -108,11 +108,12 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestión de Estados de Maquinaria");
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gestión de estados de maquinaria");
+        jLabel1.setText("Gestión de Estados de Maquinaria");
 
         tbEstados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -130,7 +131,7 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         btnNuevoEstado.setBackground(new java.awt.Color(58, 181, 235));
         btnNuevoEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnNuevoEstado.setForeground(new java.awt.Color(255, 255, 255));
-        btnNuevoEstado.setText("+ Nuevo");
+        btnNuevoEstado.setText("+ Nuevo Estado");
         btnNuevoEstado.setBorderPainted(false);
         btnNuevoEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,7 +142,7 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         btnActualizarEstado.setBackground(new java.awt.Color(234, 242, 251));
         btnActualizarEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarEstado.setForeground(new java.awt.Color(67, 113, 177));
-        btnActualizarEstado.setText("Modificar");
+        btnActualizarEstado.setText("Editar");
         btnActualizarEstado.setBorderPainted(false);
         btnActualizarEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,9 +203,9 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnActualizarEstado)
+                        .addComponent(btnActualizarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminarEstado))
+                        .addComponent(btnEliminarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnNuevoEstado)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -420,7 +421,7 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        AveriaListar gestionAveria = new AveriaListar();
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
         gestionAveria.setLocationRelativeTo(null);
         gestionAveria.setVisible(true);
         this.dispose();

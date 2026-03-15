@@ -17,6 +17,10 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import vista.PanelImgFondo;
+import vista.admin.averia.TipoAveriaCRUD;
+import vista.admin.maquinas.GestionEstadoMaquina;
+import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.maquinas.GestionTipoMaquina;
 import vista.vHomeAdmin;
 
 /**
@@ -84,8 +88,8 @@ public class GestionRol extends javax.swing.JFrame {
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
-        
-         //icono de usuario 
+
+        //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
         jlSaldoIcono.setIcon(iconUsuarioAdmin);
         jlSaldoIcono.setText("Hola, Admin");
@@ -128,7 +132,7 @@ public class GestionRol extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestión de Rol");
+        setTitle("Gestión de Roles");
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -159,7 +163,7 @@ public class GestionRol extends javax.swing.JFrame {
         btnActualizarRol.setBackground(new java.awt.Color(234, 242, 251));
         btnActualizarRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarRol.setForeground(new java.awt.Color(67, 113, 177));
-        btnActualizarRol.setText("Modificar ");
+        btnActualizarRol.setText("Editar");
         btnActualizarRol.setBorderPainted(false);
         btnActualizarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,6 +293,11 @@ public class GestionRol extends javax.swing.JFrame {
         miGestion.add(miUsuario);
 
         miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miMaquinaria);
 
         miTipoMaquinaria.setText("Tipo de maquinaria");
@@ -300,9 +309,19 @@ public class GestionRol extends javax.swing.JFrame {
         miGestion.add(miTipoMaquinaria);
 
         miEstadoMaquinaria.setText("Estado de maquinaria");
+        miEstadoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEstadoMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
+        miTipoAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoAveriaActionPerformed(evt);
+            }
+        });
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
@@ -350,7 +369,10 @@ public class GestionRol extends javax.swing.JFrame {
     }//GEN-LAST:event_miUsuarioActionPerformed
 
     private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
-        // TODO add your handling code here:
+        GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
+        gestionTipoMaquina.setLocationRelativeTo(null);
+        gestionTipoMaquina.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     /**
@@ -439,7 +461,7 @@ public class GestionRol extends javax.swing.JFrame {
             ar.setVisible(true);
 
         } else {
-            JOptionPane.showMessageDialog(this,"Debes seleccionar un rol","Editar rol",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un rol", "Editar rol", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnActualizarRolActionPerformed
 
@@ -449,6 +471,27 @@ public class GestionRol extends javax.swing.JFrame {
         cr.setLocationRelativeTo(this);
         cr.setVisible(true);
     }//GEN-LAST:event_btnAddRolActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
+
+    private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
+        GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
+        gestionEstadoMaquina.setLocationRelativeTo(null);
+        gestionEstadoMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
+
+    private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
+        TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
+        tipoAveria.setLocationRelativeTo(null);
+        tipoAveria.setVisible(true);
+        this.dispose(); 
+    }//GEN-LAST:event_miTipoAveriaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarRol;

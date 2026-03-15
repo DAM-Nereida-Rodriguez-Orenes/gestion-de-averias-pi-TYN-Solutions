@@ -436,7 +436,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 204));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Actualizar Avería");
+        jLabel3.setText("Editar avería");
         jLabel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         txtAveriaId2.setEditable(false);

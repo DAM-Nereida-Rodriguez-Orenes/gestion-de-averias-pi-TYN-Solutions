@@ -16,7 +16,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import modelo.Usuario;
-import vista.admin.averia.AveriaListar;
+import vista.admin.averia.GestionAveriaListar;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
@@ -118,6 +118,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miSalirApp = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inicio | Gestión de averías");
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
@@ -268,7 +269,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGesMaquinaActionPerformed
 
     private void btnGesAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesAveriaActionPerformed
-        AveriaListar gestionAveria = new AveriaListar();
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
         gestionAveria.setLocationRelativeTo(null);
         gestionAveria.setVisible(true);
         this.dispose();

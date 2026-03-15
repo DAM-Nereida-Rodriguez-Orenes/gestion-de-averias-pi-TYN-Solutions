@@ -309,11 +309,12 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión de Tipos de Averías");
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 204));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Gestión de tipos de averías");
+        jLabel2.setText("Gestión de Tipos de Averías");
 
         tablaAveria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -342,7 +343,7 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         btnTipoAveriaActualizar.setBackground(new java.awt.Color(234, 242, 251));
         btnTipoAveriaActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnTipoAveriaActualizar.setForeground(new java.awt.Color(67, 113, 177));
-        btnTipoAveriaActualizar.setText("Actualizar");
+        btnTipoAveriaActualizar.setText("Editar");
         btnTipoAveriaActualizar.setBorderPainted(false);
         btnTipoAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,9 +401,9 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnTipoAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTipoAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(btnTipoAveriaEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnTipoAveriaEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTipoAveriaNuevo))
                 .addGap(61, 61, 61))
