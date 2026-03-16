@@ -41,6 +41,8 @@ public class vLogin extends javax.swing.JFrame {
         cargarUsuarioRecordado();
 
         mostrarImagenes();
+        // Abrir la ventana maximizada
+        //this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
         //Ver contraseña
         echoCharOriginal = txtPassword.getEchoChar();
@@ -227,10 +229,11 @@ public class vLogin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(10, 10, 10)
-                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRecuperar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tgbtnVerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tgbtnVerPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(formularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRecuperar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16)
                 .addComponent(chkRecordarUsuario))
         );
@@ -290,9 +293,11 @@ public class vLogin extends javax.swing.JFrame {
             int codigoRol = usuario.getRol().getCodigoRol();
 
             if (codigoRol == 701) {
+                loginControlador.guardarSesion(usuario);
                 vHomeAdmin vHome = new vHomeAdmin();
                 vHome.setVisible(true);
             } else if (codigoRol == 702) {
+                loginControlador.guardarSesion(usuario);
                 vHomeOper vHome = new vHomeOper();
                 vHome.setVisible(true);
             } else {

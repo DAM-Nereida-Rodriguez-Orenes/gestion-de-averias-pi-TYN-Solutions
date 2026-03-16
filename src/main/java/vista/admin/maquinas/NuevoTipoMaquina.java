@@ -88,7 +88,7 @@ public class NuevoTipoMaquina extends javax.swing.JDialog {
         btnCrearTM.setBackground(new java.awt.Color(58, 181, 235));
         btnCrearTM.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnCrearTM.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearTM.setText("Nuevo tipo ");
+        btnCrearTM.setText("Crear");
         btnCrearTM.setBorderPainted(false);
         btnCrearTM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

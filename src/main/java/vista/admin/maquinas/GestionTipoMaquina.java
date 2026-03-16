@@ -8,6 +8,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
 import controlador.GestionTipoMaquinaControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
@@ -27,6 +28,7 @@ import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  *
@@ -46,8 +48,8 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         cargarTiposMaquinariaEnTabla();
         mostrarImagenes();
     }
-    
-     public void mostrarImagenes() {
+
+    public void mostrarImagenes() {
         //Ajustes del deisño del JFrame/Layout
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
@@ -154,7 +156,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         btnEliminarTipoMaq.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminarTipoMaq.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarTipoMaq.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarTipoMaq.setText("Eliminar");
+        btnEliminarTipoMaq.setText("Eliminar Tipo");
         btnEliminarTipoMaq.setBorderPainted(false);
         btnEliminarTipoMaq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,8 +207,8 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnActualizarTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(29, 29, 29)
-                            .addComponent(btnEliminarTipoMaq, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(35, 35, 35)
+                            .addComponent(btnEliminarTipoMaq))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addGap(997, 997, 997)
                             .addComponent(btnNuevoTipoMaq))))
@@ -248,6 +250,11 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -415,7 +422,11 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
@@ -465,40 +476,9 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionTipoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionTipoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionTipoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionTipoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionTipoMaquina().setVisible(true);
-            }
-        });
-    }
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
 
     //crear y ordenar tabla
     private void configurarTabla() {

@@ -121,7 +121,7 @@ public class CrearRol extends javax.swing.JDialog {
         btnCrearRol.setBackground(new java.awt.Color(58, 181, 235));
         btnCrearRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnCrearRol.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearRol.setText("Nuevo rol");
+        btnCrearRol.setText("Crear");
         btnCrearRol.setBorderPainted(false);
         btnCrearRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

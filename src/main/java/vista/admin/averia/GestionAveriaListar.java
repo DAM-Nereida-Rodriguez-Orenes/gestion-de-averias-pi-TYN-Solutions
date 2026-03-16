@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import controlador.AveriaControlador;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
@@ -29,6 +30,7 @@ import vista.admin.maquinas.GestionTipoMaquina;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  * Ventana principal para la gestión de Averías. Muestra el listado general y
@@ -37,7 +39,7 @@ import vista.vHomeAdmin;
  * @author yosue
  */
 public class GestionAveriaListar extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionAveriaListar.class.getName());
 
     // --- Controladores y Modelos ---
@@ -53,11 +55,11 @@ public class GestionAveriaListar extends javax.swing.JFrame {
      */
     public GestionAveriaListar() {
         controladorAveria = new AveriaControlador();
-        
+
         setTitle("Mi JFrame Centrado");
         setSize(1200, 800); // Darle un tamaño es obligatorio antes de centrar
         setLocationRelativeTo(null);
-        
+
         initComponents();
 
         // Configuraciones iniciales
@@ -66,7 +68,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         configurarBuscador();
         mostrarImagenes();
     }
-    
+
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame/Layout
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -77,10 +79,10 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         // Evitar que el usuario cambie el tamaño
         this.setResizable(false);
-        
+
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
-        
+
         FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
@@ -93,6 +95,10 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);
+        
+     
+       // Placeholder de FlatLaf
+        txtAveriaBuscar.putClientProperty("JTextField.placeholderText", "Buscar ");
     }
 
     // =========================================================================
@@ -112,7 +118,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
                 return false;
             }
         };
-        
+
         tablaAveria.setModel(modeloTabla);
         sorter = new TableRowSorter<>(modeloTabla);
         tablaAveria.setRowSorter(sorter);
@@ -159,19 +165,19 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             public void insertUpdate(DocumentEvent e) {
                 filtrar();
             }
-            
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 filtrar();
             }
-            
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 filtrar();
             }
         });
     }
-    
+
     private void filtrar() {
         String texto = txtAveriaBuscar.getText();
         if (texto.trim().isEmpty()) {
@@ -277,17 +283,9 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         });
 
         txtAveriaBuscar.setBackground(new java.awt.Color(234, 242, 251));
-        txtAveriaBuscar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        txtAveriaBuscar.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         txtAveriaBuscar.setForeground(new java.awt.Color(67, 113, 177));
         txtAveriaBuscar.setBorder(null);
-        txtAveriaBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtAveriaBuscarFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtAveriaBuscarFocusLost(evt);
-            }
-        });
 
         btnAveriaActualizar.setBackground(new java.awt.Color(234, 242, 251));
         btnAveriaActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
@@ -378,6 +376,11 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -477,7 +480,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         try {
             // 1. Obtener la fila seleccionada (getSelectedRow coge la primera si hay varias)
             int filaVista = tablaAveria.getSelectedRow();
-            
+
             if (filaVista == -1) {
                 JOptionPane.showMessageDialog(this,
                         "Por favor, selecciona una avería de la tabla para actualizar.",
@@ -491,13 +494,13 @@ public class GestionAveriaListar extends javax.swing.JFrame {
 
             // 3. Buscar la avería en la BD
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
-            
+
             if (averiaSeleccionada != null) {
                 AveriaActualizar2 ventanaActualizar = new AveriaActualizar2(this, true, averiaSeleccionada);
                 ventanaActualizar.setLocationRelativeTo(this);
                 ventanaActualizar.setVisible(true); // Se pausa aquí
                 ventanaActualizar.setSize(1000, 600);
-                
+
                 cargarDatos(); // Refrescar al volver
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -618,24 +621,12 @@ public class GestionAveriaListar extends javax.swing.JFrame {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
-
-    private void txtAveriaBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAveriaBuscarFocusGained
-        String texto = txtAveriaBuscar.getText().trim();
-        
-        if (texto.equalsIgnoreCase("Buscar descripción")) {
-            txtAveriaBuscar.setText("");
-        }
-    }//GEN-LAST:event_txtAveriaBuscarFocusGained
-
-    private void txtAveriaBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAveriaBuscarFocusLost
-        String texto = txtAveriaBuscar.getText().trim();
-        
-        if (texto.isEmpty()) {
-            txtAveriaBuscar.setText("Buscar descripción");
-        }
-    }//GEN-LAST:event_txtAveriaBuscarFocusLost
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
         TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
@@ -648,6 +639,10 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         gestionEstadoMaquina.setLocationRelativeTo(null);
         gestionEstadoMaquina.setVisible(true);
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
+
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)

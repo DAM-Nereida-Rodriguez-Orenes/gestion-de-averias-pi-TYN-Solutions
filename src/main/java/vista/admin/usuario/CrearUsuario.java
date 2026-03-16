@@ -195,7 +195,7 @@ public class CrearUsuario extends javax.swing.JDialog {
         btnDarAlta.setBackground(new java.awt.Color(58, 181, 235));
         btnDarAlta.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnDarAlta.setForeground(new java.awt.Color(255, 255, 255));
-        btnDarAlta.setText("Nuevo usuario");
+        btnDarAlta.setText("Crear");
         btnDarAlta.setBorderPainted(false);
         btnDarAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,8 +234,8 @@ public class CrearUsuario extends javax.swing.JDialog {
                 .addGroup(panelBlancoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBlancoLayout.createSequentialGroup()
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(334, 334, 334)
-                        .addComponent(btnDarAlta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDarAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBlancoLayout.createSequentialGroup()
                         .addComponent(cbbPrefijosTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(80, 80, 80)

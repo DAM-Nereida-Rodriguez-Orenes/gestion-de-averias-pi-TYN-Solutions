@@ -92,7 +92,7 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
         btnCrearEstado.setBackground(new java.awt.Color(58, 181, 235));
         btnCrearEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnCrearEstado.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearEstado.setText("Nuevo estado");
+        btnCrearEstado.setText("Crear");
         btnCrearEstado.setBorderPainted(false);
         btnCrearEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +129,7 @@ public class NuevoEstadoMaquina extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCrearEstado))
+                        .addComponent(btnCrearEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtDescEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(txtPrefijo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)

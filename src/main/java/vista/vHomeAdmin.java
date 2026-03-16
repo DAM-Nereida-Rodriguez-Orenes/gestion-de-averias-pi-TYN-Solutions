@@ -7,6 +7,7 @@ package vista;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
 import java.awt.Color;
@@ -39,6 +40,8 @@ public class vHomeAdmin extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         mostrarImagenes();
+        // Abrir la ventana maximizada
+       // this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     public void mostrarImagenes() {
@@ -194,15 +197,12 @@ public class vHomeAdmin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(btnGesUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnGesMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(208, 208, 208)
-                        .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
+                .addGap(201, 201, 201)
+                .addComponent(btnGesMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(208, 208, 208)
+                .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(109, 109, 109))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +215,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
                     .addComponent(btnGesMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGesUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(320, Short.MAX_VALUE))
+                .addGap(320, 320, 320))
         );
 
         miInicio.setText("Inicio");
@@ -229,6 +229,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -250,7 +255,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void btnGesUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesUsuarioActionPerformed
@@ -274,6 +283,10 @@ public class vHomeAdmin extends javax.swing.JFrame {
         gestionAveria.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnGesAveriaActionPerformed
+
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
 
     /**
      * @param args the command line arguments

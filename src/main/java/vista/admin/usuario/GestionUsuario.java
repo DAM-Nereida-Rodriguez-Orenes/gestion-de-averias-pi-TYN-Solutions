@@ -9,8 +9,10 @@ import com.formdev.flatlaf.util.StringUtils;
 import config.DataSourceFactory;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import dao.UsuarioDao;
 import daoImpl.UsuarioDaoImpl;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
@@ -30,6 +32,7 @@ import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  *
@@ -103,6 +106,9 @@ public class GestionUsuario extends javax.swing.JFrame {
         jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
         jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
         jLabel2.setIconTextGap(8);
+
+        // Placeholder real de FlatLaf
+        txtBarraBusqueda.putClientProperty("JTextField.placeholderText", "Buscar ");
     }
 
     //Metodos auxiliares
@@ -233,18 +239,9 @@ public class GestionUsuario extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
         txtBarraBusqueda.setBackground(new java.awt.Color(234, 242, 251));
-        txtBarraBusqueda.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        txtBarraBusqueda.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         txtBarraBusqueda.setForeground(new java.awt.Color(67, 113, 177));
-        txtBarraBusqueda.setText("Buscar");
         txtBarraBusqueda.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(234, 242, 251)));
-        txtBarraBusqueda.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtBarraBusquedaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtBarraBusquedaFocusLost(evt);
-            }
-        });
         txtBarraBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBarraBusquedaActionPerformed(evt);
@@ -252,7 +249,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         });
 
         cbbRol.setBackground(new java.awt.Color(234, 242, 251));
-        cbbRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        cbbRol.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         cbbRol.setForeground(new java.awt.Color(67, 113, 177));
         cbbRol.setBorder(null);
         cbbRol.addActionListener(new java.awt.event.ActionListener() {
@@ -262,7 +259,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         });
 
         cbbEstatus.setBackground(new java.awt.Color(234, 242, 251));
-        cbbEstatus.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        cbbEstatus.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
         cbbEstatus.setForeground(new java.awt.Color(67, 113, 177));
         cbbEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estatus", "Activo", "Inactivo" }));
         cbbEstatus.setBorder(null);
@@ -315,7 +312,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         btnEliminarUsuario.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminarUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarUsuario.setText("Eliminar");
+        btnEliminarUsuario.setText("Eliminar usuario");
         btnEliminarUsuario.setBorderPainted(false);
         btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -399,8 +396,8 @@ public class GestionUsuario extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(29, 29, 29)
-                            .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(40, 40, 40)
+                            .addComponent(btnEliminarUsuario))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -430,9 +427,9 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21))
         );
 
@@ -623,7 +620,11 @@ public class GestionUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMenuPrincipalActionPerformed
@@ -738,26 +739,6 @@ public class GestionUsuario extends javax.swing.JFrame {
     private void cbbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbRolActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbbRolActionPerformed
-
-    // Metodo que se ejecuta cuando el usuario entra en la barra de busqueda
-    // Si el texto actual es "Buscar", lo borra para que el usuario pueda escribir
-    private void txtBarraBusquedaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusGained
-        String texto = txtBarraBusqueda.getText().trim();
-
-        if (texto.equalsIgnoreCase("Buscar")) {
-            txtBarraBusqueda.setText("");
-        }
-    }//GEN-LAST:event_txtBarraBusquedaFocusGained
-
-    // Metodo que se ejecuta cuando el usuario sale de la barra de busqueda
-    // Si el usuario no ha escrito nada, vuelve a colocar el texto "Buscar"
-    private void txtBarraBusquedaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBarraBusquedaFocusLost
-        String texto = txtBarraBusqueda.getText().trim();
-
-        if (texto.isEmpty()) {
-            txtBarraBusqueda.setText("Buscar");
-        }
-    }//GEN-LAST:event_txtBarraBusquedaFocusLost
 
     private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
         GestionRolControlador gestionRolControlador = new GestionRolControlador();

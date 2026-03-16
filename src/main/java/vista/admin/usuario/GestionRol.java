@@ -7,6 +7,7 @@ package vista.admin.usuario;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
@@ -22,6 +23,7 @@ import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  *
@@ -174,7 +176,7 @@ public class GestionRol extends javax.swing.JFrame {
         btnEliminarRol.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminarRol.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarRol.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarRol.setText("Eliminar");
+        btnEliminarRol.setText("Eliminar rol");
         btnEliminarRol.setBorderPainted(false);
         btnEliminarRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,6 +272,11 @@ public class GestionRol extends javax.swing.JFrame {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -353,7 +360,11 @@ public class GestionRol extends javax.swing.JFrame {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
@@ -490,8 +501,12 @@ public class GestionRol extends javax.swing.JFrame {
         TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
         tipoAveria.setLocationRelativeTo(null);
         tipoAveria.setVisible(true);
-        this.dispose(); 
+        this.dispose();
     }//GEN-LAST:event_miTipoAveriaActionPerformed
+
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarRol;

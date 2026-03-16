@@ -5,15 +5,22 @@
 package vista.admin.averia;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import vista.PanelImgFondo;
+import vista.admin.maquinas.GestionEstadoMaquina;
+import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.maquinas.GestionTipoMaquina;
+import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  *
@@ -354,7 +361,7 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         btnTipoAveriaEliminar.setBackground(new java.awt.Color(204, 0, 0));
         btnTipoAveriaEliminar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnTipoAveriaEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnTipoAveriaEliminar.setText("Eliminar");
+        btnTipoAveriaEliminar.setText("Eliminar Tipo");
         btnTipoAveriaEliminar.setBorderPainted(false);
         btnTipoAveriaEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,8 +409,8 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnTipoAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnTipoAveriaEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
+                        .addComponent(btnTipoAveriaEliminar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTipoAveriaNuevo))
                 .addGap(61, 61, 61))
@@ -444,6 +451,11 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -467,6 +479,11 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         miGestion.add(miUsuario);
 
         miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miMaquinaria);
 
         miTipoMaquinaria.setText("Tipo de maquinaria");
@@ -478,6 +495,11 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         miGestion.add(miTipoMaquinaria);
 
         miEstadoMaquinaria.setText("Estado de maquinaria");
+        miEstadoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEstadoMaquinariaActionPerformed(evt);
+            }
+        });
         miGestion.add(miEstadoMaquinaria);
 
         miTipoAveria.setText("Tipos de avería");
@@ -489,6 +511,11 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
         miGestion.add(miTipoAveria);
 
         miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
         miGestion.add(miRoles);
 
         jMenuBar1.add(miGestion);
@@ -647,11 +674,18 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        // TODO add your handling code here:
+        GestionAveriaListar gestionAveriaListar = new GestionAveriaListar();
+        gestionAveriaListar.setLocationRelativeTo(null);
+        gestionAveriaListar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miAveriaActionPerformed
 
     private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
@@ -663,12 +697,41 @@ public class TipoAveriaCRUD extends javax.swing.JDialog {
     }//GEN-LAST:event_miUsuarioActionPerformed
 
     private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
-        // TODO add your handling code here:
+        GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
+        gestionTipoMaquina.setLocationRelativeTo(null);
+        gestionTipoMaquina.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
 
     }//GEN-LAST:event_miTipoAveriaActionPerformed
+
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
+
+    private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
+        GestionEstadoMaquina gestionEstadosMaquina = new GestionEstadoMaquina();
+        gestionEstadosMaquina.setLocationRelativeTo(null);
+        gestionEstadosMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
+
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
 
     /**
      * @param args the command line arguments

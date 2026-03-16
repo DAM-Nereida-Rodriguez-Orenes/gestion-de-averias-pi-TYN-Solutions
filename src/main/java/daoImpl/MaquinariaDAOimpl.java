@@ -112,13 +112,14 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
     @Override
     public void eliminar(int codigoMaquinaria) {
-        final String sql = "DELETE FROM maquinaria WHERE codigoMaquinaria = ?";
+       final String sql = "UPDATE maquinaria SET fechaBaja = CURRENT_DATE WHERE codigoMaquinaria = ?";
+
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             // PK máquina a eliminar
-            ps.setInt(1, codigoMaquinaria);
+            ps.setInt(1, codigoMaquinaria);  
 
             ps.executeUpdate();
 

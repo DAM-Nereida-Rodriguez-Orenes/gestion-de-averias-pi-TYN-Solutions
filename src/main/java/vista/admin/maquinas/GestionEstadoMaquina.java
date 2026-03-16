@@ -8,6 +8,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionEstadoMaquinaControlador;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URL;
@@ -26,6 +27,7 @@ import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
+import vista.vLogin;
 
 /**
  *
@@ -153,7 +155,7 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         btnEliminarEstado.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminarEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminarEstado.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarEstado.setText("Eliminar");
+        btnEliminarEstado.setText("Eliminar estado");
         btnEliminarEstado.setBorderPainted(false);
         btnEliminarEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +207,7 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnActualizarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminarEstado))
                     .addComponent(btnNuevoEstado)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -246,6 +248,11 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -417,7 +424,11 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
@@ -467,41 +478,10 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miRolesActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestionEstadoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestionEstadoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestionEstadoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestionEstadoMaquina.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionEstadoMaquina().setVisible(true);
-            }
-        });
-    }
 
     //crear y ordenar tabla
     private void configurarTabla() {
@@ -529,7 +509,7 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         tbEstados.setAutoCreateRowSorter(true);
         tbEstados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbEstados.getTableHeader().setReorderingAllowed(false);
-         // este valor aumenta el tamaño de las tuplas
+        // este valor aumenta el tamaño de las tuplas
         tbEstados.setRowHeight(36);
         //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
         tbEstados.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));

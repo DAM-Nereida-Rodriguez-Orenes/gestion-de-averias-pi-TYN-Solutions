@@ -29,6 +29,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cerrar Fixora"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miSalirAppActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -151,7 +154,7 @@
                       <Group type="102" attributes="0">
                           <Component id="btnActualizarEstado" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnEliminarEstado" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="btnEliminarEstado" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="btnNuevoEstado" min="-2" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="1050" max="-2" attributes="0"/>
@@ -258,7 +261,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Eliminar"/>
+            <Property name="text" type="java.lang.String" value="Eliminar estado"/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>

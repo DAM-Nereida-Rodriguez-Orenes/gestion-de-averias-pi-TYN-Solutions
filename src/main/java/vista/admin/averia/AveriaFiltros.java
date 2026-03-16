@@ -290,7 +290,7 @@ public class AveriaFiltros extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Filtrar por:");
+        jLabel1.setText("Filtrar por");
         jLabel1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         cbAveriaTipo.setBackground(new java.awt.Color(237, 243, 251));

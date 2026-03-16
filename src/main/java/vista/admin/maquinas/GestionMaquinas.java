@@ -103,13 +103,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
         //FlatSVGIcon iconoIdMaquina = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
         //txtID.putClientProperty("JTextField.leadingIcon", iconoIdMaquina);
         //txtID.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtID.putClientProperty("JTextField.placeholderText", "Código máquina: ");
+        txtID.putClientProperty("JTextField.placeholderText", "Código máquina ");
 
         //Campo maquina txtNameFilter
         //FlatSVGIcon iconoNombreMaquina = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
         //txtNameFilter.putClientProperty("JTextField.leadingIcon", iconoNombreMaquina);
         //txtNameFilter.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtNameFilter.putClientProperty("JTextField.placeholderText", "Buscar máquina: ");
+        txtNameFilter.putClientProperty("JTextField.placeholderText", "Buscar máquina ");
 
         //Combobox Tipo maquinaria
         /*FlatSVGIcon iconoTipoMaquinaria = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
@@ -211,12 +211,18 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jLabel1.setText("Gestión de Máquinas");
 
         txtID.setBackground(new java.awt.Color(237, 243, 251));
+        txtID.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        txtID.setForeground(new java.awt.Color(67, 113, 177));
         txtID.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
 
         cbbTipo.setBackground(new java.awt.Color(234, 242, 251));
+        cbbTipo.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        cbbTipo.setForeground(new java.awt.Color(67, 113, 177));
         cbbTipo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
 
         cbbStatus.setBackground(new java.awt.Color(234, 242, 251));
+        cbbStatus.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        cbbStatus.setForeground(new java.awt.Color(67, 113, 177));
         cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "En mantenimiento", "Fuera de servicio" }));
         cbbStatus.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
 
@@ -258,7 +264,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
         btnEliminar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
+        btnEliminar.setText("Eliminar máquina");
         btnEliminar.setBorderPainted(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -267,10 +273,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
         });
 
         txtNameFilter.setBackground(new java.awt.Color(237, 243, 251));
+        txtNameFilter.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        txtNameFilter.setForeground(new java.awt.Color(67, 113, 177));
         txtNameFilter.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
 
         btnFiltrar.setBackground(new java.awt.Color(234, 242, 251));
-        btnFiltrar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        btnFiltrar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnFiltrar.setForeground(new java.awt.Color(67, 113, 177));
         btnFiltrar.setText("Aplicar filtro");
         btnFiltrar.setBorderPainted(false);
@@ -308,7 +316,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         });
 
         btnLimpiar.setBackground(new java.awt.Color(234, 242, 251));
-        btnLimpiar.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        btnLimpiar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(67, 113, 177));
         btnLimpiar.setText("Limpiar filtros");
         btnLimpiar.setBorderPainted(false);
@@ -390,8 +398,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(38, 38, 38)
+                                .addComponent(btnEliminar)))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -451,6 +459,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         miInicio.add(miCerrarSesion);
 
         miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
         miInicio.add(miSalirApp);
 
         jMenuBar1.add(miInicio);
@@ -713,7 +726,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
     }//GEN-LAST:event_miMenuPrincipalActionPerformed
 
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
-
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
@@ -766,6 +783,10 @@ public class GestionMaquinas extends javax.swing.JFrame {
         gestionRol.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miRolesActionPerformed
+
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
 
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
@@ -1041,31 +1062,6 @@ public class GestionMaquinas extends javax.swing.JFrame {
         }
 
         cargarTablaMaquinaria(lista);
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GestionMaquinas().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

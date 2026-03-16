@@ -312,7 +312,7 @@ public class AveriaNueva extends javax.swing.JDialog {
         btnAveriaCrear.setBackground(new java.awt.Color(58, 181, 235));
         btnAveriaCrear.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnAveriaCrear.setForeground(new java.awt.Color(255, 255, 255));
-        btnAveriaCrear.setText("Nueva avería");
+        btnAveriaCrear.setText("Crear");
         btnAveriaCrear.setBorderPainted(false);
         btnAveriaCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

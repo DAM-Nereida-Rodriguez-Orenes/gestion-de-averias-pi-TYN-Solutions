@@ -96,8 +96,8 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnCancelar" min="-2" pref="120" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="334" max="-2" attributes="0"/>
-                              <Component id="btnDarAlta" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnDarAlta" min="-2" pref="120" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="cbbPrefijosTelefonos" min="-2" pref="251" max="-2" attributes="0"/>
@@ -274,7 +274,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nuevo usuario"/>
+                <Property name="text" type="java.lang.String" value="Crear"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
