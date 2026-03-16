@@ -95,9 +95,8 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);
-        
-     
-       // Placeholder de FlatLaf
+
+        // Placeholder de FlatLaf
         txtAveriaBuscar.putClientProperty("JTextField.placeholderText", "Buscar ");
     }
 
@@ -467,7 +466,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
 
     private void btnAveriaNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaNuevaActionPerformed
         // 1. Crear la instancia del JDialog
-        AveriaNueva ventanaNueva = new AveriaNueva(this, true);
+        AveriaNueva ventanaNueva = new AveriaNueva(this, true, controladorAveria);
         // 2. Centrar la ventana respecto a la pantalla o al padre
         ventanaNueva.setLocationRelativeTo(this);
         // 3. Mostrar la ventana
@@ -641,7 +640,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
     private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
     // =========================================================================

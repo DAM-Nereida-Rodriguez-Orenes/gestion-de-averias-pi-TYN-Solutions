@@ -147,12 +147,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
-                
+
                 Rol rol = new Rol();
                 rol.setCodigoRol(rs.getInt("codigoRol"));
                 rol.setDescripcionRol(rs.getString("descripcionRol"));
                 usuario.setRol(rol);
-                
+
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -248,12 +248,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
                     usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                     usuario.setNombre(rs.getString("nombre"));
                     usuario.setApellido(rs.getString("apellido"));
-                    
+
                     Rol rolRecuperado = new Rol();
                     rolRecuperado.setCodigoRol(rs.getInt("codigoRol"));
-                    rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));                   
+                    rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));
                     usuario.setRol(rolRecuperado);
-                    
+
                     usuario.setTelefono(rs.getString("telefono"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));
@@ -455,12 +455,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     /**
-     * 
-     * Genera una contraseña automáticamente  para los usuarios 
+     *
+     * Genera una contraseña automáticamente para los usuarios
+     *
      * @param longitud
      * @return String
      */
-    
     private String generarContrasena(int longitud) {
 
         String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -495,6 +495,75 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
 
         return new String(password);
+    }
+
+    public Usuario buscarPorEmail(String email) {
+
+        Usuario usuario = null;
+
+        String sql = "SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo "
+                + "FROM usuario "
+                + "WHERE email = ? AND activo = 1";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, email);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                usuario = new Usuario();
+
+                usuario.setCodigoUsuario(resultSet.getInt("codigoUsuario"));
+                usuario.setNombre(resultSet.getString("nombre"));
+                usuario.setApellido(resultSet.getString("apellido"));
+
+                Rol rol = new Rol();
+                rol.setCodigoRol(resultSet.getInt("codigoRolFK"));
+                usuario.setRol(rol);
+
+                usuario.setTelefono(resultSet.getString("telefono"));
+                usuario.setEmail(resultSet.getString("email"));
+                usuario.setPassword(resultSet.getString("password"));
+                usuario.setIntentos(resultSet.getInt("intentos"));
+
+                Timestamp timestamp = resultSet.getTimestamp("ultimoAcceso");
+
+                if (timestamp != null) {
+                    usuario.setUltimoAcceso(timestamp.toLocalDateTime());
+                }
+
+                usuario.setActivo(resultSet.getBoolean("activo"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error en buscarPorEmail: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error cerrando recursos: " + e.getMessage());
+            }
+        }
+
+        return usuario;
     }
 
 }

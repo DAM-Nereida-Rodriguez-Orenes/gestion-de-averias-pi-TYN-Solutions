@@ -20,7 +20,7 @@ public class LoginControlador {
     //que la puedo llamar desde la vista que me interese 
     private final UsuarioDao usuarioDao;
     private Usuario usuario;
-    
+
     //Guardar la sesion del login
     private static final Preferences preferencias = Preferences.userRoot().node("fixoraSesion");
 
@@ -70,7 +70,6 @@ public class LoginControlador {
     }
 
     //METODOS PARA LA PERSISTENCIA DEL USUARIO LOGEADO 
-
     public void guardarSesion(Usuario usuario) {
         preferencias.put(CLAVE_EMAIL_USUARIO, usuario.getEmail());
         preferencias.putInt(CLAVE_ROL_USUARIO, usuario.getRol().getCodigoRol());
@@ -94,5 +93,17 @@ public class LoginControlador {
         preferencias.remove(CLAVE_EMAIL_USUARIO);
         preferencias.putBoolean(CLAVE_SESION_ACTIVA, false);
         preferencias.remove(CLAVE_ROL_USUARIO);
+    }
+
+    //Otener el usuario logueado
+    public Usuario getUsuarioSesion() {
+
+        String email = getEmailUsuario();
+
+        if (email == null || email.isEmpty()) {
+            return null;
+        }
+
+        return usuarioDao.buscarPorEmail(email);
     }
 }

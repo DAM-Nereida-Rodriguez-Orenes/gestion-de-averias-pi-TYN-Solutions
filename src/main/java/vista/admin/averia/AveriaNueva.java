@@ -37,22 +37,23 @@ public class AveriaNueva extends javax.swing.JDialog {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AveriaNueva.class.getName());
 
     // --- Controlador y Listas Maestras ---
-    private final AveriaControlador controlador = new AveriaControlador();
+    private final AveriaControlador controlador;
     private List<Maquinaria> todasLasMaquinas;
-    private List<Usuario> todosLosUsuarios;
+    //private List<Usuario> todosLosUsuarios;
     private List<Usuario> todosLosTecnicos;
 
     // --- Modelos Visuales ---
     private DefaultListModel<Maquinaria> modelMaquinas;
-    private DefaultListModel<Usuario> modelUsuarios;
+    //private DefaultListModel<Usuario> modelUsuarios;
     private DefaultListModel<Usuario> modelTecnicos;
     private DefaultComboBoxModel<TipoAveria> modelTipos;
 
     /**
      * Constructor
      */
-    public AveriaNueva(java.awt.Frame parent, boolean modal) {
+    public AveriaNueva(java.awt.Frame parent, boolean modal, AveriaControlador controlador) {
         super(parent, modal);
+        this.controlador = controlador;
         initComponents();
 
         // Centrar la ventana respecto al padre
@@ -119,11 +120,16 @@ public class AveriaNueva extends javax.swing.JDialog {
         txtMaquinaBuscar.putClientProperty("JTextField.leadingIcon", iconoMaquina);
         txtMaquinaBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtMaquinaBuscar.putClientProperty("JTextField.placeholderText", "Buscar máquina: ");
+
         //Campo usuario que informa txtUsuarioBuscar
         FlatSVGIcon iconoUsuarioReporta = new FlatSVGIcon("recursos/iconos/icnUsuario.svg", 16, 16);
         txtUsuarioBuscar.putClientProperty("JTextField.leadingIcon", iconoUsuarioReporta);
         txtUsuarioBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
-        txtUsuarioBuscar.putClientProperty("JTextField.placeholderText", "Buscar usuario que informa: ");
+        txtUsuarioBuscar.setFont(new java.awt.Font("Microsoft JhengHei", java.awt.Font.BOLD, 14));
+        txtUsuarioBuscar.setDisabledTextColor(new java.awt.Color(67,113,177));
+        txtUsuarioBuscar.setEditable(false);
+        txtUsuarioBuscar.setEnabled(false);
+
         //Campo usuario que informa txtUsuarioBuscar
         FlatSVGIcon iconoUsuariotecnico = new FlatSVGIcon("recursos/iconos/icnUsuario.svg", 16, 16);
         txtTecnicoBuscar.putClientProperty("JTextField.leadingIcon", iconoUsuariotecnico);
@@ -161,9 +167,8 @@ public class AveriaNueva extends javax.swing.JDialog {
         modelMaquinas = new DefaultListModel<>();
         listaMaquinas.setModel(modelMaquinas);
 
-        modelUsuarios = new DefaultListModel<>();
-        listaUsuarios.setModel(modelUsuarios);
-
+        // modelUsuarios = new DefaultListModel<>();
+        // setModel(modelUsuarios);
         modelTecnicos = new DefaultListModel<>();
         listaTecnicos.setModel(modelTecnicos);
 
@@ -176,7 +181,7 @@ public class AveriaNueva extends javax.swing.JDialog {
         try {
             // 1. Descargar datos de la BD
             todasLasMaquinas = controlador.obtenerTodasLasMaquinas();
-            todosLosUsuarios = controlador.obtenerTodosLosUsuarios();
+            // todosLosUsuarios = controlador.obtenerTodosLosUsuarios();
             List<TipoAveria> tipos = controlador.obtenerTiposAveria();
 
             // 2. Filtrar técnicos en memoria
@@ -186,9 +191,9 @@ public class AveriaNueva extends javax.swing.JDialog {
             if (todasLasMaquinas != null) {
                 modelMaquinas.addAll(todasLasMaquinas);
             }
-            if (todosLosUsuarios != null) {
+            /*if (todosLosUsuarios != null) {
                 modelUsuarios.addAll(todosLosUsuarios);
-            }
+            }*/
             if (todosLosTecnicos != null) {
                 modelTecnicos.addAll(todosLosTecnicos);
             }
@@ -203,6 +208,13 @@ public class AveriaNueva extends javax.swing.JDialog {
                     modelTipos.addElement(t);
                 }
             }
+
+            // Obtener el usuario logueado y mostrar su nombre en el campo
+            Usuario usuarioLogueado = controlador.getUsuarioSesion();
+            if (usuarioLogueado != null) {
+                txtUsuarioBuscar.setText(usuarioLogueado.getNombre() + " " + usuarioLogueado.getApellido());
+            }
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error al cargar los datos en AveriaNueva", e);
             JOptionPane.showMessageDialog(this,
@@ -234,7 +246,7 @@ public class AveriaNueva extends javax.swing.JDialog {
         };
 
         txtMaquinaBuscar.getDocument().addDocumentListener(listenerUnificado);
-        txtUsuarioBuscar.getDocument().addDocumentListener(listenerUnificado);
+        //txtUsuarioBuscar.getDocument().addDocumentListener(listenerUnificado);
         txtTecnicoBuscar.getDocument().addDocumentListener(listenerUnificado);
 
         // Aplicar el filtro inicial vacío para cargar las listas por primera vez
@@ -251,13 +263,12 @@ public class AveriaNueva extends javax.swing.JDialog {
         }
 
         // --- Filtrar Usuarios (Quien reporta) ---
-        String textoUsu = txtUsuarioBuscar.getText();
+        /*  String textoUsu = txtUsuarioBuscar.getText();
         List<Usuario> usuFiltrados = controlador.filtrarUsuarios(todosLosUsuarios, textoUsu);
         modelUsuarios.clear();
         if (usuFiltrados != null) {
             modelUsuarios.addAll(usuFiltrados);
-        }
-
+        }*/
         // --- Filtrar Técnicos ---
         String textoTec = txtTecnicoBuscar.getText();
         List<Usuario> tecFiltrados = controlador.filtrarUsuarios(todosLosTecnicos, textoTec);
@@ -278,8 +289,6 @@ public class AveriaNueva extends javax.swing.JDialog {
 
         jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listaUsuarios = new javax.swing.JList<>();
         cbAveriaTipo = new javax.swing.JComboBox<>();
         txtTecnicoBuscar = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -300,8 +309,6 @@ public class AveriaNueva extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(950, 590));
-
-        jScrollPane4.setViewportView(listaUsuarios);
 
         cbAveriaTipo.setBackground(new java.awt.Color(237, 243, 251));
 
@@ -353,24 +360,27 @@ public class AveriaNueva extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUsuarioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAveriaCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTecnicoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(634, 634, 634)
+                        .addComponent(btnAveriaCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTecnicoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(74, 74, 74)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsuarioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,27 +388,22 @@ public class AveriaNueva extends javax.swing.JDialog {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTecnicoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtUsuarioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(30, 30, 30)
+                    .addComponent(cbAveriaTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAveriaCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(txtUsuarioBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTecnicoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAveriaCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -435,7 +440,20 @@ public class AveriaNueva extends javax.swing.JDialog {
     // =========================================================================
     // 3. ACCIÓN DE GUARDAR
     // =========================================================================
-
+    /**
+     * Este metodo recoge los datos escritos o seleccionados en el formulario de
+     * nueva averia y se los envia al controlador.
+     *
+     * Antes tambien se obtenia manualmente el usuario que reportaba la averia,
+     * pero eso se ha cambiado para mantener mejor el patron MVC.
+     *
+     * Ahora la vista ya no se encarga de saber que usuario ha iniciado sesion.
+     * Solo recoge los datos visuales del formulario: - descripcion - maquina -
+     * tecnico - tipo de averia
+     *
+     * El usuario que reporta la averia se obtiene automaticamente en
+     * AveriaControlador a partir de la sesion guardada en LoginControlador.
+     */
     private void btnAveriaCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaCrearActionPerformed
         try {
             // 1. Recoger la descripción
@@ -443,12 +461,14 @@ public class AveriaNueva extends javax.swing.JDialog {
 
             // 2. Recoger los objetos seleccionados
             Maquinaria maquina = listaMaquinas.getSelectedValue();
-            Usuario usuarioReporta = listaUsuarios.getSelectedValue();
             Usuario tecnico = listaTecnicos.getSelectedValue(); // Puede ser null
             TipoAveria tipo = (TipoAveria) cbAveriaTipo.getSelectedItem();
 
             // 3. Mandar al controlador
-            boolean exito = controlador.registrarAveria(descripcion, maquina, usuarioReporta, tecnico, tipo);
+            // Mandamos al controlador solo los datos del formulario.
+            // El usuario que reporta ya no se pasa desde la vista,
+            // porque el controlador lo recupera automaticamente desde la sesion.
+            boolean exito = controlador.registrarAveria(descripcion, maquina, tecnico, tipo);
 
             // 4. Procesar resultado
             if (exito) {
@@ -488,10 +508,8 @@ public class AveriaNueva extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JList<Maquinaria> listaMaquinas;
     private javax.swing.JList<Usuario> listaTecnicos;
-    private javax.swing.JList<Usuario> listaUsuarios;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtMaquinaBuscar;
     private javax.swing.JTextField txtTecnicoBuscar;
