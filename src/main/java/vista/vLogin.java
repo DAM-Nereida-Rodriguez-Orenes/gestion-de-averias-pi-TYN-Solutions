@@ -42,7 +42,7 @@ public class vLogin extends javax.swing.JFrame {
 
         mostrarImagenes();
         // Abrir la ventana maximizada
-        //this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
         //Ver contraseña
         echoCharOriginal = txtPassword.getEchoChar();
