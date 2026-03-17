@@ -28,6 +28,7 @@ import modelo.Rol;
 import modelo.Usuario;
 import vista.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
+import vista.admin.averia.GestionTipoAveria;
 import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
@@ -85,7 +86,6 @@ public class GestionUsuario extends javax.swing.JFrame {
         //Ajustes del deisño del JFrame/Layout
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
-        
         // Tamaño inical de todas las ventanas
         this.setSize(1200, 800);
         // No se puede hacer más pequeña de 1200,800
@@ -453,7 +453,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         panelTabla.setLayout(panelTablaLayout);
         panelTablaLayout.setHorizontalGroup(
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTablaLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -836,9 +836,9 @@ public class GestionUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_miMaquinariaActionPerformed
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
-        TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
-        tipoAveria.setLocationRelativeTo(null);
-        tipoAveria.setVisible(true);
+        GestionTipoAveria gestionTipoAveria = new GestionTipoAveria();
+        gestionTipoAveria.setLocationRelativeTo(null);
+        gestionTipoAveria.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miTipoAveriaActionPerformed
 

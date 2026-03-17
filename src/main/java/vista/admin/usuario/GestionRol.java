@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import vista.PanelImgFondo;
+import vista.admin.averia.GestionAveriaListar;
+import vista.admin.averia.GestionTipoAveria;
 import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
@@ -445,7 +447,10 @@ public class GestionRol extends javax.swing.JFrame {
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        // TODO add your handling code here:
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
+        gestionAveria.setLocationRelativeTo(null);
+        gestionAveria.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_miAveriaActionPerformed
 
     private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
@@ -575,9 +580,9 @@ public class GestionRol extends javax.swing.JFrame {
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
-        TipoAveriaCRUD tipoAveria = new TipoAveriaCRUD(this, rootPaneCheckingEnabled);
-        tipoAveria.setLocationRelativeTo(null);
-        tipoAveria.setVisible(true);
+        GestionTipoAveria gestionTipoAveria = new GestionTipoAveria();
+        gestionTipoAveria.setLocationRelativeTo(null);
+        gestionTipoAveria.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miTipoAveriaActionPerformed
 

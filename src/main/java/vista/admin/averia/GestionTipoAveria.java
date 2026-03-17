@@ -2,30 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package vista.admin.maquinas;
+package vista.admin.averia;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import controlador.GestionEstadoMaquinaControlador;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Insets;
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import modelo.Estado;
 import vista.PanelImgFondo;
-import vista.admin.averia.GestionAveriaListar;
-import vista.admin.averia.GestionTipoAveria;
-import vista.admin.averia.TipoAveriaCRUD;
+import vista.admin.maquinas.GestionEstadoMaquina;
+import vista.admin.maquinas.GestionMaquinas;
+import vista.admin.maquinas.GestionTipoMaquina;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
@@ -33,40 +26,57 @@ import vista.vLogin;
 
 /**
  *
- * @author Nereida Rodríguez Orenes 2ºDAM
+ * @author Netri
  */
-public class GestionEstadoMaquina extends javax.swing.JFrame {
+public class GestionTipoAveria extends javax.swing.JFrame {
 
-    private final GestionEstadoMaquinaControlador contr = new GestionEstadoMaquinaControlador();
-    private DefaultTableModel modeloTabla;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionTipoAveria.class.getName());
+    // 1. Instanciamos nuestro nuevo controlador y el modelo de la tabla
+    private final controlador.TipoAveriaControlador controlador = new controlador.TipoAveriaControlador();
+    private javax.swing.table.DefaultTableModel modeloTabla;
 
     /**
-     * Creates new form GestionTipoMaquina
+     * Creates new form GestionTipoAveria
      */
-    public GestionEstadoMaquina() {
+    public GestionTipoAveria() {
         initComponents();
-        configurarTabla();
-        cargarEstadosEnTabla();
+        // Cargar datos
+        inicializarTabla();
+        cargarDatos();
         mostrarImagenes();
     }
 
+    /**
+     * mostrarImagenes(). Metodo encargado de aplicar los ajustes visuales de la
+     * ventana.
+     *
+     * En este metodo se configuran los elementos graficos comunes de la
+     * interfaz, como el icono del JFrame, el tamaño fijo de la ventana, su
+     * posicion en pantalla y la desactivacion del redimensionado.
+     *
+     * Tambien se cargan y asignan los iconos SVG utilizados en la interfaz,
+     * como el logo de la aplicacion o los iconos de usuario. Ademas se ajustan
+     * propiedades visuales de los componentes Swing (labels, textfields, etc.)
+     * para mantener un diseño uniforme en todas las pantallas de la aplicacion.
+     */
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame/Layout
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
         // Tamaño inical de todas las ventanas
         this.setSize(1200, 800);
-        //No se puede hacer más pequeña de 1200,800
+        // No se puede hacer más pequeña de 1200,800
         this.setMinimumSize(new Dimension(1200, 800));
         // Permite usar el botón de maximizar
         this.setResizable(true);
         // Centrar ventana en pantalla
         this.setLocationRelativeTo(null);
 
+        //LOGO
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
 
-        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 70, 34);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
@@ -78,6 +88,31 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);
+    }
+
+    private void inicializarTabla() {
+        String[] columnas = {"Cód. Tipo", "Descripción", "Tiempo Prom. (Horas)"};
+        modeloTabla = new javax.swing.table.DefaultTableModel(null, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Evita que se edite directamente haciendo doble clic
+            }
+        };
+        tablaAveria.setModel(modeloTabla);
+        //Ajustes al diseño de la tabla
+        tablaAveria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
+        tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
+        tablaAveria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header
+    }
+
+    private void cargarDatos() {
+        modeloTabla.setRowCount(0);
+        java.util.List<Object[]> datos = controlador.listarParaTabla();
+        if (datos != null) {
+            for (Object[] fila : datos) {
+                modeloTabla.addRow(fila);
+            }
+        }
     }
 
     /**
@@ -94,15 +129,15 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         jlLogo = new javax.swing.JLabel();
         jlSaldoIcono = new javax.swing.JLabel();
         panelAcciones = new javax.swing.JPanel();
-        btnEliminarEstado = new javax.swing.JButton();
-        btnActualizarEstado = new javax.swing.JButton();
-        panelFiltro = new javax.swing.JPanel();
-        btnNuevoEstado = new javax.swing.JButton();
+        btnTipoAveriaActualizar = new javax.swing.JButton();
+        btnTipoAveriaEliminar = new javax.swing.JButton();
+        panelFiltros = new javax.swing.JPanel();
+        btnTipoAveriaNuevo = new javax.swing.JButton();
         panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbEstados = new javax.swing.JTable();
+        tablaAveria = new javax.swing.JTable();
         panelTitulo = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -118,12 +153,11 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestión de Estados de Maquinaria");
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         panelFondo.setBackground(new java.awt.Color(204, 204, 204));
 
         jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        jpCabecera.setOpaque(false);
 
         jlLogo.setText("jLabel2");
 
@@ -136,44 +170,44 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         jpCabeceraLayout.setHorizontalGroup(
             jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCabeceraLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(56, 56, 56)
                 .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlSaldoIcono)
-                .addGap(84, 84, 84))
+                .addGap(86, 86, 86))
         );
         jpCabeceraLayout.setVerticalGroup(
             jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpCabeceraLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addContainerGap()
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlLogo)
-                    .addComponent(jlSaldoIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jlSaldoIcono))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelAcciones.setBackground(new java.awt.Color(153, 153, 153));
         panelAcciones.setOpaque(false);
 
-        btnEliminarEstado.setBackground(new java.awt.Color(204, 0, 0));
-        btnEliminarEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnEliminarEstado.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarEstado.setText("Eliminar estado");
-        btnEliminarEstado.setBorderPainted(false);
-        btnEliminarEstado.addActionListener(new java.awt.event.ActionListener() {
+        btnTipoAveriaActualizar.setBackground(new java.awt.Color(234, 242, 251));
+        btnTipoAveriaActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnTipoAveriaActualizar.setForeground(new java.awt.Color(67, 113, 177));
+        btnTipoAveriaActualizar.setText("Editar");
+        btnTipoAveriaActualizar.setBorderPainted(false);
+        btnTipoAveriaActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarEstadoActionPerformed(evt);
+                btnTipoAveriaActualizarActionPerformed(evt);
             }
         });
 
-        btnActualizarEstado.setBackground(new java.awt.Color(234, 242, 251));
-        btnActualizarEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnActualizarEstado.setForeground(new java.awt.Color(67, 113, 177));
-        btnActualizarEstado.setText("Editar");
-        btnActualizarEstado.setBorderPainted(false);
-        btnActualizarEstado.addActionListener(new java.awt.event.ActionListener() {
+        btnTipoAveriaEliminar.setBackground(new java.awt.Color(204, 0, 0));
+        btnTipoAveriaEliminar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnTipoAveriaEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnTipoAveriaEliminar.setText("Eliminar Tipo");
+        btnTipoAveriaEliminar.setBorderPainted(false);
+        btnTipoAveriaEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarEstadoActionPerformed(evt);
+                btnTipoAveriaEliminarActionPerformed(evt);
             }
         });
 
@@ -183,55 +217,54 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminarEstado)
-                .addGap(792, 792, 792)
-                .addComponent(btnActualizarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTipoAveriaEliminar)
+                .addGap(807, 807, 807)
+                .addComponent(btnTipoAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnTipoAveriaEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTipoAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        panelFiltro.setBackground(new java.awt.Color(153, 153, 153));
-        panelFiltro.setOpaque(false);
+        panelFiltros.setBackground(new java.awt.Color(153, 153, 153));
+        panelFiltros.setOpaque(false);
 
-        btnNuevoEstado.setBackground(new java.awt.Color(58, 181, 235));
-        btnNuevoEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnNuevoEstado.setForeground(new java.awt.Color(255, 255, 255));
-        btnNuevoEstado.setText("+ Nuevo Estado");
-        btnNuevoEstado.setBorderPainted(false);
-        btnNuevoEstado.addActionListener(new java.awt.event.ActionListener() {
+        btnTipoAveriaNuevo.setBackground(new java.awt.Color(58, 181, 235));
+        btnTipoAveriaNuevo.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnTipoAveriaNuevo.setForeground(new java.awt.Color(255, 255, 255));
+        btnTipoAveriaNuevo.setText("+ Nuevo Tipo ");
+        btnTipoAveriaNuevo.setBorderPainted(false);
+        btnTipoAveriaNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoEstadoActionPerformed(evt);
+                btnTipoAveriaNuevoActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout panelFiltroLayout = new javax.swing.GroupLayout(panelFiltro);
-        panelFiltro.setLayout(panelFiltroLayout);
-        panelFiltroLayout.setHorizontalGroup(
-            panelFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFiltroLayout.createSequentialGroup()
-                .addContainerGap(978, Short.MAX_VALUE)
-                .addComponent(btnNuevoEstado)
-                .addContainerGap(79, Short.MAX_VALUE))
+        javax.swing.GroupLayout panelFiltrosLayout = new javax.swing.GroupLayout(panelFiltros);
+        panelFiltros.setLayout(panelFiltrosLayout);
+        panelFiltrosLayout.setHorizontalGroup(
+            panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFiltrosLayout.createSequentialGroup()
+                .addContainerGap(997, Short.MAX_VALUE)
+                .addComponent(btnTipoAveriaNuevo)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
-        panelFiltroLayout.setVerticalGroup(
-            panelFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFiltroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnNuevoEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        panelFiltrosLayout.setVerticalGroup(
+            panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFiltrosLayout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(btnTipoAveriaNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         panelTabla.setBackground(new java.awt.Color(153, 153, 153));
         panelTabla.setOpaque(false);
 
-        tbEstados.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAveria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -242,13 +275,13 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tbEstados);
+        jScrollPane1.setViewportView(tablaAveria);
 
         javax.swing.GroupLayout panelTablaLayout = new javax.swing.GroupLayout(panelTabla);
         panelTabla.setLayout(panelTablaLayout);
         panelTablaLayout.setHorizontalGroup(
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTablaLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -260,26 +293,23 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
 
         panelTitulo.setBackground(new java.awt.Color(153, 153, 153));
         panelTitulo.setOpaque(false);
-        panelTitulo.setPreferredSize(new java.awt.Dimension(0, 0));
 
-        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Gestión de Estados de Maquinaria");
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Gestión de Tipos de Averías");
 
         javax.swing.GroupLayout panelTituloLayout = new javax.swing.GroupLayout(panelTitulo);
         panelTitulo.setLayout(panelTituloLayout);
         panelTituloLayout.setHorizontalGroup(
             panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTituloLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelTituloLayout.setVerticalGroup(
             panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTituloLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -288,24 +318,24 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
-            .addComponent(panelFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelFiltros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
+            .addGroup(panelFondoLayout.createSequentialGroup()
                 .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 37, Short.MAX_VALUE)
+                .addComponent(panelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(panelFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 37, Short.MAX_VALUE)
                 .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
@@ -412,89 +442,6 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnNuevoEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoEstadoActionPerformed
-        NuevoEstadoMaquina ne = new NuevoEstadoMaquina(this, true);
-        ne.setLocationRelativeTo(this);
-        ne.setVisible(true);
-        cargarEstadosEnTabla();
-    }//GEN-LAST:event_btnNuevoEstadoActionPerformed
-
-    private void btnActualizarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarEstadoActionPerformed
-        Estado seleccionado = getEstadoSeleccionado();
-
-        if (seleccionado == null) {
-            return;
-        }
-
-        int id = seleccionado.getCodigoEstado();
-
-        Optional<Estado> opt = contr.buscarEstadoPorID(id);
-
-        if (opt.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "No se encontró el estado en la base de datos.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            return;
-        }
-
-        ActualizarEstadoMaquina am = new ActualizarEstadoMaquina(this, true);
-        am.setLocationRelativeTo(this);
-        am.setEstado(opt.get());
-        am.setVisible(true);
-
-        cargarEstadosEnTabla();
-
-    }//GEN-LAST:event_btnActualizarEstadoActionPerformed
-
-    private void btnEliminarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEstadoActionPerformed
-        //BORRADO -> ES FK EN TABLA MÁQUINAS, así que no debe borrarse si está en uso
-        Estado seleccionado = getEstadoSeleccionado();
-
-        if (seleccionado == null) {
-            return;
-        }
-
-        int confirmacion = JOptionPane.showConfirmDialog(
-                this,
-                "¿Seguro que desea eliminar el estado con código "
-                + seleccionado.getCodigoEstado()
-                + " y descripción \""
-                + seleccionado.getDescripcionEstado()
-                + "\"?",
-                "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
-
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        try {
-            contr.eliminarEstado(seleccionado);
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Estado eliminado correctamente.",
-                    "Eliminación correcta",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            cargarEstadosEnTabla();
-
-        } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "No se pudo eliminar el estado porque está en uso: " + e.getMessage(),
-                    "Error al eliminar",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }//GEN-LAST:event_btnEliminarEstadoActionPerformed
-
     private void miMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMenuPrincipalActionPerformed
         vHomeAdmin homeAdmin = new vHomeAdmin();
         homeAdmin.setLocationRelativeTo(null);
@@ -510,10 +457,14 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
+
     private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
-        GestionAveriaListar gestionAveria = new GestionAveriaListar();
-        gestionAveria.setLocationRelativeTo(null);
-        gestionAveria.setVisible(true);
+        GestionAveriaListar gestionAveriaListar = new GestionAveriaListar();
+        gestionAveriaListar.setLocationRelativeTo(null);
+        gestionAveriaListar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miAveriaActionPerformed
 
@@ -540,17 +491,14 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
-        GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
-        gestionEstadoMaquina.setLocationRelativeTo(null);
-        gestionEstadoMaquina.setVisible(true);
+        GestionEstadoMaquina gestionEstadosMaquina = new GestionEstadoMaquina();
+        gestionEstadosMaquina.setLocationRelativeTo(null);
+        gestionEstadosMaquina.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
     private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
-        GestionTipoAveria gestionTipoAveria = new GestionTipoAveria();
-        gestionTipoAveria.setLocationRelativeTo(null);
-        gestionTipoAveria.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_miTipoAveriaActionPerformed
 
     private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
@@ -561,99 +509,98 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miRolesActionPerformed
 
-    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_miSalirAppActionPerformed
+    private void btnTipoAveriaActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoAveriaActualizarActionPerformed
+        // 1. Verificar selección
+        int fila = tablaAveria.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Selecciona un tipo de avería de la tabla.",
+                    "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    //crear y ordenar tabla
-    private void configurarTabla() {
-        modeloTabla = new DefaultTableModel(
-                new Object[]{"Código", "Descripción"},
-                0
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+        // 2. Extraer datos de la tabla seleccionada
+        int id = (int) modeloTabla.getValueAt(fila, 0);
+        String desc = (String) modeloTabla.getValueAt(fila, 1);
+        float tiempo = (float) modeloTabla.getValueAt(fila, 2);
+
+        TipoAveriaActualizar tipoAveriaActualizar = new TipoAveriaActualizar(this, true, id, desc, tiempo);
+        tipoAveriaActualizar.setLocationRelativeTo(this);
+        tipoAveriaActualizar.setVisible(true);
+
+        cargarDatos();
+
+    }//GEN-LAST:event_btnTipoAveriaActualizarActionPerformed
+
+    private void btnTipoAveriaEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoAveriaEliminarActionPerformed
+        // 1. Verificar selección
+        int fila = tablaAveria.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Selecciona un tipo de avería para eliminar.",
+                    "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Extraer ID y Descripción
+        int id = (int) modeloTabla.getValueAt(fila, 0);
+        String desc = (String) modeloTabla.getValueAt(fila, 1);
+
+        // 3. Confirmación
+        int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Eliminar el tipo #" + id + ": " + desc + "?\nNo podrás borrarlo si ya se está usando en alguna avería.",
+                "Confirmar", javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.WARNING_MESSAGE);
+
+        // 4. Procesar eliminación (Llamando al boolean del Controlador)
+        if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+            boolean exito = controlador.eliminar(id);
+            if (exito) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Eliminado con éxito.");
+                cargarDatos(); // Recargamos la tabla
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se puede eliminar porque está en uso por alguna Avería.",
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }//GEN-LAST:event_btnTipoAveriaEliminarActionPerformed
 
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return switch (columnIndex) {
-                    case 0 ->
-                        Integer.class;
-                    default ->
-                        String.class;
-                };
-            }
-        };
+    private void btnTipoAveriaNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoAveriaNuevoActionPerformed
+        TipoAveriaNueva tipoAveriaNueva = new TipoAveriaNueva(this, true);
+        tipoAveriaNueva.setLocationRelativeTo(null);
+        tipoAveriaNueva.setVisible(true);
+    }//GEN-LAST:event_btnTipoAveriaNuevoActionPerformed
 
-        tbEstados.setModel(modeloTabla);
-        tbEstados.setAutoCreateRowSorter(true);
-        tbEstados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tbEstados.getTableHeader().setReorderingAllowed(false);
-        // este valor aumenta el tamaño de las tuplas
-        tbEstados.setRowHeight(36);
-        //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
-        tbEstados.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-        // esto aumenta el tamaño de la fuente del header
-        tbEstados.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-        // Crear el renderer alineado a la izquierda
-        DefaultTableCellRenderer renderIzquierda = new DefaultTableCellRenderer();
-        renderIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
-        // Aplicarlo a una columna concreta (por ejemplo la columna 2)
-        tbEstados.getColumnModel().getColumn(0).setCellRenderer(renderIzquierda);
-    }
-
-    private void cargarEstadosEnTabla() {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
-            List<Estado> lista = contr.listarEstados();
-
-            modeloTabla.setRowCount(0);
-
-            for (Estado e : lista) {
-                modeloTabla.addRow(new Object[]{
-                    e.getCodigoEstado(),
-                    e.getDescripcionEstado()
-                });
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
-
-        } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al cargar los estados: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new GestionTipoAveria().setVisible(true));
     }
-
-    public Estado getEstadoSeleccionado() {
-        int filaVista = tbEstados.getSelectedRow();
-
-        if (filaVista == -1) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Seleccione un estado de la tabla.",
-                    "Selección requerida",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return null;
-        }
-
-        int filaModelo = tbEstados.convertRowIndexToModel(filaVista);
-
-        int codigo = (int) modeloTabla.getValueAt(filaModelo, 0);
-        String descripcion = (String) modeloTabla.getValueAt(filaModelo, 1);
-
-        return contr.obtenerEstadoSeleccionado(codigo, descripcion);
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizarEstado;
-    private javax.swing.JButton btnEliminarEstado;
-    private javax.swing.JButton btnNuevoEstado;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnTipoAveriaActualizar;
+    private javax.swing.JButton btnTipoAveriaEliminar;
+    private javax.swing.JButton btnTipoAveriaNuevo;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlLogo;
@@ -672,10 +619,10 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
     private javax.swing.JMenuItem miTipoMaquinaria;
     private javax.swing.JMenuItem miUsuario;
     private javax.swing.JPanel panelAcciones;
-    private javax.swing.JPanel panelFiltro;
+    private javax.swing.JPanel panelFiltros;
     private javax.swing.JPanel panelFondo;
     private javax.swing.JPanel panelTabla;
     private javax.swing.JPanel panelTitulo;
-    private javax.swing.JTable tbEstados;
+    private javax.swing.JTable tablaAveria;
     // End of variables declaration//GEN-END:variables
 }
