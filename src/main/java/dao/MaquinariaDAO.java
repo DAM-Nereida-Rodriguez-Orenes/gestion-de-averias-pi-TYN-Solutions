@@ -19,7 +19,8 @@ import modelo.Maquinaria;
 public interface MaquinariaDAO {
     void insertar(Maquinaria m);
     void modificar(Maquinaria m);
-    void eliminar(int mID);
+    void bajaLogica(int mID); //con este metodo ponemos la fecha de baja de una maquina 
+    void bajaFisica(int mID); // con este metodo eliminamos una maquina de la abse de datos 
     List<Maquinaria> listarMaquinaria();
     Optional<Maquinaria> buscarMaquinariaPorId(Integer id);
     List<Maquinaria> buscarMaquinariaPorTexto(String text);

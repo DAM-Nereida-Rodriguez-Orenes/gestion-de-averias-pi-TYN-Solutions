@@ -188,6 +188,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
         jlLogo = new javax.swing.JLabel();
         jlSaldoIcono = new javax.swing.JLabel();
+        btnDarBaja = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
@@ -204,6 +205,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Máquina");
+        setPreferredSize(new java.awt.Dimension(1200, 800));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 204));
@@ -356,6 +360,17 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        btnDarBaja.setBackground(new java.awt.Color(255, 102, 0));
+        btnDarBaja.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnDarBaja.setForeground(new java.awt.Color(255, 255, 255));
+        btnDarBaja.setText("Dar de baja máquina");
+        btnDarBaja.setBorderPainted(false);
+        btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarBajaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -395,11 +410,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
                                 .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(240, 240, 240)
                                 .addComponent(btnNuevaMaquina))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(btnEliminar)))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btnEliminar)
+                                    .addGap(41, 41, 41)
+                                    .addComponent(btnDarBaja)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -436,7 +454,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -581,17 +600,17 @@ public class GestionMaquinas extends javax.swing.JFrame {
         int id = getIdSeleccionado();
         if (id == -1) {
             JOptionPane.showMessageDialog(this,
-                    "Seleccione una máquina (pulse una fila).",
-                    "Selección requerida",
+                    "Seleccione una maquina (pulse una fila).",
+                    "Seleccion requerida",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         int respuesta = JOptionPane.showConfirmDialog(
                 this,
-                "¿Seguro que quieres eliminar la máquina con ID " + id + "?\n"
-                + "Esta acción no se puede deshacer.",
-                "Confirmar eliminación",
+                "¿Seguro que quieres eliminar definitivamente la maquina con ID " + id + "?\n"
+                + "Esta accion no se puede deshacer y solo se permite si ya esta dada de baja.",
+                "Confirmar eliminacion",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
         );
@@ -600,19 +619,19 @@ public class GestionMaquinas extends javax.swing.JFrame {
             return; // cancelado
         }
 
-        boolean ok = contr.eliminarMaquina(id);
+        boolean ok = contr.bajaFisicaMaquina(id);
 
         if (ok) {
             JOptionPane.showMessageDialog(this,
-                    "Máquina eliminada con éxito.",
-                    "Eliminación realizada",
+                    "Maquina eliminada definitivamente con exito.",
+                    "Eliminacion realizada",
                     JOptionPane.INFORMATION_MESSAGE);
-            cargarTablaMaquinaria(listaTotal); // refrescar READ
+            cargarTablaMaquinaria(listaTotal); // refrescar tabla
         } else {
             JOptionPane.showMessageDialog(this,
                     "No se ha podido eliminar.\n"
-                    + "Puede que no exista o que esté relacionada con otras tablas (restricción de base de datos).",
-                    "Error de eliminación",
+                    + "La maquina debe estar dada de baja previamente o esta relacionada conotras tablas(restricción de base de datos) .",
+                    "Error de eliminacion",
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -787,6 +806,51 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
+
+    /**
+     * Metodo para dar de baja LOGICA (FechaBja).
+     *
+     * @param evt
+     */
+    private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
+        int id = getIdSeleccionado();
+        if (id == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione una maquina (pulse una fila).",
+                    "Seleccion requerida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que quieres dar de baja la maquina con ID " + id + "?\n"
+                + "La maquina dejara de estar operativa.",
+                "Confirmar baja",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return; // cancelado
+        }
+
+        boolean ok = contr.bajaLogicaMaquina(id);
+
+        if (ok) {
+            JOptionPane.showMessageDialog(this,
+                    "Maquina dada de baja con exito.",
+                    "Baja realizada",
+                    JOptionPane.INFORMATION_MESSAGE);
+            cargarTablaMaquinaria(listaTotal); // refrescar tabla
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se ha podido dar de baja.\n"
+                    + "Puede que ya este dada de baja o que no exista.",
+                    "Error en la baja",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDarBajaActionPerformed
 
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
@@ -1066,6 +1130,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnLimpiar;

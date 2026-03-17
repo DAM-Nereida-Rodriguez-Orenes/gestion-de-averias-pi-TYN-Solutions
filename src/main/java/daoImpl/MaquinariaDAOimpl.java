@@ -20,11 +20,13 @@ import javax.sql.DataSource;
 import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
+
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
-public class MaquinariaDAOimpl implements MaquinariaDAO{
+public class MaquinariaDAOimpl implements MaquinariaDAO {
+
     private DataSource dataSource;
 
     public MaquinariaDAOimpl(DataSource dataSource) {
@@ -35,8 +37,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
     public void insertar(Maquinaria m) {
         String sql = "INSERT INTO maquinaria (nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // 1) nombre
             ps.setString(1, m.getNombre());
@@ -57,7 +58,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
             // 5) FK tipo_maquinaria
             ps.setInt(5, m.getTipoMaquinaria().getCodigoTipoMaquinaria());
-            
+
             ps.executeUpdate();
 
             // Recuperar el ID autogenerado --> útil para refrescar vistas de listas
@@ -84,8 +85,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             WHERE codigoMaquinaria = ?
             """;
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, m.getNombre());
 
@@ -111,15 +111,13 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
     }
 
     @Override
-    public void eliminar(int codigoMaquinaria) {
-       final String sql = "UPDATE maquinaria SET fechaBaja = CURRENT_DATE WHERE codigoMaquinaria = ?";
+    public void bajaLogica(int codigoMaquinaria) {
+        final String sql = "UPDATE maquinaria SET fechaBaja = CURRENT_DATE WHERE codigoMaquinaria = ?";
 
-
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             // PK máquina a eliminar
-            ps.setInt(1, codigoMaquinaria);  
+            ps.setInt(1, codigoMaquinaria);
 
             ps.executeUpdate();
 
@@ -129,13 +127,32 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
     }
 
     @Override
+    public void bajaFisica(int codigoMaquinaria) {
+        final String sql = "DELETE FROM maquinaria WHERE codigoMaquinaria = ? AND fechaBaja IS NOT NULL";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // PK maquina a eliminar definitivamente (solo si ya tiene fecha de baja)
+            ps.setInt(1, codigoMaquinaria);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            // Si no se ha eliminado nada, significa que no estaba dada de baja
+            if (filasAfectadas == 0) {
+                throw new RuntimeException("No se puede eliminar: la maquina no existe o no esta dada de baja");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error de base de datos al eliminar la maquina", e);
+        }
+    }
+
+    @Override
     public List<Maquinaria> listarMaquinaria() {
         List<Maquinaria> lista = new ArrayList<>();
         final String sql = "SELECT * FROM maquinaria";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 lista.add(mapearMaquinaria(rs));
@@ -148,9 +165,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         return lista;
     }
 
-   
     @Override
-    public Optional<Maquinaria> buscarMaquinariaPorId(Integer id){
+    public Optional<Maquinaria> buscarMaquinariaPorId(Integer id) {
         Optional<Maquinaria> maq = Optional.empty();//inicializado a vacío, NO a null
         final String sql = """
         SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
@@ -158,13 +174,14 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         WHERE codigoMaquinaria = ?
         """;
 
-        try (Connection conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return Optional.empty();
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
 
                 return Optional.of(mapearMaquinaria(rs));
             }
@@ -174,8 +191,9 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             return maq;
         }
     }
+
     @Override
-    public List<Maquinaria> buscarMaquinariaPorTexto(String text){ 
+    public List<Maquinaria> buscarMaquinariaPorTexto(String text) {
         List<Maquinaria> lista = new ArrayList<>();//inicializado a vacío, NO a null
         final String sql = """
         SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
@@ -183,15 +201,14 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         WHERE LOWER(nombre) LIKE LOWER(?)
         """;
 
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                ps.setString(1, text + "%");
+            ps.setString(1, text + "%");
 
-                try (ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
 
                 while (rs.next()) {
-                   lista.add(mapearMaquinaria(rs));
+                    lista.add(mapearMaquinaria(rs));
                 }
             }
 
@@ -201,7 +218,8 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
         return lista;
     }
-    public List<Maquinaria> buscarMaquinariaPorFecha(LocalDate fechaAlta, LocalDate fechaBaja){
+
+    public List<Maquinaria> buscarMaquinariaPorFecha(LocalDate fechaAlta, LocalDate fechaBaja) {
         List<Maquinaria> lista = new ArrayList<>();
         StringBuilder sql = new StringBuilder("""
         SELECT codigoMaquinaria, nombre, codigoEstadoFK, fechaAlta, fechaBaja, tipoMaquinariaFK
@@ -221,8 +239,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             params.add(Date.valueOf(fechaBaja));
         }
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(i + 1, params.get(i));
@@ -239,6 +256,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
         }
         return lista;
     }
+
     @Override
     public List<Maquinaria> buscarMaquinariaPorEstado(Integer codigoEstadoFK) {
         List<Maquinaria> lista = new ArrayList<>();
@@ -252,8 +270,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             sql += " WHERE codigoEstadoFK = ?";
         }
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             if (codigoEstadoFK != null) {
                 ps.setInt(1, codigoEstadoFK);
@@ -271,6 +288,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
         return lista;
     }
+
     @Override
     public List<Maquinaria> buscarMaquinariaPorTipo(Integer tipoMaquinariaFK) {
         List<Maquinaria> lista = new ArrayList<>();
@@ -284,8 +302,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
             sql += " WHERE tipoMaquinariaFK = ?";
         }
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             if (tipoMaquinariaFK != null) {
                 ps.setInt(1, tipoMaquinariaFK);
@@ -303,7 +320,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO{
 
         return lista;
     }
-    
+
     //Métodos auxiliares
     private Maquinaria mapearMaquinaria(ResultSet rs) throws SQLException {
         Maquinaria m = new Maquinaria();
