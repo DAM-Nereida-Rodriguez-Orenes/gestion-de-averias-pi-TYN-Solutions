@@ -53,6 +53,12 @@
             <artifactId>jsvg</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <!-- dependencias de jasper -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.20.6</version>
+        </dependency>
     </dependencies>
     
 </project>

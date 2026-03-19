@@ -18,5 +18,6 @@ public interface TipoAveriaDao {
     boolean existeId(int id);
     List<TipoAveria> listar();
     boolean eliminar(int id);
+    int buscarTipoAveriaPorDescripcion(String descripcion);
     
 }

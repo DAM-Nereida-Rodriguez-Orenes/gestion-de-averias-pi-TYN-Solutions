@@ -17,30 +17,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Las tablas maestras no deben modificarse, o al menos no a menudo, pero, como pretendemos que esta aplicación sea escalable,
- * debemos pensar en qué pasaría si en un tiempo el taller cliente necesita añadir algún tipo más al catálogo.
- * Por ello, vamos a crear las funciones de añadir, modificar y eliminar, aunque controlaremos mediante la interfaz el acceso a estas
- * para que sea limitado.
- * 
+ * Las tablas maestras no deben modificarse, o al menos no a menudo, pero, como
+ * pretendemos que esta aplicación sea escalable, debemos pensar en qué pasaría
+ * si en un tiempo el taller cliente necesita añadir algún tipo más al catálogo.
+ * Por ello, vamos a crear las funciones de añadir, modificar y eliminar, aunque
+ * controlaremos mediante la interfaz el acceso a estas para que sea limitado.
+ *
  * @author yosnavmol
  */
 public class TipoAveriaDaoImpl implements TipoAveriaDao {
 
     private static final Logger logger = Logger.getLogger(TipoAveriaDaoImpl.class.getName());
-    
+
     private final DataSource dataSource;
-    
+
     public TipoAveriaDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-    
+
     @Override
     public boolean existeId(int id) {
         // Consulta optimizada: No trae datos pesados, solo un '1' si encuentra la fila.
         String sql = "SELECT 1 FROM tipo_averia WHERE codigoTipoAveria = ?";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -54,7 +54,7 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             return false; // Ante la duda o error, asumimos false (o lanzamos excepción)
         }
     }
-    
+
     @Override
     public void insertar(TipoAveria t) {
         // PASO 1: Verificación previa
@@ -67,8 +67,7 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
         // Fíjate que ahora hay 3 interrogantes (?, ?, ?)
         String sql = "INSERT INTO tipo_averia (codigoTipoAveria, descripcionTipoAv, tiempoPromRepar) VALUES (?, ?, ?)";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             // Asignamos los 3 valores
             ps.setInt(1, t.getCodigoTipoAveria());    // ID Manual
@@ -93,8 +92,7 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
 
         String sql = "UPDATE tipo_averia SET descripcionTipoAv = ?, tiempoPromRepar = ? WHERE codigoTipoAveria = ?";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, t.getDescripcionTipoAv());
             ps.setFloat(2, t.getTiempoPromRepar());
@@ -113,9 +111,7 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
         List<TipoAveria> lista = new ArrayList<>();
         String sql = "SELECT * FROM tipo_averia";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 TipoAveria t = new TipoAveria();
@@ -146,8 +142,7 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
 
         String sql = "DELETE FROM tipo_averia WHERE codigoTipoAveria = ?";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -163,5 +158,32 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             return false; // <-- Falla por tener datos asociados u otro error
         }
     }
-    
+
+    @Override
+    public int buscarTipoAveriaPorDescripcion(String descripcion) {
+
+        int codigoTipoAveria = -1;
+
+        String sql = "SELECT codigoTipoAveria "
+                + "FROM tipo_averia "
+                + "WHERE LOWER(descripcionTipoAv) LIKE LOWER(?)";
+
+        try (Connection conexion = dataSource.getConnection(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + descripcion + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    codigoTipoAveria = rs.getInt("codigoTipoAveria");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error obteniendo tipo de averia por descripcion", e);
+        }
+
+        return codigoTipoAveria;
+    }
+
 }

@@ -52,7 +52,7 @@ public class vLogin extends javax.swing.JFrame {
         // icno de la app
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
-         // Tamaño inical de todas las ventanas
+        // Tamaño inical de todas las ventanas
         this.setSize(1200, 800);
         // No se puede hacer más pequeña de 1200,800
         this.setMinimumSize(new Dimension(1200, 800));
@@ -364,7 +364,7 @@ public class vLogin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Se ha enviado tu solicitud de cambio de contraseña",
                         "Restablecimiento de contraseña",
                         JOptionPane.INFORMATION_MESSAGE);
-                loginControlador.restablecerPassword(emailSolicitud);
+                loginControlador.registrarSolicitudRecuperacion(emailSolicitud);
             } else {
                 JOptionPane.showMessageDialog(this, "Debe rellenar el campo",
                         "Restablecimiento de contraseña",

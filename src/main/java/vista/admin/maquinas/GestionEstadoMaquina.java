@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.Estado;
+import modelo.Usuario;
 import vista.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
@@ -74,7 +75,8 @@ public class GestionEstadoMaquina extends javax.swing.JFrame {
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
         jlSaldoIcono.setIcon(iconUsuarioAdmin);
-        jlSaldoIcono.setText("Hola, Admin");
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        jlSaldoIcono.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado());
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);

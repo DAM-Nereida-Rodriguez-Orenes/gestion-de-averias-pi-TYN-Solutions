@@ -7,6 +7,7 @@ package dao;
 import java.time.LocalDateTime;
 import java.util.List;
 import modelo.Averia;
+import modelo.Usuario;
 
 /**
  *
@@ -25,6 +26,5 @@ public interface AveriaDao {
                                         Integer idMaquinaria, 
                                         Integer idTipoAveria);
     List<Averia> listar();
-    boolean eliminar(int id);
-    
+    boolean eliminar(int id);       
 }

@@ -454,49 +454,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
-    /**
-     *
-     * Genera una contraseña automáticamente para los usuarios
-     *
-     * @param longitud
-     * @return String
-     */
-    private String generarContrasena(int longitud) {
-
-        String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String minusculas = "abcdefghijklmnopqrstuvwxyz";
-        String numeros = "0123456789";
-        String especiales = "!@#$%&*?";
-
-        // juntamos todo para rellenar el resto
-        String todos = mayusculas + minusculas + numeros + especiales;
-
-        Random random = new Random();
-
-        char[] password = new char[longitud];
-
-        // aseguramos reglas minimas
-        password[0] = mayusculas.charAt(random.nextInt(mayusculas.length()));
-        password[1] = minusculas.charAt(random.nextInt(minusculas.length()));
-        password[2] = numeros.charAt(random.nextInt(numeros.length()));
-        password[3] = especiales.charAt(random.nextInt(especiales.length()));
-
-        // rellenamos el resto con mezcla
-        for (int i = 4; i < longitud; i++) {
-            password[i] = todos.charAt(random.nextInt(todos.length()));
-        }
-
-        // mezclamos para que no siempre sea: mayus, minus, num, esp...
-        for (int i = password.length - 1; i > 0; i--) {
-            int j = random.nextInt(i + 1);
-            char aux = password[i];
-            password[i] = password[j];
-            password[j] = aux;
-        }
-
-        return new String(password);
-    }
-
     public Usuario buscarPorEmail(String email) {
 
         Usuario usuario = null;
@@ -564,6 +521,71 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
 
         return usuario;
+    }
+    
+    @Override
+    public List<Usuario> buscarTecnicosOrdenadorPorCarga(int codigoTipoAveria) {
+
+        List<Usuario> listaUsuarios = new ArrayList<>();
+
+        String sql = "SELECT u.codigoUsuario, u.nombre, u.apellido "
+                + "FROM usuario u "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, COUNT(*) AS totalAveriasActivas "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NULL "
+                + "    GROUP BY a.usuarioTecnicoFK "
+                + ") act ON act.usuarioTecnicoFK = u.codigoUsuario "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, a.tipoAveriaFK, "
+                + "           COUNT(*) AS totalAveriasFinalizadas, "
+                + "           AVG(TIMESTAMPDIFF(MINUTE, a.fechaAcepTecnico, a.fechaFinalizTecnico) / 60.0) AS tiempoMedioTecnico "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NOT NULL "
+                + "      AND a.tipoAveriaFK = ? "
+                + "    GROUP BY a.usuarioTecnicoFK, a.tipoAveriaFK "
+                + ") hist ON hist.usuarioTecnicoFK = u.codigoUsuario "
+                + "INNER JOIN tipo_averia ta "
+                + "    ON ta.codigoTipoAveria = ? "
+                + "WHERE u.codigoRolFK = 703 "
+                + "  AND u.activo = 1 "
+                + "ORDER BY "
+                + "    CASE "
+                + "        WHEN COALESCE(hist.tiempoMedioTecnico, 0) > 0 THEN 0 "
+                + "        ELSE 1 "
+                + "    END ASC, "
+                + "    COALESCE(act.totalAveriasActivas, 0) ASC, "
+                + "    CASE "
+                + "        WHEN COALESCE(hist.tiempoMedioTecnico, 0) > 0 THEN hist.tiempoMedioTecnico "
+                + "        ELSE 999999 "
+                + "    END ASC";
+
+        try (Connection conexion = dataSource.getConnection(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, codigoTipoAveria);
+            ps.setInt(2, codigoTipoAveria);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Usuario usuario = new Usuario();
+
+                    usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
+                    usuario.setNombre(rs.getString("nombre"));
+                    usuario.setApellido(rs.getString("apellido"));
+
+                    listaUsuarios.add(usuario);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error obteniendo tecnicos ordenados por carga y experiencia", e);
+        }
+
+        return listaUsuarios;
     }
 
 }

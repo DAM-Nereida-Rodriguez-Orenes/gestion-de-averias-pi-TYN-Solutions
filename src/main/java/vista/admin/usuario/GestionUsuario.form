@@ -197,7 +197,7 @@
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                       <Component id="jlLogo" min="-2" pref="144" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" pref="159" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                   </Group>
               </Group>

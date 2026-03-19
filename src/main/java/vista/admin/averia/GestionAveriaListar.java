@@ -24,6 +24,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import modelo.Averia;
+import utils.InformesJasper;
 import vista.PanelImgFondo;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
@@ -39,6 +40,7 @@ import vista.vLogin;
  *
  * @author yosue
  */
+
 public class GestionAveriaListar extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionAveriaListar.class.getName());
@@ -94,7 +96,8 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
         jlSaldoIcono.setIcon(iconUsuarioAdmin);
-        jlSaldoIcono.setText("Hola, Admin");
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        jlSaldoIcono.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado());
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);
@@ -204,6 +207,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         jlSaldoIcono = new javax.swing.JLabel();
         panelAcciones = new javax.swing.JPanel();
         btnAveriaActualizar = new javax.swing.JButton();
+        btnGenerarInforme = new javax.swing.JButton();
         panelFiltro = new javax.swing.JPanel();
         btnAveriaNueva = new javax.swing.JButton();
         tgbtnFiltros = new javax.swing.JToggleButton();
@@ -276,19 +280,34 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             }
         });
 
+        btnGenerarInforme.setBackground(new java.awt.Color(67, 113, 177));
+        btnGenerarInforme.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnGenerarInforme.setForeground(new java.awt.Color(234, 242, 251));
+        btnGenerarInforme.setText("Generar informe");
+        btnGenerarInforme.setBorderPainted(false);
+        btnGenerarInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarInformeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAccionesLayout.createSequentialGroup()
-                .addContainerGap(1023, Short.MAX_VALUE)
+                .addContainerGap(77, Short.MAX_VALUE)
+                .addComponent(btnGenerarInforme)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 800, Short.MAX_VALUE)
                 .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
-                .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -327,13 +346,13 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         panelFiltroLayout.setHorizontalGroup(
             panelFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFiltroLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(txtAveriaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tgbtnFiltros)
                 .addGap(473, 473, 473)
                 .addComponent(btnAveriaNueva)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         panelFiltroLayout.setVerticalGroup(
             panelFiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -677,7 +696,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
         gestionTipoMaquina.setLocationRelativeTo(null);
         gestionTipoMaquina.setVisible(true);
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_miTipoMaquinariaActionPerformed
 
     private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
@@ -707,7 +726,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         GestionTipoAveria gestionTipoAveria = new GestionTipoAveria();
         gestionTipoAveria.setLocationRelativeTo(null);
         gestionTipoAveria.setVisible(true);
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_miTipoAveriaActionPerformed
 
     private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
@@ -721,34 +740,75 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    private void btnGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarInformeActionPerformed
+        try {
+            // 1. Obtener la fila seleccionada de la tabla
+            int filaVista = tablaAveria.getSelectedRow();
+
+            if (filaVista == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "Debes seleccionar una averia de la tabla para generar el informe.",
+                        "Seleccion requerida",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. Convertir la fila de vista a modelo por si hay filtros o buscador
+            int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
+
+            // 3. Obtener el id de la averia desde la columna 0
+            int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
+
+            // 4. Llamar a la clase que genera el informe
+            InformesJasper informesJasper = new InformesJasper();
+            String rutaInformeGenerado = informesJasper.generarInformeAveria(idAveria);
+
+            // 5. Mostrar resultado
+            JOptionPane.showMessageDialog(this,
+                    "Informe generado correctamente.\nGuardado en:\n" + rutaInformeGenerado,
+                    "Informe generado",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al generar el informe de averia", e);
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo generar el informe.\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+          }
+    
+    }//GEN-LAST:event_btnGenerarInformeActionPerformed
+
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
     // =========================================================================
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GestionAveriaListar().setVisible(true));
+    } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+        logger.log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(() -> new GestionAveriaListar().setVisible(true));
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;
     private javax.swing.JButton btnAveriaNueva;
+    private javax.swing.JButton btnGenerarInforme;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;

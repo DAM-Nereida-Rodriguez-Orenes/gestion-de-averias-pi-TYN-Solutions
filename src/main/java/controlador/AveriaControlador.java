@@ -237,7 +237,7 @@ public class AveriaControlador {
     }
 
     public List<Usuario> obtenerSoloTecnicos() {
-        try {
+        try {                     
             // 1. Creamos un objeto Rol "fantasma" solo para la búsqueda
             modelo.Rol rolTecnico = new modelo.Rol();
 
@@ -252,6 +252,16 @@ public class AveriaControlador {
             return new ArrayList<>(); // Devolvemos lista vacía en caso de error
         }
     }
+    
+    public List<Usuario> buscarTecnicosOrdenadorPorCarga(int tipo) {
+        try {                     
+            return usuarioDao.buscarTecnicosOrdenadorPorCarga(tipo);
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener la lista de técnicos: " + e.getMessage());
+            return new ArrayList<>(); // Devolvemos lista vacía en caso de error
+        }
+    }   
 
     // =========================================================================
     // 3. MÉTODOS TRANSACCIONALES (Insertar, Actualizar)

@@ -31,4 +31,6 @@ public interface UsuarioDao {
     List<Usuario> buscarPorTexto(String texto);
     
     Usuario buscarPorEmail(String email);
+        
+    List<Usuario> buscarTecnicosOrdenadorPorCarga(int codigoTipoAveria);
 }

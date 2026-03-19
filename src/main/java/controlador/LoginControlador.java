@@ -29,6 +29,10 @@ public class LoginControlador {
     private static final String CLAVE_SESION_ACTIVA = "sesionActiva";
     private static final String CLAVE_ROL_USUARIO = "rolUsuario";
 
+    // Metodo redueprar contraseña
+    private static final Preferences preferenciasRecuperacion = Preferences.userRoot().node("fixoraRecuperacion");
+    private static final String CLAVE_SOLICITUDES = "solicitudesPendientes";
+
     //constructor
     public LoginControlador() {
         this.usuarioDao = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
@@ -50,23 +54,6 @@ public class LoginControlador {
             return usuario;
         }
         return null;
-    }
-
-    public void restablecerPassword(String emailSolicitud) {
-
-        //Primero debemos comprobar si es administrador para poder cambiar la contraseña 
-        int codigoRol = usuario.getRol().getCodigoRol();
-
-        if (codigoRol != 701) {
-            System.out.println("No tienes permisos de adminitrador");
-            return;
-        }
-        String passwordActualizada = usuarioDao.actualizarPassword(emailSolicitud, null);
-        if (passwordActualizada != null && !passwordActualizada.isEmpty()) {
-            System.out.println("Contrasena actualizada");
-        } else {
-            System.out.println("No existe un usuario con ese email");
-        }
     }
 
     //METODOS PARA LA PERSISTENCIA DEL USUARIO LOGEADO 
@@ -105,5 +92,64 @@ public class LoginControlador {
         }
 
         return usuarioDao.buscarPorEmail(email);
+    }
+
+    /**
+     * RECUPERAR CONTRASEÑA.
+     *
+     */
+    public void registrarSolicitudRecuperacion(String emailSolicitud) {
+        String solicitudesActuales = preferenciasRecuperacion.get(CLAVE_SOLICITUDES, "");
+
+        if (solicitudesActuales.isEmpty()) {
+            preferenciasRecuperacion.put(CLAVE_SOLICITUDES, emailSolicitud);
+        } else {
+            String[] correos = solicitudesActuales.split(";");
+            boolean yaExiste = false;
+
+            for (int i = 0; i < correos.length; i++) {
+                if (correos[i].equalsIgnoreCase(emailSolicitud)) {
+                    yaExiste = true;
+                    break;
+                }
+            }
+
+            if (!yaExiste) {
+                preferenciasRecuperacion.put(CLAVE_SOLICITUDES, solicitudesActuales + ";" + emailSolicitud);
+            }
+        }
+    }
+
+    public String[] obtenerSolicitudesRecuperacion() {
+        String solicitudes = preferenciasRecuperacion.get(CLAVE_SOLICITUDES, "");
+
+        if (solicitudes == null || solicitudes.trim().isEmpty()) {
+            return new String[0];
+        }
+
+        return solicitudes.split(";");
+    }
+
+    public void eliminarSolicitudRecuperacion(String emailSolicitud) {
+        String solicitudes = preferenciasRecuperacion.get(CLAVE_SOLICITUDES, "");
+
+        if (solicitudes == null || solicitudes.trim().isEmpty()) {
+            return;
+        }
+
+        String[] correos = solicitudes.split(";");
+        String resultado = "";
+
+        for (int i = 0; i < correos.length; i++) {
+            if (!correos[i].equalsIgnoreCase(emailSolicitud)) {
+                if (resultado.isEmpty()) {
+                    resultado = correos[i];
+                } else {
+                    resultado = resultado + ";" + correos[i];
+                }
+            }
+        }
+
+        preferenciasRecuperacion.put(CLAVE_SOLICITUDES, resultado);
     }
 }

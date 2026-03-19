@@ -106,14 +106,14 @@ public class GestionUsuario extends javax.swing.JFrame {
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
         jLabel2.setIcon(iconUsuarioAdmin);
-        jLabel2.setText("Hola, Admin");
+        jLabel2.setText("Hola, " + gestionUsuarioControlador.obtenerNombreUsuarioLogueado() );
         jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
         jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
         jLabel2.setIconTextGap(8);
 
         // Placeholder real de FlatLaf
         txtBarraBusqueda.putClientProperty("JTextField.placeholderText", "Buscar ");
-    }
+    }   
 
     //Metodos auxiliares
     public void mostrarTabla(List<Usuario> listaUsuarios) {
@@ -264,7 +264,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(84, 84, 84))
         );
         panelCabeceraLayout.setVerticalGroup(

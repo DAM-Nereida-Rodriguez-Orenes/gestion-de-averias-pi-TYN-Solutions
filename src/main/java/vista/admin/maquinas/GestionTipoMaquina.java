@@ -75,7 +75,8 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
         jlSaldoIcono.setIcon(iconUsuarioAdmin);
-        jlSaldoIcono.setText("Hola, Admin");
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        jlSaldoIcono.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado());
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);

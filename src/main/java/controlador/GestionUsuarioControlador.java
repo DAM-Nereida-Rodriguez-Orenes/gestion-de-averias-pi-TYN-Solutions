@@ -86,7 +86,7 @@ public class GestionUsuarioControlador {
             return false;
         }
         System.out.println("Los datos estan bien");
-        
+
         Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
         if (rol != null) {
             try {
@@ -268,6 +268,23 @@ public class GestionUsuarioControlador {
         }
 
         return new String(arrayCaracteres);
+    }
+
+    //metodo para obtener el usuario logueado 
+    public String obtenerNombreUsuarioLogueado() {
+        LoginControlador loginControlador = new LoginControlador();
+        Usuario usuarioSesion = loginControlador.getUsuarioSesion();
+
+        if (usuarioSesion != null) {
+            System.out.println("hay usuario");
+            return usuarioSesion.getNombre();
+        }
+        return "NO hay usuario";
+    }
+
+    public boolean passwordActualizada(String email, String nuevaPassword) {
+        String passwordActual = usuarioDaoImpl.actualizarPassword(email, nuevaPassword);
+        return (passwordActual == null || passwordActual.isEmpty()) ? false : true;
     }
 
 }

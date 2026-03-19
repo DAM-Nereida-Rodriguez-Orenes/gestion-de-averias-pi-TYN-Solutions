@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -84,7 +84,8 @@ public class GestionTipoAveria extends javax.swing.JFrame {
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
         jlSaldoIcono.setIcon(iconUsuarioAdmin);
-        jlSaldoIcono.setText("Hola, Admin");
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        jlSaldoIcono.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado() );
         jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
         jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
         jlSaldoIcono.setIconTextGap(8);

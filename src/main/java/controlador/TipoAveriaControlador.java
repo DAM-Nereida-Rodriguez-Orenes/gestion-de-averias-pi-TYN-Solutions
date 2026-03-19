@@ -85,4 +85,7 @@ public class TipoAveriaControlador {
     public boolean eliminar(int id) {
         return tipoDao.eliminar(id);
     }
+     public int obtenerIdTipoAveria(String descripcion){
+        return tipoDao.buscarTipoAveriaPorDescripcion(descripcion);
+    }
 }

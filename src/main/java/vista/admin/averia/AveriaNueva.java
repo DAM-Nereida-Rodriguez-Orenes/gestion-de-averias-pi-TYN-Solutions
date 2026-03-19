@@ -6,6 +6,7 @@ package vista.admin.averia;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.AveriaControlador;
+import controlador.TipoAveriaControlador;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -41,6 +42,7 @@ public class AveriaNueva extends javax.swing.JDialog {
     private List<Maquinaria> todasLasMaquinas;
     //private List<Usuario> todosLosUsuarios;
     private List<Usuario> todosLosTecnicos;
+    private TipoAveriaControlador tipoAveriaControlador;
 
     // --- Modelos Visuales ---
     private DefaultListModel<Maquinaria> modelMaquinas;
@@ -126,7 +128,7 @@ public class AveriaNueva extends javax.swing.JDialog {
         txtUsuarioBuscar.putClientProperty("JTextField.leadingIcon", iconoUsuarioReporta);
         txtUsuarioBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtUsuarioBuscar.setFont(new java.awt.Font("Microsoft JhengHei", java.awt.Font.BOLD, 14));
-        txtUsuarioBuscar.setDisabledTextColor(new java.awt.Color(67,113,177));
+        txtUsuarioBuscar.setDisabledTextColor(new java.awt.Color(67, 113, 177));
         txtUsuarioBuscar.setEditable(false);
         txtUsuarioBuscar.setEnabled(false);
 
@@ -183,9 +185,6 @@ public class AveriaNueva extends javax.swing.JDialog {
             todasLasMaquinas = controlador.obtenerTodasLasMaquinas();
             // todosLosUsuarios = controlador.obtenerTodosLosUsuarios();
             List<TipoAveria> tipos = controlador.obtenerTiposAveria();
-
-            // 2. Filtrar técnicos en memoria
-            todosLosTecnicos = controlador.obtenerSoloTecnicos();
 
             // 3. Llenar los modelos visuales
             if (todasLasMaquinas != null) {
@@ -311,6 +310,11 @@ public class AveriaNueva extends javax.swing.JDialog {
         jPanel2.setPreferredSize(new java.awt.Dimension(950, 590));
 
         cbAveriaTipo.setBackground(new java.awt.Color(237, 243, 251));
+        cbAveriaTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAveriaTipoActionPerformed(evt);
+            }
+        });
 
         txtTecnicoBuscar.setBackground(new java.awt.Color(237, 243, 251));
 
@@ -493,6 +497,29 @@ public class AveriaNueva extends javax.swing.JDialog {
             dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void cbAveriaTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAveriaTipoActionPerformed
+
+        tipoAveriaControlador = new TipoAveriaControlador();
+
+        // 1. Obtener descripcion seleccionada
+        String descripcion = cbAveriaTipo.getSelectedItem().toString();
+
+        // 2. Obtener el id del tipo de averia
+        int idTipo = tipoAveriaControlador.obtenerIdTipoAveria(descripcion);
+
+        // 4. Obtener tecnicos ordenados
+        List<Usuario> tecnicos = controlador.buscarTecnicosOrdenadorPorCarga(idTipo);
+
+        // 4. Cargar el JList (AHORA CON USUARIOS)
+        DefaultListModel<Usuario> modeloLista = new DefaultListModel<>();
+
+        for (int i = 0; i < tecnicos.size(); i++) {
+            modeloLista.addElement(tecnicos.get(i));
+        }
+
+        listaTecnicos.setModel(modeloLista);
+    }//GEN-LAST:event_cbAveriaTipoActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)

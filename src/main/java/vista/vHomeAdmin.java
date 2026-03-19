@@ -28,9 +28,7 @@ import vista.admin.usuario.GestionUsuario;
  * @author Asus
  */
 public class vHomeAdmin extends javax.swing.JFrame {
-
-    //private final UsuarioDao usuario;
-    // private final GestionUsuario gestionUsuario;
+    
     /**
      * Creates new form vHome
      *
@@ -99,10 +97,32 @@ public class vHomeAdmin extends javax.swing.JFrame {
         //icono de usuario 
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
         jLabel2.setIcon(iconUsuarioAdmin);
-        jLabel2.setText("Hola, Admin");
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        jLabel2.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado() );
         jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
         jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
         jLabel2.setIconTextGap(8);
+        
+        //icono restablecer contraseña  
+        FlatSVGIcon iconoPassword = new FlatSVGIcon("recursos/iconos/password.svg", 100, 100);
+        btnrestablecerPassword.setIcon(iconoPassword);
+        btnrestablecerPassword.setText("Restablecer contraseñas");
+        btnrestablecerPassword.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnrestablecerPassword.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnrestablecerPassword.setIconTextGap(10);
+        btnrestablecerPassword.setForeground(new Color(67, 113, 177));
+        btnrestablecerPassword.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
+        
+        //icono restablecer contraseña  
+        FlatSVGIcon iconoinforme = new FlatSVGIcon("recursos/iconos/informe.svg", 100, 100);
+        btnGenerarInforme.setIcon(iconoinforme);
+        btnGenerarInforme.setText("Informes generados");
+        btnGenerarInforme.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnGenerarInforme.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnGenerarInforme.setIconTextGap(10);
+        btnGenerarInforme.setForeground(new Color(67, 113, 177));
+        btnGenerarInforme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
+        
     }
 
     /**
@@ -125,6 +145,8 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnGesUsuario = new javax.swing.JButton();
         btnGesMaquina = new javax.swing.JButton();
         btnGesAveria = new javax.swing.JButton();
+        btnrestablecerPassword = new javax.swing.JButton();
+        btnGenerarInforme = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miCerrarSesion = new javax.swing.JMenuItem();
@@ -219,11 +241,27 @@ public class vHomeAdmin extends javax.swing.JFrame {
             }
         });
 
+        btnrestablecerPassword.setBackground(new java.awt.Color(234, 242, 251));
+        btnrestablecerPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(183, 206, 251)));
+        btnrestablecerPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnrestablecerPasswordActionPerformed(evt);
+            }
+        });
+
+        btnGenerarInforme.setBackground(new java.awt.Color(234, 242, 251));
+        btnGenerarInforme.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(183, 206, 251)));
+        btnGenerarInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarInformeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAccionesLayout.createSequentialGroup()
+            .addGroup(panelAccionesLayout.createSequentialGroup()
                 .addContainerGap(197, Short.MAX_VALUE)
                 .addComponent(btnGesUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
@@ -231,6 +269,12 @@ public class vHomeAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(196, Short.MAX_VALUE))
+            .addGroup(panelAccionesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnrestablecerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGenerarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +284,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
                     .addComponent(btnGesMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGesUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnrestablecerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
@@ -255,11 +303,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
                 .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(panelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(313, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
@@ -332,14 +380,28 @@ public class vHomeAdmin extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    private void btnrestablecerPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrestablecerPasswordActionPerformed
+       RestablecerPassword restablecer = new RestablecerPassword(this, true);
+       restablecer.setLocationRelativeTo(null);
+       restablecer.setVisible(true);
+    }//GEN-LAST:event_btnrestablecerPasswordActionPerformed
+
+    private void btnGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarInformeActionPerformed
+       TablaInformes tablaInformes = new TablaInformes(this, true);
+       tablaInformes.setLocationRelativeTo(null);
+       tablaInformes.setVisible(true);
+    }//GEN-LAST:event_btnGenerarInformeActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerarInforme;
     private javax.swing.JButton btnGesAveria;
     private javax.swing.JButton btnGesMaquina;
     private javax.swing.JButton btnGesUsuario;
+    private javax.swing.JButton btnrestablecerPassword;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
