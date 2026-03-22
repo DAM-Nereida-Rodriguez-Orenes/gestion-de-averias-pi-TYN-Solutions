@@ -59,12 +59,15 @@ public class panelInformes extends javax.swing.JDialog {
             Map<String, Object> parametros = new HashMap<>();
 
             if (tipoInforme.equals("averia")) {
-                reporte = getClass().getResourceAsStream("/informesGenerados/informe_averia.jasper");
+                reporte = getClass().getResourceAsStream("/informeJasper/informe_averia.jasper");
                 parametros.put("idAveria", idParametro);
 
             } else if (tipoInforme.equals("maquinas_estado")) {
                 reporte = getClass().getResourceAsStream("/informeJasper/informe_maquinas_estado.jasper");
                 parametros.put("idEstado", idParametro);
+
+            } else if (tipoInforme.equals("tecnicos")) {
+                reporte = getClass().getResourceAsStream("/informeJasper/informe_rendimiento_tecnico.jasper");
 
             } else {
                 throw new RuntimeException("Tipo de informe no soportado.");

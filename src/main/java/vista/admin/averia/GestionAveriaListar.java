@@ -185,7 +185,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
     private void actualizarModeloTabla(List<Object[]> datos) {
         modeloTabla.setRowCount(0); // Limpia la tabla actual
         if (datos != null) {
-            for (Object[] fila : datos) {               
+            for (Object[] fila : datos) {
                 modeloTabla.addRow(fila);
             }
         }
@@ -237,7 +237,8 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         jlSaldoIcono = new javax.swing.JLabel();
         panelAcciones = new javax.swing.JPanel();
         btnAveriaActualizar = new javax.swing.JButton();
-        btnGenerarInforme = new javax.swing.JButton();
+        btnInfoAveria = new javax.swing.JButton();
+        btnInfoTecnico = new javax.swing.JButton();
         panelFiltro = new javax.swing.JPanel();
         btnAveriaNueva = new javax.swing.JButton();
         tgbtnFiltros = new javax.swing.JToggleButton();
@@ -310,14 +311,25 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             }
         });
 
-        btnGenerarInforme.setBackground(new java.awt.Color(67, 113, 177));
-        btnGenerarInforme.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        btnGenerarInforme.setForeground(new java.awt.Color(234, 242, 251));
-        btnGenerarInforme.setText("Generar informe");
-        btnGenerarInforme.setBorderPainted(false);
-        btnGenerarInforme.addActionListener(new java.awt.event.ActionListener() {
+        btnInfoAveria.setBackground(new java.awt.Color(67, 113, 177));
+        btnInfoAveria.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnInfoAveria.setForeground(new java.awt.Color(234, 242, 251));
+        btnInfoAveria.setText("Detalles de avería");
+        btnInfoAveria.setBorderPainted(false);
+        btnInfoAveria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerarInformeActionPerformed(evt);
+                btnInfoAveriaActionPerformed(evt);
+            }
+        });
+
+        btnInfoTecnico.setBackground(new java.awt.Color(67, 113, 177));
+        btnInfoTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnInfoTecnico.setForeground(new java.awt.Color(234, 242, 251));
+        btnInfoTecnico.setText("Rendimiento tecnicos");
+        btnInfoTecnico.setBorderPainted(false);
+        btnInfoTecnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfoTecnicoActionPerformed(evt);
             }
         });
 
@@ -326,18 +338,21 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAccionesLayout.createSequentialGroup()
-                .addContainerGap(77, Short.MAX_VALUE)
-                .addComponent(btnGenerarInforme)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 800, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnInfoAveria)
+                .addGap(18, 18, 18)
+                .addComponent(btnInfoTecnico)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
                 .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
                 .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGenerarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnInfoAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInfoTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -770,7 +785,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
-    private void btnGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarInformeActionPerformed
+    private void btnInfoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoAveriaActionPerformed
         try {
             // 1. Obtener la fila seleccionada de la tabla
             int filaVista = tablaAveria.getSelectedRow();
@@ -808,7 +823,27 @@ public class GestionAveriaListar extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
 
-    }//GEN-LAST:event_btnGenerarInformeActionPerformed
+    }//GEN-LAST:event_btnInfoAveriaActionPerformed
+
+    private void btnInfoTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoTecnicoActionPerformed
+        try {
+            InformesJasper informesJasper = new InformesJasper();
+            String rutaInformeGenerado = informesJasper.generarInformeTecnicos();
+
+            JOptionPane.showMessageDialog(this,
+                    "Informe generado correctamente.\nGuardado en:\n" + rutaInformeGenerado,
+                    "Informe generado",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al generar el informe de tecnicos", e);
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo generar el informe.\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInfoTecnicoActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
@@ -838,7 +873,8 @@ public class GestionAveriaListar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;
     private javax.swing.JButton btnAveriaNueva;
-    private javax.swing.JButton btnGenerarInforme;
+    private javax.swing.JButton btnInfoAveria;
+    private javax.swing.JButton btnInfoTecnico;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;

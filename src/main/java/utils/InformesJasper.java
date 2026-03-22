@@ -18,7 +18,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class InformesJasper {
 
@@ -99,4 +99,37 @@ public class InformesJasper {
         return rutaCompleta;
     }
 
+    public String generarInformeTecnicos() throws Exception {
+
+        // 1. Ruta del archivo .jasper dentro de resources
+        InputStream archivoJasper = getClass().getResourceAsStream("/informeJasper/informe_rendimiento_tecnico.jasper");
+
+        if (archivoJasper == null) {
+            throw new Exception("No se encontro el archivo Jasper del informe de tecnicos.");
+        }
+
+        // 2. No necesita parametros
+        Map<String, Object> parametros = new HashMap<>();
+
+        // 3. Crear carpeta de salida si no existe
+        File carpetaInformes = new File(System.getProperty("user.dir") + "/informesPDFGenerados");
+        if (!carpetaInformes.exists()) {
+            carpetaInformes.mkdirs();
+        }
+
+        // 4. Nombre unico para el PDF generado
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String fechaHora = LocalDateTime.now().format(formateador);
+
+        String nombreArchivo = "informe_rendimiento_tecnico_" + fechaHora + ".pdf";
+        String rutaCompleta = new File(carpetaInformes, nombreArchivo).getAbsolutePath();
+
+        // 5. Rellenar el informe y exportarlo a PDF
+        try (Connection conexion = DataSourceFactory.getConnection()) {
+            JasperPrint jasperPrint = JasperFillManager.fillReport(archivoJasper, parametros, conexion);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, rutaCompleta);
+        }
+
+        return rutaCompleta;
+    }
 }

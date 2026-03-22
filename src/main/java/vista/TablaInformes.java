@@ -230,6 +230,9 @@ public class TablaInformes extends javax.swing.JDialog {
                 int idEstado = Integer.parseInt(partes[3]);
                 ventana = new panelInformes(null, true, "maquinas_estado", idEstado);
 
+            } else if (nombreArchivo.startsWith("informe_rendimiento_tecnico")) {
+                ventana = new panelInformes(null, true, "tecnicos", 0);
+
             } else {
                 JOptionPane.showMessageDialog(this,
                         "El tipo de informe no esta soportado.");
