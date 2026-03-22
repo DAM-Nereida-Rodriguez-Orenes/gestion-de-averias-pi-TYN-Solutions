@@ -119,7 +119,7 @@ public class AveriaControlador {
             return filas;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
         try {
             // 1. Descargamos catálogos para mapear nombres

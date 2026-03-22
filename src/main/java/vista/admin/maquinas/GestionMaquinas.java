@@ -19,6 +19,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1008,9 +1009,12 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 int idTipo = m.getTipoMaquinaria().getCodigoTipoMaquinaria();
                 tipoDesc = tipos.getOrDefault(idTipo, String.valueOf(idTipo));
             }
-
-            String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().toString() : "";
-            String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().toString() : "";
+            // Crear el formateador
+            DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            
+            // Formatear la fecha
+            String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().format(formateador) : "";
+            String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().format(formateador) : "";
 
             modeloTabla.addRow(new Object[]{
                 m.getCodigoMaquinaria(),
