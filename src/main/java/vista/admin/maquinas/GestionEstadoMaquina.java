@@ -26,7 +26,6 @@ import modelo.Usuario;
 import vista.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
-import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;

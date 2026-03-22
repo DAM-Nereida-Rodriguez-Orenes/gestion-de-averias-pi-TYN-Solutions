@@ -28,6 +28,7 @@ public class InformesJasper {
         }
 
         // 1. Ruta del archivo .jasper dentro de resources
+        //este archivo NO es el PDF final, sino la plantilla del informe, el diseno.
         InputStream archivoJasper = getClass().getResourceAsStream("/informesGenerados/informe_averia.jasper");
 
         if (archivoJasper == null) {
@@ -52,6 +53,44 @@ public class InformesJasper {
         String rutaCompleta = new File(carpetaInformes, nombreArchivo).getAbsolutePath();
 
         // 5. Rellenar el informe y exportarlo a PDF
+        try (Connection conexion = DataSourceFactory.getConnection()) {
+            JasperPrint jasperPrint = JasperFillManager.fillReport(archivoJasper, parametros, conexion);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, rutaCompleta);
+        }
+
+        return rutaCompleta;
+    }
+
+    public String generarInformeMaquinasPorEstado(int idEstado) throws Exception {
+        if (idEstado <= 0) {
+            throw new IllegalArgumentException("El id del estado no es valido.");
+        }
+
+        // Cargamos la plantilla .jasper desde resources
+        InputStream archivoJasper = getClass().getResourceAsStream("/informeJasper/informe_maquinas_estado.jasper");
+
+        if (archivoJasper == null) {
+            throw new Exception("No se encontro el archivo Jasper del informe de maquinas por estado.");
+        }
+
+        // Parametros que recibira el informe
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("idEstado", idEstado);
+
+        // Crear carpeta de salida si no existe
+        File carpetaInformes = new File(System.getProperty("user.dir") + "/informesPDFGenerados");
+        if (!carpetaInformes.exists()) {
+            carpetaInformes.mkdirs();
+        }
+
+        // Nombre unico para el PDF generado
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String fechaHora = LocalDateTime.now().format(formateador);
+
+        String nombreArchivo = "informe_maquinas_estado_" + idEstado + "_" + fechaHora + ".pdf";
+        String rutaCompleta = new File(carpetaInformes, nombreArchivo).getAbsolutePath();
+
+        // Rellenar el informe y exportarlo a PDF
         try (Connection conexion = DataSourceFactory.getConnection()) {
             JasperPrint jasperPrint = JasperFillManager.fillReport(archivoJasper, parametros, conexion);
             JasperExportManager.exportReportToPdfFile(jasperPrint, rutaCompleta);

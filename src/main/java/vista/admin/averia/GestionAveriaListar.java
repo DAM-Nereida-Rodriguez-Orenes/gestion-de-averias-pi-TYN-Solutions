@@ -40,7 +40,6 @@ import vista.vLogin;
  *
  * @author yosue
  */
-
 public class GestionAveriaListar extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionAveriaListar.class.getName());
@@ -129,13 +128,47 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         tablaAveria.setRowSorter(sorter);
 
         // Ajuste visual de la columna ID
-        //javax.swing.table.TableColumnModel columnModel = tablaAveria.getColumnModel();
-        //columnModel.getColumn(0).setPreferredWidth(40);
-        //columnModel.getColumn(0).setMaxWidth(60);
+        javax.swing.table.TableColumnModel columnModel = tablaAveria.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(0).setMaxWidth(60);
+
         //Ajustes al diseño de la tabla 
-        tablaAveria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
-        tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente 
-        tablaAveria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header y cambia la fuente       
+        tablaAveria.setRowHeight(36);
+        // este valor aumenta el tamaño de las tuplas
+        tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente 
+        tablaAveria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        // esto aumenta el tamaño de la fuente del header y cambia la fuente 
+
+        // Renderer para mostrar las fechas en formato dd/MM/yyyy
+        javax.swing.table.DefaultTableCellRenderer rendererFechas = new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            protected void setValue(Object value) {
+                if (value == null) {
+                    setText("");
+                    return;
+                }
+
+                if (value instanceof java.time.LocalDate) {
+                    java.time.LocalDate fecha = (java.time.LocalDate) value;
+                    setText(fecha.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                } else if (value instanceof java.time.LocalDateTime) {
+                    java.time.LocalDateTime fechaHora = (java.time.LocalDateTime) value;
+                    setText(fechaHora.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                } else if (value instanceof java.util.Date) {
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+                    setText(sdf.format((java.util.Date) value));
+                } else {
+                    setText(value.toString());
+                }
+            }
+        };
+
+        // Aplicar el renderer a las columnas de fechas
+        columnModel.getColumn(4).setCellRenderer(rendererFechas); // F. Inicio
+        columnModel.getColumn(5).setCellRenderer(rendererFechas); // F. Asignacion
+        columnModel.getColumn(6).setCellRenderer(rendererFechas); // F. Aceptacion
+        columnModel.getColumn(7).setCellRenderer(rendererFechas); // F. Fin
     }
 
     /**
@@ -152,12 +185,9 @@ public class GestionAveriaListar extends javax.swing.JFrame {
     private void actualizarModeloTabla(List<Object[]> datos) {
         modeloTabla.setRowCount(0); // Limpia la tabla actual
         if (datos != null) {
-            for (Object[] fila : datos) {
+            for (Object[] fila : datos) {               
                 modeloTabla.addRow(fila);
             }
-            tablaAveria.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
-            tablaAveria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla
-            tablaAveria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header
         }
     }
 
@@ -776,34 +806,34 @@ public class GestionAveriaListar extends javax.swing.JFrame {
                     "No se pudo generar el informe.\n" + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-          }
-    
+        }
+
     }//GEN-LAST:event_btnGenerarInformeActionPerformed
 
     // =========================================================================
     // 4. CÓDIGO AUTOGENERADO (Diseño de la Interfaz)
     // =========================================================================
     public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-        logger.log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
+        //</editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(() -> new GestionAveriaListar().setVisible(true));
-}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new GestionAveriaListar().setVisible(true));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAveriaActualizar;

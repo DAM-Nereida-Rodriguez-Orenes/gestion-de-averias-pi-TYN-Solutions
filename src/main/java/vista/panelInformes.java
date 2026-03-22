@@ -29,35 +29,50 @@ import net.sf.jasperreports.engine.JasperPrint;
 public class panelInformes extends javax.swing.JDialog {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(panelInformes.class.getName());
-    private int idAveria;
+    private String tipoInforme;
+    private int idParametro;
 
-    public panelInformes(java.awt.Frame parent, boolean modal, int idAveria) {
+    public panelInformes(java.awt.Frame parent, boolean modal, String tipoInforme, int idParametro) {
         super(parent, modal);
         initComponents();
-        this.idAveria = idAveria;
+
+        this.tipoInforme = tipoInforme;
+        this.idParametro = idParametro;
+
         mostrarReporte();
         mostrarImagenes();
     }
-     public void mostrarImagenes() {
+
+    public void mostrarImagenes() {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
         // Centrar ventana en pantalla
-        this.setLocationRelativeTo(null);        
+        this.setLocationRelativeTo(null);
     }
 
     private void mostrarReporte() {
         Connection conexion = null;
 
         try {
-            InputStream reporte = getClass().getResourceAsStream("/informesGenerados/informe_averia.jasper");
+            InputStream reporte = null;
+            Map<String, Object> parametros = new HashMap<>();
 
-            if (reporte == null) {
-                throw new RuntimeException("No se encontro el archivo informe_averia.jasper");
+            if (tipoInforme.equals("averia")) {
+                reporte = getClass().getResourceAsStream("/informesGenerados/informe_averia.jasper");
+                parametros.put("idAveria", idParametro);
+
+            } else if (tipoInforme.equals("maquinas_estado")) {
+                reporte = getClass().getResourceAsStream("/informeJasper/informe_maquinas_estado.jasper");
+                parametros.put("idEstado", idParametro);
+
+            } else {
+                throw new RuntimeException("Tipo de informe no soportado.");
             }
 
-            Map<String, Object> parametros = new HashMap<>();
-            parametros.put("idAveria", idAveria);
+            if (reporte == null) {
+                throw new RuntimeException("No se encontro el archivo .jasper del informe.");
+            }
 
             conexion = DataSourceFactory.getConnection();
 

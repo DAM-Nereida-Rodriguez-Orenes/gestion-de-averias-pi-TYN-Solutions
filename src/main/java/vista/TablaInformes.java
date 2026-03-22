@@ -208,34 +208,43 @@ public class TablaInformes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerInformeActionPerformed
-         try {
-        int fila = tbInformes.getSelectedRow();
+        try {
+            int fila = tbInformes.getSelectedRow();
 
-        if (fila == -1) {
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "Selecciona un informe primero");
+                return;
+            }
+
+            String nombreArchivo = (String) tbInformes.getValueAt(fila, 0);
+            String[] partes = nombreArchivo.split("_");
+
+            panelInformes ventana;
+
+            if (nombreArchivo.startsWith("informe_averia_")) {
+                int idAveria = Integer.parseInt(partes[2]);
+                ventana = new panelInformes(null, true, "averia", idAveria);
+
+            } else if (nombreArchivo.startsWith("informe_maquinas_estado_")) {
+                int idEstado = Integer.parseInt(partes[3]);
+                ventana = new panelInformes(null, true, "maquinas_estado", idEstado);
+
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "El tipo de informe no esta soportado.");
+                return;
+            }
+
+            ventana.setLocationRelativeTo(this);
+            ventana.setVisible(true);
+
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al abrir informe", e);
+
             JOptionPane.showMessageDialog(this,
-                    "Selecciona un informe primero");
-            return;
+                    "No se pudo abrir el informe");
         }
-
-        String nombreArchivo = (String) tbInformes.getValueAt(fila, 0);
-
-        // Extraer idAveria del nombre
-        // formato: informe_averia_5_20260319_213000.pdf
-        String[] partes = nombreArchivo.split("_");
-
-        int idAveria = Integer.parseInt(partes[2]);
-
-        // Abrir visor Jasper en lugar de PDF
-        panelInformes ventana = new panelInformes(null, true, idAveria);
-        ventana.setLocationRelativeTo(this);
-        ventana.setVisible(true);
-
-    } catch (Exception e) {
-        logger.log(java.util.logging.Level.SEVERE, "Error al abrir informe", e);
-
-        JOptionPane.showMessageDialog(this,
-                "No se pudo abrir el informe");
-    }
     }//GEN-LAST:event_btnVerInformeActionPerformed
 
     private void btnEliminarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarInformeActionPerformed

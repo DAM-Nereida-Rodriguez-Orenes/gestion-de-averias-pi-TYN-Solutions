@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.io.File;
 import java.net.URL;
 import java.util.Date;
 import java.time.LocalDate;
@@ -37,10 +38,10 @@ import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
 import modelo.Usuario;
+import utils.InformesJasper;
 import vista.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
-import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.vHomeAdmin;
@@ -106,61 +107,10 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jlSaldoIcono.setIconTextGap(8);
 
         //Campo ID maquina
-        //FlatSVGIcon iconoIdMaquina = new FlatSVGIcon("recursos/iconos/icnNumerico.svg", 16, 16);
-        //txtID.putClientProperty("JTextField.leadingIcon", iconoIdMaquina);
-        //txtID.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtID.putClientProperty("JTextField.placeholderText", "Código máquina ");
 
         //Campo maquina txtNameFilter
-        //FlatSVGIcon iconoNombreMaquina = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
-        //txtNameFilter.putClientProperty("JTextField.leadingIcon", iconoNombreMaquina);
-        //txtNameFilter.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtNameFilter.putClientProperty("JTextField.placeholderText", "Buscar máquina ");
-
-        //Combobox Tipo maquinaria
-        /*FlatSVGIcon iconoTipoMaquinaria = new FlatSVGIcon("recursos/iconos/engranajes_exact.svg", 16, 16);
-        cbbTipo.setRenderer(new DefaultListCellRenderer() {
-            public Component getListCellRendererComponent(
-                    JList<?> lista,
-                    Object valor,
-                    int indice,
-                    boolean estaSeleccionado,
-                    boolean tieneFoco) {
-
-                JLabel etiqueta = (JLabel) super.getListCellRendererComponent(
-                        lista, valor, indice, estaSeleccionado, tieneFoco);
-
-                // Solo muestra el icono cuando el combobox esta cerrado
-                if (indice == -1) {
-                    etiqueta.setIcon(iconoTipoMaquinaria);
-                } else {
-                    etiqueta.setIcon(null);
-                }
-                return etiqueta;
-            }
-        });*/
-        //cbbStatus tipo estado
-        /*FlatSVGIcon iconoEstadoMaquina = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 16, 16);
-        cbbStatus.setRenderer(new DefaultListCellRenderer() {
-            public Component getListCellRendererComponent(
-                    JList<?> lista,
-                    Object valor,
-                    int indice,
-                    boolean estaSeleccionado,
-                    boolean tieneFoco) {
-
-                JLabel etiqueta = (JLabel) super.getListCellRendererComponent(
-                        lista, valor, indice, estaSeleccionado, tieneFoco);
-
-                // Solo muestra el icono cuando el combobox esta cerrado
-                if (indice == -1) {
-                    etiqueta.setIcon(iconoEstadoMaquina);
-                } else {
-                    etiqueta.setIcon(null);
-                }
-                return etiqueta;
-            }
-        });*/
     }
 
     /**
@@ -180,6 +130,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
+        btnInformeEstado = new javax.swing.JButton();
         panelTitulo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelFiltros = new javax.swing.JPanel();
@@ -216,7 +167,6 @@ public class GestionMaquinas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Máquina");
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
@@ -287,18 +237,31 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
         });
 
+        btnInformeEstado.setBackground(new java.awt.Color(67, 113, 177));
+        btnInformeEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnInformeEstado.setForeground(new java.awt.Color(234, 242, 251));
+        btnInformeEstado.setText("Generar informe");
+        btnInformeEstado.setBorderPainted(false);
+        btnInformeEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformeEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
-                .addContainerGap(75, Short.MAX_VALUE)
+                .addContainerGap(72, Short.MAX_VALUE)
                 .addComponent(btnEliminar)
-                .addGap(41, 41, 41)
+                .addGap(20, 20, 20)
                 .addComponent(btnDarBaja)
-                .addGap(561, 561, 561)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 425, Short.MAX_VALUE)
+                .addComponent(btnInformeEstado)
+                .addGap(20, 20, 20)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,7 +270,8 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInformeEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -505,9 +469,9 @@ public class GestionMaquinas extends javax.swing.JFrame {
         panelTablaLayout.setHorizontalGroup(
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTablaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         panelTablaLayout.setVerticalGroup(
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,7 +492,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(panelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(panelFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -536,7 +500,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                 .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         miInicio.setText("Inicio");
@@ -932,6 +896,46 @@ public class GestionMaquinas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
+    private void btnInformeEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeEstadoActionPerformed
+        try {
+            String descripcionEstado = (String) cbbStatus.getSelectedItem();
+
+            if (descripcionEstado == null || descripcionEstado.equals("Todos")) {
+                JOptionPane.showMessageDialog(this,
+                        "Debes seleccionar un estado concreto para generar el informe.",
+                        "Seleccion requerida",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Integer idEstado = estadoDescToId.get(descripcionEstado);
+
+            if (idEstado == null) {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo obtener el estado seleccionado.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            InformesJasper informesJasper = new InformesJasper();
+            String rutaInformeGenerado = informesJasper.generarInformeMaquinasPorEstado(idEstado);
+
+            JOptionPane.showMessageDialog(this,
+                    "Informe generado correctamente.\nGuardado en:\n" + rutaInformeGenerado,
+                    "Informe generado",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al generar el informe de maquinas por estado", e);
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo generar el informe.\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInformeEstadoActionPerformed
+
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
         /*
@@ -1213,6 +1217,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnInformeEstado;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNuevaMaquina;
     private javax.swing.JComboBox<String> cbbStatus;

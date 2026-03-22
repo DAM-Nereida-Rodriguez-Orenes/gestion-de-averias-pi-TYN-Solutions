@@ -29,7 +29,6 @@ import modelo.Usuario;
 import vista.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
-import vista.admin.averia.TipoAveriaCRUD;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
