@@ -637,7 +637,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         NuevaMaquina nm = new NuevaMaquina(this, true);
         nm.setLocationRelativeTo(this);
         nm.setVisible(true);
-
+        listaTotal = contr.listarMaquinaria();
         cargarTablaMaquinaria(listaTotal);
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
     //eliminar máquina
@@ -671,6 +671,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
                     "Maquina eliminada definitivamente con exito.",
                     "Eliminacion realizada",
                     JOptionPane.INFORMATION_MESSAGE);
+            listaTotal = contr.listarMaquinaria();
             cargarTablaMaquinaria(listaTotal); // refrescar tabla
         } else {
             JOptionPane.showMessageDialog(this,
@@ -858,6 +859,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
      * @param evt
      */
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
+        Maquinaria maquinaActual; //la que estoy editando
         int id = getIdSeleccionado();
         if (id == -1) {
             JOptionPane.showMessageDialog(this,
@@ -883,10 +885,15 @@ public class GestionMaquinas extends javax.swing.JFrame {
         boolean ok = contr.bajaLogicaMaquina(id);
 
         if (ok) {
+            //LLAMAR A MODIFICAR (creas objeto y pasas a controlador)
+            
+            //Comunicación con usuario
             JOptionPane.showMessageDialog(this,
                     "Maquina dada de baja con exito.",
                     "Baja realizada",
                     JOptionPane.INFORMATION_MESSAGE);
+            
+            listaTotal = contr.listarMaquinaria();
             cargarTablaMaquinaria(listaTotal); // refrescar tabla
         } else {
             JOptionPane.showMessageDialog(this,

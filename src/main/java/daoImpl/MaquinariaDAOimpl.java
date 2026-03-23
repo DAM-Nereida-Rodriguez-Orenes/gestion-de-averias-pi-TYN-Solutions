@@ -112,7 +112,7 @@ public class MaquinariaDAOimpl implements MaquinariaDAO {
 
     @Override
     public void bajaLogica(int codigoMaquinaria) {
-        final String sql = "UPDATE maquinaria SET fechaBaja = CURRENT_DATE WHERE codigoMaquinaria = ?";
+        final String sql = "UPDATE maquinaria SET fechaBaja = CURRENT_DATE, codigoEstadoFK = 804 WHERE codigoMaquinaria = ?";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
