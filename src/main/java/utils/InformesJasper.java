@@ -29,7 +29,7 @@ public class InformesJasper {
 
         // 1. Ruta del archivo .jasper dentro de resources
         //este archivo NO es el PDF final, sino la plantilla del informe, el diseno.
-        InputStream archivoJasper = getClass().getResourceAsStream("/informesGenerados/informe_averia.jasper");
+        InputStream archivoJasper = getClass().getResourceAsStream("/informeJasper/informe_averia.jasper");
 
         if (archivoJasper == null) {
             throw new Exception("No se encontro el archivo Jasper del informe.");
