@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
  * @author yosnavmol
  */
 public class TipoAveriaControlador {
+
     private TipoAveriaDaoImpl tipoDao;
 
     public TipoAveriaControlador() {
@@ -43,13 +44,17 @@ public class TipoAveriaControlador {
         return filas;
     }
 
+    public List<TipoAveria> listarTiposAveria() {
+        return tipoDao.listar();
+    }
+
     // GUARDAR (Llama al void)
     public boolean registrar(int id, String descripcion, float tiempo) {
         if (descripcion == null || descripcion.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "La descripción es obligatoria.");
             return false;
         }
-        
+
         // Verificamos aquí para poder avisar al usuario, ya que el DAO es void
         if (tipoDao.existeId(id)) {
             JOptionPane.showMessageDialog(null, "Ya existe un Tipo de Avería con el ID " + id, "ID Duplicado", JOptionPane.WARNING_MESSAGE);
@@ -60,9 +65,9 @@ public class TipoAveriaControlador {
         t.setCodigoTipoAveria(id);
         t.setDescripcionTipoAv(descripcion);
         t.setTiempoPromRepar(tiempo);
-        
+
         tipoDao.insertar(t); // Ejecutamos el método void
-        return true; 
+        return true;
     }
 
     // ACTUALIZAR (Llama al void)
@@ -76,7 +81,7 @@ public class TipoAveriaControlador {
         t.setCodigoTipoAveria(id);
         t.setDescripcionTipoAv(descripcion);
         t.setTiempoPromRepar(tiempo);
-        
+
         tipoDao.actualizar(t); // Ejecutamos el método void
         return true;
     }
@@ -85,7 +90,8 @@ public class TipoAveriaControlador {
     public boolean eliminar(int id) {
         return tipoDao.eliminar(id);
     }
-     public int obtenerIdTipoAveria(String descripcion){
+
+    public int obtenerIdTipoAveria(String descripcion) {
         return tipoDao.buscarTipoAveriaPorDescripcion(descripcion);
     }
 }

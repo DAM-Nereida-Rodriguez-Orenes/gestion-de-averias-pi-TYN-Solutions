@@ -458,10 +458,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         Usuario usuario = null;
 
-        String sql = "SELECT codigoUsuario, nombre, apellido, codigoRolFK, telefono, email, password, intentos, ultimoAcceso, activo "
-                + "FROM usuario "
-                + "WHERE email = ? AND activo = 1";
-
+        String sql = "SELECT u.codigoUsuario, u.nombre, u.apellido, u.codigoRolFK, "
+                + "r.descripcionRol, u.telefono, u.email, u.password, "
+                + "u.intentos, u.ultimoAcceso, u.activo "
+                + "FROM usuario u "
+                + "INNER JOIN rol r ON u.codigoRolFK = r.codigoRol "
+                + "WHERE u.email = ? AND u.activo = 1";
+        
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -485,6 +488,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
                 Rol rol = new Rol();
                 rol.setCodigoRol(resultSet.getInt("codigoRolFK"));
+                rol.setDescripcionRol(resultSet.getString("descripcionRol"));
                 usuario.setRol(rol);
 
                 usuario.setTelefono(resultSet.getString("telefono"));
@@ -522,7 +526,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         return usuario;
     }
-    
+
     @Override
     public List<Usuario> buscarTecnicosOrdenadorPorCarga(int codigoTipoAveria) {
 

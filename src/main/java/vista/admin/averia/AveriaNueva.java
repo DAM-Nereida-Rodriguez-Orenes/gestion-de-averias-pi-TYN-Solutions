@@ -211,7 +211,7 @@ public class AveriaNueva extends javax.swing.JDialog {
             // Obtener el usuario logueado y mostrar su nombre en el campo
             Usuario usuarioLogueado = controlador.getUsuarioSesion();
             if (usuarioLogueado != null) {
-                txtUsuarioBuscar.setText(usuarioLogueado.getNombre() + " " + usuarioLogueado.getApellido());
+                txtUsuarioBuscar.setText("Reporta: " + usuarioLogueado.getNombre() + " " + usuarioLogueado.getApellido());
             }
 
         } catch (Exception e) {

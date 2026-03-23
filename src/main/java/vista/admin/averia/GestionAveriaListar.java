@@ -175,7 +175,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
      * Descarga todas las averías de la BD y refresca la tabla.
      */
     private void cargarDatos() {
-        List<Object[]> datos = controladorAveria.listarAveriasParaVista();
+        List<Object[]> datos = controladorAveria.listarAveriasParaVista(null);
         actualizarModeloTabla(datos);
     }
 
@@ -634,7 +634,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
 
             if (averiaSeleccionada != null) {
-                AveriaActualizar2 ventanaActualizar = new AveriaActualizar2(this, true, averiaSeleccionada);
+                AveriaActualizar ventanaActualizar = new AveriaActualizar(this, true, averiaSeleccionada);
                 ventanaActualizar.setLocationRelativeTo(this);
                 ventanaActualizar.setVisible(true); // Se pausa aquí
                 ventanaActualizar.setSize(1000, 600);

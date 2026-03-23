@@ -287,11 +287,6 @@ public class AveriaDaoImpl implements AveriaDao {
         return resultado;
     }
 
-    @Override
-    public List<Averia> listar() {
-        return buscarPorFiltros(null, null, null, null, null, null, null, null);
-    }
-
     // Método no usable
     @Override
     public boolean eliminar(int id) {

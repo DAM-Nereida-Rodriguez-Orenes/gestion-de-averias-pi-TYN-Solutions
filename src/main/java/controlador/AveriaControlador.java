@@ -78,13 +78,21 @@ public class AveriaControlador {
         return null;
     }
 
-    /**
-     * Trae todas las averías para mostrar al arrancar la ventana principal.
-     */
-    public List<Object[]> listarAveriasParaVista() {
+    // Trae todas las averías para mostrar al arrancar la ventana principal dependiendo de que usuarios seas.
+    public List<Object[]> listarAveriasParaVista(Usuario usuario) {
         try {
-            List<Averia> listaAverias = averiaDao.listar();
+            Integer codigoUsuario = null;
+
+            if (usuario != null) {
+                codigoUsuario = usuario.getCodigoUsuario();
+            }
+
+            List<Averia> listaAverias = averiaDao.buscarPorFiltros(
+                    null, null, null, null, codigoUsuario, null, null, null
+            );
+
             return mapearAveriasParaTabla(listaAverias);
+
         } catch (Exception e) {
             return new ArrayList<>();
         }
@@ -237,7 +245,7 @@ public class AveriaControlador {
     }
 
     public List<Usuario> obtenerSoloTecnicos() {
-        try {                     
+        try {
             // 1. Creamos un objeto Rol "fantasma" solo para la búsqueda
             modelo.Rol rolTecnico = new modelo.Rol();
 
@@ -252,16 +260,16 @@ public class AveriaControlador {
             return new ArrayList<>(); // Devolvemos lista vacía en caso de error
         }
     }
-    
+
     public List<Usuario> buscarTecnicosOrdenadorPorCarga(int tipo) {
-        try {                     
+        try {
             return usuarioDao.buscarTecnicosOrdenadorPorCarga(tipo);
 
         } catch (Exception e) {
             System.err.println("Error al obtener la lista de técnicos: " + e.getMessage());
             return new ArrayList<>(); // Devolvemos lista vacía en caso de error
         }
-    }   
+    }
 
     // =========================================================================
     // 3. MÉTODOS TRANSACCIONALES (Insertar, Actualizar)
@@ -354,7 +362,7 @@ public class AveriaControlador {
             return false;
         }
     }
-    
+
     // Devuelve el usuario que tiene la sesion iniciada
     public Usuario getUsuarioSesion() {
         return loginControlador.getUsuarioSesion();
