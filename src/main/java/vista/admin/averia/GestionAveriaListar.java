@@ -674,7 +674,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             // 2. Convertir índice por si hay filtros aplicados
             int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
             int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
-
+                        
             // 3. Buscar la avería en la BD
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
 

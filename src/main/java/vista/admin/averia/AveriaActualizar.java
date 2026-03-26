@@ -362,16 +362,34 @@ public class AveriaActualizar extends javax.swing.JDialog {
 
             // BLOQUEAR FKs SI EL TÉCNICO YA HA ACEPTADO ---
             if (averiaSeleccionada.getFechaAcepTecnico() != null) {
-                // Deshabilitamos las listas y el ComboBox para que no se puedan cambiar
+                // Deshabilitamos los componentes si al averia esta finalizada para que no se peuda modificar pero si ver
+                //Listas
                 listaMaquinas.setEnabled(false);
                 listaUsuarios.setEnabled(false);
                 listaTecnicos.setEnabled(false);
+                //Combobox
                 cbAveriaTipo.setEnabled(false);
-
+                //textos 
+                txtDescripcion.setEnabled(false);
+                txtProcRealizado.setEnabled(false);
+                //fechas
+                spFechaReporte.setEnabled(false);
+                spFechaAsig.setEnabled(false);
+                spFechaAcep.setEnabled(false);
+                spFechaFinal.setEnabled(false);
+                //checkboxes
+                cbFechaAsig.setEnabled(false);
+                cbFechaAcep.setEnabled(false);
+                cbFechaFinal.setEnabled(false);
                 // Por buena experiencia de usuario, bloqueamos también sus buscadores
                 txtMaquinaBuscar.setEnabled(false);
                 txtUsuarioBuscar.setEnabled(false);
                 txtTecnicoBuscar.setEnabled(false);
+                
+                // boton de guardar desabilitado 
+                btnModificarAveria.setEnabled(false);
+                // cambiamos el texto del boton. cancelar pasa a cerrar
+                btnCancelar.setText("Cerrar");
             }
 
         } catch (Exception e) {
@@ -733,6 +751,10 @@ public class AveriaActualizar extends javax.swing.JDialog {
     }//GEN-LAST:event_txtAveriaIdActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        if (averiaSeleccionada != null && averiaSeleccionada.getFechaAcepTecnico() != null) {
+            dispose();
+            return;
+        }
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (respuesta == JOptionPane.YES_OPTION) {
             dispose();
