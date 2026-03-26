@@ -29,8 +29,10 @@ public interface UsuarioDao {
     String actualizarPassword(String email, String nuevaPassword);
 
     List<Usuario> buscarPorTexto(String texto);
-    
+
     Usuario buscarPorEmail(String email);
-        
+
     List<Usuario> buscarTecnicosOrdenadorPorCarga(int codigoTipoAveria);
+
+    public Object[] obtenerMotivosTecnico(int codigoTecnico, int codigoTipoAveria);
 }

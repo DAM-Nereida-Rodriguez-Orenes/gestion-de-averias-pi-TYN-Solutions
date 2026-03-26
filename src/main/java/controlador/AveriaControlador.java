@@ -271,6 +271,10 @@ public class AveriaControlador {
         }
     }
 
+    public Object[] obtenerMotivosTecnico(int codigoTecnico, int codigoTipoAveria) {
+        return usuarioDao.obtenerMotivosTecnico(codigoTecnico, codigoTipoAveria);
+    }
+
     // =========================================================================
     // 3. MÉTODOS TRANSACCIONALES (Insertar, Actualizar)
     // =========================================================================
@@ -367,4 +371,5 @@ public class AveriaControlador {
     public Usuario getUsuarioSesion() {
         return loginControlador.getUsuarioSesion();
     }
+
 }

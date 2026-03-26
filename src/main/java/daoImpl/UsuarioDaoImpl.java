@@ -464,7 +464,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 + "FROM usuario u "
                 + "INNER JOIN rol r ON u.codigoRolFK = r.codigoRol "
                 + "WHERE u.email = ? AND u.activo = 1";
-        
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -590,6 +590,59 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
 
         return listaUsuarios;
+    }
+
+    @Override
+    public Object[] obtenerMotivosTecnico(int codigoTecnico, int codigoTipoAveria) {
+
+        String sql = "SELECT "
+                + "    COALESCE(act.totalAveriasActivas, 0) AS totalAveriasActivas, "
+                + "    COALESCE(hist.totalAveriasFinalizadas, 0) AS totalAveriasFinalizadas, "
+                + "    COALESCE(hist.tiempoMedioTecnico, 0) AS tiempoMedioTecnico "
+                + "FROM usuario u "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, COUNT(*) AS totalAveriasActivas "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NULL "
+                + "    GROUP BY a.usuarioTecnicoFK "
+                + ") act ON act.usuarioTecnicoFK = u.codigoUsuario "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, "
+                + "           COUNT(*) AS totalAveriasFinalizadas, "
+                + "           AVG(TIMESTAMPDIFF(MINUTE, a.fechaAcepTecnico, a.fechaFinalizTecnico) / 60.0) AS tiempoMedioTecnico "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NOT NULL "
+                + "      AND a.tipoAveriaFK = ? "
+                + "    GROUP BY a.usuarioTecnicoFK "
+                + ") hist ON hist.usuarioTecnicoFK = u.codigoUsuario "
+                + "WHERE u.codigoUsuario = ?";
+
+        try (Connection conexion = dataSource.getConnection(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, codigoTipoAveria);
+            ps.setInt(2, codigoTecnico);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Object[] datos = new Object[3];
+
+                    datos[0] = rs.getInt("totalAveriasActivas");
+                    datos[1] = rs.getInt("totalAveriasFinalizadas");
+                    datos[2] = rs.getDouble("tiempoMedioTecnico");
+
+                    return datos;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error obteniendo motivos del tecnico", e);
+        }
+
+        return null;
     }
 
 }

@@ -251,9 +251,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnInfoAveria" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="75" max="32767" attributes="0"/>
+                      <EmptySpace pref="38" max="32767" attributes="0"/>
                       <Component id="btnInfoTecnico" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="546" max="32767" attributes="0"/>
+                      <EmptySpace pref="396" max="32767" attributes="0"/>
+                      <Component id="btnAsignarTecnico" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                       <Component id="btnAveriaActualizar" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -265,6 +267,7 @@
                           <Component id="btnAveriaActualizar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnInfoAveria" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnInfoTecnico" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnAsignarTecnico" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                   </Group>
@@ -324,6 +327,25 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInfoTecnicoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnAsignarTecnico">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fb" green="f2" red="ea" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft JhengHei" size="14" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="b1" green="71" red="43" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Asignar t&#xe9;cnico"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+                <Property name="borderPainted" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsignarTecnicoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

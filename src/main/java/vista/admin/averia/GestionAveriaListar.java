@@ -49,7 +49,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;
     private TableRowSorter<DefaultTableModel> sorter;
 
-    // --- Estados de Interfaz ---
+// --- Estados de Interfaz ---
     private boolean filtrosAplicados = false;
     private int estadoFiltro = 0;
 
@@ -283,6 +283,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         btnAveriaActualizar = new javax.swing.JButton();
         btnInfoAveria = new javax.swing.JButton();
         btnInfoTecnico = new javax.swing.JButton();
+        btnAsignarTecnico = new javax.swing.JButton();
         panelFiltro = new javax.swing.JPanel();
         btnAveriaNueva = new javax.swing.JButton();
         tgbtnFiltros = new javax.swing.JToggleButton();
@@ -377,15 +378,29 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             }
         });
 
+        btnAsignarTecnico.setBackground(new java.awt.Color(234, 242, 251));
+        btnAsignarTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnAsignarTecnico.setForeground(new java.awt.Color(67, 113, 177));
+        btnAsignarTecnico.setText("Asignar técnico");
+        btnAsignarTecnico.setToolTipText("");
+        btnAsignarTecnico.setBorderPainted(false);
+        btnAsignarTecnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignarTecnicoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
         panelAcciones.setLayout(panelAccionesLayout);
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAccionesLayout.createSequentialGroup()
                 .addComponent(btnInfoAveria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(btnInfoTecnico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 546, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
+                .addComponent(btnAsignarTecnico)
+                .addGap(66, 66, 66)
                 .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelAccionesLayout.setVerticalGroup(
@@ -394,7 +409,8 @@ public class GestionAveriaListar extends javax.swing.JFrame {
                 .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInfoAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInfoTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnInfoTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAsignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -674,7 +690,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             // 2. Convertir índice por si hay filtros aplicados
             int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
             int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
-                        
+
             // 3. Buscar la avería en la BD
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
 
@@ -890,7 +906,46 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnInfoTecnicoActionPerformed
 
+    private void btnAsignarTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarTecnicoActionPerformed
+
+        try {
+            // 1. Obtener la fila seleccionada (getSelectedRow coge la primera si hay varias)
+            int filaVista = tablaAveria.getSelectedRow();
+
+            if (filaVista == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "Por favor, selecciona una avería de la tabla para asignarle el técnico.",
+                        "Selección requerida", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. Convertir índice por si hay filtros aplicados
+            int filaModelo = tablaAveria.convertRowIndexToModel(filaVista);
+            int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
+
+            // 3. Buscar la avería en la BD
+            Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
+
+            if (averiaSeleccionada != null) {
+                AsigarTecnico asignarTecnico = new AsigarTecnico(this, true, averiaSeleccionada);
+                asignarTecnico.setLocationRelativeTo(this);
+                asignarTecnico.setVisible(true); 
+                asignarTecnico.setSize(1000, 600);
+
+                cargarDatos(); // Refrescar al volver
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo cargar la información de la avería seleccionada.\nEs posible que haya sido eliminada por otro usuario.",
+                        "Error de lectura", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al preparar la actualización", e);
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAsignarTecnicoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAsignarTecnico;
     private javax.swing.JButton btnAveriaActualizar;
     private javax.swing.JButton btnAveriaNueva;
     private javax.swing.JButton btnInfoAveria;
