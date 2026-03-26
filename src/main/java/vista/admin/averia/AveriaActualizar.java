@@ -134,6 +134,11 @@ public class AveriaActualizar extends javax.swing.JDialog {
         txtTecnicoBuscar.putClientProperty("JTextField.leadingIcon", iconoUsuariotecnico);
         txtTecnicoBuscar.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtTecnicoBuscar.putClientProperty("JTextField.placeholderText", "Tecnico asingado: ");
+        //Campo usuario que informa txtUsuarioBuscar
+        FlatSVGIcon iconoReloj = new FlatSVGIcon("recursos/iconos/reloj.svg", 15, 15);
+        txtEstadoAveria.putClientProperty("JTextField.leadingIcon", iconoReloj);
+        txtEstadoAveria.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
+        txtEstadoAveria.putClientProperty("JTextField.placeholderText", "Estado avería: ");
 
         //PlaceHolder textArea
         //txtDescripcion
@@ -290,16 +295,31 @@ public class AveriaActualizar extends javax.swing.JDialog {
         try {
             // Textos
             txtAveriaId.setText(String.valueOf(averiaSeleccionada.getCodigoAveria()));
+            txtAveriaId.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
             txtDescripcion.setText(averiaSeleccionada.getDescInicAveria());
             String procedimiento = averiaSeleccionada.getProcRealizadoTecnico();
             if (procedimiento != null && !procedimiento.trim().isEmpty()) {
                 txtProcRealizado.setText(procedimiento);
-                txtProcRealizado.setForeground(Color.BLACK);
+                txtProcRealizado.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
             } else {
                 txtProcRealizado.setText("Descripcion del procedimiento realizado");
                 txtProcRealizado.setForeground(Color.GRAY);
             }
             txtProcRealizado.setEnabled(false);
+            // Estado de la averia
+            String estado;
+
+            if (averiaSeleccionada.getFechaFinalizTecnico() != null) {
+                estado = "Finalizada";
+            } else if (averiaSeleccionada.getFechaAcepTecnico() != null) {
+                estado = "En progreso";
+            } else {
+                estado = "Pendiente";
+            }
+
+            txtEstadoAveria.setText(estado);
+            txtEstadoAveria.setEnabled(false); // opcional, para que no lo modifiquen
+            txtEstadoAveria.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
 
             // Seleccionar Máquina y hacer auto-scroll
             for (int i = 0; i < modelMaquinas.getSize(); i++) {
@@ -437,6 +457,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
         btnModificarAveria = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        txtEstadoAveria = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar avería");
@@ -560,6 +581,10 @@ public class AveriaActualizar extends javax.swing.JDialog {
             }
         });
 
+        txtEstadoAveria.setBackground(new java.awt.Color(237, 243, 251));
+        txtEstadoAveria.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 0, 14)); // NOI18N
+        txtEstadoAveria.setForeground(new java.awt.Color(67, 113, 177));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -615,7 +640,10 @@ public class AveriaActualizar extends javax.swing.JDialog {
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtUsuarioBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                                         .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                                        .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(txtEstadoAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtMaquinaBuscar)))
                                     .addComponent(jLabel18)
                                     .addComponent(jLabel20))))))
                 .addGap(10, 10, 10))
@@ -628,7 +656,8 @@ public class AveriaActualizar extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtAveriaId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(cbAveriaTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                    .addComponent(txtMaquinaBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(txtEstadoAveria))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -831,6 +860,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
     private javax.swing.JSpinner spFechaReporte;
     private javax.swing.JTextField txtAveriaId;
     private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtEstadoAveria;
     private javax.swing.JTextField txtMaquinaBuscar;
     private javax.swing.JTextArea txtProcRealizado;
     private javax.swing.JTextField txtTecnicoBuscar;

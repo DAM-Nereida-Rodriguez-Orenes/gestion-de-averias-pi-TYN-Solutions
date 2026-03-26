@@ -142,7 +142,11 @@
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Component id="txtUsuarioBuscar" pref="400" max="32767" attributes="0"/>
                                                   <Component id="jScrollPane13" pref="400" max="32767" attributes="0"/>
-                                                  <Component id="txtMaquinaBuscar" alignment="1" max="32767" attributes="0"/>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="txtEstadoAveria" min="-2" pref="140" max="-2" attributes="0"/>
+                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <Component id="txtMaquinaBuscar" max="32767" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                               <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -164,8 +168,9 @@
                               <Component id="txtAveriaId" alignment="1" pref="30" max="32767" attributes="0"/>
                               <Component id="cbAveriaTipo" alignment="1" pref="30" max="32767" attributes="0"/>
                               <Component id="txtMaquinaBuscar" alignment="1" pref="30" max="32767" attributes="0"/>
+                              <Component id="txtEstadoAveria" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane12" min="-2" pref="130" max="-2" attributes="0"/>
                               <Component id="jScrollPane13" min="-2" max="-2" attributes="0"/>
@@ -543,6 +548,19 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtEstadoAveria">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fb" green="f3" red="ed" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Microsoft JhengHei UI Light" size="14" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="b1" green="71" red="43" type="rgb"/>
+                    </Property>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
