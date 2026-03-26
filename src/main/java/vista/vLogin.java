@@ -4,6 +4,7 @@
  */
 package vista;
 
+import utils.PanelImgFondo;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionUsuarioControlador;

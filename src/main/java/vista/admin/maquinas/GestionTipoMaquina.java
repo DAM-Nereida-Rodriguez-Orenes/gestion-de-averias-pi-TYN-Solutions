@@ -23,11 +23,12 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.TipoMaquinaria;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
+import vista.oper.usuario.GestionUsuarioPerfil;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -109,6 +110,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         miMenuPrincipal = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -334,6 +336,14 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         });
         miInicio.add(miSalirApp);
 
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
+
         jMenuBar1.add(miInicio);
 
         miGestion.setText("Gestiones");
@@ -557,6 +567,13 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfilActionPerformed
+
     //crear y ordenar tabla
     private void configurarTabla() {
         modeloTabla = new DefaultTableModel(
@@ -667,6 +684,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miPerfil;
     private javax.swing.JMenuItem miRoles;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JMenuItem miTipoAveria;

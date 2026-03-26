@@ -4,6 +4,7 @@
  */
 package vista;
 
+import utils.PanelImgFondo;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
@@ -22,13 +23,14 @@ import vista.admin.averia.GestionAveriaListar;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
+import vista.oper.usuario.GestionUsuarioPerfil;
 
 /**
  *
  * @author Asus
  */
 public class vHomeAdmin extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form vHome
      *
@@ -98,11 +100,11 @@ public class vHomeAdmin extends javax.swing.JFrame {
         FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 32, 32);
         jLabel2.setIcon(iconUsuarioAdmin);
         GestionUsuarioControlador userContr = new GestionUsuarioControlador();
-        jLabel2.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado() );
+        jLabel2.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado());
         jLabel2.setHorizontalTextPosition(SwingConstants.LEFT);
         jLabel2.setVerticalTextPosition(SwingConstants.CENTER);
         jLabel2.setIconTextGap(8);
-        
+
         //icono restablecer contraseña  
         FlatSVGIcon iconoPassword = new FlatSVGIcon("recursos/iconos/password.svg", 100, 100);
         btnrestablecerPassword.setIcon(iconoPassword);
@@ -112,7 +114,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnrestablecerPassword.setIconTextGap(10);
         btnrestablecerPassword.setForeground(new Color(67, 113, 177));
         btnrestablecerPassword.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
-        
+
         //icono restablecer contraseña  
         FlatSVGIcon iconoinforme = new FlatSVGIcon("recursos/iconos/informe.svg", 100, 100);
         btnGenerarInforme.setIcon(iconoinforme);
@@ -122,7 +124,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnGenerarInforme.setIconTextGap(10);
         btnGenerarInforme.setForeground(new Color(67, 113, 177));
         btnGenerarInforme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
-        
+
     }
 
     /**
@@ -151,6 +153,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
         miInicio = new javax.swing.JMenu();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio | Gestión de averías");
@@ -328,6 +331,14 @@ public class vHomeAdmin extends javax.swing.JFrame {
         });
         miInicio.add(miSalirApp);
 
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
+
         jMenuBar1.add(miInicio);
 
         setJMenuBar(jMenuBar1);
@@ -381,16 +392,23 @@ public class vHomeAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_miSalirAppActionPerformed
 
     private void btnrestablecerPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrestablecerPasswordActionPerformed
-       RestablecerPassword restablecer = new RestablecerPassword(this, true);
-       restablecer.setLocationRelativeTo(null);
-       restablecer.setVisible(true);
+        RestablecerPassword restablecer = new RestablecerPassword(this, true);
+        restablecer.setLocationRelativeTo(null);
+        restablecer.setVisible(true);
     }//GEN-LAST:event_btnrestablecerPasswordActionPerformed
 
     private void btnGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarInformeActionPerformed
-       TablaInformes tablaInformes = new TablaInformes(this, true);
-       tablaInformes.setLocationRelativeTo(null);
-       tablaInformes.setVisible(true);
+        TablaInformes tablaInformes = new TablaInformes(this, true);
+        tablaInformes.setLocationRelativeTo(null);
+        tablaInformes.setVisible(true);
     }//GEN-LAST:event_btnGenerarInformeActionPerformed
+
+    private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -410,6 +428,7 @@ public class vHomeAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jpCabecera;
     private javax.swing.JMenuItem miCerrarSesion;
     private javax.swing.JMenu miInicio;
+    private javax.swing.JMenuItem miPerfil;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JPanel panelAcciones;
     private javax.swing.JPanel panelFondo;

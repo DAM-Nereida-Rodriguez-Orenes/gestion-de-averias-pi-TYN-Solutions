@@ -26,7 +26,7 @@ import javax.swing.JList;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  * Ventana para la creación de una Nueva Avería.

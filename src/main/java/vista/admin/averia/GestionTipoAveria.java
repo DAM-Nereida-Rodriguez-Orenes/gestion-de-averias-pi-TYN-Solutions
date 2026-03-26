@@ -15,12 +15,13 @@ import java.awt.Insets;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
+import vista.oper.usuario.GestionUsuarioPerfil;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -144,6 +145,7 @@ public class GestionTipoAveria extends javax.swing.JFrame {
         miMenuPrincipal = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -365,6 +367,14 @@ public class GestionTipoAveria extends javax.swing.JFrame {
         });
         miInicio.add(miSalirApp);
 
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
+
         jMenuBar1.add(miInicio);
 
         miGestion.setText("Gestiones");
@@ -572,6 +582,13 @@ public class GestionTipoAveria extends javax.swing.JFrame {
         tipoAveriaNueva.setVisible(true);
     }//GEN-LAST:event_btnTipoAveriaNuevoActionPerformed
 
+    private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfilActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTipoAveriaActualizar;
@@ -590,6 +607,7 @@ public class GestionTipoAveria extends javax.swing.JFrame {
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miPerfil;
     private javax.swing.JMenuItem miRoles;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JMenuItem miTipoAveria;

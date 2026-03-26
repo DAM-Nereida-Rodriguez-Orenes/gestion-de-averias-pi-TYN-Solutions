@@ -11,7 +11,7 @@ import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Estado;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *

@@ -27,12 +27,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Rol;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
+import vista.oper.usuario.GestionUsuarioPerfil;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -252,6 +253,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         miMenuPrincipal = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -554,6 +556,14 @@ public class GestionUsuario extends javax.swing.JFrame {
 
         miSalirApp.setText("Cerrar Fixora");
         miInicio.add(miSalirApp);
+
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
 
         jMenuBar1.add(miInicio);
 
@@ -870,6 +880,13 @@ public class GestionUsuario extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
 
+    private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfilActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarUsuario;
@@ -891,6 +908,7 @@ public class GestionUsuario extends javax.swing.JFrame {
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miPerfil;
     private javax.swing.JMenuItem miRoles;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JMenuItem miTipoAveria;

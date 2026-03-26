@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Averia;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.admin.averia.AveriaFiltros;
 import vista.oper.usuario.GestionUsuarioPerfil;
 import vista.vHomeAdmin;

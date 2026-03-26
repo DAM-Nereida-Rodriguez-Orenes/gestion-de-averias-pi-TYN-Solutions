@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import modelo.Rol;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *

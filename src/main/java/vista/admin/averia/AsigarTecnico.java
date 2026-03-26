@@ -28,7 +28,7 @@ import modelo.Averia;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *
@@ -313,6 +313,8 @@ public class AsigarTecnico extends javax.swing.JDialog {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Asiganar");
         jButton1.setBorderPainted(false);
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         txtMotivosTecnico.setColumns(20);
         txtMotivosTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 0, 14)); // NOI18N

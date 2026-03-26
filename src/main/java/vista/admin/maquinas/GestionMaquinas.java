@@ -40,11 +40,12 @@ import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
 import modelo.Usuario;
 import utils.InformesJasper;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
+import vista.oper.usuario.GestionUsuarioPerfil;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -156,6 +157,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         miMenuPrincipal = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -530,6 +532,14 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
         });
         miInicio.add(miSalirApp);
+
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
 
         jMenuBar1.add(miInicio);
 
@@ -945,6 +955,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnInformeEstadoActionPerformed
 
+    private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfilActionPerformed
+
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
         /*
@@ -1252,6 +1269,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miPerfil;
     private javax.swing.JMenuItem miRoles;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JMenuItem miTipoAveria;

@@ -19,12 +19,13 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
+import vista.oper.usuario.GestionUsuarioPerfil;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -134,6 +135,7 @@ public class GestionRol extends javax.swing.JFrame {
         miMenuPrincipal = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil2 = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -358,6 +360,14 @@ public class GestionRol extends javax.swing.JFrame {
             }
         });
         miInicio.add(miSalirApp);
+
+        miPerfil2.setText("Perfil");
+        miPerfil2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfil2ActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil2);
 
         jMenuBar1.add(miInicio);
 
@@ -591,6 +601,13 @@ public class GestionRol extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    private void miPerfil2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfil2ActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfil2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelFiltos;
     private javax.swing.JButton btnActualizarRol;
@@ -609,6 +626,9 @@ public class GestionRol extends javax.swing.JFrame {
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miPerfil;
+    private javax.swing.JMenuItem miPerfil1;
+    private javax.swing.JMenuItem miPerfil2;
     private javax.swing.JMenuItem miRoles;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JMenuItem miTipoAveria;

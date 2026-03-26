@@ -4,6 +4,7 @@
  */
 package vista;
 
+import utils.PanelImgFondo;
 import java.awt.Font;
 import java.io.File;
 import javax.swing.JOptionPane;

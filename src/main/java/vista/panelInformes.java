@@ -4,6 +4,7 @@
  */
 package vista;
 
+import utils.PanelImgFondo;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import config.DataSourceFactory;
 import controlador.GestionUsuarioControlador;

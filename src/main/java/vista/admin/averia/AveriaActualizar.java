@@ -4,7 +4,7 @@
  */
 package vista.admin.averia;
 
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.AveriaControlador;
 import controlador.GestionUsuarioControlador;
@@ -377,10 +377,23 @@ public class AveriaActualizar extends javax.swing.JDialog {
                 spFechaFinal.setEnabled(true);
                 spFechaFinal.setValue(convertirALocalDate(averiaSeleccionada.getFechaFinalizTecnico()));
             }
+            if (averiaSeleccionada.getFechaAsigTecnico() != null) {
+                // Deshabilitamos algunos componentes si la averia esta en progreso
+                //Listas
+                listaMaquinas.setEnabled(false);
+                listaTecnicos.setEnabled(false);
+                // Por buena experiencia de usuario, bloqueamos también sus buscadores
+                txtMaquinaBuscar.setEnabled(false);
+                txtTecnicoBuscar.setEnabled(false);
+                //textos                 
+                txtProcRealizado.setEnabled(false);
+                //Combobox
+                cbAveriaTipo.setEnabled(false);
+            }
 
             // BLOQUEAR FKs SI EL TÉCNICO YA HA ACEPTADO ---
             if (averiaSeleccionada.getFechaAcepTecnico() != null) {
-                // Deshabilitamos los componentes si al averia esta finalizada para que no se peuda modificar pero si ver
+                // Deshabilitamos los componentes si la averia esta finalizada para que no se peuda modificar pero si ver
                 //Listas
                 listaMaquinas.setEnabled(false);
                 listaTecnicos.setEnabled(false);
@@ -399,7 +412,6 @@ public class AveriaActualizar extends javax.swing.JDialog {
                 cbFechaFinal.setEnabled(false);
                 // Por buena experiencia de usuario, bloqueamos también sus buscadores
                 txtMaquinaBuscar.setEnabled(false);
-                txtUsuarioBuscar.setEnabled(false);
                 txtTecnicoBuscar.setEnabled(false);
 
                 // boton de guardar desabilitado 

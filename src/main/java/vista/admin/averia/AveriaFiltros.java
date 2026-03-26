@@ -25,7 +25,7 @@ import javax.swing.JList;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  * Ventana emergente para configurar los Filtros Avanzados de las Averías.

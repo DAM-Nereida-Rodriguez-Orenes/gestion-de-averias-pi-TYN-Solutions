@@ -22,7 +22,7 @@ import javax.swing.JList;
 import modelo.Estado;
 import modelo.TipoMaquinaria;
 import modelo.Maquinaria;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  * REVISAR: primero muestra la lista!

@@ -23,7 +23,7 @@ import javax.swing.event.DocumentListener;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *

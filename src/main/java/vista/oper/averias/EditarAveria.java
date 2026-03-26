@@ -26,7 +26,7 @@ import modelo.Averia;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *

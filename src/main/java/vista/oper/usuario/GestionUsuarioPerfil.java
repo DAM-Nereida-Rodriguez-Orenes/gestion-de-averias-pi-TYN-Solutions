@@ -19,7 +19,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import modelo.Usuario;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 import vista.oper.averias.GestionAveriaOper;
 import vista.vHomeOper;
 import vista.vLogin;
@@ -222,6 +222,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
+        miPerfil1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         miPerfil = new javax.swing.JMenuItem();
         miGestionAverias = new javax.swing.JMenuItem();
@@ -481,6 +482,14 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         });
         miMenuPrincipal.add(miSalirApp);
 
+        miPerfil1.setText("Perfil");
+        miPerfil1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfil1ActionPerformed(evt);
+            }
+        });
+        miMenuPrincipal.add(miPerfil1);
+
         jMenuBar1.add(miMenuPrincipal);
 
         jMenu2.setText("Gestiones");
@@ -603,6 +612,13 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRolActionPerformed
 
+    private void miPerfil1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfil1ActionPerformed
+        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfil1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarDatosUsuario;
@@ -621,6 +637,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
     private javax.swing.JMenuItem miGestionAverias;
     private javax.swing.JMenu miMenuPrincipal;
     private javax.swing.JMenuItem miPerfil;
+    private javax.swing.JMenuItem miPerfil1;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JPanel panelFormulario;
     private javax.swing.JPanel panelTitulo;

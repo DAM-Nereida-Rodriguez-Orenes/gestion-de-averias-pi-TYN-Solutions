@@ -4,6 +4,7 @@
  */
 package vista;
 
+import utils.PanelImgFondo;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
 import java.awt.Font;

@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import modelo.Estado;
 import modelo.TipoMaquinaria;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *
@@ -62,7 +62,7 @@ public class NuevaMaquina extends javax.swing.JDialog {
         txtNombre.putClientProperty("JComponent.padding", new Insets(5, 8, 5, 8));
         txtNombre.putClientProperty("JTextField.placeholderText", "Nombre de la máquina: ");
         // estado de la maquina cbbStatus
-        FlatSVGIcon iconoTipoTrabajador = new FlatSVGIcon("recursos/iconos/engranaje.svg", 16, 16);
+        FlatSVGIcon iconoTipoTrabajador = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 16, 16);
         cbbStatus.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
@@ -89,7 +89,7 @@ public class NuevaMaquina extends javax.swing.JDialog {
             }
         });
         // tipo de trabajo cbbTipo
-        FlatSVGIcon iconoTipo = new FlatSVGIcon("recursos/iconos/maquina-laser.svg", 16, 16);
+        FlatSVGIcon iconoTipo = new FlatSVGIcon("recursos/iconos/engranaje.svg", 16, 16);
         cbbTipo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(

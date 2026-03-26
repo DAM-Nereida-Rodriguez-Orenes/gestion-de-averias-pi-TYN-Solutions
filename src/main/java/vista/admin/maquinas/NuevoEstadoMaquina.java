@@ -16,7 +16,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import vista.PanelImgFondo;
+import utils.PanelImgFondo;
 
 /**
  *
