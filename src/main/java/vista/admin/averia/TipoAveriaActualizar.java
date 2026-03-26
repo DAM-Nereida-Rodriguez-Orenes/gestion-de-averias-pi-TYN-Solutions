@@ -147,7 +147,7 @@ public class TipoAveriaActualizar extends javax.swing.JDialog {
         btnTipoAveriaGuardar.setBackground(new java.awt.Color(58, 181, 235));
         btnTipoAveriaGuardar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnTipoAveriaGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnTipoAveriaGuardar.setText("Editar");
+        btnTipoAveriaGuardar.setText("Guardar");
         btnTipoAveriaGuardar.setBorderPainted(false);
         btnTipoAveriaGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

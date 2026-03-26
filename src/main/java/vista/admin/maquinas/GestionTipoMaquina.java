@@ -66,7 +66,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
 
-        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 70, 34);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
@@ -336,7 +336,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
 
         jMenuBar1.add(miInicio);
 
-        miGestion.setText("Gestión");
+        miGestion.setText("Gestiones");
 
         miAveria.setText("Avería");
         miAveria.addActionListener(new java.awt.event.ActionListener() {

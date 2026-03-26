@@ -81,7 +81,7 @@ public class ActualizarEstadoMaquina extends javax.swing.JDialog {
         btnActualizarEstado.setBackground(new java.awt.Color(58, 181, 235));
         btnActualizarEstado.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
         btnActualizarEstado.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarEstado.setText("Editar");
+        btnActualizarEstado.setText("Guardar");
         btnActualizarEstado.setToolTipText("");
         btnActualizarEstado.setBorderPainted(false);
         btnActualizarEstado.addActionListener(new java.awt.event.ActionListener() {

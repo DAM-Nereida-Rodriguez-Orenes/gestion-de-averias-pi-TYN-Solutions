@@ -51,6 +51,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
 
     // --- Estados de Interfaz ---
     private boolean filtrosAplicados = false;
+    private int estadoFiltro = 0;
 
     /**
      * Creates new form vAdminViewAverias
@@ -87,7 +88,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
 
-        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 70, 34);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
@@ -126,6 +127,27 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         tablaAveria.setModel(modeloTabla);
         sorter = new TableRowSorter<>(modeloTabla);
         tablaAveria.setRowSorter(sorter);
+
+        //Ordenar por estado
+        tablaAveria.getTableHeader().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                int col = tablaAveria.columnAtPoint(e.getPoint());
+
+                // Solo reaccionar si hacen clic en la columna Estado (col 8)
+                if (col == 8) {
+
+                    estadoFiltro++;
+
+                    if (estadoFiltro > 3) {
+                        estadoFiltro = 0;
+                    }
+
+                    ordenarColumnaEstado();
+                }
+            }
+        });
 
         // Ajuste visual de la columna ID
         javax.swing.table.TableColumnModel columnModel = tablaAveria.getColumnModel();
@@ -171,17 +193,39 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         columnModel.getColumn(7).setCellRenderer(rendererFechas); // F. Fin
     }
 
-    /**
-     * Descarga todas las averías de la BD y refresca la tabla.
-     */
+    private void ordenarColumnaEstado() {
+
+        switch (estadoFiltro) {
+            case 1:
+                sorter.setRowFilter(RowFilter.regexFilter("^Pendiente$", 8));
+                break;
+
+            case 2:
+                sorter.setRowFilter(RowFilter.regexFilter("^En proceso$", 8));
+                break;
+
+            case 3:
+                sorter.setRowFilter(RowFilter.regexFilter("^Finalizada$", 8));
+                break;
+
+            default:
+                // 1. Recargar datos desde BD
+                cargarDatos();
+                // 2. Quitar cualquier orden del sorter
+                sorter.setSortKeys(null);
+                // 3. Quitar filtro por si acaso
+                sorter.setRowFilter(null);
+                break;
+        }
+    }
+
+    // Descarga todas las averías de la BD y refresca la tabla. 
     private void cargarDatos() {
         List<Object[]> datos = controladorAveria.listarAveriasParaVista(null);
         actualizarModeloTabla(datos);
     }
 
-    /**
-     * Método auxiliar para rellenar la tabla evitando duplicar código.
-     */
+    // Método auxiliar para rellenar la tabla evitando duplicar código.
     private void actualizarModeloTabla(List<Object[]> datos) {
         modeloTabla.setRowCount(0); // Limpia la tabla actual
         if (datos != null) {
@@ -314,7 +358,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         btnInfoAveria.setBackground(new java.awt.Color(67, 113, 177));
         btnInfoAveria.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnInfoAveria.setForeground(new java.awt.Color(234, 242, 251));
-        btnInfoAveria.setText("Detalles de avería");
+        btnInfoAveria.setText("Imprimir avería ");
         btnInfoAveria.setBorderPainted(false);
         btnInfoAveria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,13 +382,11 @@ public class GestionAveriaListar extends javax.swing.JFrame {
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAccionesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnInfoAveria)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(btnInfoTecnico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
-                .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 546, Short.MAX_VALUE)
+                .addComponent(btnAveriaActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,7 +520,10 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             .addComponent(panelFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -523,7 +568,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
 
         jMenuBar1.add(miInicio);
 
-        miGestion.setText("Gestión");
+        miGestion.setText("Gestiones");
 
         miAveria.setText("Avería");
         miAveria.addActionListener(new java.awt.event.ActionListener() {

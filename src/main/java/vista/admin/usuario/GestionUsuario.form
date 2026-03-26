@@ -34,7 +34,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="miGestion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Gestiones"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miAveria">
@@ -149,10 +149,14 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="panelCabecera" alignment="0" pref="1200" max="32767" attributes="0"/>
-              <Component id="panelAcciones" alignment="0" max="32767" attributes="0"/>
               <Component id="panelFiltros" alignment="0" max="32767" attributes="0"/>
               <Component id="panelTabla" alignment="0" max="32767" attributes="0"/>
               <Component id="panelTitulo" alignment="1" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="panelAcciones" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -246,11 +250,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="816" max="32767" attributes="0"/>
-                      <Component id="btnActualizarUsuario" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Component id="btnEliminarUsuario" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="76" max="32767" attributes="0"/>
+                      <EmptySpace pref="788" max="32767" attributes="0"/>
+                      <Component id="btnActualizarUsuario" min="-2" pref="120" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -512,9 +514,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="75" max="32767" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="1050" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="75" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

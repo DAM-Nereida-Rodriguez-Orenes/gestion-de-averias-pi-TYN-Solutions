@@ -243,7 +243,7 @@ public class ActualizarUsuario extends javax.swing.JDialog {
         btnActualizarDatosUsuario.setBackground(new java.awt.Color(58, 181, 235));
         btnActualizarDatosUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarDatosUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarDatosUsuario.setText("Editar");
+        btnActualizarDatosUsuario.setText("Guardar");
         btnActualizarDatosUsuario.setBorderPainted(false);
         btnActualizarDatosUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

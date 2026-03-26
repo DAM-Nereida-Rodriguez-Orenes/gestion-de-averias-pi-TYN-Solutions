@@ -37,7 +37,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="miGestion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Gestiones"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miAveria">
@@ -152,7 +152,11 @@
               <Component id="panelFiltro" alignment="0" max="32767" attributes="0"/>
               <Component id="panelTitulo" alignment="0" max="32767" attributes="0"/>
               <Component id="panelTabla" alignment="1" max="32767" attributes="0"/>
-              <Component id="panelAcciones" alignment="0" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="panelAcciones" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -246,13 +250,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnInfoAveria" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace pref="75" max="32767" attributes="0"/>
                       <Component id="btnInfoTecnico" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="512" max="32767" attributes="0"/>
+                      <EmptySpace pref="546" max="32767" attributes="0"/>
                       <Component id="btnAveriaActualizar" min="-2" pref="100" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -299,7 +301,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fb" green="f2" red="ea" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Detalles de aver&#xed;a"/>
+                <Property name="text" type="java.lang.String" value="Imprimir aver&#xed;a "/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Events>

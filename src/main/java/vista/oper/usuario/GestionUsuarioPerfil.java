@@ -54,7 +54,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
         this.setIconImage(icono);
-         // Tamaño inical de todas las ventanas
+        // Tamaño inical de todas las ventanas
         this.setSize(1200, 800);
         // No se puede hacer más pequeña de 1200,800
         this.setMinimumSize(new Dimension(1200, 800));
@@ -66,7 +66,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
 
-        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 70, 34);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
@@ -155,15 +155,15 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         txtNombre.setText(usuarioSesion.getNombre());
         txtNombre.setEditable(false);
         txtNombre.setEnabled(false);
-        
+
         txtApellidos.setText(usuarioSesion.getApellido());
         txtApellidos.setEditable(false);
         txtApellidos.setEnabled(false);
-        
+
         txtEmail.setText(usuarioSesion.getEmail());
         txtEmail.setEditable(false);
         txtEmail.setEnabled(false);
-        
+
         txtRol.setText(usuarioSesion.getRol().getDescripcionRol());
         txtRol.setEditable(false);
         txtRol.setEnabled(false);
@@ -408,7 +408,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         btnActualizarDatosUsuario.setBackground(new java.awt.Color(58, 181, 235));
         btnActualizarDatosUsuario.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarDatosUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarDatosUsuario.setText("Editar");
+        btnActualizarDatosUsuario.setText("Guardar");
         btnActualizarDatosUsuario.setBorderPainted(false);
         btnActualizarDatosUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -483,7 +483,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
 
         jMenuBar1.add(miMenuPrincipal);
 
-        jMenu2.setText("Gestión");
+        jMenu2.setText("Gestiones");
 
         miPerfil.setText("Perfil");
         miPerfil.addActionListener(new java.awt.event.ActionListener() {

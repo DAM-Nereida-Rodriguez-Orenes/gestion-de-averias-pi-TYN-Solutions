@@ -31,6 +31,7 @@ public class TablaInformes extends javax.swing.JDialog {
 
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre");
+        modelo.addColumn("Tipo");
         modelo.addColumn("Fecha");
         modelo.addColumn("Ruta");
 
@@ -48,34 +49,51 @@ public class TablaInformes extends javax.swing.JDialog {
                 File archivo = archivos[i];
 
                 String nombre = archivo.getName();
+                String tipo = obtenerTipoInforme(nombre);
                 String fecha = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm")
                         .format(new java.util.Date(archivo.lastModified()));
                 String ruta = archivo.getAbsolutePath();
 
-                modelo.addRow(new Object[]{nombre, fecha, ruta});
+                modelo.addRow(new Object[]{nombre, tipo, fecha, ruta});
             }
         }
 
         tbInformes.setModel(modelo);
 
-        // Ocultamos la columna de ruta, solo la usamos internamente
-        tbInformes.getColumnModel().getColumn(2).setMinWidth(0);
-        tbInformes.getColumnModel().getColumn(2).setMaxWidth(0);
-        tbInformes.getColumnModel().getColumn(2).setWidth(0);
+        // Ocultamos la columna de ruta
+        tbInformes.getColumnModel().getColumn(3).setMinWidth(0);
+        tbInformes.getColumnModel().getColumn(3).setMaxWidth(0);
+        tbInformes.getColumnModel().getColumn(3).setWidth(0);
 
-        //Diseño de la tabla 
-        tbInformes.setRowHeight(36); // este valor aumenta el tamaño de las tuplas
-        tbInformes.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente 
-        tbInformes.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14)); // esto aumenta el tamaño de la fuente del header y cambia la fuente       
+        // Diseño de la tabla
+        tbInformes.setRowHeight(36);
+        tbInformes.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        tbInformes.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 
         DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
         centrado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        // Columna 1 = Fecha centro
-        tbInformes.getColumnModel().getColumn(1).setCellRenderer(centrado);
-        // Alinear nombre a la izquierda 
+
         DefaultTableCellRenderer izquierda = new DefaultTableCellRenderer();
         izquierda.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        // Nombre izquierda
         tbInformes.getColumnModel().getColumn(0).setCellRenderer(izquierda);
+        // Tipo centro
+        tbInformes.getColumnModel().getColumn(1).setCellRenderer(centrado);
+        // Fecha centro
+        tbInformes.getColumnModel().getColumn(2).setCellRenderer(centrado);
+    }
+
+    private String obtenerTipoInforme(String nombreArchivo) {
+        if (nombreArchivo.startsWith("informe_averia_")) {
+            return "Informe de avería";
+        } else if (nombreArchivo.startsWith("informe_maquinas_estado_")) {
+            return "Informe de estado de maquinaria";
+        } else if (nombreArchivo.startsWith("informe_rendimiento_tecnico")) {
+            return "Informe de rendimiento tecnico";
+        } else {
+            return "Otro";
+        }
     }
 
     /**
@@ -145,20 +163,22 @@ public class TablaInformes extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnEliminarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVerInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(178, Short.MAX_VALUE))
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSeparator1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEliminarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(311, 311, 311)
+                        .addComponent(btnVerInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,9 +187,9 @@ public class TablaInformes extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminarInforme, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -262,7 +282,7 @@ public class TablaInformes extends javax.swing.JDialog {
                 return;
             }
 
-            String ruta = (String) tbInformes.getValueAt(fila, 2);
+            String ruta = (String) tbInformes.getValueAt(fila, 3);
             File archivo = new File(ruta);
 
             if (!archivo.exists()) {

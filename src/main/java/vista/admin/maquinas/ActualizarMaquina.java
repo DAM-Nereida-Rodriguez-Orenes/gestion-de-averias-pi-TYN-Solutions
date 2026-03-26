@@ -160,7 +160,7 @@ public class ActualizarMaquina extends javax.swing.JDialog {
         btnActualizarMaquina.setBackground(new java.awt.Color(58, 181, 235));
         btnActualizarMaquina.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
         btnActualizarMaquina.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarMaquina.setText("Editar");
+        btnActualizarMaquina.setText("Guardar");
         btnActualizarMaquina.setBorderPainted(false);
         btnActualizarMaquina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -37,7 +37,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="miGestion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Gestiones"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miAveria">

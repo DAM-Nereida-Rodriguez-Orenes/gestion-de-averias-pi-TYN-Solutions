@@ -140,7 +140,7 @@
                                                           <Component id="spFechaAsig" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                                                           <Component id="spFechaAcep" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="btnModificarAveria" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                                      <Component id="btnModificarAveria" alignment="1" min="-2" pref="120" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -480,7 +480,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Editar"/>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                     <Property name="borderPainted" type="boolean" value="false"/>
                   </Properties>
                   <Events>

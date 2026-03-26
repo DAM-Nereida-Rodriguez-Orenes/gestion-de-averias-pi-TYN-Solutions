@@ -5,6 +5,7 @@
 package vista.oper.averias;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import controlador.AveriaControlador;
 import controlador.GestionMaquinasControlador;
 import controlador.LoginControlador;
 import controlador.TipoAveriaControlador;
@@ -12,7 +13,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Insets;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -34,6 +37,7 @@ public class EditarAveria extends javax.swing.JDialog {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EditarAveria.class.getName());
     private Averia averiaSeleccionada;
     private final GestionMaquinasControlador controladorMaquina;
+    private final AveriaControlador averiaControlador;
     private final TipoAveriaControlador controladorTipoAveria;
     private List<Maquinaria> listaMaquinasCompleta;
     private final LoginControlador loginControlador;
@@ -48,6 +52,7 @@ public class EditarAveria extends javax.swing.JDialog {
 
         this.averiaSeleccionada = averiaSeleccionada;
         this.controladorMaquina = new GestionMaquinasControlador();
+        this.averiaControlador = new AveriaControlador();
         this.controladorTipoAveria = new TipoAveriaControlador();
         this.loginControlador = new LoginControlador();
         this.usuarioLogueado = loginControlador.getUsuarioSesion();
@@ -235,6 +240,7 @@ public class EditarAveria extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         txtMaquinaBuscar.setBackground(new java.awt.Color(237, 243, 251));
+        txtMaquinaBuscar.setForeground(new java.awt.Color(67, 113, 177));
 
         jScrollPane13.setViewportView(listaMaquinas);
 
@@ -244,6 +250,7 @@ public class EditarAveria extends javax.swing.JDialog {
         jLabel1.setText("Editar Avería");
 
         cbAveriaTipo.setBackground(new java.awt.Color(237, 243, 251));
+        cbAveriaTipo.setForeground(new java.awt.Color(67, 113, 177));
         cbAveriaTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbAveriaTipoActionPerformed(evt);
@@ -256,6 +263,7 @@ public class EditarAveria extends javax.swing.JDialog {
 
         txtUsuarioBuscar.setEditable(false);
         txtUsuarioBuscar.setBackground(new java.awt.Color(237, 243, 251));
+        txtUsuarioBuscar.setForeground(new java.awt.Color(67, 113, 177));
 
         btnCancelar.setBackground(new java.awt.Color(234, 242, 251));
         btnCancelar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
@@ -271,7 +279,7 @@ public class EditarAveria extends javax.swing.JDialog {
         btnEditarAveria.setBackground(new java.awt.Color(58, 181, 235));
         btnEditarAveria.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnEditarAveria.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditarAveria.setText("Editar");
+        btnEditarAveria.setText("Guardar");
         btnEditarAveria.setBorderPainted(false);
         btnEditarAveria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -376,7 +384,73 @@ public class EditarAveria extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEditarAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAveriaActionPerformed
+        try {
+            //Datos que sacamos del formulario
+            String descripcion = txtDescripcion.getText();
+            Maquinaria maquinaSel = listaMaquinas.getSelectedValue();
+            TipoAveria tipoSel = (TipoAveria) cbAveriaTipo.getSelectedItem();
 
+            //Validaciones 
+            if (descripcion.isEmpty() || descripcion.equals("Descripcion de la averia")) {
+                JOptionPane.showMessageDialog(this,
+                        "La descripcion es obligatoria.",
+                        "Validacion", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (maquinaSel == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Debes seleccionar una maquina.",
+                        "Validacion", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (tipoSel == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Debes seleccionar un tipo de averia.",
+                        "Validacion", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            //Mantenemos los datos de la averia selecionada 
+            int idAveria = averiaSeleccionada.getCodigoAveria();
+            String procedimiento = averiaSeleccionada.getProcRealizadoTecnico();
+            Usuario usuarioReporta = usuarioLogueado;
+            Usuario usuTecnico = null;
+
+            // Mantener fechas originales
+            java.time.LocalDateTime fechaReporte = averiaSeleccionada.getFechaInicioAver();
+            java.time.LocalDateTime fechaAsig = averiaSeleccionada.getFechaAsigTecnico();
+            java.time.LocalDateTime fechaAcep = averiaSeleccionada.getFechaAcepTecnico();
+            java.time.LocalDateTime fechaFinal = averiaSeleccionada.getFechaFinalizTecnico();
+
+            boolean exito = averiaControlador.actualizarAveria(
+                    idAveria,
+                    descripcion,
+                    procedimiento,
+                    maquinaSel,
+                    usuarioReporta,
+                    usuTecnico,
+                    tipoSel,
+                    fechaReporte,
+                    fechaAsig,
+                    fechaAcep,
+                    fechaFinal
+            );
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this,
+                        "Avería actualizada correctamente.",
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            }
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error validando datos antes de actualizar", e);
+            JOptionPane.showMessageDialog(this,
+                    "Error al recoger los datos del formulario: " + e.getMessage(),
+                    "Error de validación", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditarAveriaActionPerformed
 
 

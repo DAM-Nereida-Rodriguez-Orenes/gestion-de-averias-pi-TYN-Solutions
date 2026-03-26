@@ -93,7 +93,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
         System.out.println("urlLogo = " + urlLogo);
 
-        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 60, 30);
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 70, 34);
         jlLogo.setIcon(iconop);
         jlLogo.setText("");
         jlLogo.setOpaque(false);
@@ -254,15 +254,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
         panelAccionesLayout.setHorizontalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAccionesLayout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
                 .addComponent(btnEliminar)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(btnDarBaja)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 425, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 427, Short.MAX_VALUE)
                 .addComponent(btnInformeEstado)
                 .addGap(20, 20, 20)
-                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelAccionesLayout.setVerticalGroup(
             panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,10 +482,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
-            .addComponent(panelAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelFiltros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,7 +533,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         jMenuBar1.add(miInicio);
 
-        miGestion.setText("Gestión");
+        miGestion.setText("Gestiones");
 
         miAveria.setText("Avería");
         miAveria.addActionListener(new java.awt.event.ActionListener() {
@@ -886,13 +887,13 @@ public class GestionMaquinas extends javax.swing.JFrame {
 
         if (ok) {
             //LLAMAR A MODIFICAR (creas objeto y pasas a controlador)
-            
+
             //Comunicación con usuario
             JOptionPane.showMessageDialog(this,
                     "Maquina dada de baja con exito.",
                     "Baja realizada",
                     JOptionPane.INFORMATION_MESSAGE);
-            
+
             listaTotal = contr.listarMaquinaria();
             cargarTablaMaquinaria(listaTotal); // refrescar tabla
         } else {
@@ -1018,7 +1019,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
             }
             // Crear el formateador
             DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            
+
             // Formatear la fecha
             String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().format(formateador) : "";
             String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().format(formateador) : "";

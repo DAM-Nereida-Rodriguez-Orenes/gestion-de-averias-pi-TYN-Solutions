@@ -222,8 +222,18 @@ public class AveriaDaoImpl implements AveriaDao {
             params.add(idTipoAveria);
         }
 
-        // Ordenar por fecha de averia mas reciente
-        sql.append(" ORDER BY fechaInicioAver DESC");
+        // Ordenamos las averias por prioridad de estado para mejorar la gestion:
+        // 1. Pendientes primero (no asignadas ni finalizadas)
+        // 2. En proceso despues (ya asignadas pero no finalizadas)
+        // 3. Finalizadas al final
+        // Dentro de cada grupo, se ordenan por fecha de inicio de la averia
+        sql.append(" ORDER BY "
+                + "CASE "
+                + "WHEN fechaFinalizTecnico IS NOT NULL THEN 3 "
+                + "WHEN fechaAsigTecnico IS NOT NULL THEN 2 "
+                + "ELSE 1 "
+                + "END ASC, "
+                + "fechaInicioAver DESC");
 
         List<Averia> resultado = new ArrayList<>();
 
@@ -313,5 +323,5 @@ public class AveriaDaoImpl implements AveriaDao {
             }
             return false; // <-- DEVOLVEMOS FALSE SI HAY ERROR
         }
-    }    
+    }
 }

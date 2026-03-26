@@ -37,7 +37,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="miGestion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Gestiones"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miAveria">
@@ -155,10 +155,14 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jpCabecera" alignment="0" pref="1200" max="32767" attributes="0"/>
-              <Component id="panelAcciones" alignment="0" max="32767" attributes="0"/>
               <Component id="panelFiltros" alignment="1" max="32767" attributes="0"/>
               <Component id="panelTabla" alignment="0" max="32767" attributes="0"/>
               <Component id="panelTitulo" alignment="1" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="panelAcciones" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -252,15 +256,13 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="72" max="32767" attributes="0"/>
                       <Component id="btnEliminar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnDarBaja" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="425" max="32767" attributes="0"/>
+                      <EmptySpace pref="427" max="32767" attributes="0"/>
                       <Component id="btnInformeEstado" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="btnActualizar" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace pref="73" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

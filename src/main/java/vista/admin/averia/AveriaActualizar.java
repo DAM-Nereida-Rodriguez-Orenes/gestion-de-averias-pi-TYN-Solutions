@@ -514,7 +514,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
         btnModificarAveria.setBackground(new java.awt.Color(58, 181, 235));
         btnModificarAveria.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnModificarAveria.setForeground(new java.awt.Color(255, 255, 255));
-        btnModificarAveria.setText("Editar");
+        btnModificarAveria.setText("Guardar");
         btnModificarAveria.setBorderPainted(false);
         btnModificarAveria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -594,7 +594,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
                                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(spFechaAsig, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(spFechaAcep, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(btnModificarAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                                            .addComponent(btnModificarAveria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                 .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(

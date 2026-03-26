@@ -185,6 +185,7 @@ public class AveriaNueva extends javax.swing.JDialog {
             todasLasMaquinas = controlador.obtenerTodasLasMaquinas();
             // todosLosUsuarios = controlador.obtenerTodosLosUsuarios();
             List<TipoAveria> tipos = controlador.obtenerTiposAveria();
+            todosLosTecnicos = controlador.obtenerSoloTecnicos();
 
             // 3. Llenar los modelos visuales
             if (todasLasMaquinas != null) {
@@ -508,7 +509,7 @@ public class AveriaNueva extends javax.swing.JDialog {
         // 2. Obtener el id del tipo de averia
         int idTipo = tipoAveriaControlador.obtenerIdTipoAveria(descripcion);
 
-        // 4. Obtener tecnicos ordenados
+        // 3. Obtener tecnicos ordenados
         List<Usuario> tecnicos = controlador.buscarTecnicosOrdenadorPorCarga(idTipo);
 
         // 4. Cargar el JList (AHORA CON USUARIOS)

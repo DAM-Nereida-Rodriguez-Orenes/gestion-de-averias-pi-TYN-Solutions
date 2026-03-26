@@ -86,7 +86,7 @@ public class ActualizarTipoMaquina extends javax.swing.JDialog {
         btnActualizarTM.setBackground(new java.awt.Color(58, 181, 235));
         btnActualizarTM.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnActualizarTM.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizarTM.setText("Editar");
+        btnActualizarTM.setText("Guardar");
         btnActualizarTM.setToolTipText("");
         btnActualizarTM.setBorderPainted(false);
         btnActualizarTM.addActionListener(new java.awt.event.ActionListener() {
