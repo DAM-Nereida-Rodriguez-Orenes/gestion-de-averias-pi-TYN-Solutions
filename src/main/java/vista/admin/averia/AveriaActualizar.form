@@ -83,29 +83,12 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="txtAveriaId" min="-2" pref="150" max="-2" attributes="0"/>
-                                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                                          <Component id="cbAveriaTipo" min="-2" pref="232" max="-2" attributes="0"/>
-                                          <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-                                          <Component id="txtMaquinaBuscar" min="-2" pref="400" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jScrollPane12" min="-2" pref="400" max="-2" attributes="0"/>
-                                          <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane13" min="-2" pref="400" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="txtUsuarioBuscar" min="-2" pref="400" max="-2" attributes="0"/>
-                                          <EmptySpace min="83" pref="83" max="-2" attributes="0"/>
-                                          <Component id="txtTecnicoBuscar" min="-2" pref="400" max="-2" attributes="0"/>
-                                      </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane14" alignment="0" min="-2" pref="400" max="-2" attributes="0"/>
                                               <Component id="jLabel1" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                               <Component id="jScrollPane16" alignment="0" min="-2" pref="400" max="-2" attributes="0"/>
                                               <Component id="btnCancelar" min="-2" pref="120" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane15" alignment="0" min="-2" pref="400" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -114,7 +97,6 @@
                                                   <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="spFechaReporte" min="-2" pref="150" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="jScrollPane15" min="-2" pref="400" max="-2" attributes="0"/>
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Group type="102" attributes="0">
@@ -145,6 +127,23 @@
                                               </Group>
                                           </Group>
                                       </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane12" min="-2" pref="400" max="-2" attributes="0"/>
+                                              <Component id="txtTecnicoBuscar" alignment="0" min="-2" pref="400" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="txtAveriaId" min="-2" pref="150" max="-2" attributes="0"/>
+                                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                                  <Component id="cbAveriaTipo" min="-2" pref="232" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="txtUsuarioBuscar" pref="400" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane13" pref="400" max="32767" attributes="0"/>
+                                              <Component id="txtMaquinaBuscar" alignment="1" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -157,35 +156,32 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel3" min="-2" pref="50" max="-2" attributes="0"/>
                           <EmptySpace min="44" pref="44" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtAveriaId" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="cbAveriaTipo" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="txtMaquinaBuscar" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtAveriaId" alignment="1" pref="30" max="32767" attributes="0"/>
+                              <Component id="cbAveriaTipo" alignment="1" pref="30" max="32767" attributes="0"/>
+                              <Component id="txtMaquinaBuscar" alignment="1" pref="30" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane12" min="-2" pref="130" max="-2" attributes="0"/>
                               <Component id="jScrollPane13" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtUsuarioBuscar" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="txtTecnicoBuscar" min="-2" pref="30" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane14" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane15" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="txtTecnicoBuscar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="txtUsuarioBuscar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane15" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
                                   <Component id="jScrollPane16" min="-2" pref="130" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="250" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="spFechaReporte" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -245,6 +241,12 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fb" green="f3" red="ed" type="rgb"/>
                     </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Microsoft JhengHei Light" size="14" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="b1" green="71" red="43" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="id"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -257,10 +259,19 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fb" green="f3" red="ed" type="rgb"/>
                     </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Microsoft JhengHei Light" size="14" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="b1" green="71" red="43" type="rgb"/>
+                    </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbAveriaTipoActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;TipoAveria&gt;"/>
                   </AuxValues>
@@ -275,6 +286,9 @@
                     <Component class="javax.swing.JTextArea" name="txtDescripcion">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Microsoft JhengHei Light" size="14" style="0"/>
+                        </Property>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
@@ -292,28 +306,10 @@
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="visibleRowCount" type="int" value="7"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Maquinaria&gt;"/>
-                      </AuxValues>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane14">
-                  <AuxValues>
-                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                  </AuxValues>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                  <SubComponents>
-                    <Component class="javax.swing.JList" name="listaUsuarios">
-                      <Properties>
-                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                          <StringArray count="0"/>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Usuario&gt;"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>
@@ -342,6 +338,12 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fb" green="f3" red="ed" type="rgb"/>
                     </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Microsoft JhengHei UI Light" size="14" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="b1" green="71" red="43" type="rgb"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtUsuarioBuscar">
@@ -349,12 +351,24 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fb" green="f3" red="ed" type="rgb"/>
                     </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Microsoft JhengHei Light" size="14" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="b1" green="71" red="43" type="rgb"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtTecnicoBuscar">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="fb" green="f3" red="ed" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Microsoft JhengHei Light" size="12" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="b1" green="71" red="43" type="rgb"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -371,6 +385,9 @@
                     <Component class="javax.swing.JTextArea" name="txtProcRealizado">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Microsoft YaHei Light" size="14" style="0"/>
+                        </Property>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
