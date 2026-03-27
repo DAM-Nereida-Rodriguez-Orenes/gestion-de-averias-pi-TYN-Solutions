@@ -59,6 +59,11 @@
             <artifactId>jasperreports</artifactId>
             <version>6.20.6</version>
         </dependency>
+        <!-- envio de correos -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
+        </dependency>    
     </dependencies>
-    
 </project>

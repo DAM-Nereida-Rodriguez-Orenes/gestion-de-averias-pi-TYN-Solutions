@@ -11,6 +11,7 @@ import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuario;
+import utils.EmailService;
 
 /**
  *
@@ -216,6 +217,15 @@ public class RestablecerPassword extends javax.swing.JDialog {
 
         if (gestionUsuarioControlador.passwordActualizada(email, nuevaPassword)) {
 
+            // enviar correo
+            String asunto = "Restablecimiento de contraseña - Fixora";
+            String mensaje = "Hola,\n\nTu contraseña ha sido restablecida.\n\nNueva contraseña: "
+                    + nuevaPassword + "\n\nPor favor, cambiala tras iniciar sesion.";
+
+            new Thread(() -> {
+                EmailService.enviarCorreo(email, asunto, mensaje);
+            }).start();
+            
             // eliminar la solicitud
             LoginControlador loginControlador = new LoginControlador();
             loginControlador.eliminarSolicitudRecuperacion(email);
@@ -224,7 +234,7 @@ public class RestablecerPassword extends javax.swing.JDialog {
             cargarSolicitudesRecuperacion();
 
             JOptionPane.showMessageDialog(this,
-                    "Se ha restablecido la contrasena correctamente. Enviando correo al trabajador",
+                    "Se ha restablecido la contrasena correctamente. se ha enviado un correo al trabajador con la nueva contraseña",
                     "Restablecer contrasena",
                     JOptionPane.INFORMATION_MESSAGE);
 
