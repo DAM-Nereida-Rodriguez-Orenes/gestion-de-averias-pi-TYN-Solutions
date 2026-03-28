@@ -4,13 +4,20 @@
  */
 package utils;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 import java.util.Properties;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class EmailService {
 
@@ -26,6 +33,7 @@ public class EmailService {
         propiedades.put("mail.smtp.port", "587");
 
         Session sesion = Session.getInstance(propiedades, new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(remitente, password);
             }

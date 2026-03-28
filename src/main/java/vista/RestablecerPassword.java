@@ -4,24 +4,23 @@
  */
 package vista;
 
-import utils.PanelImgFondo;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Font;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import modelo.Usuario;
 import utils.EmailService;
+import utils.PanelImgFondo;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class RestablecerPassword extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RestablecerPassword.class.getName());
     private final GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
-    LoginControlador loginControlador = new LoginControlador();
 
     /**
      * Creates new form RestablecerContraseñas
@@ -32,6 +31,12 @@ public class RestablecerPassword extends javax.swing.JDialog {
         cargarSolicitudesRecuperacion();
     }
 
+    /**
+     * Carga las solicitudes de recuperación de contraseña en la tabla.
+     * Obtiene las solicitudes desde el controlador de login, busca los usuarios correspondientes
+     * y muestra su nombre y email en la tabla. La tabla se configura para que las celdas no sean editables
+     * y se ajusta el tamaño de las filas y la fuente para mejorar la legibilidad.
+     */
     public void cargarSolicitudesRecuperacion() {
         LoginControlador loginControlador = new LoginControlador();
 
@@ -247,6 +252,10 @@ public class RestablecerPassword extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnRestablercerContraseñaActionPerformed
 
+    /**
+     * Muestra un cuadro de diálogo de confirmación para cancelar la operación de restablecimiento de contraseña.
+     * Si el usuario confirma que desea cancelar, se cierra el diálogo actual sin guardar los cambios.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (respuesta == JOptionPane.YES_OPTION) {

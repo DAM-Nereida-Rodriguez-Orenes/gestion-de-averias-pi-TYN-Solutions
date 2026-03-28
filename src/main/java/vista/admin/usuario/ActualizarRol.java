@@ -6,21 +6,17 @@ package vista.admin.usuario;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
-import java.awt.Image;
-import java.awt.Insets;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import utils.PanelImgFondo;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class ActualizarRol extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ActualizarRol.class.getName());
     private final GestionRolControlador gestionRolControlador;
     private final GestionRol gestionRol;
 

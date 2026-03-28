@@ -7,16 +7,17 @@ package controlador;
 import config.DataSourceFactory;
 import dao.TipoMaquinariaDAO;
 import daoImpl.TipoMaquinariaDAOimpl;
+import modelo.TipoMaquinaria;
+
 import java.util.List;
 import java.util.Optional;
-import modelo.TipoMaquinaria;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class GestionTipoMaquinaControlador {
-    private TipoMaquinariaDAOimpl tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
+    private TipoMaquinariaDAO tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
     
      public List<TipoMaquinaria> listarTiposMaquinaria() {
         return tDAO.listarTipoMaquinaria();

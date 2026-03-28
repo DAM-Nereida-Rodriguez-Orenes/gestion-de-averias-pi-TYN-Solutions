@@ -4,19 +4,17 @@
  */
 package utils;
 
-import java.awt.Image;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class PanelImgFondo extends JPanel {
 
-    private Image imagen;
+    private final Image imagen;
 
     public PanelImgFondo(String rutaImagen) {
         URL url = getClass().getResource(rutaImagen);

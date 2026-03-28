@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package dao;
+
+import modelo.Estado;
+
 import java.util.List;
 import java.util.Optional;
-import modelo.Estado;
 
 /**
  * Las tablas maestras no deben modificarse, o al menos no a menudo, pero, como pretendemos que esta aplicación sea escalable,

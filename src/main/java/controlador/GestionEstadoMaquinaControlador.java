@@ -5,18 +5,19 @@
 package controlador;
 
 import config.DataSourceFactory;
+import dao.EstadoDAO;
 import daoImpl.EstadoDAOimpl;
+import modelo.Estado;
+
 import java.util.List;
 import java.util.Optional;
-import modelo.Estado;
-import modelo.TipoMaquinaria;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class GestionEstadoMaquinaControlador {
-    private final EstadoDAOimpl eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
+    private final EstadoDAO eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
     
    // LISTAR
     public List<Estado> listarEstados() {

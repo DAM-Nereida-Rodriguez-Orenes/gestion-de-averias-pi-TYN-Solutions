@@ -6,23 +6,17 @@ package vista.admin.maquinas;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionMaquinasControlador;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Insets;
+import modelo.Estado;
+import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
+import utils.PanelImgFondo;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.Date;
-import javax.swing.JOptionPane;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import modelo.Estado;
-import modelo.TipoMaquinaria;
-import modelo.Maquinaria;
-import utils.PanelImgFondo;
 
 /**
  * REVISAR: primero muestra la lista!

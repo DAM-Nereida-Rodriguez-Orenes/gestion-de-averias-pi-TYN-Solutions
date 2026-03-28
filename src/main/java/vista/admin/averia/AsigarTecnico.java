@@ -8,32 +8,24 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.AveriaControlador;
 import controlador.GestionMaquinasControlador;
 import controlador.TipoAveriaControlador;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Insets;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import modelo.Averia;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
 import utils.PanelImgFondo;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class AsigarTecnico extends javax.swing.JDialog {
 

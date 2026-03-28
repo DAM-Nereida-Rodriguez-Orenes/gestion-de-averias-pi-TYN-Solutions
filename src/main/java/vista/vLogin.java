@@ -4,17 +4,13 @@
  */
 package vista;
 
-import utils.PanelImgFondo;
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Dimension;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import modelo.Usuario;
+import utils.PanelImgFondo;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.prefs.Preferences;
 
 /**
@@ -48,6 +44,13 @@ public class vLogin extends javax.swing.JFrame {
         echoCharOriginal = txtPassword.getEchoChar();
     }
 
+    /**
+     * El metodo mostrarImagenes() se encarga de cargar los iconos y las imagenes
+     * necesarias para la ventana de login. Esto incluye el icono de la app, el
+     * fondo y el icono del boton de ver password. Al cargar estas imagenes en un
+     * metodo aparte, conseguimos que el codigo del constructor sea mas limpio y
+     * organizado.
+     */
     public void mostrarImagenes() {
 
         // icno de la app
@@ -350,6 +353,11 @@ public class vLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    /**
+     * Este metodo se ejecuta cuando el usuario pulsa el boton de recuperar contraseña.
+     * Solicita al usuario que introduzca su email y si lo hace, muestra un mensaje de confirmacion y llama al controlador para registrar la solicitud de recuperacion.
+     * Si el usuario cancela o no introduce nada, muestra un mensaje informando de la cancelacion o de que debe rellenar el campo.
+     */
     private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed
 
         String emailSolicitud;
@@ -380,6 +388,9 @@ public class vLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnRecuperarActionPerformed
 
+    /**
+     * Este metodo se ejecuta cuando el usuario pulsa el toggle button de ver contraseña. Si el toggle esta seleccionado, cambia el echo char del campo de contraseña para mostrar el texto y cambia el icono a un ojo abierto. Si no esta seleccionado, vuelve a poner el echo char original para ocultar la contraseña y cambia el icono a un ojo cerrado.
+     */
     private void tgbtnVerPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnVerPasswordActionPerformed
 
         if (tgbtnVerPassword.isSelected()) {
@@ -394,10 +405,6 @@ public class vLogin extends javax.swing.JFrame {
             tgbtnVerPassword.setIcon(iconoOjoCerrado);
         }
     }//GEN-LAST:event_tgbtnVerPasswordActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;

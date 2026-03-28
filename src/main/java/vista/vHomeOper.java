@@ -4,19 +4,16 @@
  */
 package vista;
 
-import utils.PanelImgFondo;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
+import utils.PanelImgFondo;
 import vista.oper.averias.GestionAveriaOper;
 import vista.oper.usuario.GestionUsuarioPerfilOper;
+
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
 
 /**
  *
@@ -32,6 +29,9 @@ public class vHomeOper extends javax.swing.JFrame {
         mostrarImagenes();
     }
 
+    /**
+     * Método para mostrar las imágenes en el JFrame
+     */
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -227,6 +227,9 @@ public class vHomeOper extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método para cerrar sesión y volver a la pantalla de login
+     */
     private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
         LoginControlador loginControlador = new LoginControlador();
         vLogin login = new vLogin(loginControlador);
@@ -235,10 +238,16 @@ public class vHomeOper extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
+    /**
+     * Método para salir completamente de la aplicación
+     */
     private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    /**
+     * Método para abrir la ventana de gestión de averías
+     */
     private void btnGesAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesAveriaActionPerformed
         GestionAveriaOper gestionAveria = new GestionAveriaOper();
         gestionAveria.setLocationRelativeTo(null);
@@ -246,6 +255,9 @@ public class vHomeOper extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnGesAveriaActionPerformed
 
+    /**
+     * Método para abrir la ventana de perfil de usuario
+     */
     private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
         GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);

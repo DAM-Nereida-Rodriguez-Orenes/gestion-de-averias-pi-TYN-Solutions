@@ -5,26 +5,9 @@
 package vista.admin.usuario;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.formdev.flatlaf.util.StringUtils;
-import config.DataSourceFactory;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import dao.UsuarioDao;
-import daoImpl.UsuarioDaoImpl;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import java.util.List;
-import javax.sql.DataSource;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import modelo.Rol;
 import modelo.Usuario;
 import utils.PanelImgFondo;
@@ -37,13 +20,19 @@ import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.net.URL;
+import java.util.List;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class GestionUsuario extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionUsuario.class.getName());
     private final GestionUsuarioControlador gestionUsuarioControlador;
     private final List<Rol> listaRoles;
 

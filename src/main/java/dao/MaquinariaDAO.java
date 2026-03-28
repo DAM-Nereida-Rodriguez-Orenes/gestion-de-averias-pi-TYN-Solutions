@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package dao;
-import java.sql.Date;
+
+import modelo.Maquinaria;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import modelo.Maquinaria;
 
 /**
  * Las funciones básicas son: crear, modificar, eliminar y listar. Esta lista, además, debe poderse filtrar, así que

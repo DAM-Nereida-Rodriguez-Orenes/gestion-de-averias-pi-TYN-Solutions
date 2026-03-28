@@ -5,8 +5,13 @@
 package daoImpl;
 
 import dao.MaquinariaDAO;
+import modelo.Estado;
+import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.Date; //este, no el de util
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,10 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.sql.DataSource;
-import modelo.Estado;
-import modelo.Maquinaria;
-import modelo.TipoMaquinaria;
 
 /**
  *
@@ -27,7 +28,7 @@ import modelo.TipoMaquinaria;
  */
 public class MaquinariaDAOimpl implements MaquinariaDAO {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MaquinariaDAOimpl(DataSource dataSource) {
         this.dataSource = dataSource;

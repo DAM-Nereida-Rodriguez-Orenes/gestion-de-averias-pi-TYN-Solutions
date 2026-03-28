@@ -4,27 +4,18 @@
  */
 package vista;
 
-import utils.PanelImgFondo;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import dao.UsuarioDao;
-import daoImpl.UsuarioDaoImpl;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import modelo.Usuario;
+import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.maquinas.GestionMaquinas;
-import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
 import vista.admin.usuario.GestionUsuarioPerfilAdmin;
-import vista.oper.usuario.GestionUsuarioPerfilOper;
+
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
 
 /**
  *
@@ -34,9 +25,6 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
     /**
      * Creates new form vHome
-     *
-     * @param usuario
-     * @param gestionUsuario
      */
     public vHomeAdmin() {
         initComponents();
@@ -46,6 +34,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
         // this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
+    /**
+     * Método para mostrar las imágenes en los componentes de la interfaz
+     */
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -366,6 +357,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
+    /**
+     * Método para abrir la ventana de gestión de usuarios al hacer clic en el botón correspondiente
+     */
     private void btnGesUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesUsuarioActionPerformed
         GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
         GestionUsuario gestionUsuario = new GestionUsuario(gestionUsuarioControlador);
@@ -374,6 +368,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnGesUsuarioActionPerformed
 
+    /**
+     * Método para abrir la ventana de gestión de máquinas al hacer clic en el botón correspondiente
+     */
     private void btnGesMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesMaquinaActionPerformed
         GestionMaquinas gestionMaquina = new GestionMaquinas();
         gestionMaquina.setLocationRelativeTo(null);
@@ -381,6 +378,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnGesMaquinaActionPerformed
 
+    /**
+     * Método para abrir la ventana de gestión de averías al hacer clic en el botón correspondiente
+     */
     private void btnGesAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesAveriaActionPerformed
         GestionAveriaListar gestionAveria = new GestionAveriaListar();
         gestionAveria.setLocationRelativeTo(null);
@@ -388,22 +388,34 @@ public class vHomeAdmin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnGesAveriaActionPerformed
 
+    /**
+     * Método para cerrar la aplicación al hacer clic en la opción "Cerrar Fixora" del menú
+     */
     private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    /**
+     * Método para abrir la ventana de restablecimiento de contraseñas al hacer clic en el botón correspondiente
+     */
     private void btnrestablecerPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrestablecerPasswordActionPerformed
         RestablecerPassword restablecer = new RestablecerPassword(this, true);
         restablecer.setLocationRelativeTo(null);
         restablecer.setVisible(true);
     }//GEN-LAST:event_btnrestablecerPasswordActionPerformed
 
+    /**
+     * Método para abrir la ventana de informes generados al hacer clic en el botón correspondiente
+     */
     private void btnGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarInformeActionPerformed
         TablaInformes tablaInformes = new TablaInformes(this, true);
         tablaInformes.setLocationRelativeTo(null);
         tablaInformes.setVisible(true);
     }//GEN-LAST:event_btnGenerarInformeActionPerformed
 
+    /**
+     * Método para abrir la ventana de perfil de usuario al hacer clic en la opción "Perfil" del menú
+     */
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
         GestionUsuarioPerfilAdmin gestionUsuarioPerfil = new GestionUsuarioPerfilAdmin();
         gestionUsuarioPerfil.setLocationRelativeTo(null);

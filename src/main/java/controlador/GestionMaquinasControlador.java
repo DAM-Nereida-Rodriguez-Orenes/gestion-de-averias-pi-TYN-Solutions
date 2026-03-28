@@ -4,21 +4,25 @@
  */
 package controlador;
 
-import daoImpl.MaquinariaDAOimpl;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import config.DataSourceFactory;
+import dao.EstadoDAO;
+import dao.MaquinariaDAO;
+import dao.TipoMaquinariaDAO;
 import daoImpl.EstadoDAOimpl;
+import daoImpl.MaquinariaDAOimpl;
 import daoImpl.TipoMaquinariaDAOimpl;
 import modelo.Estado;
-import modelo.TipoMaquinaria;
-import java.util.List;
-import java.util.Optional;
 import modelo.Maquinaria;
+import modelo.TipoMaquinaria;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -27,12 +31,9 @@ import java.util.Map;
 public class GestionMaquinasControlador {
 
     //Instancias de los implements (la vista no sabe nada del DAO)
-    private MaquinariaDAOimpl mDAOi = new MaquinariaDAOimpl(DataSourceFactory.getDataSource());
-    private EstadoDAOimpl eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
-    private TipoMaquinariaDAOimpl tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
-
-    public GestionMaquinasControlador() {
-    }
+    private MaquinariaDAO mDAOi = new MaquinariaDAOimpl(DataSourceFactory.getDataSource());
+    private EstadoDAO eDAO = new EstadoDAOimpl(DataSourceFactory.getDataSource());
+    private TipoMaquinariaDAO tDAO = new TipoMaquinariaDAOimpl(DataSourceFactory.getDataSource());
 
     //crear nueva máquina
     public boolean crearMaquina(String nombre, int codigoEstadoFK, int tipoMaquinariaFK, Date fechaAlta) {

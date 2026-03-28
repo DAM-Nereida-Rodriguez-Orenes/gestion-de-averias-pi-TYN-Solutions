@@ -8,35 +8,28 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.AveriaControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.SwingConstants;
+import modelo.Averia;
+import modelo.Usuario;
+import utils.PanelImgFondo;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
+import vista.vHomeOper;
+import vista.vLogin;
+
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import modelo.Averia;
-import modelo.Usuario;
-import utils.PanelImgFondo;
-import vista.admin.averia.AveriaFiltros;
-import vista.oper.usuario.GestionUsuarioPerfilOper;
-import vista.vHomeAdmin;
-import vista.vHomeOper;
-import vista.vLogin;
+import java.awt.*;
+import java.net.URL;
+import java.util.List;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class GestionAveriaOper extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionAveriaOper.class.getName());
     private AveriaControlador controladorAveria = null;
     private LoginControlador loginControlador = null;
     private DefaultTableModel modeloTabla;
@@ -56,6 +49,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         cargarDatosOperario();
     }
 
+    /**
+     * Configura los iconos, imágenes y estilos visuales de la ventana.
+     */
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -90,6 +86,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         txtAveriaBuscar.putClientProperty("JTextField.placeholderText", "Buscar ");
     }
 
+    /**
+     * Configura el modelo de la tabla, los anchos de las columnas, el formato de las fechas y otros ajustes visuales.
+     */
     private void inicializarTabla() {
         String[] columnas = {
             "Cód.", "Descripción", "Máquina", "Tipo Avería",
@@ -145,6 +144,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         columnModel.getColumn(7).setCellRenderer(rendererFechas);
     }
 
+    /**
+     * Descarga las averías de la BD y refresca la tabla. Se llama al iniciar la ventana y después de crear o editar una avería.
+     */
     private void cargarDatosOperario() {
         LoginControlador loginControlador = new LoginControlador();
         Usuario usuarioLogueado = loginControlador.getUsuarioSesion();
@@ -153,6 +155,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         actualizarModeloTabla(datos);
     }
 
+    /**
+     * Vacia la tabla y la rellena con los datos proporcionados. Si la lista de datos es null, solo vacía la tabla.
+     */
     private void actualizarModeloTabla(List<Object[]> datos) {
         modeloTabla.setRowCount(0);
 
@@ -163,6 +168,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         }
     }
 
+    /** Configura el buscador para que filtre la tabla en tiempo real a medida que el usuario escribe.
+     * El filtro se aplica a todas las columnas y es insensible a mayúsculas.
+     */
     private void configurarBuscador() {
         txtAveriaBuscar.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -182,6 +190,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         });
     }
 
+    /** Aplica un filtro de texto a la tabla usando el contenido del campo de búsqueda. Si el campo está vacío, se elimina el filtro.
+     * El filtro es insensible a mayúsculas y busca coincidencias en todas las columnas.
+     */
     private void filtrar() {
         String texto = txtAveriaBuscar.getText();
 
@@ -190,41 +201,6 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         } else {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
         }
-    }
-
-    private Averia obtenerAveriaSeleccionadaParaEditar() {
-        int filaVista = tbAverias.getSelectedRow();
-
-        if (filaVista == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debes seleccionar una averia de la tabla.",
-                    "Seleccion requerida",
-                    JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-
-        int filaModelo = tbAverias.convertRowIndexToModel(filaVista);
-        int idAveria = (int) modeloTabla.getValueAt(filaModelo, 0);
-
-        Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
-
-        if (averiaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo cargar la averia seleccionada.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-
-        if (averiaSeleccionada.getFechaAsigTecnico() != null) {
-            JOptionPane.showMessageDialog(this,
-                    "Esta averia ya fue asignada a un tecnico y no puede editarse.",
-                    "Edicion no permitida",
-                    JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-
-        return averiaSeleccionada;
     }
 
     /**
@@ -538,10 +514,16 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
+    /**
+     * Cierra la aplicación por completo.
+     */
     private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
         System.exit(0);
     }//GEN-LAST:event_miSalirAppActionPerformed
 
+    /**
+     * Vuelve al menú principal del operario. En este caso, como el menú principal es el mismo que la gestión de averías, simplemente recarga la ventana.
+     */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         vHomeOper home = new vHomeOper();
         home.setLocationRelativeTo(null);
@@ -549,6 +531,9 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Abre la ventana de gestión de perfil del usuario. Al cerrar esa ventana, vuelve a esta.
+     */
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
         GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
@@ -556,11 +541,20 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_miPerfilActionPerformed
 
+    /**
+     * Recarga esta ventana. En este caso, como ya estamos en la gestión de averías, simplemente recarga los datos.
+     */
     private void miGestionAveriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGestionAveriasActionPerformed
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }//GEN-LAST:event_miGestionAveriasActionPerformed
 
+    /**
+     * Lógica del botón de filtros:
+     * - Si ya hay filtros aplicados, al hacer clic se eliminan y se recarga la tabla con todos los datos.
+     * - Si no hay filtros, al hacer clic se abre el JDialog de filtros. Si el usuario aplica filtros, se traen los datos filtrados y se muestran en la tabla. El botón cambia a "Eliminar filtros".
+     * - Si el usuario cierra el JDialog sin aplicar filtros, no pasa nada y el botón vuelve a su estado inicial.
+     */
     private void tgbtnFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbtnFiltrosActionPerformed
         // ESTADO 1: Si ya hay filtros aplicados, el botón actúa para ELIMINARLOS
         if (filtrosAplicados) {
@@ -626,6 +620,13 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tgbtnFiltrosActionPerformed
 
+    /**
+     * Lógica del botón de editar avería:
+     * - Si no hay ninguna fila seleccionada, muestra un mensaje de advertencia.
+     * - Si hay una fila seleccionada, obtiene el ID de la avería, descarga la avería completa desde la BD y abre el JDialog de edición.
+     * - Si la avería ya tiene fecha de asignación a técnico, muestra un mensaje de advertencia indicando que no se puede editar.
+     * - Al cerrar el JDialog de edición, recarga los datos para reflejar posibles cambios.
+     */
     private void btnAveriaEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaEditarActionPerformed
         try {
             int filaVista = tbAverias.getSelectedRow();
@@ -674,6 +675,10 @@ public class GestionAveriaOper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAveriaEditarActionPerformed
 
+    /**
+     * Lógica del botón de nueva avería:
+     * - Al hacer clic, abre el JDialog de nueva avería. Al cerrar ese JDialog, recarga los datos para reflejar la posible nueva avería creada.
+     */
     private void btnNuevaAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaAveriaActionPerformed
         // TODO add your handling code here: NuevaAveria
         try {

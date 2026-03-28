@@ -6,27 +6,19 @@ package vista.admin.usuario;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionUsuarioControlador;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Insets;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import modelo.Rol;
 import utils.PanelImgFondo;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class CrearUsuario extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrearUsuario.class.getName());
     private final GestionUsuarioControlador gestionUsuarioControlador;
     private final GestionUsuario gestionUsuario;
 

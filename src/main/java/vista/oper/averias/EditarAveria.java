@@ -9,28 +9,20 @@ import controlador.AveriaControlador;
 import controlador.GestionMaquinasControlador;
 import controlador.LoginControlador;
 import controlador.TipoAveriaControlador;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Insets;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.logging.Level;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import modelo.Averia;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
 import utils.PanelImgFondo;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+import java.util.logging.Level;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class EditarAveria extends javax.swing.JDialog {
 
@@ -68,6 +60,9 @@ public class EditarAveria extends javax.swing.JDialog {
     }
     // DISEÑO 
 
+    /**
+     * Método para configurar los iconos y placeholders en los componentes del formulario.
+     */
     public void mostrarImagenes() {
         //icno de la app
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -145,6 +140,9 @@ public class EditarAveria extends javax.swing.JDialog {
         });
     }
 
+    /**
+     * Método para cargar los datos de la avería seleccionada en los campos del formulario.
+     */
     private void cargarDatosAveria() {
         if (averiaSeleccionada == null) {
             return;
@@ -166,6 +164,9 @@ public class EditarAveria extends javax.swing.JDialog {
         seleccionarTipoAveria();
     }
 
+    /**
+     * Método para cargar la lista de máquinas en el componente JList.
+     */
     private void cargarMaquinas() {
         DefaultListModel<Maquinaria> modeloLista = new DefaultListModel<>();
         listaMaquinasCompleta = controladorMaquina.listarMaquinaria();
@@ -177,6 +178,9 @@ public class EditarAveria extends javax.swing.JDialog {
         listaMaquinas.setModel(modeloLista);
     }
 
+    /**
+     * Método para cargar la lista de tipos de avería en el componente JComboBox.
+     */
     private void cargarTiposAveria() {
         cbAveriaTipo.removeAllItems();
 
@@ -187,6 +191,9 @@ public class EditarAveria extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Método para seleccionar la máquina asociada a la avería en el JList.
+     */
     private void seleccionarMaquina() {
         javax.swing.ListModel<Maquinaria> modelo = listaMaquinas.getModel();
 
@@ -200,6 +207,9 @@ public class EditarAveria extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Método para seleccionar el tipo de avería asociado a la avería en el JComboBox.
+     */
     private void seleccionarTipoAveria() {
         for (int i = 0; i < cbAveriaTipo.getItemCount(); i++) {
             TipoAveria tipo = (TipoAveria) cbAveriaTipo.getItemAt(i);
@@ -372,10 +382,16 @@ public class EditarAveria extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Cancelar". Muestra un cuadro de diálogo de confirmación y cierra el formulario si el usuario confirma la cancelación.
+     */
     private void cbAveriaTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAveriaTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbAveriaTipoActionPerformed
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Cancelar". Muestra un cuadro de diálogo de confirmación y cierra el formulario si el usuario confirma la cancelación.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (respuesta == JOptionPane.YES_OPTION) {
@@ -383,6 +399,9 @@ public class EditarAveria extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Guardar". Recoge los datos del formulario, realiza validaciones y llama al controlador para actualizar la avería. Muestra mensajes de éxito o error según corresponda.
+     */
     private void btnEditarAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAveriaActionPerformed
         try {
             //Datos que sacamos del formulario

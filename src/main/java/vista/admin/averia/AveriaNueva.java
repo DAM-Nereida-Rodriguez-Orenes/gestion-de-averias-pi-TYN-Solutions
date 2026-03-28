@@ -7,26 +7,17 @@ package vista.admin.averia;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.AveriaControlador;
 import controlador.TipoAveriaControlador;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Insets;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.util.logging.Level;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
 import utils.PanelImgFondo;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Ventana para la creación de una Nueva Avería.
@@ -40,13 +31,11 @@ public class AveriaNueva extends javax.swing.JDialog {
     // --- Controlador y Listas Maestras ---
     private final AveriaControlador controlador;
     private List<Maquinaria> todasLasMaquinas;
-    //private List<Usuario> todosLosUsuarios;
     private List<Usuario> todosLosTecnicos;
     private TipoAveriaControlador tipoAveriaControlador;
 
     // --- Modelos Visuales ---
     private DefaultListModel<Maquinaria> modelMaquinas;
-    //private DefaultListModel<Usuario> modelUsuarios;
     private DefaultListModel<Usuario> modelTecnicos;
     private DefaultComboBoxModel<TipoAveria> modelTipos;
 

@@ -9,22 +9,26 @@ import dao.RolDao;
 import dao.UsuarioDao;
 import daoImpl.RolDaoImpl;
 import daoImpl.UsuarioDaoImpl;
+import modelo.Rol;
+import modelo.Usuario;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
-import modelo.Rol;
-import modelo.Usuario;
 
 /**
- *
- * @author Netri
+ * Controlador encargado de gestionar los usuarios.
+ * Proporciona metodos para crear, actualizar, eliminar y buscar usuarios, asi como validar los datos y generar contrasenas seguras.
+ * @author Thanya
  */
 public class GestionUsuarioControlador {
 
+    // DAOs para acceder a la base de datos
     private UsuarioDao usuarioDaoImpl = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
     private RolDao rolDaoImpl = new RolDaoImpl(DataSourceFactory.getDataSource());
+
+    // Objetos de trabajo
     private Usuario usuario;
     private Rol rol;
 
@@ -46,24 +50,32 @@ public class GestionUsuarioControlador {
     }
 
     //METODOS CRUD
+
+    /**
+     * Metodo para crear un nuevo usuario en la base de datos
+     * Primero valida los datos y luego inserta el usuario
+     */
     public boolean crearUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password) {
-        // Variables
+
         int intentos = 0;
         boolean activo = true;
 
-        // llamamos al metodo validar datos telefono, email, password
+        // Validamos los datos antes de insertar
         boolean datosValidos = validarDatos(telefono, email, password);
         if (!datosValidos) {
             System.out.println("Algun dato esta mal");
             return false;
         }
-        System.out.println("Los datos estan bien");
 
-        //estamos recuperandoe el rol de la base de datos
+        // Recuperamos el rol desde la base de datos
         Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
+
         if (rol != null) {
             try {
+                // Creamos el usuario con los datos recibidos
                 Usuario usuario = new Usuario(nombre, apellido, rol, telefono, email, password, intentos, LocalDateTime.now(), activo);
+
+                // Insertamos en la base de datos
                 usuarioDaoImpl.insertarUsuario(usuario);
                 return true;
 
@@ -77,22 +89,29 @@ public class GestionUsuarioControlador {
         }
     }
 
+    /**
+     * Metodo para actualizar los datos de un usuario existente
+     */
     public boolean actualizarDatosUsuario(String nombre, String apellido, String descripcionRol, String telefono, String email, String password, Boolean activo) {
 
-        // llamamos al metodo validar datos telefono, email, password
+        // Validamos los datos
         boolean datosValidos = validarDatos(telefono, email, password);
         if (!datosValidos) {
             System.out.println("Algun dato esta mal");
             return false;
         }
-        System.out.println("Los datos estan bien");
 
+        // Recuperamos el rol actualizado
         Rol rol = rolDaoImpl.recuperarRolPorCodigo(descripcionRol);
+
         if (rol != null) {
             try {
-                //Ahora si le cambiamos sus datos por los que me vienen por parametro 
+                // Creamos el usuario actualizado manteniendo el codigo
                 Usuario usuarioActualizado = new Usuario(nombre, apellido, rol, telefono, email, password, this.usuario.getIntentos(), LocalDateTime.now(), activo);
+
                 usuarioActualizado.setCodigoUsuario(usuario.getCodigoUsuario());
+
+                // Actualizamos en base de datos
                 usuarioDaoImpl.actualizarUsuario(usuarioActualizado);
                 return true;
 
@@ -106,73 +125,82 @@ public class GestionUsuarioControlador {
         }
     }
 
+    /**
+     * Metodo para eliminar un usuario por su codigo
+     */
     public void eliminarUsuario(int codigoUsuario) {
         usuarioDaoImpl.eliminarUsuario(codigoUsuario);
     }
 
     /**
-     * este metod lo utilizo para rellenar los datos de la tabla sacandolos
-     * desde la base de datos
-     *
-     * @return
+     * Metodo para obtener todos los usuarios de la base de datos
      */
     public List<Usuario> recuperarUsuarios() {
         return usuarioDaoImpl.listarUsuarios();
     }
 
+    /**
+     * Metodo para buscar usuarios por filtros
+     */
     public List<Usuario> buscarUsuario(Integer codigoUsuario, String nombre, String apellido, Rol codigoRolFK, String email, Boolean activo) {
         return usuarioDaoImpl.buscarPorFiltrosUsuario(codigoUsuario, nombre, apellido, codigoRolFK, email, activo);
     }
 
     /**
-     * METODOS AUXILIARES.
+     * METODOS AUXILIARES
+     * Se utilizan para validar los datos antes de crear o actualizar
      */
-    //Estos metodos se utilizan en el metodo crearUsuario()
     private boolean validarDatos(String telefono, String email, String password) {
-        //validar el telefono: llamamos a la funcion para que se encrague de validarlo
+
         if (!telefonoValido(telefono)) {
             System.out.println("el telefono esta mal");
             return false;
         }
+
         if (!emailValido(email)) {
             System.out.println("el email esta amal");
             return false;
         }
+
         if (!passwordValida(password)) {
             System.out.println("la password esta mal");
             return false;
         }
+
         return true;
     }
 
+    /**
+     * Metodo para validar telefono con expresion regular
+     */
     private boolean telefonoValido(String telefono) {
-
         if (telefono == null) {
             return false;
         }
-        // eliminar espacios, guiones y parentesis
+
         String telefonoLimpio = telefono.replaceAll("[\\s\\-()]", "");
-        // expresion regular: + seguido de 8 a 15 digitos
-        //TENEMOS QUE PONERLE EL +34 O LO QUE SEA
         String regex = "^\\+\\d{8,15}$";
+
         return Pattern.matches(regex, telefonoLimpio);
     }
 
+    /**
+     * Metodo para validar email
+     */
     private boolean emailValido(String email) {
-
         if (email == null) {
             return false;
         }
 
-        // Eliminar espacios al inicio y al final
         String emailLimpio = email.trim();
-
-        // Expresion regular basica para email
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
         return Pattern.matches(regex, emailLimpio);
     }
 
+    /**
+     * Metodo para validar password segura
+     */
     private boolean passwordValida(String password) {
 
         if (password == null) {
@@ -180,11 +208,15 @@ public class GestionUsuarioControlador {
         }
 
         String passwordLimpia = password.trim();
-
         String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$";
+
         return passwordLimpia.matches(regex);
     }
 
+    /**
+     * Metodo para recuperar todos los roles
+     * Anade un rol por defecto al inicio
+     */
     public List<Rol> recuperarListadoRoles() {
 
         List<Rol> listaRoles = rolDaoImpl.listarRoles();
@@ -198,28 +230,15 @@ public class GestionUsuarioControlador {
         return listaRoles;
     }
 
-    public List<Usuario> filtrarUsuarioPorEstado(String estado) {
-
-        if (estado != null && !estado.isEmpty()) {
-
-            if (estado.equals("Activo")) {
-                return usuarioDaoImpl.buscarPorFiltrosUsuario(null, null, null, null, null, Boolean.TRUE);
-            } else if (estado.equals("Inactivo")) {
-                return usuarioDaoImpl.buscarPorFiltrosUsuario(null, null, null, null, null, Boolean.FALSE);
-            }
-
-        } else {
-            System.out.println("El estado esta vacio o es null");
-        }
-        return null;
-    }
-
+    /**
+     * Metodo para buscar usuarios por texto
+     */
     public List<Usuario> buscarPorTexto(String texto) {
         return usuarioDaoImpl.buscarPorTexto(texto);
     }
 
     /**
-     * Metodo para generar contraseñas aleatorias
+     * Metodo para generar contrasenas aleatorias seguras
      */
     public String generarPasswordAleatoria() {
 
@@ -232,26 +251,22 @@ public class GestionUsuarioControlador {
         Random random = new Random();
         StringBuilder passwordGenerada = new StringBuilder();
 
-        // Anadimos al menos un caracter de cada tipo 
+        // Anadimos minimo un caracter de cada tipo
         passwordGenerada.append(minusculas.charAt(random.nextInt(minusculas.length())));
         passwordGenerada.append(mayusculas.charAt(random.nextInt(mayusculas.length())));
         passwordGenerada.append(numeros.charAt(random.nextInt(numeros.length())));
         passwordGenerada.append(especiales.charAt(random.nextInt(especiales.length())));
 
-        // Completamos hasta longitud 8 
+        // Completamos hasta longitud minima
         while (passwordGenerada.length() < 8) {
             passwordGenerada.append(todosCaracteres.charAt(random.nextInt(todosCaracteres.length())));
         }
 
-        //Mezclamos los caracteres para que no siempre salgan en el mismo orden 
         return mezclarCaracteres(passwordGenerada.toString());
     }
 
     /**
-     * Mezcla el orden de los caracteres de una cadena.
-     *
-     * @param texto cadena a mezclar
-     * @return cadena mezclada
+     * Metodo para mezclar los caracteres de una cadena
      */
     private String mezclarCaracteres(String texto) {
 
@@ -270,21 +285,28 @@ public class GestionUsuarioControlador {
         return new String(arrayCaracteres);
     }
 
-    //metodo para obtener el usuario logueado 
+    /**
+     * Metodo para obtener el nombre del usuario logueado
+     */
     public String obtenerNombreUsuarioLogueado() {
+
         LoginControlador loginControlador = new LoginControlador();
         Usuario usuarioSesion = loginControlador.getUsuarioSesion();
 
         if (usuarioSesion != null) {
-            System.out.println("hay usuario");
             return usuarioSesion.getNombre();
         }
+
         return "NO hay usuario";
     }
 
+    /**
+     * Metodo para actualizar la password de un usuario
+     */
     public boolean passwordActualizada(String email, String nuevaPassword) {
-        String passwordActual = usuarioDaoImpl.actualizarPassword(email, nuevaPassword);
-        return (passwordActual == null || passwordActual.isEmpty()) ? false : true;
-    }
 
+        String passwordActual = usuarioDaoImpl.actualizarPassword(email, nuevaPassword);
+
+        return passwordActual != null && !passwordActual.isEmpty();
+    }
 }

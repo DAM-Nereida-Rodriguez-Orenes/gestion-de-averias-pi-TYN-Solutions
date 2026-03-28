@@ -6,13 +6,10 @@ package vista.admin.maquinas;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionTipoMaquinaControlador;
-import java.awt.Image;
-import java.awt.Insets;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import utils.PanelImgFondo;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *

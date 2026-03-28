@@ -4,34 +4,30 @@
  */
 package vista.admin.averia;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import controlador.GestionRolControlador;
-import controlador.GestionUsuarioControlador;
-import controlador.LoginControlador;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
-import java.net.URL;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import utils.PanelImgFondo;
-import vista.admin.maquinas.GestionEstadoMaquina;
-import vista.admin.maquinas.GestionMaquinas;
-import vista.admin.maquinas.GestionTipoMaquina;
-import vista.admin.usuario.GestionRol;
-import vista.admin.usuario.GestionUsuario;
-import vista.oper.usuario.GestionUsuarioPerfilOper;
-import vista.vHomeAdmin;
-import vista.vLogin;
+ import com.formdev.flatlaf.extras.FlatSVGIcon;
+ import controlador.GestionRolControlador;
+ import controlador.GestionUsuarioControlador;
+ import controlador.LoginControlador;
+ import utils.PanelImgFondo;
+ import vista.admin.maquinas.GestionEstadoMaquina;
+ import vista.admin.maquinas.GestionMaquinas;
+ import vista.admin.maquinas.GestionTipoMaquina;
+ import vista.admin.usuario.GestionRol;
+ import vista.admin.usuario.GestionUsuario;
+ import vista.oper.usuario.GestionUsuarioPerfilOper;
+ import vista.vHomeAdmin;
+ import vista.vLogin;
+
+ import javax.swing.*;
+ import java.awt.*;
+ import java.net.URL;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class GestionTipoAveria extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionTipoAveria.class.getName());
     // 1. Instanciamos nuestro nuevo controlador y el modelo de la tabla
     private final controlador.TipoAveriaControlador controlador = new controlador.TipoAveriaControlador();
     private javax.swing.table.DefaultTableModel modeloTabla;

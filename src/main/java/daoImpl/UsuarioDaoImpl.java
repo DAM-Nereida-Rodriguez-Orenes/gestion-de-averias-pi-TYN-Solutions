@@ -5,6 +5,10 @@
 package daoImpl;
 
 import dao.UsuarioDao;
+import modelo.Rol;
+import modelo.Usuario;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,14 +18,9 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
-import modelo.Usuario;
-import java.time.LocalDateTime;
-import java.util.Random;
-import modelo.Rol;
 
 /**
- *
+ * Implementacion de la interfaz UsuarioDao para gestionar las operaciones CRUD de los usuarios en la base de datos.
  * @author Thanya
  */
 public class UsuarioDaoImpl implements UsuarioDao {
@@ -34,6 +33,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Inserta un nuevo usuario en la base de datos. El codigoUsuario se genera automaticamente.
+     * Si el ultimoAcceso es null, se inserta como null en la base de datos.
+     * Si la insercion es exitosa, se asigna el codigoUsuario generado al objeto usuario.
+     *
+     * @param usuario El objeto Usuario a insertar. No debe tener el codigoUsuario asignado.
+     * @throws RuntimeException Si ocurre un error al insertar el usuario.
+     */
     @Override
     public void insertarUsuario(Usuario usuario) {
 
@@ -72,6 +79,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
+    /**
+     * Actualiza un usuario existente en la base de datos. El usuario se identifica por su codigoUsuario.
+     * Si el ultimoAcceso es null, se actualiza como null en la base de datos.
+     *
+     * @param usuario El objeto Usuario con los datos actualizados. Debe tener el codigoUsuario asignado.
+     * @throws RuntimeException Si ocurre un error al actualizar el usuario o si no existe el codigoUsuario.
+     */
     @Override
     public void actualizarUsuario(Usuario usuario) {
 
@@ -109,6 +123,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
+    /**
+     * Elimina un usuario de la base de datos. En realidad, no se borra el registro, sino que se marca como inactivo (activo = 0).
+     *
+     * @param codigoUsuario El codigo del usuario a eliminar.
+     * @throws RuntimeException Si ocurre un error al eliminar el usuario o si no existe el codigoUsuario.
+     */
     @Override
     public void eliminarUsuario(int codigoUsuario) {
 
@@ -130,6 +150,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
+    /**
+     * Lista todos los usuarios de la base de datos, incluyendo su rol (por el JOIN).
+     * Si el ultimoAcceso es null en la base de datos, se asigna null al objeto Usuario.
+     *
+     * @return Una lista de objetos Usuario con todos los usuarios registrados.
+     * @throws RuntimeException Si ocurre un error al listar los usuarios.
+     */
     @Override
     public List<Usuario> listarUsuarios() {
 
@@ -177,6 +204,21 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /**
+     * Busca usuarios que coincidan con los filtros proporcionados. Si un filtro es null, se ignora.
+     * El filtro de nombre y apellido utiliza LIKE para buscar coincidencias que empiecen con el texto proporcionado.
+     * El filtro de rol busca por la descripcion del rol.
+     * El resultado incluye el rol con su descripcion (por el JOIN).
+     *
+     * @param codigoUsuario Filtro por codigoUsuario (exacto). Si es null, se ignora.
+     * @param nombre Filtro por nombre (LIKE). Si es null o vacio, se ignora.
+     * @param apellido Filtro por apellido (LIKE). Si es null o vacio, se ignora.
+     * @param rol Filtro por rol (descripcionRol). Si es null, se ignora.
+     * @param email Filtro por email (exacto). Si es null, se ignora.
+     * @param activo Filtro por estado activo. Si es null, se ignora.
+     * @return Una lista de objetos Usuario que coinciden con los filtros aplicados.
+     * @throws RuntimeException Si ocurre un error al buscar los usuarios por filtros.
+     */
     @Override
     public List<Usuario> buscarPorFiltrosUsuario(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo) {
 
@@ -284,7 +326,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
      *
      * @param email
      * @param password
-     * @return
+     * @return El usuario que coincide con el email y password proporcionados, y que esta activo (activo = 1). Si no existe, devuelve null.
      */
     @Override
     public Usuario buscarPorCredenciales(String email, String password) {
@@ -363,9 +405,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
      * Actualiza la contraseña del usuario cuyo email coincide. Si se actualiza
      * 1 fila, devuelve true. Si no existe ese email, devuelve false.
      *
-     * @param email
-     * @param password
-     * @return
+     * @param email El email del usuario al que se le quiere actualizar la contraseña.
+     * @param nuevaPassword La nueva contraseña a asignar al usuario.
+     * @return true si se actualiza la contraseña, false si no existe el email o no se actualiza ninguna fila.
      */
     @Override
     public String actualizarPassword(String email, String nuevaPassword) {
@@ -393,6 +435,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
     /**
      * Busca el texto escrito en nombre, apellido o email con LIKE, y ya te
      * devuelve el Rol con su descripcionRol (por el JOIN).
+     *
+     * Si el ultimoAcceso es null en la base de datos, se asigna null al objeto Usuario.
      */
     @Override
     public List<Usuario> buscarPorTexto(String texto) {
@@ -454,6 +498,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /** Busca un usuario por su email. El email es unico, por lo que devuelve un solo usuario o null si no existe.
+     * El resultado incluye el rol con su descripcion (por el JOIN).
+     * Si el ultimoAcceso es null en la base de datos, se asigna null al objeto Usuario.
+     *
+     * @param email El email del usuario a buscar.
+     * @return El usuario que coincide con el email proporcionado y que esta activo (activo = 1), o null si no existe.
+     */
     public Usuario buscarPorEmail(String email) {
 
         Usuario usuario = null;
@@ -527,6 +578,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return usuario;
     }
 
+    /**
+     * Busca los tecnicos (usuarios con codigoRolFK = 703) ordenados por su carga de trabajo actual (cantidad de averias activas) y su experiencia (tiempo medio de resolucion de averias del mismo tipo).
+     * El resultado incluye el codigoUsuario, nombre y apellido del tecnico.
+     *
+     * @param codigoTipoAveria El codigo del tipo de averia para calcular la experiencia del tecnico. Si es null, se ignora la experiencia.
+     * @return Una lista de tecnicos ordenados por carga de trabajo y experiencia.
+     * @throws RuntimeException Si ocurre un error al buscar los tecnicos.
+     */
     @Override
     public List<Usuario> buscarTecnicosOrdenadorPorCarga(int codigoTipoAveria) {
 
@@ -592,6 +651,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /**
+     * Obtiene el total de averias activas, el total de averias finalizadas y el tiempo medio de resolucion de averias del mismo tipo para un tecnico dado.
+     *
+     * @param codigoTecnico El codigo del tecnico para el que se quieren obtener los datos.
+     * @param codigoTipoAveria El codigo del tipo de averia para calcular la experiencia del tecnico. Si es null, se ignora la experiencia.
+     * @return Un array de objetos con el total de averias activas, el total de averias finalizadas y el tiempo medio de resolucion. Si el tecnico no existe, devuelve null.
+     * @throws RuntimeException Si ocurre un error al obtener los datos del tecnico.
+     */
     @Override
     public Object[] obtenerMotivosTecnico(int codigoTecnico, int codigoTipoAveria) {
 

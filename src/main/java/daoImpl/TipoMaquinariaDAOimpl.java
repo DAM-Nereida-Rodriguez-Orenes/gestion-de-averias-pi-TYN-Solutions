@@ -5,6 +5,9 @@
 package daoImpl;
 
 import dao.TipoMaquinariaDAO;
+import modelo.TipoMaquinaria;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,15 +15,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.sql.DataSource;
-import modelo.TipoMaquinaria;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class TipoMaquinariaDAOimpl implements TipoMaquinariaDAO{
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public TipoMaquinariaDAOimpl(DataSource dataSource) {
         this.dataSource = dataSource;

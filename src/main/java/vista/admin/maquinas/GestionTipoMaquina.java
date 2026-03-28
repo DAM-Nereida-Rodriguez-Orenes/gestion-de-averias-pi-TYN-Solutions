@@ -9,19 +9,6 @@ import controlador.GestionRolControlador;
 import controlador.GestionTipoMaquinaControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import modelo.TipoMaquinaria;
 import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
@@ -31,6 +18,14 @@ import vista.admin.usuario.GestionUsuario;
 import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 
 /**
  *

@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package daoImpl;
 
 import dao.AveriaDao;
+import modelo.Averia;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,44 +11,46 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
-import modelo.Averia;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Implementacion del DAO para la entidad Averia.
+ * Esta clase se encarga de realizar las operaciones CRUD sobre la tabla "averia" en la base de datos.
  * @author yosnavmol
  */
 public class AveriaDaoImpl implements AveriaDao {
 
     private static final Logger logger = Logger.getLogger(AveriaDaoImpl.class.getName());
-
     private final DataSource dataSource;
 
+    /**
+     * Constructor que recibe un DataSource para gestionar las conexiones a la base de datos.
+     */
     public AveriaDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Inserta una nueva averia en la base de datos.
+     * La fecha de inicio se establece al momento de la insercion.
+     * Si se asigna un tecnico, tambien se guarda la fecha de asignacion.
+     */
     @Override
     public void insertar(Averia a) {
-        // --- 1. LÓGICA DE FECHAS AUTOMÁTICAS ---
         LocalDateTime ahora = LocalDateTime.now();
 
-        // A. Fecha de reporte siempre es "AHORA"
+        // La fecha de inicio siempre es el momento actual
         a.setFechaInicioAver(ahora);
 
-        // B. Lógica del Técnico y Fecha de Asignación
-        // Si se asigna un técnico (no es nulo y es mayor que 0), asignamos fecha.
+        // Si hay tecnico asignado tambien se guarda la fecha de asignacion
         if (a.getUsuarioTecnicoFK() != null && a.getUsuarioTecnicoFK() > 0) {
             a.setFechaAsigTecnico(ahora);
         } else {
-            // Si no hay técnico, aseguramos que sea null
             a.setUsuarioTecnicoFK(null);
             a.setFechaAsigTecnico(null);
         }
 
-        // --- 2. DEFINICIÓN SQL ---
         String sql = "INSERT INTO averia ("
                 + "descInicAveria, "
                 + "fechaInicioAver, "
@@ -60,132 +61,97 @@ public class AveriaDaoImpl implements AveriaDao {
                 + "tipoAveriaFK) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (java.sql.Connection conn = dataSource.getConnection(); java.sql.PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // --- 3. RELLENAR DATOS ---
-            // 1. Descripción
             ps.setString(1, a.getDescInicAveria());
-
-            // 2. Fecha Inicio (Obligatoria, calculada arriba)
             ps.setTimestamp(2, java.sql.Timestamp.valueOf(a.getFechaInicioAver()));
 
-            // 3. Fecha Asignación (Puede ser NULL)
             if (a.getFechaAsigTecnico() != null) {
                 ps.setTimestamp(3, java.sql.Timestamp.valueOf(a.getFechaAsigTecnico()));
             } else {
                 ps.setNull(3, java.sql.Types.TIMESTAMP);
             }
 
-            // 4. Usuario Reporta (Obligatorio)
             ps.setInt(4, a.getUsuarioReportaFK());
 
-            // 5. Usuario Técnico (Puede ser NULL)
             if (a.getUsuarioTecnicoFK() != null) {
                 ps.setInt(5, a.getUsuarioTecnicoFK());
             } else {
                 ps.setNull(5, java.sql.Types.INTEGER);
             }
 
-            // 6. Maquinaria (Obligatorio)
             ps.setInt(6, a.getMaquinariaFK());
-
-            // 7. Tipo Avería (Obligatorio)
             ps.setInt(7, a.getTipoAveriaFK());
 
-            // --- 4. EJECUTAR ---
             ps.executeUpdate();
-            // System.out.println("Avería insertada correctamente en fecha: " + ahora);
 
-        } catch (java.sql.SQLException ex) {
-            // Ajusta el logger según tu import
-            java.util.logging.Logger.getLogger(AveriaDaoImpl.class.getName())
-                    .log(java.util.logging.Level.SEVERE, "Error al insertar avería", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AveriaDaoImpl.class.getName())
+                    .log(Level.SEVERE, "Error al insertar averia", ex);
         }
     }
 
+    /**
+     * Actualiza una averia existente en la base de datos.
+     * Se actualizan todos los campos excepto el ID, que es el identificador unico.
+     */
     @Override
     public void actualizar(Averia a) {
-        // 1. SQL: Actualizamos todo EXCEPTO el ID, que usamos para buscar la fila
         String sql = "UPDATE averia SET "
                 + "descInicAveria = ?, "
-                + // 1
-                "fechaInicioAver = ?, "
-                + // 2
-                "fechaAsigTecnico = ?, "
-                + // 3
-                "fechaAcepTecnico = ?, "
-                + // 4
-                "fechaFinalizTecnico = ?, "
-                + // 5
-                "procRealizadoTecnico = ?, "
-                + // 6
-                "usuarioReportaFK = ?, "
-                + // 7
-                "usuarioTecnicoFK = ?, "
-                + // 8
-                "maquinariaFK = ?, "
-                + // 9
-                "tipoAveriaFK = ? "
-                + // 10
-                "WHERE codigoAveria = ?";      // 11 (La condición)
+                + "fechaInicioAver = ?, "
+                + "fechaAsigTecnico = ?, "
+                + "fechaAcepTecnico = ?, "
+                + "fechaFinalizTecnico = ?, "
+                + "procRealizadoTecnico = ?, "
+                + "usuarioReportaFK = ?, "
+                + "usuarioTecnicoFK = ?, "
+                + "maquinariaFK = ?, "
+                + "tipoAveriaFK = ? "
+                + "WHERE codigoAveria = ?";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // --- ASIGNACIÓN DE VALORES ---
-            // 1. Texto
             ps.setString(1, a.getDescInicAveria());
-
-            // 2, 3, 4, 5. Fechas (LocalDateTime)
-            // Usamos setObject para que Java maneje si es fecha o null automáticamente
             ps.setObject(2, a.getFechaInicioAver());
             ps.setObject(3, a.getFechaAsigTecnico());
             ps.setObject(4, a.getFechaAcepTecnico());
             ps.setObject(5, a.getFechaFinalizTecnico());
-
-            // 6. Texto opcional
             ps.setString(6, a.getProcRealizadoTecnico());
-
-            // 7. FK Obligatoria (int)
             ps.setInt(7, a.getUsuarioReportaFK());
-
-            // 8. FK Opcional (Integer) - ¡CUIDADO AQUÍ!
-            // Usamos Types.INTEGER para que si es null, inserte NULL en la BD sin explotar
             ps.setObject(8, a.getUsuarioTecnicoFK(), java.sql.Types.INTEGER);
-
-            // 9. FK Obligatoria (int)
             ps.setInt(9, a.getMaquinariaFK());
-
-            // 10. FK Obligatoria (int)
             ps.setInt(10, a.getTipoAveriaFK());
-
-            // 11. EL ID PARA EL WHERE (Es fundamental que sea el último)
             ps.setInt(11, a.getCodigoAveria());
 
-            // --- EJECUCIÓN ---
             int filasAfectadas = ps.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Avería actualizada correctamente.");
+                System.out.println("Averia actualizada correctamente.");
             } else {
-                System.out.println("No se encontró ninguna avería con ID: " + a.getCodigoAveria());
+                System.out.println("No se encontro ninguna averia con ID: " + a.getCodigoAveria());
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al actualizar la avería con ID: " + a.getCodigoAveria(), ex);
+            logger.log(Level.SEVERE, "Error al actualizar la averia con ID: " + a.getCodigoAveria(), ex);
         }
     }
 
+    /**
+     * Busca averias aplicando distintos filtros. Todos los filtros son opcionales.
+     * Si se proporciona un filtro, se aplica a la consulta. Si no, se ignora.
+     * El resultado se ordena por prioridad: primero pendientes, luego en proceso y al final finalizadas.
+     */
     @Override
     public List<Averia> buscarPorFiltros(Integer idAveria,
-            String descripcion,
-            LocalDateTime fechaInicio,
-            LocalDateTime fechaFin,
-            Integer idUsuarioReporta,
-            Integer idTecnico,
-            Integer idMaquinaria,
-            Integer idTipoAveria) {
+                                         String descripcion,
+                                         LocalDateTime fechaInicio,
+                                         LocalDateTime fechaFin,
+                                         Integer idUsuarioReporta,
+                                         Integer idTecnico,
+                                         Integer idMaquinaria,
+                                         Integer idTipoAveria) {
 
-        // 1. Construcción dinámica de la Query
         StringBuilder sql = new StringBuilder("SELECT * FROM averia WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
@@ -222,11 +188,7 @@ public class AveriaDaoImpl implements AveriaDao {
             params.add(idTipoAveria);
         }
 
-        // Ordenamos las averias por prioridad de estado para mejorar la gestion:
-        // 1. Pendientes primero (no asignadas ni finalizadas)
-        // 2. En proceso despues (ya asignadas pero no finalizadas)
-        // 3. Finalizadas al final
-        // Dentro de cada grupo, se ordenan por fecha de inicio de la averia
+        // Orden de prioridad para mostrar primero pendientes, luego en proceso y al final finalizadas
         sql.append(" ORDER BY "
                 + "CASE "
                 + "WHEN fechaFinalizTecnico IS NOT NULL THEN 3 "
@@ -239,17 +201,14 @@ public class AveriaDaoImpl implements AveriaDao {
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
-            // 2. Asignar parámetros
             for (int i = 0; i < params.size(); i++) {
                 ps.setObject(i + 1, params.get(i));
             }
 
-            // 3. Ejecutar y Mapear (Todo aquí dentro)
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Averia a = new Averia();
 
-                    // IDs y Strings simples
                     a.setCodigoAveria(rs.getInt("codigoAveria"));
                     a.setDescInicAveria(rs.getString("descInicAveria"));
                     a.setProcRealizadoTecnico(rs.getString("procRealizadoTecnico"));
@@ -257,7 +216,6 @@ public class AveriaDaoImpl implements AveriaDao {
                     a.setMaquinariaFK(rs.getInt("maquinariaFK"));
                     a.setTipoAveriaFK(rs.getInt("tipoAveriaFK"));
 
-                    // Manejo manual del Integer Nullable (Técnico)
                     int idTec = rs.getInt("usuarioTecnicoFK");
                     if (rs.wasNull()) {
                         a.setUsuarioTecnicoFK(null);
@@ -265,7 +223,6 @@ public class AveriaDaoImpl implements AveriaDao {
                         a.setUsuarioTecnicoFK(idTec);
                     }
 
-                    // Manejo manual de Fechas (Timestamp -> LocalDateTime)
                     java.sql.Timestamp ts1 = rs.getTimestamp("fechaInicioAver");
                     if (ts1 != null) {
                         a.setFechaInicioAver(ts1.toLocalDateTime());
@@ -286,7 +243,6 @@ public class AveriaDaoImpl implements AveriaDao {
                         a.setFechaFinalizTecnico(ts4.toLocalDateTime());
                     }
 
-                    // Añadimos a la lista
                     resultado.add(a);
                 }
             }
@@ -297,7 +253,11 @@ public class AveriaDaoImpl implements AveriaDao {
         return resultado;
     }
 
-    // Método no usable
+    /**
+     * Elimina una averia por su ID. Si la averia tiene datos relacionados que impiden su eliminacion, se captura la excepcion y se muestra un mensaje de error.
+     * @param id ID de la averia a eliminar
+     * @return true si se elimino correctamente, false si no se pudo eliminar
+     */
     @Override
     public boolean eliminar(int id) {
         String sql = "DELETE FROM averia WHERE codigoAveria = ?";
@@ -308,20 +268,20 @@ public class AveriaDaoImpl implements AveriaDao {
             int filasAfectadas = ps.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Avería con ID " + id + " eliminada correctamente.");
-                return true; // <-- DEVOLVEMOS TRUE
+                System.out.println("Averia con ID " + id + " eliminada correctamente.");
+                return true;
             } else {
-                System.out.println("No se pudo eliminar: No existe ninguna avería con ID " + id);
-                return false; // <-- DEVOLVEMOS FALSE
+                System.out.println("No se pudo eliminar: No existe ninguna averia con ID " + id);
+                return false;
             }
 
         } catch (SQLException ex) {
             if (ex.getSQLState().startsWith("23")) {
-                logger.log(Level.WARNING, "No se puede eliminar la avería ID " + id + " porque tiene datos relacionados.", ex);
+                logger.log(Level.WARNING, "No se puede eliminar la averia ID " + id + " porque tiene datos relacionados.", ex);
             } else {
-                logger.log(Level.SEVERE, "Error crítico al eliminar la avería ID: " + id, ex);
+                logger.log(Level.SEVERE, "Error critico al eliminar la averia ID: " + id, ex);
             }
-            return false; // <-- DEVOLVEMOS FALSE SI HAY ERROR
+            return false;
         }
     }
 }

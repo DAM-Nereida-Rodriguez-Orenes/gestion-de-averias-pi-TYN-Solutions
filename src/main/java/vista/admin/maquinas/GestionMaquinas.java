@@ -5,40 +5,13 @@
 package vista.admin.maquinas;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import javax.swing.JOptionPane;
 import controlador.GestionMaquinasControlador;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
-import java.io.File;
-import java.net.URL;
-import java.util.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
 import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
-import modelo.Usuario;
 import utils.InformesJasper;
 import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
@@ -48,6 +21,19 @@ import vista.admin.usuario.GestionUsuario;
 import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *

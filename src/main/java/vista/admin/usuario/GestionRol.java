@@ -8,17 +8,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import modelo.Rol;
-import modelo.Usuario;
 import utils.PanelImgFondo;
 import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
@@ -29,13 +19,18 @@ import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.net.URL;
+import java.util.List;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class GestionRol extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionRol.class.getName());
     private final GestionRolControlador gestionRolControlador;
     private List<Rol> listaRoles;
 

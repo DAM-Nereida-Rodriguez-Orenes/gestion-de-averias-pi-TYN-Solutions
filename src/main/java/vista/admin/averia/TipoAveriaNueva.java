@@ -5,21 +5,17 @@
 package vista.admin.averia;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.awt.Image;
-import java.awt.Insets;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import utils.PanelImgFondo;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class TipoAveriaNueva extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TipoAveriaNueva.class.getName());
     private final controlador.TipoAveriaControlador controlador = new controlador.TipoAveriaControlador();
     private javax.swing.table.DefaultTableModel modeloTabla;
 

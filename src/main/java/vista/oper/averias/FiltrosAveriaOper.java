@@ -6,28 +6,21 @@ package vista.oper.averias;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.AveriaControlador;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Insets;
-import java.util.List;
-import java.util.logging.Level;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
 import utils.PanelImgFondo;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.util.List;
+import java.util.logging.Level;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class FiltrosAveriaOper extends javax.swing.JDialog {
 
@@ -68,6 +61,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         mostrarImagenes();
     }
 
+    /**
+     * Configura los iconos de la ventana y de los campos de texto.
+     * Se llama al final del constructor para que los componentes ya estén inicializados.
+     */
     public void mostrarImagenes() {
         //icno de la app
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -116,6 +113,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
 
     }
 
+    /**
+     * Configura los modelos de las listas y combo boxes para que estén listos para recibir datos.
+     * Se llama al inicio del constructor, antes de cargar los datos reales.
+     */
     private void configurarListas() {
         modelMaquinas = new DefaultListModel<>();
         listaMaquinas.setModel(modelMaquinas);
@@ -124,6 +125,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         cbAveriaTipo.setModel(modelTipos);
     }
 
+    /**
+     * Carga los datos necesarios para los filtros desde el controlador.
+     * Se llama después de configurar los modelos visuales para que puedan recibir los datos.
+     */
     private void cargarDatos() {
         try {
             todasLasMaquinas = controlador.obtenerTodasLasMaquinas();
@@ -153,6 +158,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Activa los filtros de búsqueda en tiempo real para el campo de texto de máquina.
+     * Se llama después de cargar los datos para que el filtro tenga una lista completa sobre la que actuar.
+     */
     private void activarFiltros() {
         DocumentListener listenerUnificado = new DocumentListener() {
             @Override
@@ -177,6 +186,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         aplicarFiltros();
     }
 
+    /**
+     * Aplica los filtros de búsqueda en tiempo real para el campo de texto de máquina.
+     * Se llama cada vez que el usuario escribe o borra algo en ese campo.
+     */
     private void aplicarFiltros() {
         String textoMaq = txtMaquinaBuscar.getText();
         List<Maquinaria> maqFiltrada = controlador.filtrarMaquinas(todasLasMaquinas, textoMaq);
@@ -186,6 +199,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Configura los eventos de los checkboxes para habilitar o deshabilitar los spinners de fecha.
+     * Se llama al final del constructor para que los componentes ya estén inicializados y tengan sus datos cargados.
+     */
     private void configurarEventosCheckBoxes() {
         // Estado inicial (Apagados por defecto)
         spFechaReporte.setEnabled(cbFechaReporte.isSelected());
@@ -210,11 +227,17 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Obtiene el código de la máquina seleccionada en la lista. Si no hay ninguna seleccionada, devuelve null.
+     */
     public Integer getFiltroMaquina() {
         Maquinaria m = listaMaquinas.getSelectedValue();
         return (m != null) ? m.getCodigoMaquinaria() : null;
     }
 
+    /**
+     * Obtiene el código del tipo de avería seleccionado en el combo box. Si no hay ninguno seleccionado (o si el usuario dejó la casilla en blanco), devuelve null.
+     */
     public Integer getFiltroTipo() {
         if (cbAveriaTipo.getSelectedIndex() == -1) {
             return null;
@@ -225,6 +248,9 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         return (t != null) ? t.getCodigoTipoAveria() : null;
     }
 
+    /**
+     * Obtiene la fecha del spinner de fecha de reporte si el checkbox correspondiente está seleccionado. Si el checkbox no está seleccionado, devuelve null.
+     */
     public java.time.LocalDateTime getFiltroFechaReporte() {
         if (cbFechaReporte.isSelected()) {
             return extraerFechaSpinner(spFechaReporte);
@@ -232,6 +258,9 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         return null;
     }
 
+    /**
+     * Obtiene la fecha del spinner de fecha final si el checkbox correspondiente está seleccionado. Si el checkbox no está seleccionado, devuelve null.
+     */
     public java.time.LocalDateTime getFiltroFechaFinal() {
         if (cbFechaFin.isSelected()) {
             return extraerFechaSpinner(spFechaFinal);
@@ -426,6 +455,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Acción del botón "Cancelar". Pregunta al usuario si realmente desea cancelar la operación y cerrar la ventana.
+     * Si el usuario confirma, se cierra la ventana sin aplicar ningún filtro.
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación?", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (respuesta == JOptionPane.YES_OPTION) {
@@ -433,6 +466,10 @@ public class FiltrosAveriaOper extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    /**
+     * Acción del botón "Aplicar filtros". Establece la bandera de aplicarFiltros a true para indicar que el usuario desea aplicar los filtros seleccionados, y luego cierra la ventana.
+     * La clase que llamó a esta ventana (AveriaListar) deberá comprobar el valor de aplicarFiltros para decidir si debe extraer los filtros seleccionados o no.
+     */
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         this.aplicarFiltros = true; // Avisamos que sí queremos filtrar
         this.dispose();             // Cerramos la ventana

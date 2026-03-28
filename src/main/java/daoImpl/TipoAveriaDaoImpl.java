@@ -5,14 +5,15 @@
 package daoImpl;
 
 import dao.TipoAveriaDao;
+import modelo.TipoAveria;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.TipoAveria;
-import javax.sql.DataSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,16 +29,25 @@ import java.util.logging.Logger;
 public class TipoAveriaDaoImpl implements TipoAveriaDao {
 
     private static final Logger logger = Logger.getLogger(TipoAveriaDaoImpl.class.getName());
-
     private final DataSource dataSource;
 
+    /**
+     * Constructor que recibe un DataSource para gestionar las conexiones a la base de datos.
+     *
+     * @param dataSource El DataSource para obtener conexiones.
+     */
     public TipoAveriaDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Verifica si existe un tipo de averia con el ID especificado.
+     *
+     * @param id El ID del tipo de averia a verificar.
+     * @return true si existe, false en caso contrario.
+     */
     @Override
     public boolean existeId(int id) {
-        // Consulta optimizada: No trae datos pesados, solo un '1' si encuentra la fila.
         String sql = "SELECT 1 FROM tipo_averia WHERE codigoTipoAveria = ?";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -45,32 +55,33 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
-                // Si rs.next() es true, significa que encontró al menos una fila.
                 return rs.next();
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al buscar el tipo de avería con ID: " + id, ex);
-            return false; // Ante la duda o error, asumimos false (o lanzamos excepción)
+            logger.log(Level.SEVERE, "Error al buscar el tipo de averia con ID: " + id, ex);
+            return false;
         }
     }
 
+    /**
+     * Inserta un nuevo tipo de averia en la base de datos.
+     * Verifica que no exista un tipo de averia con el mismo ID antes de insertar.
+     *
+     * @param t El objeto TipoAveria a insertar.
+     */
     @Override
     public void insertar(TipoAveria t) {
-        // PASO 1: Verificación previa
         if (existeId(t.getCodigoTipoAveria())) {
-            System.err.println("ERROR: Ya existe un Tipo de Avería con el ID " + t.getCodigoTipoAveria());
-            return; // Salimos del método para no intentar insertar
+            System.err.println("ERROR: Ya existe un Tipo de Averia con el ID " + t.getCodigoTipoAveria());
+            return;
         }
 
-        // PASO 2: La Query (Ahora incluimos el ID explícitamente)
-        // Fíjate que ahora hay 3 interrogantes (?, ?, ?)
         String sql = "INSERT INTO tipo_averia (codigoTipoAveria, descripcionTipoAv, tiempoPromRepar) VALUES (?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            // Asignamos los 3 valores
-            ps.setInt(1, t.getCodigoTipoAveria());    // ID Manual
+            ps.setInt(1, t.getCodigoTipoAveria());
             ps.setString(2, t.getDescripcionTipoAv());
             ps.setFloat(3, t.getTiempoPromRepar());
 
@@ -78,13 +89,18 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             System.out.println("Insertado correctamente: " + t.getDescripcionTipoAv());
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al insertar el tipo de avería: " + t.getDescripcionTipoAv(), ex);
+            logger.log(Level.SEVERE, "Error al insertar el tipo de averia: " + t.getDescripcionTipoAv(), ex);
         }
     }
 
+    /**
+     * Actualiza un tipo de averia existente en la base de datos.
+     * Verifica que exista un tipo de averia con el ID especificado antes de actualizar.
+     *
+     * @param t El objeto TipoAveria con los datos actualizados.
+     */
     @Override
     public void actualizar(TipoAveria t) {
-        // Verificación de seguridad
         if (!existeId(t.getCodigoTipoAveria())) {
             System.err.println("ERROR: No se puede actualizar. No existe el ID " + t.getCodigoTipoAveria());
             return;
@@ -96,16 +112,21 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
 
             ps.setString(1, t.getDescripcionTipoAv());
             ps.setFloat(2, t.getTiempoPromRepar());
-            ps.setInt(3, t.getCodigoTipoAveria()); // El ID va al final para el WHERE
+            ps.setInt(3, t.getCodigoTipoAveria());
 
             ps.executeUpdate();
             System.out.println("Actualizado correctamente.");
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al actualizar el tipo de avería con ID: " + t.getCodigoTipoAveria(), ex);
+            logger.log(Level.SEVERE, "Error al actualizar el tipo de averia con ID: " + t.getCodigoTipoAveria(), ex);
         }
     }
 
+    /**
+     * Lista todos los tipos de averia disponibles en la base de datos.
+     *
+     * @return Una lista de objetos TipoAveria.
+     */
     @Override
     public List<TipoAveria> listar() {
         List<TipoAveria> lista = new ArrayList<>();
@@ -116,28 +137,33 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             while (rs.next()) {
                 TipoAveria t = new TipoAveria();
 
-                // Mapeo exacto según tus columnas de la imagen
                 t.setCodigoTipoAveria(rs.getInt("codigoTipoAveria"));
                 t.setDescripcionTipoAv(rs.getString("descripcionTipoAv"));
-
-                // OJO: En la imagen se ve que es tipo 'float', así que usamos getFloat
                 t.setTiempoPromRepar(rs.getFloat("tiempoPromRepar"));
 
                 lista.add(t);
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al listar el catálogo de tipos de avería.", ex);
+            logger.log(Level.SEVERE, "Error al listar el catalogo de tipos de averia.", ex);
         }
 
         return lista;
     }
 
+    /**
+     * Elimina un tipo de averia por su ID.
+     * Verifica que exista un tipo de averia con el ID especificado antes de eliminar.
+     * Controla las excepciones SQL para manejar casos de integridad referencial.
+     *
+     * @param id El ID del tipo de averia a eliminar.
+     * @return true si se eliminó correctamente, false en caso de error o si no existe el ID.
+     */
     @Override
     public boolean eliminar(int id) {
         if (!existeId(id)) {
             System.err.println("No se puede eliminar: El ID " + id + " no existe.");
-            return false; // <-- Falla porque no existe
+            return false;
         }
 
         String sql = "DELETE FROM tipo_averia WHERE codigoTipoAveria = ?";
@@ -146,22 +172,28 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-            System.out.println("Tipo de avería eliminado correctamente (ID: " + id + ")");
-            return true; // <-- ÉXITO
+            System.out.println("Tipo de averia eliminado correctamente (ID: " + id + ")");
+            return true;
 
         } catch (SQLException ex) {
             if (ex.getSQLState().startsWith("23")) {
                 logger.log(Level.WARNING, "Intento fallido de eliminar el tipo ID " + id + " (tiene registros vinculados).", ex);
             } else {
-                logger.log(Level.SEVERE, "Error crítico al eliminar el tipo de avería ID: " + id, ex);
+                logger.log(Level.SEVERE, "Error critico al eliminar el tipo de averia ID: " + id, ex);
             }
-            return false; // <-- Falla por tener datos asociados u otro error
+            return false;
         }
     }
 
+    /**
+     * Busca el ID de un tipo de averia por su descripción.
+     * Realiza una búsqueda insensible a mayúsculas y permite coincidencias parciales.
+     *
+     * @param descripcion La descripción del tipo de averia a buscar.
+     * @return El ID del tipo de averia si se encuentra, o -1 si no se encuentra.
+     */
     @Override
     public int buscarTipoAveriaPorDescripcion(String descripcion) {
-
         int codigoTipoAveria = -1;
 
         String sql = "SELECT codigoTipoAveria "
@@ -173,7 +205,6 @@ public class TipoAveriaDaoImpl implements TipoAveriaDao {
             ps.setString(1, "%" + descripcion + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
-
                 if (rs.next()) {
                     codigoTipoAveria = rs.getInt("codigoTipoAveria");
                 }

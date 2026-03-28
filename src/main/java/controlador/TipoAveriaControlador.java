@@ -1,24 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controlador;
 
+import config.DataSourceFactory;
+import dao.TipoAveriaDao;
 import daoImpl.TipoAveriaDaoImpl;
 import modelo.TipoAveria;
-import config.DataSourceFactory;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
- *
+ * Controlador encargado de gestionar los tipos de averia.
+ * Este controlador se encarga de realizar las operaciones CRUD sobre los tipos de averia,
+ * asi como de preparar los datos para mostrarlos en la vista.
  * @author yosnavmol
  */
 public class TipoAveriaControlador {
 
-    private TipoAveriaDaoImpl tipoDao;
+    // DAO para acceder a la tabla de tipos de averia
+    private TipoAveriaDao tipoDao;
 
+    /**
+     * Constructor del controlador.
+     */
     public TipoAveriaControlador() {
         try {
             this.tipoDao = new TipoAveriaDaoImpl(DataSourceFactory.getDataSource());
@@ -27,15 +31,19 @@ public class TipoAveriaControlador {
         }
     }
 
+    /**
+     * Devuelve los tipos de averia preparados para mostrarse en una tabla.
+     */
     public List<Object[]> listarParaTabla() {
         List<Object[]> filas = new ArrayList<>();
         try {
             List<TipoAveria> lista = tipoDao.listar();
+
             for (TipoAveria t : lista) {
                 filas.add(new Object[]{
-                    t.getCodigoTipoAveria(),
-                    t.getDescripcionTipoAv(),
-                    t.getTiempoPromRepar()
+                        t.getCodigoTipoAveria(),
+                        t.getDescripcionTipoAv(),
+                        t.getTiempoPromRepar()
                 });
             }
         } catch (Exception e) {
@@ -44,20 +52,25 @@ public class TipoAveriaControlador {
         return filas;
     }
 
+    /**
+     * Devuelve la lista completa de tipos de averia.
+     */
     public List<TipoAveria> listarTiposAveria() {
         return tipoDao.listar();
     }
 
-    // GUARDAR (Llama al void)
+    /**
+     * Metodo para registrar un nuevo tipo de averia.
+     */
     public boolean registrar(int id, String descripcion, float tiempo) {
         if (descripcion == null || descripcion.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "La descripción es obligatoria.");
+            JOptionPane.showMessageDialog(null, "La descripcion es obligatoria.");
             return false;
         }
 
-        // Verificamos aquí para poder avisar al usuario, ya que el DAO es void
+        // Comprobamos si el ID ya existe
         if (tipoDao.existeId(id)) {
-            JOptionPane.showMessageDialog(null, "Ya existe un Tipo de Avería con el ID " + id, "ID Duplicado", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ya existe un Tipo de Averia con el ID " + id, "ID Duplicado", JOptionPane.WARNING_MESSAGE);
             return false;
         }
 
@@ -66,14 +79,16 @@ public class TipoAveriaControlador {
         t.setDescripcionTipoAv(descripcion);
         t.setTiempoPromRepar(tiempo);
 
-        tipoDao.insertar(t); // Ejecutamos el método void
+        tipoDao.insertar(t);
         return true;
     }
 
-    // ACTUALIZAR (Llama al void)
+    /**
+     * Metodo para actualizar un tipo de averia existente.
+     */
     public boolean actualizar(int id, String descripcion, float tiempo) {
         if (descripcion == null || descripcion.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "La descripción es obligatoria.");
+            JOptionPane.showMessageDialog(null, "La descripcion es obligatoria.");
             return false;
         }
 
@@ -82,15 +97,20 @@ public class TipoAveriaControlador {
         t.setDescripcionTipoAv(descripcion);
         t.setTiempoPromRepar(tiempo);
 
-        tipoDao.actualizar(t); // Ejecutamos el método void
+        tipoDao.actualizar(t);
         return true;
     }
 
-    // ELIMINAR (Llama al boolean)
+    /**
+     * Metodo para eliminar un tipo de averia por su id.
+     */
     public boolean eliminar(int id) {
         return tipoDao.eliminar(id);
     }
 
+    /**
+     * Metodo para obtener el id de un tipo de averia a partir de su descripcion.
+     */
     public int obtenerIdTipoAveria(String descripcion) {
         return tipoDao.buscarTipoAveriaPorDescripcion(descripcion);
     }

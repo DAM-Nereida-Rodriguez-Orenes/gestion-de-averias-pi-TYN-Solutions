@@ -9,27 +9,20 @@ import controlador.AveriaControlador;
 import controlador.GestionMaquinasControlador;
 import controlador.LoginControlador;
 import controlador.TipoAveriaControlador;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.Insets;
-import java.util.List;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import modelo.Maquinaria;
 import modelo.TipoAveria;
 import modelo.Usuario;
 import utils.PanelImgFondo;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.util.List;
+
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class NuevaAveria extends javax.swing.JDialog {
 
@@ -139,6 +132,9 @@ public class NuevaAveria extends javax.swing.JDialog {
         });
     }
 
+    /**
+     * Carga los tipos de avería en el JComboBox.
+     */
     private void cargarTiposAveria() {
         cbAveriaTipo.removeAllItems();
 
@@ -149,6 +145,9 @@ public class NuevaAveria extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Carga las máquinas en la lista.
+     */
     private void cargarMaquinas() {
         DefaultListModel<Maquinaria> modeloLista = new DefaultListModel<>();
 
@@ -161,6 +160,9 @@ public class NuevaAveria extends javax.swing.JDialog {
         listaMaquinas.setModel(modeloLista);
     }
 
+    /**
+     * Filtra las máquinas en la lista según el texto ingresado en el campo de búsqueda.
+     */
     private void filtrarMaquinas() {
         String textoBusqueda = txtMaquinaBuscar.getText().trim().toLowerCase();
         DefaultListModel<Maquinaria> modeloLista = new DefaultListModel<>();
@@ -176,6 +178,9 @@ public class NuevaAveria extends javax.swing.JDialog {
         listaMaquinas.setModel(modeloLista);
     }
 
+    /**
+     * Configura el buscador de máquinas para que filtre la lista en tiempo real a medida que el usuario escribe.
+     */
     private void configurarBuscadorMaquinas() {
         txtMaquinaBuscar.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -195,6 +200,9 @@ public class NuevaAveria extends javax.swing.JDialog {
         });
     }
 
+    /**
+     * Muestra el nombre del usuario logueado en el campo de texto correspondiente.
+     */
     private void mostrarUsuarioLogueado() {
         if (usuarioLogueado != null) {
             txtUsuarioBuscar.setText("Reporta: " + usuarioLogueado.getNombre() + " " + usuarioLogueado.getApellido());
@@ -359,10 +367,17 @@ public class NuevaAveria extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de selección de un tipo de avería en el JComboBox. Actualmente no realiza ninguna acción, pero se puede utilizar para implementar lógica adicional si es necesario.
+     * @param evt
+     */
     private void cbAveriaTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAveriaTipoActionPerformed
 
     }//GEN-LAST:event_cbAveriaTipoActionPerformed
 
+    /**
+     * Maneja el evento de clic en el botón "Crear". Valida los datos ingresados, registra la avería a través del controlador y muestra mensajes de éxito o error según corresponda.
+     */
     private void btnAveriaCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveriaCrearActionPerformed
         try {
             String descripcion = txtDescripcion.getText().trim();

@@ -5,24 +5,10 @@
 package vista.admin.averia;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.util.List;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import javax.swing.RowFilter;
-import javax.swing.JOptionPane;
-
 import controlador.AveriaControlador;
 import controlador.GestionRolControlador;
 import controlador.GestionUsuarioControlador;
 import controlador.LoginControlador;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.net.URL;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import modelo.Averia;
 import utils.InformesJasper;
 import utils.PanelImgFondo;
@@ -34,6 +20,15 @@ import vista.admin.usuario.GestionUsuario;
 import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.net.URL;
+import java.util.List;
 
 /**
  * Ventana principal para la gestión de Averías. Muestra el listado general y

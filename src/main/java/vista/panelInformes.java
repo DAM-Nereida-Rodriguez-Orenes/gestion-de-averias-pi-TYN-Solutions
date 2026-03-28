@@ -4,32 +4,24 @@
  */
 package vista;
 
-import utils.PanelImgFondo;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import config.DataSourceFactory;
-import controlador.GestionUsuarioControlador;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import utils.PanelImgFondo;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.InputStream;
-import java.net.URL;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  *
- * @author Netri
+ * @author Thanya
  */
 public class panelInformes extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(panelInformes.class.getName());
     private String tipoInforme;
     private int idParametro;
 
@@ -44,6 +36,9 @@ public class panelInformes extends javax.swing.JDialog {
         mostrarImagenes();
     }
 
+    /**
+     * Método para configurar el diseño del JFrame, como el icono y la posición.
+     */
     public void mostrarImagenes() {
         //Ajustes del deisño del JFrame
         Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
@@ -52,6 +47,9 @@ public class panelInformes extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Método para cargar y mostrar el informe Jasper correspondiente al tipo de informe seleccionado.
+     */
     private void mostrarReporte() {
         Connection conexion = null;
 
