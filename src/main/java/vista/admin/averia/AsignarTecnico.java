@@ -27,9 +27,9 @@ import java.util.logging.Level;
  *
  * @author Thanya
  */
-public class AsigarTecnico extends javax.swing.JDialog {
+public class AsignarTecnico extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AsigarTecnico.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AsignarTecnico.class.getName());
     //Controladores 
     private final AveriaControlador controlador;
     private final GestionMaquinasControlador controladorMaquina;
@@ -40,7 +40,7 @@ public class AsigarTecnico extends javax.swing.JDialog {
     //variables globales 
     private final Averia averiaSeleccionada;
 
-    public AsigarTecnico(java.awt.Frame parent, boolean modal, Averia averiaSeleccionada) {
+    public AsignarTecnico(java.awt.Frame parent, boolean modal, Averia averiaSeleccionada) {
         super(parent, modal);
         initComponents();
 
@@ -304,7 +304,7 @@ public class AsigarTecnico extends javax.swing.JDialog {
         btnGuadarTecnico.setBackground(new java.awt.Color(58, 181, 235));
         btnGuadarTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
         btnGuadarTecnico.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuadarTecnico.setText("Asiganar");
+        btnGuadarTecnico.setText("Asignar");
         btnGuadarTecnico.setBorderPainted(false);
         btnGuadarTecnico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -381,6 +381,8 @@ public class AsigarTecnico extends javax.swing.JDialog {
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
         );
+
+        btnGuadarTecnico.getAccessibleContext().setAccessibleName("Asignar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

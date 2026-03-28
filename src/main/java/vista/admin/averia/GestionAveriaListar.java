@@ -932,7 +932,7 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
 
             if (averiaSeleccionada != null) {
-                AsigarTecnico asignarTecnico = new AsigarTecnico(this, true, averiaSeleccionada);
+                AsignarTecnico asignarTecnico = new AsignarTecnico(this, true, averiaSeleccionada);
                 asignarTecnico.setLocationRelativeTo(this);
                 asignarTecnico.setVisible(true); 
                 asignarTecnico.setSize(1000, 600);
