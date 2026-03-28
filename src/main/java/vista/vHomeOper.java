@@ -16,7 +16,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import vista.oper.averias.GestionAveriaOper;
-import vista.oper.usuario.GestionUsuarioPerfil;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
 
 /**
  *
@@ -247,7 +247,7 @@ public class vHomeOper extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGesAveriaActionPerformed
 
     private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
-        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
         gestionUsuarioPerfil.setVisible(true);
         this.dispose();

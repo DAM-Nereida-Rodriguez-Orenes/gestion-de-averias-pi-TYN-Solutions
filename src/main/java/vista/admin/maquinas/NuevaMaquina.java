@@ -159,7 +159,6 @@ public class NuevaMaquina extends javax.swing.JDialog {
             }
         });
 
-        txtNombre.setEditable(false);
         txtNombre.setBackground(new java.awt.Color(237, 243, 251));
 
         cbbStatus.setBackground(new java.awt.Color(237, 243, 251));

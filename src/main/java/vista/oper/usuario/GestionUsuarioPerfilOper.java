@@ -28,9 +28,9 @@ import vista.vLogin;
  *
  * @author Netri
  */
-public class GestionUsuarioPerfil extends javax.swing.JFrame {
+public class GestionUsuarioPerfilOper extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionUsuarioPerfil.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionUsuarioPerfilOper.class.getName());
     private final GestionUsuarioControlador gestionUsuarioControlador;
     //Ver contraseña
     private char echoCharOriginal;
@@ -38,7 +38,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
     /**
      * Creates new form GestionUsuarioPerfil
      */
-    public GestionUsuarioPerfil() {
+    public GestionUsuarioPerfilOper() {
         initComponents();
 
         gestionUsuarioControlador = new GestionUsuarioControlador();
@@ -220,9 +220,9 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         miMenuPrincipal = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        miPerfil1 = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
-        miPerfil1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         miPerfil = new javax.swing.JMenuItem();
         miGestionAverias = new javax.swing.JMenuItem();
@@ -466,6 +466,14 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
         });
         miMenuPrincipal.add(jMenuItem1);
 
+        miPerfil1.setText("Perfil");
+        miPerfil1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfil1ActionPerformed(evt);
+            }
+        });
+        miMenuPrincipal.add(miPerfil1);
+
         miCerrarSesion.setText("Cerrar sesión");
         miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,14 +489,6 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
             }
         });
         miMenuPrincipal.add(miSalirApp);
-
-        miPerfil1.setText("Perfil");
-        miPerfil1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPerfil1ActionPerformed(evt);
-            }
-        });
-        miMenuPrincipal.add(miPerfil1);
 
         jMenuBar1.add(miMenuPrincipal);
 
@@ -613,7 +613,7 @@ public class GestionUsuarioPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRolActionPerformed
 
     private void miPerfil1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfil1ActionPerformed
-        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
         gestionUsuarioPerfil.setVisible(true);
         this.dispose();

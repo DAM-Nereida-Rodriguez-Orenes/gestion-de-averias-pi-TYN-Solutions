@@ -28,7 +28,7 @@ import vista.admin.averia.GestionAveriaListar;
 import vista.admin.averia.GestionTipoAveria;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
-import vista.oper.usuario.GestionUsuarioPerfil;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -108,9 +108,9 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
-        miPerfil = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -320,6 +320,14 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
         });
         miInicio.add(miMenuPrincipal);
 
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
+
         miCerrarSesion.setText("Cerrar sesión");
         miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,14 +343,6 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
             }
         });
         miInicio.add(miSalirApp);
-
-        miPerfil.setText("Perfil");
-        miPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPerfilActionPerformed(evt);
-            }
-        });
-        miInicio.add(miPerfil);
 
         jMenuBar1.add(miInicio);
 
@@ -568,7 +568,7 @@ public class GestionTipoMaquina extends javax.swing.JFrame {
     }//GEN-LAST:event_miSalirAppActionPerformed
 
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
-        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
         gestionUsuarioPerfil.setVisible(true);
         this.dispose();

@@ -25,7 +25,7 @@ import vista.admin.averia.GestionTipoAveria;
 import vista.admin.maquinas.GestionEstadoMaquina;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.maquinas.GestionTipoMaquina;
-import vista.oper.usuario.GestionUsuarioPerfil;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vLogin;
 
@@ -133,9 +133,9 @@ public class GestionRol extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
         miMenuPrincipal = new javax.swing.JMenuItem();
+        miPerfil2 = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
-        miPerfil2 = new javax.swing.JMenuItem();
         miGestion = new javax.swing.JMenu();
         miAveria = new javax.swing.JMenuItem();
         miUsuario = new javax.swing.JMenuItem();
@@ -345,6 +345,14 @@ public class GestionRol extends javax.swing.JFrame {
         });
         miInicio.add(miMenuPrincipal);
 
+        miPerfil2.setText("Perfil");
+        miPerfil2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfil2ActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil2);
+
         miCerrarSesion.setText("Cerrar sesión");
         miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,14 +368,6 @@ public class GestionRol extends javax.swing.JFrame {
             }
         });
         miInicio.add(miSalirApp);
-
-        miPerfil2.setText("Perfil");
-        miPerfil2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPerfil2ActionPerformed(evt);
-            }
-        });
-        miInicio.add(miPerfil2);
 
         jMenuBar1.add(miInicio);
 
@@ -602,7 +602,7 @@ public class GestionRol extends javax.swing.JFrame {
     }//GEN-LAST:event_miSalirAppActionPerformed
 
     private void miPerfil2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfil2ActionPerformed
-        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
         gestionUsuarioPerfil.setVisible(true);
         this.dispose();
@@ -626,8 +626,6 @@ public class GestionRol extends javax.swing.JFrame {
     private javax.swing.JMenu miInicio;
     private javax.swing.JMenuItem miMaquinaria;
     private javax.swing.JMenuItem miMenuPrincipal;
-    private javax.swing.JMenuItem miPerfil;
-    private javax.swing.JMenuItem miPerfil1;
     private javax.swing.JMenuItem miPerfil2;
     private javax.swing.JMenuItem miRoles;
     private javax.swing.JMenuItem miSalirApp;

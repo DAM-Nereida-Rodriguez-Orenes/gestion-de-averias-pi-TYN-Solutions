@@ -25,7 +25,7 @@ import modelo.Averia;
 import modelo.Usuario;
 import utils.PanelImgFondo;
 import vista.admin.averia.AveriaFiltros;
-import vista.oper.usuario.GestionUsuarioPerfil;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
 import vista.vHomeAdmin;
 import vista.vHomeOper;
 import vista.vLogin;
@@ -550,7 +550,7 @@ public class GestionAveriaOper extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
-        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
         gestionUsuarioPerfil.setVisible(true);
         this.dispose();

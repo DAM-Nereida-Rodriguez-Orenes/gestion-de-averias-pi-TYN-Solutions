@@ -39,6 +39,15 @@ public class AveriaControlador {
     private TipoAveriaDaoImpl tipoAveriaDao;
     private UsuarioDaoImpl usuarioDao;
     private Usuario usuario;
+    private Averia averia;
+
+    public Averia getAveria() {
+        return averia;
+    }
+
+    public void setAveria(Averia averia) {
+        this.averia = averia;
+    }
     // Controlador de login usado para recuperar el usuario que tiene la sesion activa
     private LoginControlador loginControlador;
 
@@ -371,5 +380,6 @@ public class AveriaControlador {
     public Usuario getUsuarioSesion() {
         return loginControlador.getUsuarioSesion();
     }
+   
 
 }

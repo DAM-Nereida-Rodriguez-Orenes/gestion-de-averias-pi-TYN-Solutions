@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Insets;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -261,7 +262,7 @@ public class AsigarTecnico extends javax.swing.JDialog {
         jScrollPane15 = new javax.swing.JScrollPane();
         listaTecnicos = new javax.swing.JList<>();
         txtTecnicoBuscar = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnGuadarTecnico = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMotivosTecnico = new javax.swing.JTextArea();
         btnCancelar = new javax.swing.JButton();
@@ -308,16 +309,21 @@ public class AsigarTecnico extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(58, 181, 235));
-        jButton1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Asiganar");
-        jButton1.setBorderPainted(false);
+        btnGuadarTecnico.setBackground(new java.awt.Color(58, 181, 235));
+        btnGuadarTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnGuadarTecnico.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuadarTecnico.setText("Asiganar");
+        btnGuadarTecnico.setBorderPainted(false);
+        btnGuadarTecnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuadarTecnicoActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         txtMotivosTecnico.setColumns(20);
-        txtMotivosTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 0, 14)); // NOI18N
+        txtMotivosTecnico.setFont(new java.awt.Font("Microsoft JhengHei", 0, 12)); // NOI18N
         txtMotivosTecnico.setForeground(new java.awt.Color(67, 113, 177));
         txtMotivosTecnico.setRows(5);
         jScrollPane1.setViewportView(txtMotivosTecnico);
@@ -345,7 +351,7 @@ public class AsigarTecnico extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnGuadarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(txtAveriaId, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
@@ -379,7 +385,7 @@ public class AsigarTecnico extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuadarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
         );
@@ -430,9 +436,83 @@ public class AsigarTecnico extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnGuadarTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuadarTecnicoActionPerformed
+        try {
+
+            Usuario tecnicoSeleccionado = listaTecnicos.getSelectedValue();
+
+            if (tecnicoSeleccionado == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Debes seleccionar un tecnico.",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int respuesta = JOptionPane.showConfirmDialog(this,
+                    "¿Deseas asignar este tecnico a la averia?",
+                    "Confirmar asignacion",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            Maquinaria maquinaSeleccionada = new Maquinaria();
+            maquinaSeleccionada.setCodigoMaquinaria(averiaSeleccionada.getMaquinariaFK());
+
+            Usuario usuarioReporta = new Usuario();
+            usuarioReporta.setCodigoUsuario(averiaSeleccionada.getUsuarioReportaFK());
+
+            TipoAveria tipoSeleccionado = new TipoAveria();
+            tipoSeleccionado.setCodigoTipoAveria(averiaSeleccionada.getTipoAveriaFK());
+
+            LocalDateTime fechaAsignacion = averiaSeleccionada.getFechaAsigTecnico();
+
+            if (fechaAsignacion == null) {
+                fechaAsignacion = LocalDateTime.now();
+            }
+
+            boolean exito = controlador.actualizarAveria(
+                    averiaSeleccionada.getCodigoAveria(),
+                    averiaSeleccionada.getDescInicAveria(),
+                    averiaSeleccionada.getProcRealizadoTecnico(),
+                    maquinaSeleccionada,
+                    usuarioReporta,
+                    tecnicoSeleccionado,
+                    tipoSeleccionado,
+                    averiaSeleccionada.getFechaInicioAver(),
+                    fechaAsignacion,
+                    averiaSeleccionada.getFechaAcepTecnico(),
+                    averiaSeleccionada.getFechaFinalizTecnico()
+            );
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this,
+                        "Tecnico asignado correctamente.",
+                        "Exito",
+                        JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo asignar el tecnico.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error al asignar tecnico", e);
+            JOptionPane.showMessageDialog(this,
+                    "Error inesperado al asignar tecnico.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuadarTecnicoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnGuadarTecnico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

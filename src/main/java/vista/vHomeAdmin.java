@@ -23,7 +23,8 @@ import vista.admin.averia.GestionAveriaListar;
 import vista.admin.maquinas.GestionMaquinas;
 import vista.admin.usuario.GestionRol;
 import vista.admin.usuario.GestionUsuario;
-import vista.oper.usuario.GestionUsuarioPerfil;
+import vista.admin.usuario.GestionUsuarioPerfilAdmin;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
 
 /**
  *
@@ -151,9 +152,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
         btnGenerarInforme = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         miInicio = new javax.swing.JMenu();
+        miPerfil = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
-        miPerfil = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio | Gestión de averías");
@@ -315,6 +316,14 @@ public class vHomeAdmin extends javax.swing.JFrame {
 
         miInicio.setText("Inicio");
 
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
+
         miCerrarSesion.setText("Cerrar sesión");
         miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,14 +339,6 @@ public class vHomeAdmin extends javax.swing.JFrame {
             }
         });
         miInicio.add(miSalirApp);
-
-        miPerfil.setText("Perfil");
-        miPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPerfilActionPerformed(evt);
-            }
-        });
-        miInicio.add(miPerfil);
 
         jMenuBar1.add(miInicio);
 
@@ -404,15 +405,12 @@ public class vHomeAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerarInformeActionPerformed
 
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
-        GestionUsuarioPerfil gestionUsuarioPerfil = new GestionUsuarioPerfil();
+        GestionUsuarioPerfilAdmin gestionUsuarioPerfil = new GestionUsuarioPerfilAdmin();
         gestionUsuarioPerfil.setLocationRelativeTo(null);
         gestionUsuarioPerfil.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miPerfilActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarInforme;
