@@ -5,49 +5,30 @@
 package daoImpl;
 
 import dao.TipoMaquinariaDAO;
+import modelo.TipoMaquinaria;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
-import modelo.TipoMaquinaria;
+import java.util.Optional;
 
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class TipoMaquinariaDAOimpl implements TipoMaquinariaDAO{
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public TipoMaquinariaDAOimpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-    
-
-     /**
-     * Convierte IDs "cortos" (1..99) a IDs reales (301..399) sumando 300.
-     * Si ya viene un ID 300..399, lo deja tal cual.
-     * Si viene otro valor, lanza excepción para evitar datos inválidos.
-     */
-    private int normalizarId300(int id) {
-        if (id >= 1 && id <= 99) return 300 + id;     // 1..99 -> 301..399
-        if (id >= 300 && id <= 399) return id;        // ya válido
-        throw new IllegalArgumentException(
-                "El código de TipoMaquinaria debe ser 1..99 (se convertirá a 300+X) o 300..399. Recibido: " + id
-        );
-    }
 
     @Override
     public void insertar(TipoMaquinaria t) {
-        final int id = normalizarId300(t.getCodigoTipoMaquinaria());
-        t.setCodigoTipoMaquinaria(id);
-
-        // Comprobar existencia antes de insertar
-        if (existeID(id)) {
-            throw new RuntimeException("No se puede insertar: ya existe un TipoMaquinaria con ID " + id);
-        }
 
         final String sql = "INSERT INTO tipo_maquinaria (codigoTipoMaquinaria, descripcionMaq) VALUES (?, ?)";
 
@@ -66,8 +47,6 @@ public class TipoMaquinariaDAOimpl implements TipoMaquinariaDAO{
 
     @Override
     public void eliminar(TipoMaquinaria t) {
-        final int id = normalizarId300(t.getCodigoTipoMaquinaria());
-        t.setCodigoTipoMaquinaria(id);
 
         final String sql = "DELETE FROM tipo_maquinaria WHERE codigoTipoMaquinaria = ?";
 
@@ -84,9 +63,6 @@ public class TipoMaquinariaDAOimpl implements TipoMaquinariaDAO{
 
     @Override
     public void modificar(TipoMaquinaria t) {
-        final int id = normalizarId300(t.getCodigoTipoMaquinaria());
-        t.setCodigoTipoMaquinaria(id);
-
         final String sql = "UPDATE tipo_maquinaria SET descripcionMaq = ? WHERE codigoTipoMaquinaria = ?";
 
         try (Connection conn = dataSource.getConnection();
@@ -127,13 +103,12 @@ public class TipoMaquinariaDAOimpl implements TipoMaquinariaDAO{
 
     @Override
     public boolean existeID(int id) {
-        final int normalizado = normalizarId300(id);
         final String sql = "SELECT 1 FROM tipo_maquinaria WHERE codigoTipoMaquinaria = ? LIMIT 1";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, normalizado);
+            ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
@@ -143,5 +118,37 @@ public class TipoMaquinariaDAOimpl implements TipoMaquinariaDAO{
             throw new RuntimeException("Error comprobando existencia de ID en tipo_maquinaria", ex);
         }
     }
-    
+    @Override
+    public Optional<TipoMaquinaria> buscarPorID(int id) {
+
+        final String sql = """
+            SELECT codigoTipoMaquinaria, descripcionMaq
+            FROM tipo_maquinaria
+            WHERE codigoTipoMaquinaria = ?
+            """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    TipoMaquinaria tm = new TipoMaquinaria(
+                            rs.getInt("codigoTipoMaquinaria"),
+                            rs.getString("descripcionMaq")
+                    );
+
+                    return Optional.of(tm);
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error buscando tipo de maquinaria por ID", ex);
+        }
+
+        return Optional.empty();
+    }
 }

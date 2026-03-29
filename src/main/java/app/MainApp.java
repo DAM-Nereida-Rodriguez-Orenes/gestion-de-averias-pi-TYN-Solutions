@@ -15,6 +15,9 @@ import javax.swing.UIManager;
 import vista.vLogin;
 import com.formdev.flatlaf.FlatLightLaf;
 import controlador.GestionUsuarioControlador;
+import java.awt.Color;
+import vista.vHomeAdmin;
+import vista.vHomeOper;
 
 /**
  *
@@ -27,6 +30,9 @@ public class MainApp {
         System.out.println("--- 1. Iniciando prueba de conexion con HikariCP ---");
 
         try {
+            //0) color de los place holder para toda la interfaz 
+            UIManager.put("TextField.placeholderForeground", new Color(67,113,177));
+            
             // 1) Obtener el DataSource (Hikari)
             DataSource dataSource = DataSourceFactory.getDataSource();
 
@@ -41,19 +47,32 @@ public class MainApp {
 
             con.close();
 
-            // 3) Crear DAO
-            UsuarioDao usuarioDao = new UsuarioDaoImpl(dataSource);
-
             // 4) Crear controlador
-            LoginControlador loginControlador = new LoginControlador(usuarioDao);
+            LoginControlador loginControlador = new LoginControlador();
 
             //libreria Flat para el diseño de la interfaz 
             UIManager.setLookAndFeel(new FlatLightLaf());
+
+            // 5) Abrir vista login con el controlador y Comprobamos si ya hay una sesion activa 
             
-            // 5) Abrir vista login con el controlador
-            vLogin vLogin = new vLogin(loginControlador);
-            vLogin.setVisible(true);
-           
+            if (loginControlador.haySesionActiva() && loginControlador.getRolUsuario() != -1) {
+                Integer rolUsuario = loginControlador.getRolUsuario();
+
+                if (rolUsuario == 701) {
+                    vHomeAdmin menuAdmin = new vHomeAdmin();
+                    menuAdmin.setLocationRelativeTo(null);
+                    menuAdmin.setVisible(true);
+                } else {
+                    vHomeOper menuOper = new vHomeOper();
+                    menuOper.setLocationRelativeTo(null);
+                    menuOper.setVisible(true);
+                }
+            } else {               
+                vLogin login = new vLogin(loginControlador);
+                login.setLocationRelativeTo(null);
+                login.setVisible(true);
+            }         
+
         } catch (SQLException e) {
             System.err.println("Error de conexion:");
             System.err.println("Mensaje: " + e.getMessage());
@@ -62,7 +81,7 @@ public class MainApp {
         } catch (RuntimeException e) {
             System.err.println("Error de configuracion (revisa application.properties):");
             e.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//main

@@ -4,39 +4,101 @@
  */
 package vista.admin.maquinas;
 
-import javax.swing.JOptionPane;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import controlador.GestionMaquinasControlador;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.table.TableColumn;
+import controlador.GestionRolControlador;
+import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
 import modelo.Estado;
 import modelo.Maquinaria;
 import modelo.TipoMaquinaria;
+import utils.InformesJasper;
+import utils.PanelImgFondo;
+import vista.admin.averia.GestionAveriaListar;
+import vista.admin.averia.GestionTipoAveria;
+import vista.admin.usuario.GestionRol;
+import vista.admin.usuario.GestionUsuario;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
+import vista.vHomeAdmin;
+import vista.vLogin;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author Nereida Rodríguez Orenes 2ºDAM
  */
 public class GestionMaquinas extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestionMaquinas.class.getName());
     private final GestionMaquinasControlador contr = new GestionMaquinasControlador();
     private DefaultTableModel modeloTabla;
     private TableRowSorter<DefaultTableModel> sorter;
+    List<Maquinaria> listaTotal = contr.listarMaquinaria();
+    Map<Integer, String> estados = mapEstados();
+    Map<Integer, String> tipos = mapTipos();
+    private Map<String, Integer> estadoDescToId = new HashMap<>();
+    private Map<String, Integer> tipoDescToId = new HashMap<>();
 
     /**
      * Creates new form GestionMaquinas
      */
     public GestionMaquinas() {
         initComponents();
+        cargarComboEstados();
+        cargarComboTipos();
         inicializarTabla();
         configurarOrdenacion();
-        cargarTablaMaquinaria();
+        cargarTablaMaquinaria(listaTotal);
+        mostrarImagenes();
+    }
+
+    public void mostrarImagenes() {
+        //Ajustes del deisño del JFrame/Layout
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        // Tamaño inical de todas las ventanas
+        this.setSize(1200, 800);
+        // No se puede hacer más pequeña de 1200,800
+        this.setMinimumSize(new Dimension(1200, 800));
+        // Permite usar el botón de maximizar
+        this.setResizable(true);
+        // Centrar ventana en pantalla
+        this.setLocationRelativeTo(null);
+
+        URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
+        System.out.println("urlLogo = " + urlLogo);
+
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 70, 34);
+        jlLogo.setIcon(iconop);
+        jlLogo.setText("");
+        jlLogo.setOpaque(false);
+
+        //icono de usuario 
+        FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 24, 24);
+        jlSaldoIcono.setIcon(iconUsuarioAdmin);
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        jlSaldoIcono.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado());
+        jlSaldoIcono.setHorizontalTextPosition(SwingConstants.LEFT);
+        jlSaldoIcono.setVerticalTextPosition(SwingConstants.CENTER);
+        jlSaldoIcono.setIconTextGap(8);
+
+        //Campo ID maquina
+        txtID.putClientProperty("JTextField.placeholderText", "Código máquina ");
+
+        //Campo maquina txtNameFilter
+        txtNameFilter.putClientProperty("JTextField.placeholderText", "Buscar máquina ");
     }
 
     /**
@@ -48,35 +110,333 @@ public class GestionMaquinas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
+        jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
+        jlLogo = new javax.swing.JLabel();
+        jlSaldoIcono = new javax.swing.JLabel();
+        panelAcciones = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
+        btnDarBaja = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnInformeEstado = new javax.swing.JButton();
+        panelTitulo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        panelFiltros = new javax.swing.JPanel();
+        btnLimpiar = new javax.swing.JButton();
+        txtNameFilter = new javax.swing.JTextField();
+        btnFiltrar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         cbbTipo = new javax.swing.JComboBox<>();
+        spFechaAlta = new javax.swing.JSpinner();
         cbbStatus = new javax.swing.JComboBox<>();
+        spFechaBaja = new javax.swing.JSpinner();
+        chbxHFechaAlta = new javax.swing.JCheckBox();
+        chbxHFechaBaja = new javax.swing.JCheckBox();
+        btnNuevaMaquina = new javax.swing.JButton();
+        panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbMaquinaria = new javax.swing.JTable();
-        btnNuevaMaquina = new javax.swing.JButton();
-        btnActualizar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        menuInicio = new javax.swing.JMenu();
-        menuUsuario = new javax.swing.JMenu();
-        menuMaquinas = new javax.swing.JMenu();
-        menuAverias = new javax.swing.JMenu();
+        miInicio = new javax.swing.JMenu();
+        miMenuPrincipal = new javax.swing.JMenuItem();
+        miPerfil = new javax.swing.JMenuItem();
+        miCerrarSesion = new javax.swing.JMenuItem();
+        miSalirApp = new javax.swing.JMenuItem();
+        miGestion = new javax.swing.JMenu();
+        miAveria = new javax.swing.JMenuItem();
+        miUsuario = new javax.swing.JMenuItem();
+        miMaquinaria = new javax.swing.JMenuItem();
+        miTipoMaquinaria = new javax.swing.JMenuItem();
+        miEstadoMaquinaria = new javax.swing.JMenuItem();
+        miTipoAveria = new javax.swing.JMenuItem();
+        miRoles = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Fixora");
+        setTitle("Gestión de Máquina");
+        setMinimumSize(new java.awt.Dimension(1200, 800));
 
-        jPanel1.setBackground(new java.awt.Color(204, 208, 217));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 800));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        jpCabecera.setPreferredSize(new java.awt.Dimension(400, 50));
+
+        jlLogo.setText("jLabel2");
+
+        jlSaldoIcono.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        jlSaldoIcono.setForeground(new java.awt.Color(67, 113, 177));
+        jlSaldoIcono.setText("Hola, Admin");
+
+        javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
+        jpCabecera.setLayout(jpCabeceraLayout);
+        jpCabeceraLayout.setHorizontalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlSaldoIcono)
+                .addGap(86, 86, 86))
+        );
+        jpCabeceraLayout.setVerticalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlLogo)
+                    .addComponent(jlSaldoIcono))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        panelAcciones.setBackground(new java.awt.Color(153, 153, 153));
+        panelAcciones.setOpaque(false);
+
+        btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
+        btnEliminar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar máquina");
+        btnEliminar.setBorderPainted(false);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnDarBaja.setBackground(new java.awt.Color(255, 102, 0));
+        btnDarBaja.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnDarBaja.setForeground(new java.awt.Color(255, 255, 255));
+        btnDarBaja.setText("Dar de baja máquina");
+        btnDarBaja.setBorderPainted(false);
+        btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarBajaActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setBackground(new java.awt.Color(234, 242, 251));
+        btnActualizar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(67, 113, 177));
+        btnActualizar.setText("Editar");
+        btnActualizar.setBorderPainted(false);
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        btnInformeEstado.setBackground(new java.awt.Color(67, 113, 177));
+        btnInformeEstado.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnInformeEstado.setForeground(new java.awt.Color(234, 242, 251));
+        btnInformeEstado.setText("Generar informe");
+        btnInformeEstado.setBorderPainted(false);
+        btnInformeEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformeEstadoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelAccionesLayout = new javax.swing.GroupLayout(panelAcciones);
+        panelAcciones.setLayout(panelAccionesLayout);
+        panelAccionesLayout.setHorizontalGroup(
+            panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAccionesLayout.createSequentialGroup()
+                .addComponent(btnEliminar)
+                .addGap(18, 18, 18)
+                .addComponent(btnDarBaja)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 427, Short.MAX_VALUE)
+                .addComponent(btnInformeEstado)
+                .addGap(20, 20, 20)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelAccionesLayout.setVerticalGroup(
+            panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAccionesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInformeEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelTitulo.setBackground(new java.awt.Color(153, 153, 153));
+        panelTitulo.setOpaque(false);
+
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Gestión de Máquinas");
 
-        cbbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cortes y arranque de material mecanizado", "perforación y operaciones de agujeros", "abrasivo y acabado superficial", "corte por separacion", "conformado y deformación sin arranque de viruta", "union y ensamblaje", "tratamiento y acondicionamiento", "procesos especificos" }));
+        javax.swing.GroupLayout panelTituloLayout = new javax.swing.GroupLayout(panelTitulo);
+        panelTitulo.setLayout(panelTituloLayout);
+        panelTituloLayout.setHorizontalGroup(
+            panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panelTituloLayout.setVerticalGroup(
+            panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTituloLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
+        panelFiltros.setBackground(new java.awt.Color(153, 153, 153));
+        panelFiltros.setOpaque(false);
+
+        btnLimpiar.setBackground(new java.awt.Color(234, 242, 251));
+        btnLimpiar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(67, 113, 177));
+        btnLimpiar.setText("Limpiar filtros");
+        btnLimpiar.setBorderPainted(false);
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        txtNameFilter.setBackground(new java.awt.Color(237, 243, 251));
+        txtNameFilter.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        txtNameFilter.setForeground(new java.awt.Color(67, 113, 177));
+        txtNameFilter.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
+
+        btnFiltrar.setBackground(new java.awt.Color(234, 242, 251));
+        btnFiltrar.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnFiltrar.setForeground(new java.awt.Color(67, 113, 177));
+        btnFiltrar.setText("Aplicar filtro");
+        btnFiltrar.setBorderPainted(false);
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel6.setText("Fecha de Alta:");
+
+        txtID.setBackground(new java.awt.Color(237, 243, 251));
+        txtID.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        txtID.setForeground(new java.awt.Color(67, 113, 177));
+        txtID.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
+
+        jLabel7.setFont(new java.awt.Font("Microsoft JhengHei Light", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel7.setText("Fecha de Baja:");
+
+        cbbTipo.setBackground(new java.awt.Color(234, 242, 251));
+        cbbTipo.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        cbbTipo.setForeground(new java.awt.Color(67, 113, 177));
+        cbbTipo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
+
+        spFechaAlta.setModel(new javax.swing.SpinnerDateModel());
+        spFechaAlta.setEnabled(false);
+
+        cbbStatus.setBackground(new java.awt.Color(234, 242, 251));
+        cbbStatus.setFont(new java.awt.Font("Microsoft JhengHei Light", 0, 14)); // NOI18N
+        cbbStatus.setForeground(new java.awt.Color(67, 113, 177));
         cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Operativa", "Averiada", "En mantenimiento", "Fuera de servicio" }));
+        cbbStatus.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(234, 242, 251)));
+
+        spFechaBaja.setModel(new javax.swing.SpinnerDateModel());
+        spFechaBaja.setEnabled(false);
+
+        chbxHFechaAlta.setToolTipText("");
+        chbxHFechaAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbxHFechaAltaActionPerformed(evt);
+            }
+        });
+
+        chbxHFechaBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbxHFechaBajaActionPerformed(evt);
+            }
+        });
+
+        btnNuevaMaquina.setBackground(new java.awt.Color(58, 181, 235));
+        btnNuevaMaquina.setFont(new java.awt.Font("Microsoft JhengHei", 1, 14)); // NOI18N
+        btnNuevaMaquina.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevaMaquina.setText("+ Nueva Máquina");
+        btnNuevaMaquina.setBorderPainted(false);
+        btnNuevaMaquina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaMaquinaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelFiltrosLayout = new javax.swing.GroupLayout(panelFiltros);
+        panelFiltros.setLayout(panelFiltrosLayout);
+        panelFiltrosLayout.setHorizontalGroup(
+            panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFiltrosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelFiltrosLayout.createSequentialGroup()
+                        .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFiltrosLayout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(113, 113, 113)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelFiltrosLayout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(chbxHFechaAlta)
+                                .addGap(201, 201, 201)
+                                .addComponent(chbxHFechaBaja)
+                                .addGap(18, 18, 18)
+                                .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiar))
+                    .addGroup(panelFiltrosLayout.createSequentialGroup()
+                        .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(spFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(248, 248, 248)
+                        .addComponent(btnNuevaMaquina)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelFiltrosLayout.setVerticalGroup(
+            panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFiltrosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNameFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNuevaMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addGap(17, 17, 17)
+                .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(spFechaAlta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelFiltrosLayout.createSequentialGroup()
+                            .addGap(11, 11, 11)
+                            .addComponent(chbxHFechaAlta)))
+                    .addComponent(chbxHFechaBaja))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelTabla.setBackground(new java.awt.Color(153, 153, 153));
+        panelTabla.setOpaque(false);
 
         tbMaquinaria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,94 +451,143 @@ public class GestionMaquinas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbMaquinaria);
 
-        btnNuevaMaquina.setText("Nueva");
-        btnNuevaMaquina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevaMaquinaActionPerformed(evt);
-            }
-        });
-
-        btnActualizar.setText("Actualizar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setBackground(new java.awt.Color(204, 0, 0));
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("ID: ");
+        javax.swing.GroupLayout panelTablaLayout = new javax.swing.GroupLayout(panelTabla);
+        panelTabla.setLayout(panelTablaLayout);
+        panelTablaLayout.setHorizontalGroup(
+            panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTablaLayout.createSequentialGroup()
+                .addContainerGap(75, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
+        );
+        panelTablaLayout.setVerticalGroup(
+            panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(485, 485, 485)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnActualizar)
-                            .addGap(47, 47, 47)
-                            .addComponent(btnEliminar))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(63, 63, 63)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(67, 67, 67)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(54, 54, 54)
-                            .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(50, 50, 50)
-                            .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNuevaMaquina))))
-                .addContainerGap(61, Short.MAX_VALUE))
+            .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
+            .addComponent(panelFiltros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel1)
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevaMaquina)
-                    .addComponent(jLabel2))
-                .addGap(53, 53, 53)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnEliminar))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(panelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(panelFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(panelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(panelAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        menuInicio.setText("Inicio");
-        jMenuBar1.add(menuInicio);
+        miInicio.setText("Inicio");
 
-        menuUsuario.setText("Gestión de Usuario");
-        jMenuBar1.add(menuUsuario);
+        miMenuPrincipal.setText("Menú principal");
+        miMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMenuPrincipalActionPerformed(evt);
+            }
+        });
+        miInicio.add(miMenuPrincipal);
 
-        menuMaquinas.setText("Gestión de Máquinas");
-        jMenuBar1.add(menuMaquinas);
+        miPerfil.setText("Perfil");
+        miPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miPerfilActionPerformed(evt);
+            }
+        });
+        miInicio.add(miPerfil);
 
-        menuAverias.setText("Gestión de Averías");
-        jMenuBar1.add(menuAverias);
+        miCerrarSesion.setText("Cerrar sesión");
+        miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCerrarSesionActionPerformed(evt);
+            }
+        });
+        miInicio.add(miCerrarSesion);
+
+        miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
+        miInicio.add(miSalirApp);
+
+        jMenuBar1.add(miInicio);
+
+        miGestion.setText("Gestiones");
+
+        miAveria.setText("Avería");
+        miAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAveriaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miAveria);
+
+        miUsuario.setText("Usuario");
+        miUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miUsuarioActionPerformed(evt);
+            }
+        });
+        miGestion.add(miUsuario);
+
+        miMaquinaria.setText("Maquinaria");
+        miMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miMaquinaria);
+
+        miTipoMaquinaria.setText("Tipo de maquinaria");
+        miTipoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miTipoMaquinaria);
+
+        miEstadoMaquinaria.setText("Estado de maquinaria");
+        miEstadoMaquinaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEstadoMaquinariaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miEstadoMaquinaria);
+
+        miTipoAveria.setText("Tipos de avería");
+        miTipoAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miTipoAveriaActionPerformed(evt);
+            }
+        });
+        miGestion.add(miTipoAveria);
+
+        miRoles.setText("Roles");
+        miRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRolesActionPerformed(evt);
+            }
+        });
+        miGestion.add(miRoles);
+
+        jMenuBar1.add(miGestion);
 
         setJMenuBar(jMenuBar1);
 
@@ -186,13 +595,11 @@ public class GestionMaquinas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
         );
 
         pack();
@@ -211,6 +618,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se encontró la máquina en la base de datos.",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
+
         }
 
         ActualizarMaquina dlg = new ActualizarMaquina(this, true);
@@ -218,34 +626,33 @@ public class GestionMaquinas extends javax.swing.JFrame {
         dlg.setMaquina(opt.get());      // carga datos en el diálogo
         dlg.setVisible(true);           // modal: bloquea hasta cerrar
 
-        cargarTablaMaquinaria();        //READ de nuevo para ver cambios
+        cargarTablaMaquinaria(listaTotal);        //READ de nuevo para ver cambios
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnNuevaMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMaquinaActionPerformed
         // TODO add your handling code here:
         NuevaMaquina nm = new NuevaMaquina(this, true);
-        nm.setVisible(true);
         nm.setLocationRelativeTo(this);
         nm.setVisible(true);
-
-        cargarTablaMaquinaria(); 
+        listaTotal = contr.listarMaquinaria();
+        cargarTablaMaquinaria(listaTotal);
     }//GEN-LAST:event_btnNuevaMaquinaActionPerformed
-    //elimnar máquina
+    //eliminar máquina
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int id = getIdSeleccionado();
         if (id == -1) {
             JOptionPane.showMessageDialog(this,
-                    "Seleccione una máquina (pulse una fila).",
-                    "Selección requerida",
+                    "Seleccione una maquina (pulse una fila).",
+                    "Seleccion requerida",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         int respuesta = JOptionPane.showConfirmDialog(
                 this,
-                "¿Seguro que quieres eliminar la máquina con ID " + id + "?\n"
-              + "Esta acción no se puede deshacer.",
-                "Confirmar eliminación",
+                "¿Seguro que quieres eliminar definitivamente la maquina con ID " + id + "?\n"
+                + "Esta accion no se puede deshacer y solo se permite si ya esta dada de baja.",
+                "Confirmar eliminacion",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
         );
@@ -254,30 +661,300 @@ public class GestionMaquinas extends javax.swing.JFrame {
             return; // cancelado
         }
 
-        boolean ok = contr.eliminarMaquina(id);
+        boolean ok = contr.bajaFisicaMaquina(id);
 
         if (ok) {
             JOptionPane.showMessageDialog(this,
-                    "Máquina eliminada con éxito.",
-                    "Eliminación realizada",
+                    "Maquina eliminada definitivamente con exito.",
+                    "Eliminacion realizada",
                     JOptionPane.INFORMATION_MESSAGE);
-            cargarTablaMaquinaria(); // refrescar READ
+            listaTotal = contr.listarMaquinaria();
+            cargarTablaMaquinaria(listaTotal); // refrescar tabla
         } else {
             JOptionPane.showMessageDialog(this,
                     "No se ha podido eliminar.\n"
-                  + "Puede que no exista o que esté relacionada con otras tablas (restricción de base de datos).",
-                    "Error de eliminación",
+                    + "La maquina debe estar dada de baja previamente o esta relacionada conotras tablas(restricción de base de datos) .",
+                    "Error de eliminacion",
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+    //Habilitar las fechas cuando esté chequeado
+    private void chbxHFechaAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxHFechaAltaActionPerformed
+        if (chbxHFechaAlta.isSelected()) {
+            spFechaAlta.setEnabled(true);
+        } else {
+            spFechaAlta.setEnabled(false);
+        }
+    }//GEN-LAST:event_chbxHFechaAltaActionPerformed
+
+    private void chbxHFechaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbxHFechaBajaActionPerformed
+        if (chbxHFechaBaja.isSelected()) {
+            spFechaBaja.setEnabled(true);
+        } else {
+            spFechaBaja.setEnabled(false);
+        }
+    }//GEN-LAST:event_chbxHFechaBajaActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        Integer id = null;
+        String textoId = txtID.getText().trim();
+
+        if (!textoId.isBlank()) {
+            try {
+                id = Integer.valueOf(textoId);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this,
+                        "El ID debe ser un número entero.",
+                        "Filtro",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        String nombre = txtNameFilter.getText().trim();
+
+        boolean usarFechaAlta = chbxHFechaAlta.isSelected();
+        boolean usarFechaBaja = chbxHFechaBaja.isSelected();
+
+        Date fechaAlta = usarFechaAlta ? (Date) spFechaAlta.getValue() : null;
+        Date fechaBaja = usarFechaBaja ? (Date) spFechaBaja.getValue() : null;
+
+        Integer estadoId = null;
+        String estadoDesc = (String) cbbStatus.getSelectedItem();
+        if (estadoDesc != null && !estadoDesc.equals("Estado de máquinaria: ")) {
+            estadoId = estadoDescToId.get(estadoDesc);
+        }
+
+        Integer tipoId = null;
+        String tipoDesc = (String) cbbTipo.getSelectedItem();
+        if (tipoDesc != null && !tipoDesc.equals("Tipo de máquinaria: ")) {
+            tipoId = tipoDescToId.get(tipoDesc);
+        }
+
+        List<Maquinaria> lista = contr.filtrarMaquinaria(
+                id,
+                nombre,
+                fechaAlta, usarFechaAlta,
+                fechaBaja, usarFechaBaja,
+                estadoId,
+                tipoId
+        );
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay máquinas que cumplan todos los filtros.",
+                    "Resultado del filtrado",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
+
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // Limpiar campos de texto
+        txtID.setText("");
+        txtNameFilter.setText("");
+
+        // Resetear combos
+        cbbTipo.setSelectedItem("Todos");
+        cbbStatus.setSelectedItem("Todos");
+
+        // Desmarcar checks y deshabilitar fechas
+        chbxHFechaAlta.setSelected(false);
+        chbxHFechaBaja.setSelected(false);
+        spFechaAlta.setEnabled(false);
+        spFechaBaja.setEnabled(false);
+
+        // Reiniciar valor de fechas
+        spFechaAlta.setValue(new Date());
+        spFechaBaja.setValue(new Date());
+
+        // Recargar lista completa desde BD
+        listaTotal = contr.listarMaquinaria();
+        cargarTablaMaquinaria(listaTotal);
+
+        // Mantener orden por ID ascendente
+        if (sorter != null) {
+            sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        }
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void miMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMenuPrincipalActionPerformed
+        vHomeAdmin homeAdmin = new vHomeAdmin();
+        homeAdmin.setLocationRelativeTo(null);
+        homeAdmin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMenuPrincipalActionPerformed
+
+    private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miCerrarSesionActionPerformed
+
+    private void miAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAveriaActionPerformed
+        GestionAveriaListar gestionAveria = new GestionAveriaListar();
+        gestionAveria.setLocationRelativeTo(null);
+        gestionAveria.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miAveriaActionPerformed
+
+    private void miUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUsuarioActionPerformed
+        GestionUsuarioControlador gestionUsuarioControlador = new GestionUsuarioControlador();
+        GestionUsuario gestionUsuario = new GestionUsuario(gestionUsuarioControlador);
+        gestionUsuario.setLocationRelativeTo(null);
+        gestionUsuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miUsuarioActionPerformed
+
+    private void miMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miMaquinariaActionPerformed
+        GestionMaquinas gestionMaquina = new GestionMaquinas();
+        gestionMaquina.setLocationRelativeTo(null);
+        gestionMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miMaquinariaActionPerformed
+
+    private void miTipoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoMaquinariaActionPerformed
+        GestionTipoMaquina gestionTipoMaquina = new GestionTipoMaquina();
+        gestionTipoMaquina.setLocationRelativeTo(null);
+        gestionTipoMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miTipoMaquinariaActionPerformed
+
+    private void miEstadoMaquinariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEstadoMaquinariaActionPerformed
+        GestionEstadoMaquina gestionEstadoMaquina = new GestionEstadoMaquina();
+        gestionEstadoMaquina.setLocationRelativeTo(null);
+        gestionEstadoMaquina.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miEstadoMaquinariaActionPerformed
+
+    private void miTipoAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoAveriaActionPerformed
+        GestionTipoAveria gestionTipoAveria = new GestionTipoAveria();
+        gestionTipoAveria.setLocationRelativeTo(null);
+        gestionTipoAveria.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miTipoAveriaActionPerformed
+
+    private void miRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRolesActionPerformed
+        GestionRolControlador gestionRolControlador = new GestionRolControlador();
+        GestionRol gestionRol = new GestionRol(gestionRolControlador);
+        gestionRol.setLocationRelativeTo(null);
+        gestionRol.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miRolesActionPerformed
+
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
+
+    /**
+     * Metodo para dar de baja LOGICA (FechaBja).
+     *
+     * @param evt
+     */
+    private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
+        Maquinaria maquinaActual; //la que estoy editando
+        int id = getIdSeleccionado();
+        if (id == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione una maquina (pulse una fila).",
+                    "Seleccion requerida",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que quieres dar de baja la maquina con ID " + id + "?\n"
+                + "La maquina dejara de estar operativa.",
+                "Confirmar baja",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return; // cancelado
+        }
+
+        boolean ok = contr.bajaLogicaMaquina(id);
+
+        if (ok) {
+            //LLAMAR A MODIFICAR (creas objeto y pasas a controlador)
+
+            //Comunicación con usuario
+            JOptionPane.showMessageDialog(this,
+                    "Maquina dada de baja con exito.",
+                    "Baja realizada",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            listaTotal = contr.listarMaquinaria();
+            cargarTablaMaquinaria(listaTotal); // refrescar tabla
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se ha podido dar de baja.\n"
+                    + "Puede que ya este dada de baja o que no exista.",
+                    "Error en la baja",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDarBajaActionPerformed
+
+    private void btnInformeEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeEstadoActionPerformed
+        try {
+            String descripcionEstado = (String) cbbStatus.getSelectedItem();
+
+            if (descripcionEstado == null || descripcionEstado.equals("Todos")) {
+                JOptionPane.showMessageDialog(this,
+                        "Debes seleccionar un estado concreto para generar el informe.",
+                        "Seleccion requerida",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Integer idEstado = estadoDescToId.get(descripcionEstado);
+
+            if (idEstado == null) {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo obtener el estado seleccionado.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            InformesJasper informesJasper = new InformesJasper();
+            String rutaInformeGenerado = informesJasper.generarInformeMaquinasPorEstado(idEstado);
+
+            JOptionPane.showMessageDialog(this,
+                    "Informe generado correctamente.\nGuardado en:\n" + rutaInformeGenerado,
+                    "Informe generado",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al generar el informe de maquinas por estado", e);
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo generar el informe.\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInformeEstadoActionPerformed
+
+    private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miPerfilActionPerformed
 
     //gestión de la tabla (read, ordenación)
     private void inicializarTabla() {
         /*
         Crea un DefaultTableModel con nombres de columnas, 0 filas iniciales, celdas no editables, tipo de dato por columna (muy importante para ordenar bien)
-        */
+         */
         modeloTabla = new DefaultTableModel(
-            new Object[]{"ID", "Nombre", "Estado", "Tipo", "Fecha alta", "Fecha baja"}, 0
+                new Object[]{"ID", "Nombre", "Estado", "Tipo", "Fecha alta", "Fecha baja"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -287,15 +964,30 @@ public class GestionMaquinas extends javax.swing.JFrame {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 return switch (columnIndex) {
-                    case 0 -> Integer.class; // ID, primera columna: ordena como número
-                    default -> String.class; // resto: ordena comotexto
+                    case 0 ->
+                        Integer.class; // ID, primera columna: ordena como número
+                    default ->
+                        String.class; // resto: ordena como texto
                 };
             }
         };
-
+        tbMaquinaria.getTableHeader().setReorderingAllowed(false);
         tbMaquinaria.setModel(modeloTabla);
         tbMaquinaria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        // este valor aumenta el tamaño de las tuplas
+        tbMaquinaria.setRowHeight(36);
+        //esto aumneta el tamaño de la fuente de la tabla y cambia la fuente
+        tbMaquinaria.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        // esto aumenta el tamaño de la fuente del header
+        tbMaquinaria.getTableHeader().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+        // Crear el renderer alineado a la izquierda
+        DefaultTableCellRenderer renderIzquierda = new DefaultTableCellRenderer();
+        renderIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
+        // Aplicarlo a una columna concreta (por ejemplo la columna 2)
+        tbMaquinaria.getColumnModel().getColumn(0).setCellRenderer(renderIzquierda);
+
     }
+
     private void configurarOrdenacion() {
         sorter = new TableRowSorter<>(modeloTabla);
         tbMaquinaria.setRowSorter(sorter);
@@ -303,6 +995,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
         //Orden inicial por ID ascendente
         sorter.setSortKeys(List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
     }
+
     /*
     ¿POR QUÉ SE USAN MAPAS?
     La tabla maquinaria guarda FKs (codigoEstadoFK, tipoMaquinariaFK).
@@ -311,24 +1004,28 @@ public class GestionMaquinas extends javax.swing.JFrame {
     Si por cada máquina hiciéramos una query para buscar el estado/tipo, sería lento.
     En cambio, es más rápido hacer 1 query para estados, 1 para tipos
     y luego traducir en memoria con un Map
-    */
-    private void cargarTablaMaquinaria() {
-        // 1) Obtener maquinaria desde BDD
-        List<Maquinaria> lista = contr.listarMaquinaria();
-
-        // 2) Mapas key:descripción
-        Map<Integer, String> estados = mapEstados();
-        Map<Integer, String> tipos = mapTipos();
-
-        // 3) Pintar en la tabla
+     */
+    private void cargarTablaMaquinaria(List<Maquinaria> lista) {
         modeloTabla.setRowCount(0);
 
         for (Maquinaria m : lista) {
-            String estadoDesc = estados.getOrDefault(m.getCodigoEstadoFK(), String.valueOf(m.getCodigoEstadoFK()));
-            String tipoDesc = tipos.getOrDefault(m.getTipoMaquinariaFK(), String.valueOf(m.getTipoMaquinariaFK()));
+            String estadoDesc = "";
+            if (m.getEstado() != null) {
+                int idEstado = m.getEstado().getCodigoEstado();
+                estadoDesc = estados.getOrDefault(idEstado, String.valueOf(idEstado));
+            }
 
-            String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().toString() : "";
-            String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().toString() : "";
+            String tipoDesc = "";
+            if (m.getTipoMaquinaria() != null) {
+                int idTipo = m.getTipoMaquinaria().getCodigoTipoMaquinaria();
+                tipoDesc = tipos.getOrDefault(idTipo, String.valueOf(idTipo));
+            }
+            // Crear el formateador
+            DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            // Formatear la fecha
+            String fechaAlta = (m.getFechaAlta() != null) ? m.getFechaAlta().format(formateador) : "";
+            String fechaBaja = (m.getFechaBaja() != null) ? m.getFechaBaja().format(formateador) : "";
 
             modeloTabla.addRow(new Object[]{
                 m.getCodigoMaquinaria(),
@@ -340,7 +1037,7 @@ public class GestionMaquinas extends javax.swing.JFrame {
             });
         }
     }
-    
+
     private Map<Integer, String> mapEstados() {
         Map<Integer, String> map = new HashMap<>();
         for (Estado e : contr.listarEstado()) {
@@ -356,58 +1053,222 @@ public class GestionMaquinas extends javax.swing.JFrame {
         }
         return map;
     }
-    
+
     //conseguir la máquina real a pesar del orden (el filtro solo es visual, no lógico)
     private int getIdSeleccionado() {
         int filaVista = tbMaquinaria.getSelectedRow();
-        if (filaVista == -1) return -1;
+        if (filaVista == -1) {
+            return -1;
+        }
 
         int filaModelo = tbMaquinaria.convertRowIndexToModel(filaVista);
         Object idObj = tbMaquinaria.getModel().getValueAt(filaModelo, 0);
 
         return Integer.parseInt(String.valueOf(idObj));
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GestionMaquinas().setVisible(true));
+    //cargar comboboxes bien
+    private void cargarComboEstados() {
+        cbbStatus.removeAllItems();
+        estadoDescToId.clear();
+
+        cbbStatus.addItem("Todos");
+
+        for (Estado e : contr.listarEstado()) {
+            cbbStatus.addItem(e.getDescripcionEstado());
+            estadoDescToId.put(e.getDescripcionEstado(), e.getCodigoEstado());
+        }
+    }
+
+    private void cargarComboTipos() {
+        cbbTipo.removeAllItems();
+        tipoDescToId.clear();
+
+        cbbTipo.addItem("Todos");
+
+        for (TipoMaquinaria t : contr.listarTipoMaquinaria()) {
+            cbbTipo.addItem(t.getDescripcionMaq());
+            tipoDescToId.put(t.getDescripcionMaq(), t.getCodigoTipoMaquinaria());
+        }
+    }
+
+    /*FILTROS (la vista recoge los datos y se los pasa al controlador, que validará y mandará las cosas traducidas al DAO*/
+ /*ID*/
+    private void filtrarPorId() {
+        String texto = txtID.getText().trim();
+
+        if (texto.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Introduce un ID.",
+                    "Filtro por ID",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Integer id;
+        try {
+            id = Integer.valueOf(texto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser un número entero.",
+                    "Filtro por ID",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        var opt = contr.buscarMaquinaPorID(id);
+
+        if (opt.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Puede que no exista una máquina con ese ID o que esté mal escrito",
+                    "Error filtrando por ID",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            List<Maquinaria> lista = new ArrayList<>();
+            lista.add(opt.get());
+            cargarTablaMaquinaria(lista);
+        }
+    }
+
+    /*nombre*/
+    private void filtrarPorNombre() {
+        //que pase String
+        String nombre = txtNameFilter.getText();
+
+        if (contr.filtrarPorNombre(nombre).isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Puede que no exista una máquina con ese nombre o que esté mal escrito",
+                    "Error filtrando por nombre",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            List<Maquinaria> lista = new ArrayList<>();
+            lista = contr.filtrarPorNombre(nombre);
+            cargarTablaMaquinaria(lista);
+        };
+    }
+
+    /*fechas*/
+    private void filtrarPorFechas() {
+        boolean usarFechaAlta = chbxHFechaAlta.isSelected();
+        boolean usarFechaBaja = chbxHFechaBaja.isSelected();
+
+        Date fechaAlta = null;
+        Date fechaBaja = null;
+
+        if (usarFechaAlta) {
+            fechaAlta = (Date) spFechaAlta.getValue();
+        }
+
+        if (usarFechaBaja) {
+            fechaBaja = (Date) spFechaBaja.getValue();
+        }
+
+        if (!usarFechaAlta && !usarFechaBaja) {
+            JOptionPane.showMessageDialog(this,
+                    "Debes habilitar al menos una fecha para filtrar.",
+                    "Filtro por fechas",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<Maquinaria> lista = contr.filtrarPorFechas(
+                fechaAlta, usarFechaAlta,
+                fechaBaja, usarFechaBaja
+        );
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay máquinas que coincidan con las fechas indicadas.",
+                    "Filtro por fechas",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
+    }
+
+    /*estado*/
+    private void filtrarPorStatus() {
+        String estadoDesc = (String) cbbStatus.getSelectedItem();
+
+        Integer estadoId = null;
+
+        if (estadoDesc != null && !estadoDesc.equals("Todos")) {
+            estadoId = estadoDescToId.get(estadoDesc);
+        }
+
+        List<Maquinaria> lista = contr.filtrarPorStatus(estadoId);
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay máquinas con ese estado.", "Filtro por estado", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
+    }
+
+    /*tipo*/
+    private void filtrarPorTipo() {
+        String tipoDesc = (String) cbbTipo.getSelectedItem();
+
+        Integer tipoId = null;
+
+        if (tipoDesc != null && !tipoDesc.equals("Todos")) {
+            tipoId = tipoDescToId.get(tipoDesc);
+        }
+
+        List<Maquinaria> lista = contr.filtrarPorTipo(tipoId);
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay máquinas de ese tipo.",
+                    "Filtro por tipo",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        cargarTablaMaquinaria(lista);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnInformeEstado;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNuevaMaquina;
     private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cbbTipo;
+    private javax.swing.JCheckBox chbxHFechaAlta;
+    private javax.swing.JCheckBox chbxHFechaBaja;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenu menuAverias;
-    private javax.swing.JMenu menuInicio;
-    private javax.swing.JMenu menuMaquinas;
-    private javax.swing.JMenu menuUsuario;
+    private javax.swing.JLabel jlLogo;
+    private javax.swing.JLabel jlSaldoIcono;
+    private javax.swing.JPanel jpCabecera;
+    private javax.swing.JMenuItem miAveria;
+    private javax.swing.JMenuItem miCerrarSesion;
+    private javax.swing.JMenuItem miEstadoMaquinaria;
+    private javax.swing.JMenu miGestion;
+    private javax.swing.JMenu miInicio;
+    private javax.swing.JMenuItem miMaquinaria;
+    private javax.swing.JMenuItem miMenuPrincipal;
+    private javax.swing.JMenuItem miPerfil;
+    private javax.swing.JMenuItem miRoles;
+    private javax.swing.JMenuItem miSalirApp;
+    private javax.swing.JMenuItem miTipoAveria;
+    private javax.swing.JMenuItem miTipoMaquinaria;
+    private javax.swing.JMenuItem miUsuario;
+    private javax.swing.JPanel panelAcciones;
+    private javax.swing.JPanel panelFiltros;
+    private javax.swing.JPanel panelTabla;
+    private javax.swing.JPanel panelTitulo;
+    private javax.swing.JSpinner spFechaAlta;
+    private javax.swing.JSpinner spFechaBaja;
     private javax.swing.JTable tbMaquinaria;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtNameFilter;
     // End of variables declaration//GEN-END:variables
 }

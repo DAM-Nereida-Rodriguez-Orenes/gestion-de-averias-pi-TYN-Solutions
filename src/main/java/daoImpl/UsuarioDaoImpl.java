@@ -5,6 +5,10 @@
 package daoImpl;
 
 import dao.UsuarioDao;
+import modelo.Rol;
+import modelo.Usuario;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,13 +18,10 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
-import modelo.Usuario;
-import java.time.LocalDateTime;
-import java.util.Random;
-import modelo.Rol;
 
 /**
+ * Implementacion de la interfaz UsuarioDao para gestionar las operaciones CRUD
+ * de los usuarios en la base de datos.
  *
  * @author Thanya
  */
@@ -34,6 +35,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Inserta un nuevo usuario en la base de datos. El codigoUsuario se genera
+     * automaticamente. Si el ultimoAcceso es null, se inserta como null en la
+     * base de datos. Si la insercion es exitosa, se asigna el codigoUsuario
+     * generado al objeto usuario.
+     *
+     * @param usuario El objeto Usuario a insertar. No debe tener el
+     * codigoUsuario asignado.
+     * @throws RuntimeException Si ocurre un error al insertar el usuario.
+     */
     @Override
     public void insertarUsuario(Usuario usuario) {
 
@@ -72,6 +83,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
+    /**
+     * Actualiza un usuario existente en la base de datos. El usuario se
+     * identifica por su codigoUsuario. Si el ultimoAcceso es null, se actualiza
+     * como null en la base de datos.
+     *
+     * @param usuario El objeto Usuario con los datos actualizados. Debe tener
+     * el codigoUsuario asignado.
+     * @throws RuntimeException Si ocurre un error al actualizar el usuario o si
+     * no existe el codigoUsuario.
+     */
     @Override
     public void actualizarUsuario(Usuario usuario) {
 
@@ -109,20 +130,67 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
+    /**
+     * Elimina un usuario de la base de datos. En realidad, no se borra el
+     * registro, sino que se marca como inactivo (activo = 0).
+     *
+     * @param codigoUsuario El codigo del usuario a eliminar.
+     * @throws RuntimeException Si ocurre un error al eliminar el usuario o si
+     * no existe el codigoUsuario.
+     */
     @Override
     public void eliminarUsuario(int codigoUsuario) {
 
-        final String sql = "UPDATE  usuario SET activo = 0 WHERE codigoUsuario = ?";
+        // Comprobamos si tiene averias asignadas
+        final String sqlComprobarTecnico = "SELECT COUNT(*) FROM averia WHERE usuarioTecnicoFK = ?";
+        // Comprobamos si tiene averias reportadas
+        final String sqlComprobarReporta = "SELECT COUNT(*) FROM averia WHERE usuarioReportaFK = ?";
+        // Comprobamos si está dado de baja
+        final String sqlComprobarActivo = "SELECT activo FROM usuario WHERE codigoUsuario = ?";
+        final String sqlEliminar = "DELETE FROM usuario WHERE codigoUsuario = ?";
 
-        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection()) {
 
-            /*El primer ? que encuentres le pone el valor del codigoUsuario*/
-            ps.setInt(1, codigoUsuario);
+            // Comprobar si existe y si esta dado de baja
+            PreparedStatement psActivo = conn.prepareStatement(sqlComprobarActivo);
+            psActivo.setInt(1, codigoUsuario);
+            ResultSet rsActivo = psActivo.executeQuery();
 
-            int filasAfectadas = ps.executeUpdate();
+            if (!rsActivo.next()) {
+                throw new RuntimeException("El usuario no existe.");
+            }
+
+            int activo = rsActivo.getInt("activo");
+            if (activo != 0) {
+                throw new RuntimeException("El usuario debe estar dado de baja antes de eliminarlo.");
+            }
+
+            // Comprobar si tiene averias como tecnico
+            PreparedStatement psTecnico = conn.prepareStatement(sqlComprobarTecnico);
+            psTecnico.setInt(1, codigoUsuario);
+            ResultSet rsTecnico = psTecnico.executeQuery();
+
+            if (rsTecnico.next() && rsTecnico.getInt(1) > 0) {
+                throw new RuntimeException("No se puede eliminar el usuario porque tiene averias asignadas como tecnico.");
+            }
+
+            // Comprobar si tiene averias como usuario que reporta
+            PreparedStatement psReporta = conn.prepareStatement(sqlComprobarReporta);
+            psReporta.setInt(1, codigoUsuario);
+            ResultSet rsReporta = psReporta.executeQuery();
+
+            if (rsReporta.next() && rsReporta.getInt(1) > 0) {
+                throw new RuntimeException("No se puede eliminar el usuario porque tiene averias asociadas como usuario que reporta.");
+            }
+
+            // Eliminar
+            PreparedStatement psEliminar = conn.prepareStatement(sqlEliminar);
+            psEliminar.setInt(1, codigoUsuario);
+
+            int filasAfectadas = psEliminar.executeUpdate();
 
             if (filasAfectadas == 0) {
-                throw new RuntimeException("No se pudo eliminar el usuario (no existe el codigoUsuario).");
+                throw new RuntimeException("No se pudo eliminar el usuario.");
             }
 
         } catch (SQLException e) {
@@ -130,12 +198,20 @@ public class UsuarioDaoImpl implements UsuarioDao {
         }
     }
 
+    /**
+     * Lista todos los usuarios de la base de datos, incluyendo su rol (por el
+     * JOIN). Si el ultimoAcceso es null en la base de datos, se asigna null al
+     * objeto Usuario.
+     *
+     * @return Una lista de objetos Usuario con todos los usuarios registrados.
+     * @throws RuntimeException Si ocurre un error al listar los usuarios.
+     */
     @Override
     public List<Usuario> listarUsuarios() {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
-        final String sql = "SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario "
+        final String sql = "SELECT codigoUsuario, nombre, apellido, rol.codigoRol, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo FROM usuario "
                 + "JOIN rol on codigoRolFK = codigoRol";
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -147,9 +223,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
+
                 Rol rol = new Rol();
+                rol.setCodigoRol(rs.getInt("codigoRol"));
                 rol.setDescripcionRol(rs.getString("descripcionRol"));
                 usuario.setRol(rol);
+
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -174,13 +253,33 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return listaUsuarios;
     }
 
+    /**
+     * Busca usuarios que coincidan con los filtros proporcionados. Si un filtro
+     * es null, se ignora. El filtro de nombre y apellido utiliza LIKE para
+     * buscar coincidencias que empiecen con el texto proporcionado. El filtro
+     * de rol busca por la descripcion del rol. El resultado incluye el rol con
+     * su descripcion (por el JOIN).
+     *
+     * @param codigoUsuario Filtro por codigoUsuario (exacto). Si es null, se
+     * ignora.
+     * @param nombre Filtro por nombre (LIKE). Si es null o vacio, se ignora.
+     * @param apellido Filtro por apellido (LIKE). Si es null o vacio, se
+     * ignora.
+     * @param rol Filtro por rol (descripcionRol). Si es null, se ignora.
+     * @param email Filtro por email (exacto). Si es null, se ignora.
+     * @param activo Filtro por estado activo. Si es null, se ignora.
+     * @return Una lista de objetos Usuario que coinciden con los filtros
+     * aplicados.
+     * @throws RuntimeException Si ocurre un error al buscar los usuarios por
+     * filtros.
+     */
     @Override
     public List<Usuario> buscarPorFiltrosUsuario(Integer codigoUsuario, String nombre, String apellido, Rol rol, String email, Boolean activo) {
 
         List<Usuario> listaUsuarios = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT codigoUsuario, nombre, apellido, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo ");
+        sql.append("SELECT codigoUsuario, nombre, apellido, rol.codigoRol, descripcionRol, telefono, email, password, intentos, ultimoAcceso, activo ");
         sql.append("FROM usuario ");
         sql.append("JOIN rol on codigoRolFK = codigoRol ");
         sql.append("WHERE 1=1 ");
@@ -194,12 +293,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         if (nombre != null && !nombre.trim().isEmpty()) {
             sql.append("AND nombre LIKE ? ");
-            parametros.add("%" + nombre.trim() + "%");
+            parametros.add(nombre.trim() + "%");
+            //"%" + nombre.trim() + "%" <- de esta forma filtra los nombres que contengan x letra, no que empiecen con x letra 
         }
 
         if (apellido != null && !apellido.trim().isEmpty()) {
             sql.append("AND apellido LIKE ? ");
-            parametros.add("%" + apellido.trim() + "%");
+            parametros.add(apellido.trim() + "%");
+            //"%" + apellido.trim() + "%"<- de esta forma filtra los apellidos que contengan x letra, no que empiecen con x letra 
         }
 
         if (rol != null) {
@@ -243,9 +344,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
                     usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
                     usuario.setNombre(rs.getString("nombre"));
                     usuario.setApellido(rs.getString("apellido"));
+
                     Rol rolRecuperado = new Rol();
+                    rolRecuperado.setCodigoRol(rs.getInt("codigoRol"));
                     rolRecuperado.setDescripcionRol(rs.getString("descripcionRol"));
                     usuario.setRol(rolRecuperado);
+
                     usuario.setTelefono(rs.getString("telefono"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));
@@ -276,7 +380,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
      *
      * @param email
      * @param password
-     * @return
+     * @return El usuario que coincide con el email y password proporcionados, y
+     * que esta activo (activo = 1). Si no existe, devuelve null.
      */
     @Override
     public Usuario buscarPorCredenciales(String email, String password) {
@@ -355,16 +460,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
      * Actualiza la contraseña del usuario cuyo email coincide. Si se actualiza
      * 1 fila, devuelve true. Si no existe ese email, devuelve false.
      *
-     * @param email
-     * @param password
-     * @return
+     * @param email El email del usuario al que se le quiere actualizar la
+     * contraseña.
+     * @param nuevaPassword La nueva contraseña a asignar al usuario.
+     * @return true si se actualiza la contraseña, false si no existe el email o
+     * no se actualiza ninguna fila.
      */
     @Override
-    public String actualizarPassword(String email) {
+    public String actualizarPassword(String email, String nuevaPassword) {
 
         final String sql = "UPDATE usuario SET password = ? WHERE email = ?";
-
-        String nuevaPassword = generarContrasena(8);
 
         try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -387,6 +492,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
     /**
      * Busca el texto escrito en nombre, apellido o email con LIKE, y ya te
      * devuelve el Rol con su descripcionRol (por el JOIN).
+     *
+     * Si el ultimoAcceso es null en la base de datos, se asigna null al objeto
+     * Usuario.
      */
     @Override
     public List<Usuario> buscarPorTexto(String texto) {
@@ -449,46 +557,231 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     /**
-     * 
-     * Genera una contraseña automáticamente  para los usuarios 
-     * @param longitud
-     * @return String
+     * Busca un usuario por su email. El email es unico, por lo que devuelve un
+     * solo usuario o null si no existe. El resultado incluye el rol con su
+     * descripcion (por el JOIN). Si el ultimoAcceso es null en la base de
+     * datos, se asigna null al objeto Usuario.
+     *
+     * @param email El email del usuario a buscar.
+     * @return El usuario que coincide con el email proporcionado y que esta
+     * activo (activo = 1), o null si no existe.
      */
-    
-    private String generarContrasena(int longitud) {
+    public Usuario buscarPorEmail(String email) {
 
-        String mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String minusculas = "abcdefghijklmnopqrstuvwxyz";
-        String numeros = "0123456789";
-        String especiales = "!@#$%&*?";
+        Usuario usuario = null;
 
-        // juntamos todo para rellenar el resto
-        String todos = mayusculas + minusculas + numeros + especiales;
+        String sql = "SELECT u.codigoUsuario, u.nombre, u.apellido, u.codigoRolFK, "
+                + "r.descripcionRol, u.telefono, u.email, u.password, "
+                + "u.intentos, u.ultimoAcceso, u.activo "
+                + "FROM usuario u "
+                + "INNER JOIN rol r ON u.codigoRolFK = r.codigoRol "
+                + "WHERE u.email = ? AND u.activo = 1";
 
-        Random random = new Random();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-        char[] password = new char[longitud];
+        try {
 
-        // aseguramos reglas minimas
-        password[0] = mayusculas.charAt(random.nextInt(mayusculas.length()));
-        password[1] = minusculas.charAt(random.nextInt(minusculas.length()));
-        password[2] = numeros.charAt(random.nextInt(numeros.length()));
-        password[3] = especiales.charAt(random.nextInt(especiales.length()));
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
 
-        // rellenamos el resto con mezcla
-        for (int i = 4; i < longitud; i++) {
-            password[i] = todos.charAt(random.nextInt(todos.length()));
+            preparedStatement.setString(1, email);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                usuario = new Usuario();
+
+                usuario.setCodigoUsuario(resultSet.getInt("codigoUsuario"));
+                usuario.setNombre(resultSet.getString("nombre"));
+                usuario.setApellido(resultSet.getString("apellido"));
+
+                Rol rol = new Rol();
+                rol.setCodigoRol(resultSet.getInt("codigoRolFK"));
+                rol.setDescripcionRol(resultSet.getString("descripcionRol"));
+                usuario.setRol(rol);
+
+                usuario.setTelefono(resultSet.getString("telefono"));
+                usuario.setEmail(resultSet.getString("email"));
+                usuario.setPassword(resultSet.getString("password"));
+                usuario.setIntentos(resultSet.getInt("intentos"));
+
+                Timestamp timestamp = resultSet.getTimestamp("ultimoAcceso");
+
+                if (timestamp != null) {
+                    usuario.setUltimoAcceso(timestamp.toLocalDateTime());
+                }
+
+                usuario.setActivo(resultSet.getBoolean("activo"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error en buscarPorEmail: " + e.getMessage());
+        } finally {
+
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error cerrando recursos: " + e.getMessage());
+            }
         }
 
-        // mezclamos para que no siempre sea: mayus, minus, num, esp...
-        for (int i = password.length - 1; i > 0; i--) {
-            int j = random.nextInt(i + 1);
-            char aux = password[i];
-            password[i] = password[j];
-            password[j] = aux;
+        return usuario;
+    }
+
+    /**
+     * Busca los tecnicos (usuarios con codigoRolFK = 703) ordenados por su
+     * carga de trabajo actual (cantidad de averias activas) y su experiencia
+     * (tiempo medio de resolucion de averias del mismo tipo). El resultado
+     * incluye el codigoUsuario, nombre y apellido del tecnico.
+     *
+     * @param codigoTipoAveria El codigo del tipo de averia para calcular la
+     * experiencia del tecnico. Si es null, se ignora la experiencia.
+     * @return Una lista de tecnicos ordenados por carga de trabajo y
+     * experiencia.
+     * @throws RuntimeException Si ocurre un error al buscar los tecnicos.
+     */
+    @Override
+    public List<Usuario> buscarTecnicosOrdenadorPorCarga(int codigoTipoAveria) {
+
+        List<Usuario> listaUsuarios = new ArrayList<>();
+
+        String sql = "SELECT u.codigoUsuario, u.nombre, u.apellido "
+                + "FROM usuario u "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, COUNT(*) AS totalAveriasActivas "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NULL "
+                + "    GROUP BY a.usuarioTecnicoFK "
+                + ") act ON act.usuarioTecnicoFK = u.codigoUsuario "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, a.tipoAveriaFK, "
+                + "           COUNT(*) AS totalAveriasFinalizadas, "
+                + "           AVG(TIMESTAMPDIFF(MINUTE, a.fechaAcepTecnico, a.fechaFinalizTecnico) / 60.0) AS tiempoMedioTecnico "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NOT NULL "
+                + "      AND a.tipoAveriaFK = ? "
+                + "    GROUP BY a.usuarioTecnicoFK, a.tipoAveriaFK "
+                + ") hist ON hist.usuarioTecnicoFK = u.codigoUsuario "
+                + "INNER JOIN tipo_averia ta "
+                + "    ON ta.codigoTipoAveria = ? "
+                + "WHERE u.codigoRolFK = 703 "
+                + "  AND u.activo = 1 "
+                + "ORDER BY "
+                + "    CASE "
+                + "        WHEN COALESCE(hist.tiempoMedioTecnico, 0) > 0 THEN 0 "
+                + "        ELSE 1 "
+                + "    END ASC, "
+                + "    COALESCE(act.totalAveriasActivas, 0) ASC, "
+                + "    CASE "
+                + "        WHEN COALESCE(hist.tiempoMedioTecnico, 0) > 0 THEN hist.tiempoMedioTecnico "
+                + "        ELSE 999999 "
+                + "    END ASC";
+
+        try (Connection conexion = dataSource.getConnection(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, codigoTipoAveria);
+            ps.setInt(2, codigoTipoAveria);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Usuario usuario = new Usuario();
+
+                    usuario.setCodigoUsuario(rs.getInt("codigoUsuario"));
+                    usuario.setNombre(rs.getString("nombre"));
+                    usuario.setApellido(rs.getString("apellido"));
+
+                    listaUsuarios.add(usuario);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error obteniendo tecnicos ordenados por carga y experiencia", e);
         }
 
-        return new String(password);
+        return listaUsuarios;
+    }
+
+    /**
+     * Obtiene el total de averias activas, el total de averias finalizadas y el
+     * tiempo medio de resolucion de averias del mismo tipo para un tecnico
+     * dado.
+     *
+     * @param codigoTecnico El codigo del tecnico para el que se quieren obtener
+     * los datos.
+     * @param codigoTipoAveria El codigo del tipo de averia para calcular la
+     * experiencia del tecnico. Si es null, se ignora la experiencia.
+     * @return Un array de objetos con el total de averias activas, el total de
+     * averias finalizadas y el tiempo medio de resolucion. Si el tecnico no
+     * existe, devuelve null.
+     * @throws RuntimeException Si ocurre un error al obtener los datos del
+     * tecnico.
+     */
+    @Override
+    public Object[] obtenerMotivosTecnico(int codigoTecnico, int codigoTipoAveria) {
+
+        String sql = "SELECT "
+                + "    COALESCE(act.totalAveriasActivas, 0) AS totalAveriasActivas, "
+                + "    COALESCE(hist.totalAveriasFinalizadas, 0) AS totalAveriasFinalizadas, "
+                + "    COALESCE(hist.tiempoMedioTecnico, 0) AS tiempoMedioTecnico "
+                + "FROM usuario u "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, COUNT(*) AS totalAveriasActivas "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NULL "
+                + "    GROUP BY a.usuarioTecnicoFK "
+                + ") act ON act.usuarioTecnicoFK = u.codigoUsuario "
+                + "LEFT JOIN ( "
+                + "    SELECT a.usuarioTecnicoFK, "
+                + "           COUNT(*) AS totalAveriasFinalizadas, "
+                + "           AVG(TIMESTAMPDIFF(MINUTE, a.fechaAcepTecnico, a.fechaFinalizTecnico) / 60.0) AS tiempoMedioTecnico "
+                + "    FROM averia a "
+                + "    WHERE a.fechaAcepTecnico IS NOT NULL "
+                + "      AND a.fechaFinalizTecnico IS NOT NULL "
+                + "      AND a.tipoAveriaFK = ? "
+                + "    GROUP BY a.usuarioTecnicoFK "
+                + ") hist ON hist.usuarioTecnicoFK = u.codigoUsuario "
+                + "WHERE u.codigoUsuario = ?";
+
+        try (Connection conexion = dataSource.getConnection(); PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, codigoTipoAveria);
+            ps.setInt(2, codigoTecnico);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Object[] datos = new Object[3];
+
+                    datos[0] = rs.getInt("totalAveriasActivas");
+                    datos[1] = rs.getInt("totalAveriasFinalizadas");
+                    datos[2] = rs.getDouble("tiempoMedioTecnico");
+
+                    return datos;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error obteniendo motivos del tecnico", e);
+        }
+
+        return null;
     }
 
 }

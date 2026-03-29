@@ -4,6 +4,17 @@
  */
 package vista;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import controlador.GestionUsuarioControlador;
+import controlador.LoginControlador;
+import utils.PanelImgFondo;
+import vista.oper.averias.GestionAveriaOper;
+import vista.oper.usuario.GestionUsuarioPerfilOper;
+
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
+
 /**
  *
  * @author Asus
@@ -15,6 +26,63 @@ public class vHomeOper extends javax.swing.JFrame {
      */
     public vHomeOper() {
         initComponents();
+        mostrarImagenes();
+    }
+
+    /**
+     * Método para mostrar las imágenes en el JFrame
+     */
+    public void mostrarImagenes() {
+        //Ajustes del deisño del JFrame
+        Image icono = new ImageIcon(getClass().getResource("/recursos/isotipo.png")).getImage();
+        this.setIconImage(icono);
+        // Tamaño inical de todas las ventanas
+        this.setSize(1200, 800);
+        // No se puede hacer más pequeña de 1200,800
+        this.setMinimumSize(new Dimension(1200, 800));
+        // Permite usar el botón de maximizar
+        this.setResizable(true);
+        // Centrar ventana en pantalla
+        this.setLocationRelativeTo(null);
+
+        URL urlLogo = getClass().getClassLoader().getResource("recursos/logos/fixora_logo_140x70.svg");
+        System.out.println("urlLogo = " + urlLogo);
+
+        FlatSVGIcon iconop = new FlatSVGIcon("recursos/logos/fixora_logo_140x70.svg", 140, 70);
+        jlLogo.setIcon(iconop);
+        jlLogo.setText("");
+        jlLogo.setOpaque(false);
+
+        //icono de usuario 
+        FlatSVGIcon iconUsuarioAdmin = new FlatSVGIcon("recursos/iconos/user_icon_exact.svg", 28, 24);
+        txtSaludo.setIcon(iconUsuarioAdmin);
+        GestionUsuarioControlador userContr = new GestionUsuarioControlador();
+        txtSaludo.setText("Hola, " + userContr.obtenerNombreUsuarioLogueado());
+        txtSaludo.setHorizontalTextPosition(SwingConstants.LEFT);
+        txtSaludo.setVerticalTextPosition(SwingConstants.CENTER);
+        txtSaludo.setIconTextGap(8);
+
+        //iconos de los botones-Menus
+        //Boton Perfil de usuario
+        FlatSVGIcon iconPerfil = new FlatSVGIcon("recursos/iconos/EditarPerfil.svg", 100, 100);
+        btnPerfil.setIcon(iconPerfil);
+        btnPerfil.setText("Información personal");
+        btnPerfil.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnPerfil.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnPerfil.setIconTextGap(10);
+        btnPerfil.setForeground(new Color(67, 113, 177));
+        btnPerfil.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
+
+        //boton averia
+        FlatSVGIcon iconAveria = new FlatSVGIcon("recursos/iconos/llave_exact.svg", 100, 100);
+        btnGesAveria.setIcon(iconAveria);
+        btnGesAveria.setText("Gestión de Averia");
+        btnGesAveria.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnGesAveria.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnGesAveria.setIconTextGap(10);
+        btnGesAveria.setForeground(new Color(67, 113, 177));
+        btnGesAveria.setFont(new Font("Microsoft JhengHei", Font.BOLD, 16));
+
     }
 
     /**
@@ -26,33 +94,124 @@ public class vHomeOper extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new PanelImgFondo("/recursos/fondoFormularios.png");
+        jpCabecera = new PanelImgFondo("/recursos/fondoFormularios2.png");
+        jlLogo = new javax.swing.JLabel();
+        txtSaludo = new javax.swing.JLabel();
+        jlIcnUsuario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btnGesAveria = new javax.swing.JButton();
+        btnPerfil = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        miInicio = new javax.swing.JMenu();
+        miCerrarSesion = new javax.swing.JMenuItem();
+        miSalirApp = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jpCabecera.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jlLogo.setText("jLabel2");
+
+        txtSaludo.setFont(new java.awt.Font("Microsoft JhengHei", 0, 18)); // NOI18N
+        txtSaludo.setForeground(new java.awt.Color(67, 113, 177));
+        txtSaludo.setText("Hola, Oper");
+
+        javax.swing.GroupLayout jpCabeceraLayout = new javax.swing.GroupLayout(jpCabecera);
+        jpCabecera.setLayout(jpCabeceraLayout);
+        jpCabeceraLayout.setHorizontalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 728, Short.MAX_VALUE)
+                .addComponent(jlIcnUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSaludo, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+        );
+        jpCabeceraLayout.setVerticalGroup(
+            jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpCabeceraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpCabeceraLayout.createSequentialGroup()
+                        .addGroup(jpCabeceraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlLogo)
+                            .addComponent(txtSaludo))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jlIcnUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jLabel1.setFont(new java.awt.Font("Microsoft JhengHei", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Log In correcto, Operario");
+        jLabel1.setText("¡Bienvenido Operario!");
+
+        btnGesAveria.setBackground(new java.awt.Color(234, 242, 251));
+        btnGesAveria.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(183, 206, 251)));
+        btnGesAveria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGesAveriaActionPerformed(evt);
+            }
+        });
+
+        btnPerfil.setBackground(new java.awt.Color(234, 242, 251));
+        btnPerfil.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(183, 206, 251)));
+        btnPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPerfilActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jLabel1)
-                .addContainerGap(87, Short.MAX_VALUE))
+            .addComponent(jpCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(127, 127, 127)
+                .addComponent(jpCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGesAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 311, Short.MAX_VALUE))
         );
+
+        miInicio.setText("Inicio");
+
+        miCerrarSesion.setText("Cerrar sesión");
+        miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCerrarSesionActionPerformed(evt);
+            }
+        });
+        miInicio.add(miCerrarSesion);
+
+        miSalirApp.setText("Cerrar Fixora");
+        miSalirApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSalirAppActionPerformed(evt);
+            }
+        });
+        miInicio.add(miSalirApp);
+
+        jMenuBar1.add(miInicio);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,42 +228,56 @@ public class vHomeOper extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * @param args the command line arguments
+     * Método para cerrar sesión y volver a la pantalla de login
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(vHomeOper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(vHomeOper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(vHomeOper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(vHomeOper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void miCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCerrarSesionActionPerformed
+        LoginControlador loginControlador = new LoginControlador();
+        vLogin login = new vLogin(loginControlador);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_miCerrarSesionActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new vHomeOper().setVisible(true);
-            }
-        });
-    }
+    /**
+     * Método para salir completamente de la aplicación
+     */
+    private void miSalirAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSalirAppActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_miSalirAppActionPerformed
+
+    /**
+     * Método para abrir la ventana de gestión de averías
+     */
+    private void btnGesAveriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGesAveriaActionPerformed
+        GestionAveriaOper gestionAveria = new GestionAveriaOper();
+        gestionAveria.setLocationRelativeTo(null);
+        gestionAveria.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnGesAveriaActionPerformed
+
+    /**
+     * Método para abrir la ventana de perfil de usuario
+     */
+    private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
+        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
+        gestionUsuarioPerfil.setLocationRelativeTo(null);
+        gestionUsuarioPerfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPerfilActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGesAveria;
+    private javax.swing.JButton btnPerfil;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jlIcnUsuario;
+    private javax.swing.JLabel jlLogo;
+    private javax.swing.JPanel jpCabecera;
+    private javax.swing.JMenuItem miCerrarSesion;
+    private javax.swing.JMenu miInicio;
+    private javax.swing.JMenuItem miSalirApp;
+    private javax.swing.JLabel txtSaludo;
     // End of variables declaration//GEN-END:variables
 }

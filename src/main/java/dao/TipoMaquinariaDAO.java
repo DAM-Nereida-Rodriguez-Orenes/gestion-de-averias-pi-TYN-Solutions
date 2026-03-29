@@ -3,8 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package dao;
-import java.util.List;
+
 import modelo.TipoMaquinaria;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  *Las tablas maestras no deben modificarse, o al menos no a menudo, pero, como pretendemos que esta aplicación sea escalable,
@@ -20,4 +23,5 @@ public interface TipoMaquinariaDAO {
     void modificar(TipoMaquinaria t);
     List<TipoMaquinaria> listarTipoMaquinaria();
     boolean existeID(int id);
+    Optional<TipoMaquinaria> buscarPorID(int id);
 }

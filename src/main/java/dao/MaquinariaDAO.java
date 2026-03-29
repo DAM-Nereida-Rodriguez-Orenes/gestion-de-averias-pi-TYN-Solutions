@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package dao;
+
+import modelo.Maquinaria;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import modelo.Maquinaria;
 
 /**
  * Las funciones básicas son: crear, modificar, eliminar y listar. Esta lista, además, debe poderse filtrar, así que
@@ -18,12 +20,12 @@ import modelo.Maquinaria;
 public interface MaquinariaDAO {
     void insertar(Maquinaria m);
     void modificar(Maquinaria m);
-    void eliminar(int mID);
+    void bajaLogica(int mID); //con este metodo ponemos la fecha de baja de una maquina 
+    void bajaFisica(int mID); // con este metodo eliminamos una maquina de la abse de datos 
     List<Maquinaria> listarMaquinaria();
-    List<Maquinaria> buscarPorFiltrosMaquinaria( Integer codigoEstadoFK,
-        Integer tipoMaquinariaFK,
-        LocalDate fechaAltaDesde,
-        LocalDate fechaAltaHasta,
-        Boolean soloActivas);
-    Optional<Maquinaria> buscarMaquinariaPorId(int id);
+    Optional<Maquinaria> buscarMaquinariaPorId(Integer id);
+    List<Maquinaria> buscarMaquinariaPorTexto(String text);
+    List<Maquinaria> buscarMaquinariaPorFecha(LocalDate fechaAlta, LocalDate fechaBaja);
+    List<Maquinaria> buscarMaquinariaPorEstado(Integer codigoEstadoFK);
+    List<Maquinaria> buscarMaquinariaPorTipo(Integer tipoMaquinariaFK);
 }
