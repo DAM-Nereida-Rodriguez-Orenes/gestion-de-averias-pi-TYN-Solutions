@@ -218,7 +218,6 @@ public class GestionUsuarioPerfilOper extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         miMenuPrincipal = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        miPerfil1 = new javax.swing.JMenuItem();
         miCerrarSesion = new javax.swing.JMenuItem();
         miSalirApp = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -464,14 +463,6 @@ public class GestionUsuarioPerfilOper extends javax.swing.JFrame {
         });
         miMenuPrincipal.add(jMenuItem1);
 
-        miPerfil1.setText("Perfil");
-        miPerfil1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPerfil1ActionPerformed(evt);
-            }
-        });
-        miMenuPrincipal.add(miPerfil1);
-
         miCerrarSesion.setText("Cerrar sesión");
         miCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -610,13 +601,6 @@ public class GestionUsuarioPerfilOper extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRolActionPerformed
 
-    private void miPerfil1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfil1ActionPerformed
-        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
-        gestionUsuarioPerfil.setLocationRelativeTo(null);
-        gestionUsuarioPerfil.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_miPerfil1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarDatosUsuario;
@@ -635,7 +619,6 @@ public class GestionUsuarioPerfilOper extends javax.swing.JFrame {
     private javax.swing.JMenuItem miGestionAverias;
     private javax.swing.JMenu miMenuPrincipal;
     private javax.swing.JMenuItem miPerfil;
-    private javax.swing.JMenuItem miPerfil1;
     private javax.swing.JMenuItem miSalirApp;
     private javax.swing.JPanel panelFormulario;
     private javax.swing.JPanel panelTitulo;

@@ -932,6 +932,12 @@ public class GestionAveriaListar extends javax.swing.JFrame {
             Averia averiaSeleccionada = controladorAveria.obtenerAveriaPorId(idAveria);
 
             if (averiaSeleccionada != null) {
+                if(averiaSeleccionada.getUsuarioTecnicoFK() != null){
+                    JOptionPane.showMessageDialog(this,
+                        "Esta avería ya tiene asignado un técnico, ve al botón de Editar para asignarle uno diferente.",
+                        "Selección requerida", JOptionPane.WARNING_MESSAGE);
+                return;
+                }
                 AsignarTecnico asignarTecnico = new AsignarTecnico(this, true, averiaSeleccionada);
                 asignarTecnico.setLocationRelativeTo(this);
                 asignarTecnico.setVisible(true); 

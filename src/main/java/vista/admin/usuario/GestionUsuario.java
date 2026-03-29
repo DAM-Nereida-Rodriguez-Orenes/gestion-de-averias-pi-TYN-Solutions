@@ -210,7 +210,7 @@ public class GestionUsuario extends javax.swing.JFrame {
 
             return Integer.compare(orden1, orden2);
         });
-        
+
         tbUsuarios.setRowSorter(sorter);
     }
 
@@ -667,7 +667,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         //Nos aseguramos de que el usuario este dado de alta o de baja
         String usuarioActivo = (String) tbUsuarios.getValueAt(filaSelecionada, 6);
         //Nos aseguramos de selecionar la fila, si se seleciona continuamos con el proceso
-        if (filaSelecionada != -1 && usuarioActivo.equals("Activo")) {
+        if (filaSelecionada != -1) {
             //filtramos por el email ya que tiene constraint unica
             String emailUsuario = (String) tbUsuarios.getValueAt(filaSelecionada, 5);
             //llamamos al metodo paraq ue me filtre el email y me devulva el codigo del usuario
@@ -675,12 +675,22 @@ public class GestionUsuario extends javax.swing.JFrame {
 
             //Lanzamos mensaje de confirmacion
             int opcion;
-            opcion = JOptionPane.showConfirmDialog(this, "¿Estas seguro de que quieres dar de baja a este usuario?",
+            opcion = JOptionPane.showConfirmDialog(this, "¿Estas seguro de que quieres Eliminar a este usuario del sistama definitivamente?",
                     "Eliminar usuario", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
             if (opcion == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(this, "El usuario se ha dado de baja con exito",
-                        "Eliminar usuario", JOptionPane.INFORMATION_MESSAGE);
-                gestionUsuarioControlador.eliminarUsuario(usuarioFiltrado.get(0).getCodigoUsuario());
+                try {
+                    gestionUsuarioControlador.eliminarUsuario(usuarioFiltrado.get(0).getCodigoUsuario());
+                    JOptionPane.showMessageDialog(this,
+                            "El usuario se ha eliminado con exito",
+                            "Eliminar usuario",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    mostrarTabla(null); // refrescamos la tabla
+                } catch (RuntimeException e) {
+                    JOptionPane.showMessageDialog(this,
+                            e.getMessage(),
+                            "Error al eliminar usuario",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             } else if (opcion == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "Proceso cancelado",
                         "Eliminar usuario", JOptionPane.INFORMATION_MESSAGE);

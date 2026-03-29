@@ -177,25 +177,32 @@ public class AsignarTecnico extends javax.swing.JDialog {
     }
 
     private void aplicarFiltros() {
-        String textoTecnico = txtTecnicoBuscar.getText().trim();
+        String textoTecnico = txtTecnicoBuscar.getText().trim().toLowerCase();
 
         modelTecnicos.clear();
 
         if (todosLosTecnicos == null) {
             return;
         }
-
+        // Si no hay texto, mostramos todos
         if (textoTecnico.isEmpty()) {
             modelTecnicos.addAll(todosLosTecnicos);
             return;
         }
 
         for (int i = 0; i < todosLosTecnicos.size(); i++) {
+
             Usuario tecnico = todosLosTecnicos.get(i);
 
-            String nombreCompleto = tecnico.getNombre() + " " + tecnico.getApellido();
+            String nombre = tecnico.getNombre().toLowerCase();
+            String apellido = tecnico.getApellido().toLowerCase();
+            String nombreCompleto = nombre + " " + apellido;
 
-            if (nombreCompleto.toLowerCase().contains(textoTecnico.toLowerCase())) {
+            // Filtrar solo por INICIO (no contains)
+            if (nombre.startsWith(textoTecnico)
+                    || apellido.startsWith(textoTecnico)
+                    || nombreCompleto.startsWith(textoTecnico)) {
+
                 modelTecnicos.addElement(tecnico);
             }
         }

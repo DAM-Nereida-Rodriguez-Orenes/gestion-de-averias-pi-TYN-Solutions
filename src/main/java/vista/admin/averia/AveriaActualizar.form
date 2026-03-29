@@ -109,14 +109,14 @@
                                                   </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                                                  <EmptySpace pref="83" max="32767" attributes="0"/>
                                                   <Group type="103" groupAlignment="1" attributes="0">
                                                       <Component id="btnModificarAveria" min="-2" pref="120" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                           <Group type="102" alignment="0" attributes="0">
-                                                              <EmptySpace pref="187" max="-2" attributes="0"/>
+                                                              <EmptySpace pref="187" max="32767" attributes="0"/>
                                                               <Component id="cbFechaFinal" min="-2" max="-2" attributes="0"/>
-                                                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                                                              <EmptySpace pref="44" max="32767" attributes="0"/>
                                                               <Component id="spFechaFinal" min="-2" pref="150" max="-2" attributes="0"/>
                                                           </Group>
                                                           <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>

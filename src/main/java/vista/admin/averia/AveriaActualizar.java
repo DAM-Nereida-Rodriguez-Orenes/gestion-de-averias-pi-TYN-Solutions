@@ -336,6 +336,11 @@ public class AveriaActualizar extends javax.swing.JDialog {
                         break;
                     }
                 }
+            } else{
+                 listaTecnicos.setEnabled(false);
+                 cbFechaAsig.setEnabled(false);
+                 cbFechaAcep.setEnabled(false);
+                 cbFechaFinal.setEnabled(false);
             }
 
             // Seleccionar Tipo
@@ -368,20 +373,7 @@ public class AveriaActualizar extends javax.swing.JDialog {
                 spFechaFinal.setEnabled(true);
                 spFechaFinal.setValue(convertirALocalDate(averiaSeleccionada.getFechaFinalizTecnico()));
             }
-            if (averiaSeleccionada.getFechaAsigTecnico() != null) {
-                // Deshabilitamos algunos componentes si la averia esta en progreso
-                //Listas
-                listaMaquinas.setEnabled(false);
-                listaTecnicos.setEnabled(false);
-                // Por buena experiencia de usuario, bloqueamos también sus buscadores
-                txtMaquinaBuscar.setEnabled(false);
-                txtTecnicoBuscar.setEnabled(false);
-                //textos                 
-                txtProcRealizado.setEnabled(false);
-                //Combobox
-                cbAveriaTipo.setEnabled(false);
-            }
-
+     
             // BLOQUEAR FKs SI EL TÉCNICO YA HA ACEPTADO ---
             if (averiaSeleccionada.getFechaAcepTecnico() != null) {
                 // Deshabilitamos los componentes si la averia esta finalizada para que no se peuda modificar pero si ver
@@ -618,14 +610,14 @@ public class AveriaActualizar extends javax.swing.JDialog {
                                                     .addComponent(spFechaAsig, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(spFechaAcep, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(83, 83, 83)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(btnModificarAveria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
                                                     .addComponent(cbFechaFinal)
-                                                    .addGap(44, 44, 44)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                                     .addComponent(spFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addComponent(jLabel21)))
                                         .addGap(0, 0, Short.MAX_VALUE))))

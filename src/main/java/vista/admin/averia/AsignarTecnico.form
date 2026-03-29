@@ -236,9 +236,6 @@
                 <Property name="text" type="java.lang.String" value="Asignar"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Asignar"/>
-              </AccessibilityProperties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuadarTecnicoActionPerformed"/>
               </Events>

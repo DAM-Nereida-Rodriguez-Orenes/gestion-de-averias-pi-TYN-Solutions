@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Controlador principal para la gestión de Averías. Actúa como puente entre la
  * Vista (Interfaces Java Swing) y el DAO (Base de Datos).
+ *
  * * @author yosnavmol
  */
 public class AveriaControlador {
@@ -45,6 +46,7 @@ public class AveriaControlador {
 
     /**
      * Obtiene la avería actualmente gestionada por el controlador.
+     *
      * @return Averia actual
      */
     public Averia getAveria() {
@@ -53,6 +55,7 @@ public class AveriaControlador {
 
     /**
      * Establece la avería actualmente gestionada por el controlador.
+     *
      * @param averia Averia a establecer
      */
     public void setAveria(Averia averia) {
@@ -61,6 +64,7 @@ public class AveriaControlador {
 
     /**
      * Obtiene el usuario actualmente gestionado por el controlador.
+     *
      * @return Usuario actual
      */
     public Usuario getUsuario() {
@@ -69,6 +73,7 @@ public class AveriaControlador {
 
     /**
      * Establece el usuario actualmente gestionado por el controlador.
+     *
      * @param usuario Usuario a establecer
      */
     public void setUsuario(Usuario usuario) {
@@ -76,8 +81,8 @@ public class AveriaControlador {
     }
 
     /**
-     * Constructor del controlador.
-     * Inicializa los DAO y el controlador de login.
+     * Constructor del controlador. Inicializa los DAO y el controlador de
+     * login.
      */
     public AveriaControlador() {
         try {
@@ -95,9 +100,9 @@ public class AveriaControlador {
     // =========================================================================
     // 1. METODOS DE LECTURA Y TABLA PRINCIPAL
     // =========================================================================
-
     /**
      * Obtiene una avería a partir de su id.
+     *
      * @param idAveria Identificador de la avería
      * @return Averia encontrada o null si no existe
      */
@@ -114,8 +119,9 @@ public class AveriaControlador {
     }
 
     /**
-     * Lista las averías que se van a mostrar en la vista principal.
-     * Si se recibe un usuario, se usa su código para filtrar.
+     * Lista las averías que se van a mostrar en la vista principal. Si se
+     * recibe un usuario, se usa su código para filtrar.
+     *
      * @param usuario Usuario para filtrar las averías (opcional)
      * @return Lista de averías mapeadas para la tabla
      */
@@ -140,6 +146,7 @@ public class AveriaControlador {
 
     /**
      * Obtiene averías filtradas según los datos introducidos en la vista.
+     *
      * @param idAveria Id de la avería
      * @param descripcion Descripción
      * @param fechaInicio Fecha de inicio
@@ -151,9 +158,9 @@ public class AveriaControlador {
      * @return Lista de averías mapeadas para la tabla
      */
     public List<Object[]> obtenerAveriasFiltradas(Integer idAveria, String descripcion,
-                                                  LocalDateTime fechaInicio, LocalDateTime fechaFin,
-                                                  Integer idUsuarioReporta, Integer idTecnico,
-                                                  Integer idMaquinaria, Integer idTipoAveria) {
+            LocalDateTime fechaInicio, LocalDateTime fechaFin,
+            Integer idUsuarioReporta, Integer idTecnico,
+            Integer idMaquinaria, Integer idTipoAveria) {
         try {
             List<Averia> listaFiltrada = averiaDao.buscarPorFiltros(
                     idAveria, descripcion, fechaInicio, fechaFin,
@@ -166,8 +173,9 @@ public class AveriaControlador {
     }
 
     /**
-     * Transforma la lista de averías en filas preparadas para mostrarse en un JTable.
-     * Sustituye ids por nombres reales.
+     * Transforma la lista de averías en filas preparadas para mostrarse en un
+     * JTable. Sustituye ids por nombres reales.
+     *
      * @param listaAverias Lista de averías
      * @return Lista de filas para la tabla
      */
@@ -252,9 +260,9 @@ public class AveriaControlador {
     // =========================================================================
     // 2. METODOS DE APOYO
     // =========================================================================
-
     /**
      * Devuelve todas las máquinas.
+     *
      * @return Lista de maquinaria
      */
     public List<Maquinaria> obtenerTodasLasMaquinas() {
@@ -263,6 +271,7 @@ public class AveriaControlador {
 
     /**
      * Devuelve todos los usuarios.
+     *
      * @return Lista de usuarios
      */
     public List<Usuario> obtenerTodosLosUsuarios() {
@@ -271,6 +280,7 @@ public class AveriaControlador {
 
     /**
      * Devuelve todos los tipos de avería.
+     *
      * @return Lista de tipos de avería
      */
     public List<TipoAveria> obtenerTiposAveria() {
@@ -279,6 +289,7 @@ public class AveriaControlador {
 
     /**
      * Filtra en memoria una lista de máquinas por nombre.
+     *
      * @param listaOriginal Lista original de maquinaria
      * @param texto Texto a buscar
      * @return Lista filtrada de maquinaria
@@ -292,15 +303,16 @@ public class AveriaControlador {
             return new ArrayList<>(listaOriginal);
         }
 
-        String t = texto.toLowerCase();
+        String t = texto.toLowerCase().trim();
 
         return listaOriginal.stream()
-                .filter(m -> m.getNombre().toLowerCase().contains(t))
+                .filter(m -> m.getNombre().toLowerCase().startsWith(t))
                 .collect(Collectors.toList());
     }
 
     /**
      * Filtra en memoria una lista de usuarios por nombre y apellido.
+     *
      * @param listaOriginal Lista original de usuarios
      * @param texto Texto a buscar
      * @return Lista filtrada de usuarios
@@ -323,6 +335,7 @@ public class AveriaControlador {
 
     /**
      * Obtiene solo los usuarios que tienen rol de técnico.
+     *
      * @return Lista de usuarios con rol de técnico
      */
     public List<Usuario> obtenerSoloTecnicos() {
@@ -340,6 +353,7 @@ public class AveriaControlador {
 
     /**
      * Devuelve tecnicos ordenados segun la carga de trabajo.
+     *
      * @param tipo Tipo de ordenamiento
      * @return Lista de tecnicos ordenados
      */
@@ -353,7 +367,9 @@ public class AveriaControlador {
     }
 
     /**
-     * Obtiene los motivos o datos auxiliares de un tecnico segun el tipo de averia.
+     * Obtiene los motivos o datos auxiliares de un tecnico segun el tipo de
+     * averia.
+     *
      * @param codigoTecnico Codigo del tecnico
      * @param codigoTipoAveria Codigo del tipo de averia
      * @return Object[] con los motivos del tecnico
@@ -365,10 +381,10 @@ public class AveriaControlador {
     // =========================================================================
     // 3. METODOS TRANSACCIONALES
     // =========================================================================
-
     /**
-     * Metodo para registrar una nueva averia.
-     * El usuario que reporta se obtiene automaticamente desde la sesion.
+     * Metodo para registrar una nueva averia. El usuario que reporta se obtiene
+     * automaticamente desde la sesion.
+     *
      * @param descripcion Descripción de la avería
      * @param maq Maquinaria asociada
      * @param usuTecnico Técnico asignado (opcional)
@@ -414,6 +430,7 @@ public class AveriaControlador {
 
     /**
      * Metodo para actualizar una averia ya existente.
+     *
      * @param idAveria Id de la avería a actualizar
      * @param descripcion Nueva descripción
      * @param procedimiento Nuevo procedimiento
@@ -453,7 +470,7 @@ public class AveriaControlador {
         a.setTipoAveriaFK(tipo.getCodigoTipoAveria());
         a.setUsuarioTecnicoFK(usuTecnico != null ? usuTecnico.getCodigoUsuario() : null);
         a.setFechaInicioAver(fechaReporte);
-        a.setFechaAsigTecnico(fechaAsig);
+        a.setFechaAsigTecnico(usuTecnico != null && fechaAsig == null ? LocalDateTime.now() : fechaAsig);
         a.setFechaAcepTecnico(fechaAcep);
         a.setFechaFinalizTecnico(fechaFinal);
 
@@ -468,6 +485,7 @@ public class AveriaControlador {
 
     /**
      * Devuelve el usuario que tiene la sesion iniciada.
+     *
      * @return Usuario con sesion activa
      */
     public Usuario getUsuarioSesion() {
