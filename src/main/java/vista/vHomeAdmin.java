@@ -30,8 +30,6 @@ public class vHomeAdmin extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         mostrarImagenes();
-        // Abrir la ventana maximizada
-        // this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -417,9 +415,9 @@ public class vHomeAdmin extends javax.swing.JFrame {
      * Método para abrir la ventana de perfil de usuario al hacer clic en la opción "Perfil" del menú
      */
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
-        GestionUsuarioPerfilAdmin gestionUsuarioPerfil = new GestionUsuarioPerfilAdmin();
-        gestionUsuarioPerfil.setLocationRelativeTo(null);
-        gestionUsuarioPerfil.setVisible(true);
+        GestionUsuarioPerfilAdmin gestionUsuarioPerfilAdmin = new GestionUsuarioPerfilAdmin();
+        gestionUsuarioPerfilAdmin.setLocationRelativeTo(null);
+        gestionUsuarioPerfilAdmin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miPerfilActionPerformed
 

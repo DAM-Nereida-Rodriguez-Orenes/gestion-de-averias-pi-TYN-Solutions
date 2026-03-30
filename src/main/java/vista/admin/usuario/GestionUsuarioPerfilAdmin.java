@@ -635,9 +635,9 @@ public class GestionUsuarioPerfilAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_miCerrarSesionActionPerformed
 
     private void miPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfilActionPerformed
-        GestionUsuarioPerfilOper gestionUsuarioPerfil = new GestionUsuarioPerfilOper();
-        gestionUsuarioPerfil.setLocationRelativeTo(null);
-        gestionUsuarioPerfil.setVisible(true);
+        GestionUsuarioPerfilAdmin gestionUsuarioPerfilAdmin = new GestionUsuarioPerfilAdmin();
+        gestionUsuarioPerfilAdmin.setLocationRelativeTo(null);
+        gestionUsuarioPerfilAdmin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_miPerfilActionPerformed
 
