@@ -8,8 +8,11 @@ import modelo.Usuario;
 import java.util.prefs.Preferences;
 
 /**
- * Controlador encargado de gestionar toda la logica relacionada con el login y la sesion de usuario
- * Aqui se realizan operaciones como comprobar las credenciales, guardar la sesion, cerrar la sesion, y gestionar las solicitudes de recuperacion de password
+ * Controlador encargado de gestionar toda la logica relacionada con el login y
+ * la sesion de usuario Aqui se realizan operaciones como comprobar las
+ * credenciales, guardar la sesion, cerrar la sesion, y gestionar las
+ * solicitudes de recuperacion de password
+ *
  * @author Thanya
  */
 public class LoginControlador {
@@ -33,8 +36,7 @@ public class LoginControlador {
     private static final String CLAVE_SOLICITUDES = "solicitudesPendientes";
 
     /**
-     * Constructor del controlador.
-     * Inicializa el DAO de usuario.
+     * Constructor del controlador. Inicializa el DAO de usuario.
      */
     public LoginControlador() {
         this.usuarioDao = new UsuarioDaoImpl(DataSourceFactory.getDataSource());
@@ -50,8 +52,8 @@ public class LoginControlador {
     }
 
     /**
-     * Metodo para comprobar las credenciales del login.
-     * Si son correctas devuelve el usuario.
+     * Metodo para comprobar las credenciales del login. Si son correctas
+     * devuelve el usuario.
      */
     public Usuario accederAplicacion(String email, String password) {
         Usuario usuario = usuarioDao.buscarPorCredenciales(email, password);
@@ -116,8 +118,8 @@ public class LoginControlador {
     }
 
     /**
-     * Guarda una solicitud de recuperacion de password.
-     * No la repite si ya estaba registrada.
+     * Guarda una solicitud de recuperacion de password. No la repite si ya
+     * estaba registrada.
      */
     public void registrarSolicitudRecuperacion(String emailSolicitud) {
         String solicitudesActuales = preferenciasRecuperacion.get(CLAVE_SOLICITUDES, "");
@@ -165,18 +167,18 @@ public class LoginControlador {
         }
 
         String[] correos = solicitudes.split(";");
-        String resultado = "";
+        StringBuilder resultado = new StringBuilder();
 
         for (int i = 0; i < correos.length; i++) {
-            if (!correos[i].equalsIgnoreCase(emailSolicitud)) {
-                if (resultado.isEmpty()) {
-                    resultado = correos[i];
-                } else {
-                    resultado = resultado + ";" + correos[i];
+            String correo = correos[i].trim();
+            if (!correo.isEmpty() && !correo.equalsIgnoreCase(emailSolicitud.trim())) {
+                if (resultado.length() > 0) {
+                    resultado.append(";");
                 }
+                resultado.append(correo);
             }
         }
 
-        preferenciasRecuperacion.put(CLAVE_SOLICITUDES, resultado);
+        preferenciasRecuperacion.put(CLAVE_SOLICITUDES, resultado.toString());
     }
 }

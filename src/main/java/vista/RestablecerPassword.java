@@ -32,10 +32,11 @@ public class RestablecerPassword extends javax.swing.JDialog {
     }
 
     /**
-     * Carga las solicitudes de recuperación de contraseña en la tabla.
-     * Obtiene las solicitudes desde el controlador de login, busca los usuarios correspondientes
-     * y muestra su nombre y email en la tabla. La tabla se configura para que las celdas no sean editables
-     * y se ajusta el tamaño de las filas y la fuente para mejorar la legibilidad.
+     * Carga las solicitudes de recuperación de contraseña en la tabla. Obtiene
+     * las solicitudes desde el controlador de login, busca los usuarios
+     * correspondientes y muestra su nombre y email en la tabla. La tabla se
+     * configura para que las celdas no sean editables y se ajusta el tamaño de
+     * las filas y la fuente para mejorar la legibilidad.
      */
     public void cargarSolicitudesRecuperacion() {
         LoginControlador loginControlador = new LoginControlador();
@@ -207,6 +208,7 @@ public class RestablecerPassword extends javax.swing.JDialog {
     // ya que el controlador no tiene cargado el usuario seleccionado.
     // Esto evita el NullPointerException al no depender de getUsuario().
     private void btnRestablercerContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablercerContraseñaActionPerformed
+        LoginControlador loginControlador = new LoginControlador();
         int filaSeleccionada = tblPeticionPassword.getSelectedRow();
 
         if (filaSeleccionada == -1) {
@@ -221,18 +223,18 @@ public class RestablecerPassword extends javax.swing.JDialog {
         String nuevaPassword = gestionUsuarioControlador.generarPasswordAleatoria();
 
         if (gestionUsuarioControlador.passwordActualizada(email, nuevaPassword)) {
-
+            Usuario usuarioAReestablecer = gestionUsuarioControlador.buscarUsuario(null, null, null, null, email, null).getFirst();
             // enviar correo
             String asunto = "Restablecimiento de contraseña - Fixora";
-            String mensaje = "Hola,\n\nTu contraseña ha sido restablecida.\n\nNueva contraseña: "
+            String mensaje = "Hola " + usuarioAReestablecer.getNombre()+ " " + usuarioAReestablecer.getApellido() +
+                    ", \n\nTu contraseña ha sido restablecida.\n\nNueva contraseña: "
                     + nuevaPassword + "\n\nPor favor, cambiala tras iniciar sesion.";
 
             new Thread(() -> {
                 EmailService.enviarCorreo(email, asunto, mensaje);
             }).start();
-            
-            // eliminar la solicitud
-            LoginControlador loginControlador = new LoginControlador();
+
+            // eliminar la solicitud           
             loginControlador.eliminarSolicitudRecuperacion(email);
 
             // refrescar la tabla
@@ -253,8 +255,9 @@ public class RestablecerPassword extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRestablercerContraseñaActionPerformed
 
     /**
-     * Muestra un cuadro de diálogo de confirmación para cancelar la operación de restablecimiento de contraseña.
-     * Si el usuario confirma que desea cancelar, se cierra el diálogo actual sin guardar los cambios.
+     * Muestra un cuadro de diálogo de confirmación para cancelar la operación
+     * de restablecimiento de contraseña. Si el usuario confirma que desea
+     * cancelar, se cierra el diálogo actual sin guardar los cambios.
      */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la operación? Los cambios no se guardarán.", "Cancelar operación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
