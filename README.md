@@ -38,13 +38,15 @@ Al principio, con la intención académica de que todos practicáramos y entendi
 
 Java, Java Maven, Java Swing, GitFlow, NetBeans, Kotlin, Android Studio, Grizzly, Scrum, Kanban, Odoo (Python), Hikari, MariaDB, XAMPP.
 
-## 5. Usuarios del sistema Fixora
+## 5. Usuarios del sistema Fixora y flujo
 
 Fixora está basado en 3 tipos de usuarios, cada uno con necesidades diferentes pero interconectados entre sí:
 
 - Operario: trabajador de la planta industrial que puede detectar una avería y reportarla mediante la aplicación de escritorio.
 - Administrador: jefes, encargados o figuras coordinadoras. Además de la tarea del operario, también pueden editar la base de datos mediante CRUD, en la propia interfaz (GUI) de Fixora Desktop.
 - Mecánico: trabajador que puede ser independiente a la empresa que tiene las máquinas. Con la aplicación móvil, gestiona su lista de averías, pudiendo modificarlas en la base de datos al cerrar una incidencia.
+
+Así pues, el flujo normal de una avería dada sería ser reportada por un operador en la aplicación de escritorio, registrándola en la base de datos con una fecha que indique ese momento. A continuación, un administrador la asignaría a un técnico, que puede ser el recomendado por el propio Fixora Desktop o no, guardando esta fecha también en la base de datos. Después, el técnico recibiría la avería en la aplicación móvil como nueva y, al aceptarla, esta fecha también se registraría, junto al estado de la maquinaria, usando la API como intermediaria. Finalmente, el técnico registraría su intervención y cerraría la incidencia, registrándose este texto y fecha de nuevo en la base de datos. Como añadido, Fixora Desktop permite gestiones generales de maquinaria, usuarios y las tablas catálogo.
 
 ## 6. Descarga y uso
 
